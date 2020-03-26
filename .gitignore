@@ -8,6 +8,7 @@ docs/source/reference/services
 tests/cover
 tests/.coverage
 *.egg-info
+.env
 
 # Test state / virtualenvs
 .tox
