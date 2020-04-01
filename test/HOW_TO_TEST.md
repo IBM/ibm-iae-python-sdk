@@ -1,5 +1,12 @@
 # How to run tests
 
+## Pre-requisites
+1. Install pytest and pytest-dotenv
+    ```
+    pip install pytest
+    pip install pytest-dotenv
+    ```
+
 ## Integration Tests
 
 1. Create a `.env` file in the `ibm-iae-python-sdk` directory using `env_example` as an example.
