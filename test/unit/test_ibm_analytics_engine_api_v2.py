@@ -22,7 +22,7 @@ import responses
 from iaesdk.ibm_analytics_engine_api_docs_v2 import *
 
 
-service = IbmAnalyticsEngineApiDocsV2(
+service = IbmAnalyticsEngineApiV2(
     authenticator=NoAuthAuthenticator()
     )
 

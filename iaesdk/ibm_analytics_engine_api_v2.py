@@ -36,7 +36,7 @@ from .common import get_sdk_headers
 # Service
 ##############################################################################
 
-class IbmAnalyticsEngineApiDocsV2(BaseService):
+class IbmAnalyticsEngineApiV2(BaseService):
     """The IBM Analytics Engine API docs V2 service."""
 
     DEFAULT_SERVICE_URL = 'https://gateway.watsonplatform.net/'
@@ -45,7 +45,7 @@ class IbmAnalyticsEngineApiDocsV2(BaseService):
     @classmethod
     def new_instance(cls,
                      service_name: str = DEFAULT_SERVICE_NAME,
-                    ) -> 'IbmAnalyticsEngineApiDocsV2':
+                    ) -> 'IbmAnalyticsEngineApiV2':
         """
         Return a new client for the IBM Analytics Engine API docs service using the
                specified parameters and external configuration.

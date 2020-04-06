@@ -31,10 +31,10 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 class TestExampleServiceV1(unittest.TestCase):
     def setUp(self):
         vcap_services = json.loads(os.getenv('VCAP_SERVICES'))
-        authenticator = IAMAuthenticator(vcap_services["ibm_analytics_engine_api_docs_v2"][0]["credentials"]["apikey"])
-        self.iaesdk_service = iaesdk.IbmAnalyticsEngineApiDocsV2(authenticator=authenticator)
-        self.iaesdk_service.set_service_url("https://api.us-south.ae.cloud.ibm.com")
-        self.instance_guid=vcap_services["ibm_analytics_engine_api_docs_v2"][0]["credentials"]["instance_guid"]
+        authenticator = IAMAuthenticator(vcap_services['ibm_analytics_engine_api_v2'][0]['credentials']['apikey'])
+        self.iaesdk_service = iaesdk.IbmAnalyticsEngineApiV2(authenticator=authenticator)
+        self.iaesdk_service.set_service_url('https://api.us-south.ae.cloud.ibm.com')
+        self.instance_guid=vcap_services['ibm_analytics_engine_api_v2'][0]['credentials']['instance_guid']
 
     def tearDown(self):
         # Delete the resources
