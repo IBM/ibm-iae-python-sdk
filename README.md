@@ -21,7 +21,7 @@ IBM Cloud services:
 
 Service Name | Imported Class Name
 --- | --- 
-[IBM Analytics Engine](https://cloud.ibm.com/apidocs/ibm-analytics-engine) | IbmAnalyticsEngineApiDocsV2
+[IBM Analytics Engine](https://cloud.ibm.com/apidocs/ibm-analytics-engine) | IbmAnalyticsEngineApiV2
 
 ## Prerequisites
 

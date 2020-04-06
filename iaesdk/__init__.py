@@ -17,4 +17,4 @@ from ibm_cloud_sdk_core import IAMTokenManager, DetailedResponse, BaseService, A
 
 from .common import get_sdk_headers
 from .version import __version__
-from .ibm_analytics_engine_api_docs_v2 import IbmAnalyticsEngineApiDocsV2
+from .ibm_analytics_engine_api_v2 import IbmAnalyticsEngineApiV2

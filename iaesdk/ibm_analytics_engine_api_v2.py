@@ -37,17 +37,17 @@ from .common import get_sdk_headers
 ##############################################################################
 
 class IbmAnalyticsEngineApiV2(BaseService):
-    """The IBM Analytics Engine API docs V2 service."""
+    """The IBM Analytics Engine API V2 service."""
 
     DEFAULT_SERVICE_URL = 'https://gateway.watsonplatform.net/'
-    DEFAULT_SERVICE_NAME = 'ibm_analytics_engine_api_docs'
+    DEFAULT_SERVICE_NAME = 'ibm_analytics_engine_api'
 
     @classmethod
     def new_instance(cls,
                      service_name: str = DEFAULT_SERVICE_NAME,
                     ) -> 'IbmAnalyticsEngineApiV2':
         """
-        Return a new client for the IBM Analytics Engine API docs service using the
+        Return a new client for the IBM Analytics Engine API service using the
                specified parameters and external configuration.
         """
         authenticator = get_authenticator_from_environment(service_name)
@@ -61,7 +61,7 @@ class IbmAnalyticsEngineApiV2(BaseService):
                  authenticator: Authenticator = None,
                 ) -> None:
         """
-        Construct a new client for the IBM Analytics Engine API docs service.
+        Construct a new client for the IBM Analytics Engine API service.
 
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md

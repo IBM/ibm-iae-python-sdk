@@ -19,7 +19,7 @@ import inspect
 import json
 import pytest
 import responses
-from iaesdk.ibm_analytics_engine_api_docs_v2 import *
+from iaesdk.ibm_analytics_engine_api_v2 import *
 
 
 service = IbmAnalyticsEngineApiV2(
