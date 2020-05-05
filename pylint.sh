@@ -1,3 +1,3 @@
 #!/bin/bash
 
-pylint mysdk test
+pylint iaesdk test

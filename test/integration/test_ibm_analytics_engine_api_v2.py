@@ -64,7 +64,6 @@ class TestExampleServiceV1(unittest.TestCase):
         }
 
         # Set up parameter values
-        instance_guid = 'testString'
         target = 'all'
         custom_actions = [analytics_engine_custom_action_model]
 
