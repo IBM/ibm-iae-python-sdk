@@ -15,26 +15,32 @@
 # limitations under the License.
 
 """
-Test the mysdk service API operations
+Test the iaesdk service API operations
 """
 
 import pytest
 import unittest
 import os
 import json
-import iaesdk
+import time
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+from iaesdk import IbmAnalyticsEngineApiV2
 
+# Read config file
+configFile = 'ibmanalyticsengine-service.env'
+configLoaded = None
 
-@pytest.mark.skipif(
-    os.getenv('VCAP_SERVICES') is None, reason='requires VCAP_SERVICES')
-class TestExampleServiceV1(unittest.TestCase):
+if os.path.exists(configFile):
+    os.environ['IBM_CREDENTIALS_FILE'] = configFile
+    configLoaded = True
+else:
+    print('External configuration was not found, skipping tests...')
+
+class TestIbmAnalyticsEngineApiV2(unittest.TestCase):
     def setUp(self):
-        vcap_services = json.loads(os.getenv('VCAP_SERVICES'))
-        authenticator = IAMAuthenticator(vcap_services['ibm_analytics_engine_api_v2'][0]['credentials']['apikey'])
-        self.iaesdk_service = iaesdk.IbmAnalyticsEngineApiV2(authenticator=authenticator)
-        self.iaesdk_service.set_service_url('https://api.us-south.ae.cloud.ibm.com')
-        self.instance_guid=vcap_services['ibm_analytics_engine_api_v2'][0]['credentials']['instance_guid']
+        self.iaesdk_service = IbmAnalyticsEngineApiV2.new_instance()
+        self.instance_guid = os.getenv('IBM_ANALYTICS_ENGINE_INSTANCE_GUID')
+        time.sleep(10)
 
     def tearDown(self):
         # Delete the resources
