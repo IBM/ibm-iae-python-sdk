@@ -38,8 +38,12 @@ else:
 
 class TestIbmAnalyticsEngineApiV2(unittest.TestCase):
     def setUp(self):
+        if not configLoaded:
+            self.skipTest("External configuration not available, skipping...")
+
         self.iaesdk_service = IbmAnalyticsEngineApiV2.new_instance()
         self.instance_guid = os.getenv('IBM_ANALYTICS_ENGINE_INSTANCE_GUID')
+        assert self.iaesdk_service is not None
         time.sleep(10)
 
     def tearDown(self):
