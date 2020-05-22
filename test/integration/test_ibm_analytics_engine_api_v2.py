@@ -122,7 +122,6 @@ class TestIbmAnalyticsEngineApiV2(unittest.TestCase):
         }
 
         # Set up parameter values
-        instance_guid = 'testString'
         log_specs = [analytics_engine_logging_node_spec_model]
         log_server = analytics_engine_logging_server_model
 
@@ -141,3 +140,19 @@ class TestIbmAnalyticsEngineApiV2(unittest.TestCase):
     def test_delete_logging_config(self):
         status_code = self.iaesdk_service.delete_logging_config(self.instance_guid).get_status_code()
         assert status_code == 202
+
+    def test_update_private_endpoint_whitelist_all_params(self):
+
+        # Set up parameter values
+        ip_ranges = ['testString']
+        action = 'add'
+
+        # Invoke method
+        response = self.iaesdk_service.update_private_endpoint_whitelist(
+            self.instance_guid,
+            ip_ranges,
+            action,
+            headers={}
+        ).get_status_code()
+
+        assert status_code == 200

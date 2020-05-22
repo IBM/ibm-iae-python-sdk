@@ -26,9 +26,10 @@ from enum import Enum
 from typing import Dict, List
 import json
 
-from ibm_cloud_sdk_core import BaseService, DetailedResponse, datetime_to_string, string_to_datetime
+from ibm_cloud_sdk_core import BaseService, DetailedResponse
 from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
 from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
+from ibm_cloud_sdk_core.utils import convert_model, datetime_to_string, string_to_datetime
 
 from .common import get_sdk_headers
 
@@ -39,7 +40,7 @@ from .common import get_sdk_headers
 class IbmAnalyticsEngineApiV2(BaseService):
     """The IBM Analytics Engine API V2 service."""
 
-    DEFAULT_SERVICE_URL = 'https://gateway.watsonplatform.net/'
+    DEFAULT_SERVICE_URL = 'https://ibm-analytics-engine-api.cloud.ibm.com/'
     DEFAULT_SERVICE_NAME = 'ibm_analytics_engine_api'
 
     @classmethod
@@ -77,7 +78,7 @@ class IbmAnalyticsEngineApiV2(BaseService):
     #########################
 
 
-    def analytics_engines_get(self, **kwargs) -> DetailedResponse:
+    def get_all_analytics_engines(self, **kwargs) -> DetailedResponse:
         """
         List all Analytics Engines.
 
@@ -91,7 +92,7 @@ class IbmAnalyticsEngineApiV2(BaseService):
         """
 
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V2', operation_id='analytics_engines_get')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V2', operation_id='get_all_analytics_engines')
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -187,8 +188,9 @@ class IbmAnalyticsEngineApiV2(BaseService):
         when more nodes are added to the cluster.
 
         :param str instance_guid: GUID of the service instance.
-        :param str target:
-        :param List[AnalyticsEngineCustomAction] custom_actions:
+        :param str target: Type of nodes to target for this customization.
+        :param List[AnalyticsEngineCustomAction] custom_actions: List of custom
+               actions.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `AnalyticsEngineCreateCustomizationResponse` object
@@ -200,7 +202,7 @@ class IbmAnalyticsEngineApiV2(BaseService):
             raise ValueError('target must be provided')
         if custom_actions is None:
             raise ValueError('custom_actions must be provided')
-        custom_actions = [ self._convert_model(x) for x in custom_actions ]
+        custom_actions = [ convert_model(x) for x in custom_actions ]
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V2', operation_id='create_customization_request')
         headers.update(sdk_headers)
@@ -228,15 +230,15 @@ class IbmAnalyticsEngineApiV2(BaseService):
 
     def get_all_customization_requests(self, instance_guid: str, **kwargs) -> DetailedResponse:
         """
-        Get all customization requests run on an Analytics Engine.
+        Get all customization requests run on an Analytics Engine cluster.
 
         Retrieves the request_id of all customization requests submitted to the specified
         Analytics Engine cluster.
 
-        :param str instance_guid: service instance guid.
+        :param str instance_guid: service instance GUID.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `List[InlineResponse200]` result
+        :rtype: DetailedResponse with `List[AnalyticsEngineCustomizationRequestCollectionItem]` result
         """
 
         if instance_guid is None:
@@ -264,8 +266,8 @@ class IbmAnalyticsEngineApiV2(BaseService):
         Retrieves the status of the specified customization request, along with pointers
         to log files generated during the run.
 
-        :param str instance_guid: service instance guid.
-        :param str request_id: customization request id.
+        :param str instance_guid: Service instance GUID.
+        :param str request_id: customization request ID.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `AnalyticsEngineCustomizationRunDetails` object
@@ -291,7 +293,7 @@ class IbmAnalyticsEngineApiV2(BaseService):
         return response
 
 
-    def resize_cluster(self, instance_guid: str, compute_nodes_count: int = None, **kwargs) -> DetailedResponse:
+    def resize_cluster(self, instance_guid: str, *, compute_nodes_count: int = None, **kwargs) -> DetailedResponse:
         """
         Add nodes to the cluster.
 
@@ -300,10 +302,9 @@ class IbmAnalyticsEngineApiV2(BaseService):
         deprecated or if the software package doesn't permit cluster resizing. See
         [here](https://cloud.ibm.com/docs/AnalyticsEngine?topic=AnalyticsEngine-unsupported-operations).
 
-        :param str instance_guid: service instance guid.
-        :param int compute_nodes_count: (optional) Expected size of the cluster
-               after the resize operation. If the number of nodes in the cluster is 5 and
-               you want to add 2 nodes, specify 7.
+        :param str instance_guid: Service instance GUID.
+        :param int compute_nodes_count: (optional) Expected number of nodes in the
+               cluster after the resize operation.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `AnalyticsEngineResizeClusterResponse` object
@@ -343,7 +344,7 @@ class IbmAnalyticsEngineApiV2(BaseService):
         value.  The new password is included in the response and you should make a note of
         it.  This password is displayed only once here and cannot be retrieved later.
 
-        :param str instance_guid: service instance guid.
+        :param str instance_guid: Service instance GUID.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `AnalyticsEngineResetClusterPasswordResponse` object
@@ -377,8 +378,10 @@ class IbmAnalyticsEngineApiV2(BaseService):
         * Yarn application job logs.
 
         :param str instance_guid: GUID of the service instance.
-        :param List[AnalyticsEngineLoggingNodeSpec] log_specs:
-        :param AnalyticsEngineLoggingServer log_server:
+        :param List[AnalyticsEngineLoggingNodeSpec] log_specs: Logging
+               specifications on each node.
+        :param AnalyticsEngineLoggingServer log_server: Logging server
+               configuration.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -390,8 +393,8 @@ class IbmAnalyticsEngineApiV2(BaseService):
             raise ValueError('log_specs must be provided')
         if log_server is None:
             raise ValueError('log_server must be provided')
-        log_specs = [ self._convert_model(x) for x in log_specs ]
-        log_server = self._convert_model(log_server)
+        log_specs = [ convert_model(x) for x in log_specs ]
+        log_server = convert_model(log_server)
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V2', operation_id='configure_logging')
         headers.update(sdk_headers)
@@ -423,7 +426,7 @@ class IbmAnalyticsEngineApiV2(BaseService):
 
         Retrieves the status and details of the log configuration for your cluster.
 
-        :param str instance_guid: service instance guid.
+        :param str instance_guid: Service instance GUID.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `AnalyticsEngineLoggingConfigDetails` object
@@ -454,7 +457,7 @@ class IbmAnalyticsEngineApiV2(BaseService):
         Deletes the log configuration. This operation stops sending logs to the
         centralized log server.
 
-        :param str instance_guid: service instance guid.
+        :param str instance_guid: Service instance GUID.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -478,6 +481,53 @@ class IbmAnalyticsEngineApiV2(BaseService):
         return response
 
 
+    def update_private_endpoint_whitelist(self, instance_guid: str, ip_ranges: List[str], action: str, **kwargs) -> DetailedResponse:
+        """
+        Update private endpoint whitelist.
+
+        Updates the list of whitelisted private endpoints. This operation either adds ip
+        ranges to the whitelist or deletes them.
+
+        :param str instance_guid: GUID of the service instance.
+        :param List[str] ip_ranges: List of IP ranges to add to or remove from the
+               whitelist.
+        :param str action: Update Whitelist IP ranges. Add (or) Delete.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `AnalyticsEngineWhitelistResponse` object
+        """
+
+        if instance_guid is None:
+            raise ValueError('instance_guid must be provided')
+        if ip_ranges is None:
+            raise ValueError('ip_ranges must be provided')
+        if action is None:
+            raise ValueError('action must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V2', operation_id='update_private_endpoint_whitelist')
+        headers.update(sdk_headers)
+
+        data = {
+            'ip_ranges': ip_ranges,
+            'action': action
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/v2/analytics_engines/{0}/private_endpoint_whitelist'.format(*self.encode_path_vars(instance_guid))
+        request = self.prepare_request(method='PATCH',
+                                       url=url,
+                                       headers=headers,
+                                       data=data)
+
+        response = self.send(request)
+        return response
+
+
 ##############################################################################
 # Models
 ##############################################################################
@@ -485,54 +535,60 @@ class IbmAnalyticsEngineApiV2(BaseService):
 
 class AnalyticsEngine():
     """
-    AnalyticsEngine.
+    Analytics Engine cluster details.
 
-    :attr str id:
-    :attr str name:
-    :attr str service_plan:
-    :attr str hardware_size:
-    :attr str software_package:
-    :attr str domain:
-    :attr datetime creation_time:
-    :attr datetime commision_time:
-    :attr datetime decommision_time:
-    :attr datetime deletion_time:
-    :attr datetime state_change_time:
-    :attr str state:
-    :attr List[AnalyticsEngineClusterNode] nodes: (optional)
-    :attr AnalyticsEngineUserCredentials user_credentials:
+    :attr str id: Instance GUID.
+    :attr str name: Analytics Engine.
+    :attr str service_plan: ID of Analytics Engine service plan.
+    :attr str hardware_size: Hardware size.
+    :attr str software_package: Software package.
+    :attr str domain: Domain.
+    :attr datetime creation_time: Cluster creation time.
+    :attr datetime commision_time: Cluster commision time.
+    :attr datetime decommision_time: Cluster decommision time.
+    :attr datetime deletion_time: Cluster deletion time.
+    :attr datetime state_change_time: Cluster state change time.
+    :attr str state: Cluster state.
+    :attr List[AnalyticsEngineClusterNode] nodes: (optional) List of nodes in the
+          cluster.
+    :attr AnalyticsEngineUserCredentials user_credentials: User credentials.
     :attr ServiceEndpoints service_endpoints: (optional) Service endpoint URLs with
           host names. Endpoints will vary based on software package chosen for the
           cluster.
     :attr ServiceEndpoints service_endpoints_ip: (optional) Service endpoint URLs
-          with host ips. Endpoints will vary based on software package chosen for the
+          with host IPS. Endpoints will vary based on software package chosen for the
           cluster.
+    :attr List[str] private_endpoint_whitelist: (optional) Whitelisted IP Ranges for
+          Analytics Engine Service with private endpoints.
     """
 
-    def __init__(self, id: str, name: str, service_plan: str, hardware_size: str, software_package: str, domain: str, creation_time: datetime, commision_time: datetime, decommision_time: datetime, deletion_time: datetime, state_change_time: datetime, state: str, user_credentials: 'AnalyticsEngineUserCredentials', *, nodes: List['AnalyticsEngineClusterNode'] = None, service_endpoints: 'ServiceEndpoints' = None, service_endpoints_ip: 'ServiceEndpoints' = None) -> None:
+    def __init__(self, id: str, name: str, service_plan: str, hardware_size: str, software_package: str, domain: str, creation_time: datetime, commision_time: datetime, decommision_time: datetime, deletion_time: datetime, state_change_time: datetime, state: str, user_credentials: 'AnalyticsEngineUserCredentials', *, nodes: List['AnalyticsEngineClusterNode'] = None, service_endpoints: 'ServiceEndpoints' = None, service_endpoints_ip: 'ServiceEndpoints' = None, private_endpoint_whitelist: List[str] = None) -> None:
         """
         Initialize a AnalyticsEngine object.
 
-        :param str id:
-        :param str name:
-        :param str service_plan:
-        :param str hardware_size:
-        :param str software_package:
-        :param str domain:
-        :param datetime creation_time:
-        :param datetime commision_time:
-        :param datetime decommision_time:
-        :param datetime deletion_time:
-        :param datetime state_change_time:
-        :param str state:
-        :param AnalyticsEngineUserCredentials user_credentials:
-        :param List[AnalyticsEngineClusterNode] nodes: (optional)
+        :param str id: Instance GUID.
+        :param str name: Analytics Engine.
+        :param str service_plan: ID of Analytics Engine service plan.
+        :param str hardware_size: Hardware size.
+        :param str software_package: Software package.
+        :param str domain: Domain.
+        :param datetime creation_time: Cluster creation time.
+        :param datetime commision_time: Cluster commision time.
+        :param datetime decommision_time: Cluster decommision time.
+        :param datetime deletion_time: Cluster deletion time.
+        :param datetime state_change_time: Cluster state change time.
+        :param str state: Cluster state.
+        :param AnalyticsEngineUserCredentials user_credentials: User credentials.
+        :param List[AnalyticsEngineClusterNode] nodes: (optional) List of nodes in
+               the cluster.
         :param ServiceEndpoints service_endpoints: (optional) Service endpoint URLs
                with host names. Endpoints will vary based on software package chosen for
                the cluster.
         :param ServiceEndpoints service_endpoints_ip: (optional) Service endpoint
-               URLs with host ips. Endpoints will vary based on software package chosen
+               URLs with host IPS. Endpoints will vary based on software package chosen
                for the cluster.
+        :param List[str] private_endpoint_whitelist: (optional) Whitelisted IP
+               Ranges for Analytics Engine Service with private endpoints.
         """
         self.id = id
         self.name = name
@@ -550,6 +606,7 @@ class AnalyticsEngine():
         self.user_credentials = user_credentials
         self.service_endpoints = service_endpoints
         self.service_endpoints_ip = service_endpoints_ip
+        self.private_endpoint_whitelist = private_endpoint_whitelist
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'AnalyticsEngine':
@@ -613,6 +670,8 @@ class AnalyticsEngine():
             args['service_endpoints'] = ServiceEndpoints.from_dict(_dict.get('service_endpoints'))
         if 'service_endpoints_ip' in _dict:
             args['service_endpoints_ip'] = ServiceEndpoints.from_dict(_dict.get('service_endpoints_ip'))
+        if 'private_endpoint_whitelist' in _dict:
+            args['private_endpoint_whitelist'] = _dict.get('private_endpoint_whitelist')
         return cls(**args)
 
     @classmethod
@@ -655,6 +714,8 @@ class AnalyticsEngine():
             _dict['service_endpoints'] = self.service_endpoints.to_dict()
         if hasattr(self, 'service_endpoints_ip') and self.service_endpoints_ip is not None:
             _dict['service_endpoints_ip'] = self.service_endpoints_ip.to_dict()
+        if hasattr(self, 'private_endpoint_whitelist') and self.private_endpoint_whitelist is not None:
+            _dict['private_endpoint_whitelist'] = self.private_endpoint_whitelist
         return _dict
 
     def _to_dict(self):
@@ -678,30 +739,30 @@ class AnalyticsEngine():
 
 class AnalyticsEngineClusterNode():
     """
-    AnalyticsEngineClusterNode.
+    Cluster node details.
 
-    :attr str id: (optional)
-    :attr str fqdn: (optional)
-    :attr str type: (optional)
-    :attr str state: (optional)
-    :attr str public_ip: (optional)
-    :attr str private_ip: (optional)
-    :attr datetime state_change_time: (optional)
-    :attr datetime commission_time: (optional)
+    :attr float id: (optional) Node ID.
+    :attr str fqdn: (optional) Fully qualified domain name.
+    :attr str type: (optional) Node type.
+    :attr str state: (optional) State of node.
+    :attr str public_ip: (optional) Public IP address.
+    :attr str private_ip: (optional) Private IP address.
+    :attr datetime state_change_time: (optional) State change time.
+    :attr datetime commission_time: (optional) Commission time.
     """
 
-    def __init__(self, *, id: str = None, fqdn: str = None, type: str = None, state: str = None, public_ip: str = None, private_ip: str = None, state_change_time: datetime = None, commission_time: datetime = None) -> None:
+    def __init__(self, *, id: float = None, fqdn: str = None, type: str = None, state: str = None, public_ip: str = None, private_ip: str = None, state_change_time: datetime = None, commission_time: datetime = None) -> None:
         """
         Initialize a AnalyticsEngineClusterNode object.
 
-        :param str id: (optional)
-        :param str fqdn: (optional)
-        :param str type: (optional)
-        :param str state: (optional)
-        :param str public_ip: (optional)
-        :param str private_ip: (optional)
-        :param datetime state_change_time: (optional)
-        :param datetime commission_time: (optional)
+        :param float id: (optional) Node ID.
+        :param str fqdn: (optional) Fully qualified domain name.
+        :param str type: (optional) Node type.
+        :param str state: (optional) State of node.
+        :param str public_ip: (optional) Public IP address.
+        :param str private_ip: (optional) Private IP address.
+        :param datetime state_change_time: (optional) State change time.
+        :param datetime commission_time: (optional) Commission time.
         """
         self.id = id
         self.fqdn = fqdn
@@ -781,16 +842,16 @@ class AnalyticsEngineClusterNode():
 
 class AnalyticsEngineCreateCustomizationResponse():
     """
-    AnalyticsEngineCreateCustomizationResponse.
+    Create customization request response.
 
-    :attr str request_id: (optional)
+    :attr float request_id: (optional) Customization request ID.
     """
 
-    def __init__(self, *, request_id: str = None) -> None:
+    def __init__(self, *, request_id: float = None) -> None:
         """
         Initialize a AnalyticsEngineCreateCustomizationResponse object.
 
-        :param str request_id: (optional)
+        :param float request_id: (optional) Customization request ID.
         """
         self.request_id = request_id
 
@@ -835,22 +896,24 @@ class AnalyticsEngineCreateCustomizationResponse():
 
 class AnalyticsEngineCustomAction():
     """
-    AnalyticsEngineCustomAction.
+    Custom action details for customization.
 
-    :attr str name:
-    :attr str type: (optional)
-    :attr AnalyticsEngineCustomActionScript script: (optional)
-    :attr List[str] script_params: (optional)
+    :attr str name: Custom action name.
+    :attr str type: (optional) Customization type.
+    :attr AnalyticsEngineCustomActionScript script: (optional) Customization script
+          details.
+    :attr List[str] script_params: (optional) Customization script parameters.
     """
 
     def __init__(self, name: str, *, type: str = None, script: 'AnalyticsEngineCustomActionScript' = None, script_params: List[str] = None) -> None:
         """
         Initialize a AnalyticsEngineCustomAction object.
 
-        :param str name:
-        :param str type: (optional)
-        :param AnalyticsEngineCustomActionScript script: (optional)
-        :param List[str] script_params: (optional)
+        :param str name: Custom action name.
+        :param str type: (optional) Customization type.
+        :param AnalyticsEngineCustomActionScript script: (optional) Customization
+               script details.
+        :param List[str] script_params: (optional) Customization script parameters.
         """
         self.name = name
         self.type = type
@@ -912,27 +975,29 @@ class AnalyticsEngineCustomAction():
     
     class TypeEnum(Enum):
         """
-        
+        Customization type.
         """
         BOOTSTRAP = "bootstrap"
 
 
 class AnalyticsEngineCustomActionScript():
     """
-    AnalyticsEngineCustomActionScript.
+    Customization script details.
 
-    :attr str source_type: (optional)
-    :attr str script_path: (optional)
-    :attr object source_props: (optional)
+    :attr str source_type: (optional) Defines where to access the customization
+          script.
+    :attr str script_path: (optional) Path to the customization script.
+    :attr object source_props: (optional) Customization script properties.
     """
 
     def __init__(self, *, source_type: str = None, script_path: str = None, source_props: object = None) -> None:
         """
         Initialize a AnalyticsEngineCustomActionScript object.
 
-        :param str source_type: (optional)
-        :param str script_path: (optional)
-        :param object source_props: (optional)
+        :param str source_type: (optional) Defines where to access the
+               customization script.
+        :param str script_path: (optional) Path to the customization script.
+        :param object source_props: (optional) Customization script properties.
         """
         self.source_type = source_type
         self.script_path = script_path
@@ -987,7 +1052,7 @@ class AnalyticsEngineCustomActionScript():
     
     class SourceTypeEnum(Enum):
         """
-        
+        Defines where to access the customization script.
         """
         HTTP = "http"
         HTTPS = "https"
@@ -996,23 +1061,78 @@ class AnalyticsEngineCustomActionScript():
         COSS3 = "CosS3"
 
 
+class AnalyticsEngineCustomizationRequestCollectionItem():
+    """
+    AnalyticsEngineCustomizationRequestCollectionItem.
+
+    :attr str id: (optional) Customization request ID.
+    """
+
+    def __init__(self, *, id: str = None) -> None:
+        """
+        Initialize a AnalyticsEngineCustomizationRequestCollectionItem object.
+
+        :param str id: (optional) Customization request ID.
+        """
+        self.id = id
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'AnalyticsEngineCustomizationRequestCollectionItem':
+        """Initialize a AnalyticsEngineCustomizationRequestCollectionItem object from a json dictionary."""
+        args = {}
+        if 'id' in _dict:
+            args['id'] = _dict.get('id')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AnalyticsEngineCustomizationRequestCollectionItem object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'id') and self.id is not None:
+            _dict['id'] = self.id
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this AnalyticsEngineCustomizationRequestCollectionItem object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'AnalyticsEngineCustomizationRequestCollectionItem') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'AnalyticsEngineCustomizationRequestCollectionItem') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class AnalyticsEngineCustomizationRunDetails():
     """
-    AnalyticsEngineCustomizationRunDetails.
+    Customization run details for the cluster.
 
-    :attr str id: (optional)
-    :attr str run_status: (optional)
+    :attr str id: (optional) Instance GUID.
+    :attr str run_status: (optional) Customization run status.
     :attr AnalyticsEngineCustomizationRunDetailsRunDetails run_details: (optional)
+          Customization run details.
     """
 
     def __init__(self, *, id: str = None, run_status: str = None, run_details: 'AnalyticsEngineCustomizationRunDetailsRunDetails' = None) -> None:
         """
         Initialize a AnalyticsEngineCustomizationRunDetails object.
 
-        :param str id: (optional)
-        :param str run_status: (optional)
+        :param str id: (optional) Instance GUID.
+        :param str run_status: (optional) Customization run status.
         :param AnalyticsEngineCustomizationRunDetailsRunDetails run_details:
-               (optional)
+               (optional) Customization run details.
         """
         self.id = id
         self.run_status = run_status
@@ -1067,19 +1187,20 @@ class AnalyticsEngineCustomizationRunDetails():
 
 class AnalyticsEngineCustomizationRunDetailsRunDetails():
     """
-    AnalyticsEngineCustomizationRunDetailsRunDetails.
+    Customization run details.
 
-    :attr str overall_status: (optional)
+    :attr str overall_status: (optional) Customization run overall status.
     :attr List[AnalyticsEngineNodeLevelCustomizationRunDetails] details: (optional)
+          Customization run details for each node.
     """
 
     def __init__(self, *, overall_status: str = None, details: List['AnalyticsEngineNodeLevelCustomizationRunDetails'] = None) -> None:
         """
         Initialize a AnalyticsEngineCustomizationRunDetailsRunDetails object.
 
-        :param str overall_status: (optional)
+        :param str overall_status: (optional) Customization run overall status.
         :param List[AnalyticsEngineNodeLevelCustomizationRunDetails] details:
-               (optional)
+               (optional) Customization run details for each node.
         """
         self.overall_status = overall_status
         self.details = details
@@ -1129,20 +1250,25 @@ class AnalyticsEngineCustomizationRunDetailsRunDetails():
 
 class AnalyticsEngineLoggingConfigDetails():
     """
-    AnalyticsEngineLoggingConfigDetails.
+    Logging configuration.
 
-    :attr List[AnalyticsEngineLoggingNodeSpec] log_specs:
-    :attr AnalyticsEngineLoggingServer log_server:
-    :attr List[AnalyticsEngineLoggingConfigStatus] log_config_status:
+    :attr List[AnalyticsEngineLoggingNodeSpec] log_specs: Log specifications for
+          nodes.
+    :attr AnalyticsEngineLoggingServer log_server: Logging server configuration.
+    :attr List[AnalyticsEngineLoggingConfigStatus] log_config_status: Log
+          configuration status.
     """
 
     def __init__(self, log_specs: List['AnalyticsEngineLoggingNodeSpec'], log_server: 'AnalyticsEngineLoggingServer', log_config_status: List['AnalyticsEngineLoggingConfigStatus']) -> None:
         """
         Initialize a AnalyticsEngineLoggingConfigDetails object.
 
-        :param List[AnalyticsEngineLoggingNodeSpec] log_specs:
-        :param AnalyticsEngineLoggingServer log_server:
-        :param List[AnalyticsEngineLoggingConfigStatus] log_config_status:
+        :param List[AnalyticsEngineLoggingNodeSpec] log_specs: Log specifications
+               for nodes.
+        :param AnalyticsEngineLoggingServer log_server: Logging server
+               configuration.
+        :param List[AnalyticsEngineLoggingConfigStatus] log_config_status: Log
+               configuration status.
         """
         self.log_specs = log_specs
         self.log_server = log_server
@@ -1203,22 +1329,22 @@ class AnalyticsEngineLoggingConfigDetails():
 
 class AnalyticsEngineLoggingConfigStatus():
     """
-    AnalyticsEngineLoggingConfigStatus.
+    Log configuration status.
 
-    :attr str node_type:
-    :attr str node_id:
-    :attr str action:
-    :attr str status:
+    :attr str node_type: Node type.
+    :attr str node_id: Node ID.
+    :attr str action: Action.
+    :attr str status: Log configuration status.
     """
 
     def __init__(self, node_type: str, node_id: str, action: str, status: str) -> None:
         """
         Initialize a AnalyticsEngineLoggingConfigStatus object.
 
-        :param str node_type:
-        :param str node_id:
-        :param str action:
-        :param str status:
+        :param str node_type: Node type.
+        :param str node_id: Node ID.
+        :param str action: Action.
+        :param str status: Log configuration status.
         """
         self.node_type = node_type
         self.node_id = node_id
@@ -1286,7 +1412,7 @@ class AnalyticsEngineLoggingConfigStatus():
     
     class NodeTypeEnum(Enum):
         """
-        
+        Node type.
         """
         MANAGEMENT = "management"
         DATA = "data"
@@ -1294,18 +1420,18 @@ class AnalyticsEngineLoggingConfigStatus():
 
 class AnalyticsEngineLoggingNodeSpec():
     """
-    AnalyticsEngineLoggingNodeSpec.
+    Log specifications for node.
 
-    :attr str node_type:
-    :attr List[str] components:
+    :attr str node_type: Node type.
+    :attr List[str] components: Node components to be monitored.
     """
 
     def __init__(self, node_type: str, components: List[str]) -> None:
         """
         Initialize a AnalyticsEngineLoggingNodeSpec object.
 
-        :param str node_type:
-        :param List[str] components:
+        :param str node_type: Node type.
+        :param List[str] components: Node components to be monitored.
         """
         self.node_type = node_type
         self.components = components
@@ -1359,7 +1485,7 @@ class AnalyticsEngineLoggingNodeSpec():
     
     class NodeTypeEnum(Enum):
         """
-        
+        Node type.
         """
         MANAGEMENT = "management"
         DATA = "data"
@@ -1367,7 +1493,7 @@ class AnalyticsEngineLoggingNodeSpec():
     
     class ComponentsEnum(Enum):
         """
-        
+        Node components to be logged.
         """
         AMBARI_SERVER = "ambari-server"
         HADOOP_MAPREDUCE = "hadoop-mapreduce"
@@ -1383,24 +1509,24 @@ class AnalyticsEngineLoggingNodeSpec():
 
 class AnalyticsEngineLoggingServer():
     """
-    AnalyticsEngineLoggingServer.
+    Logging server configuration.
 
-    :attr str type:
-    :attr str credential:
-    :attr str api_host:
-    :attr str log_host:
-    :attr str owner: (optional)
+    :attr str type: Logging server type.
+    :attr str credential: Logging server credential.
+    :attr str api_host: Logging server API host.
+    :attr str log_host: Logging server host.
+    :attr str owner: (optional) Logging server owner.
     """
 
     def __init__(self, type: str, credential: str, api_host: str, log_host: str, *, owner: str = None) -> None:
         """
         Initialize a AnalyticsEngineLoggingServer object.
 
-        :param str type:
-        :param str credential:
-        :param str api_host:
-        :param str log_host:
-        :param str owner: (optional)
+        :param str type: Logging server type.
+        :param str credential: Logging server credential.
+        :param str api_host: Logging server API host.
+        :param str log_host: Logging server host.
+        :param str owner: (optional) Logging server owner.
         """
         self.type = type
         self.credential = credential
@@ -1473,35 +1599,38 @@ class AnalyticsEngineLoggingServer():
     
     class TypeEnum(Enum):
         """
-        
+        Logging server type.
         """
         LOGDNA = "logdna"
 
 
 class AnalyticsEngineNodeLevelCustomizationRunDetails():
     """
-    AnalyticsEngineNodeLevelCustomizationRunDetails.
+    Customization run details for the node.
 
-    :attr str node_name: (optional)
-    :attr str node_type: (optional)
-    :attr str start_time: (optional)
-    :attr str end_time: (optional)
-    :attr str time_taken: (optional)
-    :attr str status: (optional)
-    :attr str log_file: (optional)
+    :attr str node_name: (optional) Node name.
+    :attr str node_type: (optional) Node type.
+    :attr str start_time: (optional) Customization request start time.
+    :attr str end_time: (optional) Customization request end time.
+    :attr str time_taken: (optional) Total time taken for customization request.
+    :attr str status: (optional) Status of customization request.
+    :attr str log_file: (optional) Log file to track for customization run
+          information.
     """
 
     def __init__(self, *, node_name: str = None, node_type: str = None, start_time: str = None, end_time: str = None, time_taken: str = None, status: str = None, log_file: str = None) -> None:
         """
         Initialize a AnalyticsEngineNodeLevelCustomizationRunDetails object.
 
-        :param str node_name: (optional)
-        :param str node_type: (optional)
-        :param str start_time: (optional)
-        :param str end_time: (optional)
-        :param str time_taken: (optional)
-        :param str status: (optional)
-        :param str log_file: (optional)
+        :param str node_name: (optional) Node name.
+        :param str node_type: (optional) Node type.
+        :param str start_time: (optional) Customization request start time.
+        :param str end_time: (optional) Customization request end time.
+        :param str time_taken: (optional) Total time taken for customization
+               request.
+        :param str status: (optional) Status of customization request.
+        :param str log_file: (optional) Log file to track for customization run
+               information.
         """
         self.node_name = node_name
         self.node_type = node_type
@@ -1576,20 +1705,20 @@ class AnalyticsEngineNodeLevelCustomizationRunDetails():
 
 class AnalyticsEngineResetClusterPasswordResponse():
     """
-    AnalyticsEngineResetClusterPasswordResponse.
+    Response for resetting cluster password.
 
-    :attr str id: (optional)
+    :attr str id: (optional) Instance guid.
     :attr AnalyticsEngineResetClusterPasswordResponseUserCredentials
-          user_credentials: (optional)
+          user_credentials: (optional) User credentials.
     """
 
     def __init__(self, *, id: str = None, user_credentials: 'AnalyticsEngineResetClusterPasswordResponseUserCredentials' = None) -> None:
         """
         Initialize a AnalyticsEngineResetClusterPasswordResponse object.
 
-        :param str id: (optional)
+        :param str id: (optional) Instance guid.
         :param AnalyticsEngineResetClusterPasswordResponseUserCredentials
-               user_credentials: (optional)
+               user_credentials: (optional) User credentials.
         """
         self.id = id
         self.user_credentials = user_credentials
@@ -1639,18 +1768,18 @@ class AnalyticsEngineResetClusterPasswordResponse():
 
 class AnalyticsEngineResetClusterPasswordResponseUserCredentials():
     """
-    AnalyticsEngineResetClusterPasswordResponseUserCredentials.
+    User credentials.
 
-    :attr str user: (optional)
-    :attr str password: (optional)
+    :attr str user: (optional) Username.
+    :attr str password: (optional) New password.
     """
 
     def __init__(self, *, user: str = None, password: str = None) -> None:
         """
         Initialize a AnalyticsEngineResetClusterPasswordResponseUserCredentials object.
 
-        :param str user: (optional)
-        :param str password: (optional)
+        :param str user: (optional) Username.
+        :param str password: (optional) New password.
         """
         self.user = user
         self.password = password
@@ -1700,16 +1829,16 @@ class AnalyticsEngineResetClusterPasswordResponseUserCredentials():
 
 class AnalyticsEngineResizeClusterResponse():
     """
-    AnalyticsEngineResizeClusterResponse.
+    Resize request response.
 
-    :attr str request_id: (optional)
+    :attr str request_id: (optional) Request ID.
     """
 
     def __init__(self, *, request_id: str = None) -> None:
         """
         Initialize a AnalyticsEngineResizeClusterResponse object.
 
-        :param str request_id: (optional)
+        :param str request_id: (optional) Request ID.
         """
         self.request_id = request_id
 
@@ -1754,16 +1883,16 @@ class AnalyticsEngineResizeClusterResponse():
 
 class AnalyticsEngineState():
     """
-    AnalyticsEngineState.
+    Cluster state.
 
-    :attr str state:
+    :attr str state: Cluster state.
     """
 
     def __init__(self, state: str) -> None:
         """
         Initialize a AnalyticsEngineState object.
 
-        :param str state:
+        :param str state: Cluster state.
         """
         self.state = state
 
@@ -1810,16 +1939,16 @@ class AnalyticsEngineState():
 
 class AnalyticsEngineUserCredentials():
     """
-    AnalyticsEngineUserCredentials.
+    User credentials.
 
-    :attr str user: (optional)
+    :attr str user: (optional) Username.
     """
 
     def __init__(self, *, user: str = None) -> None:
         """
         Initialize a AnalyticsEngineUserCredentials object.
 
-        :param str user: (optional)
+        :param str user: (optional) Username.
         """
         self.user = user
 
@@ -1862,38 +1991,97 @@ class AnalyticsEngineUserCredentials():
         return not self == other
 
 
+class AnalyticsEngineWhitelistResponse():
+    """
+    Whitelisted IP Ranges.
+
+    :attr List[str] private_endpoint_whitelist: (optional) Whitelisted IP Ranges.
+    """
+
+    def __init__(self, *, private_endpoint_whitelist: List[str] = None) -> None:
+        """
+        Initialize a AnalyticsEngineWhitelistResponse object.
+
+        :param List[str] private_endpoint_whitelist: (optional) Whitelisted IP
+               Ranges.
+        """
+        self.private_endpoint_whitelist = private_endpoint_whitelist
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'AnalyticsEngineWhitelistResponse':
+        """Initialize a AnalyticsEngineWhitelistResponse object from a json dictionary."""
+        args = {}
+        if 'private_endpoint_whitelist' in _dict:
+            args['private_endpoint_whitelist'] = _dict.get('private_endpoint_whitelist')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AnalyticsEngineWhitelistResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'private_endpoint_whitelist') and self.private_endpoint_whitelist is not None:
+            _dict['private_endpoint_whitelist'] = self.private_endpoint_whitelist
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this AnalyticsEngineWhitelistResponse object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'AnalyticsEngineWhitelistResponse') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'AnalyticsEngineWhitelistResponse') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class ServiceEndpoints():
     """
-    ServiceEndpoints.
+    Service Endpoints.
 
-    :attr str phoenix_jdbc: (optional)
-    :attr str ambari_console: (optional)
-    :attr str livy: (optional)
-    :attr str spark_history_server: (optional)
-    :attr str oozie_rest: (optional)
-    :attr str hive_jdbc: (optional)
-    :attr str notebook_gateway_websocket: (optional)
-    :attr str notebook_gateway: (optional)
-    :attr str webhdfs: (optional)
-    :attr str ssh: (optional)
-    :attr str spark_sql: (optional)
+    :attr str phoenix_jdbc: (optional) Phoenix JDBC service endpoint.
+    :attr str ambari_console: (optional) Amabri console service endpoint.
+    :attr str livy: (optional) Livy service endpoint.
+    :attr str spark_history_server: (optional) Spark history server serivce
+          endpoint.
+    :attr str oozie_rest: (optional) Oozie REST service endpi'.
+    :attr str hive_jdbc: (optional) Hive JDBC service endpoint.
+    :attr str notebook_gateway_websocket: (optional) Notebook gateway websocket
+          service endpoint.
+    :attr str notebook_gateway: (optional) Notebook gateway service endpoint.
+    :attr str webhdfs: (optional) WebHDFS service endpoint.
+    :attr str ssh: (optional) SSH service endpoint.
+    :attr str spark_sql: (optional) Spark SQL service endpoint.
     """
 
     def __init__(self, *, phoenix_jdbc: str = None, ambari_console: str = None, livy: str = None, spark_history_server: str = None, oozie_rest: str = None, hive_jdbc: str = None, notebook_gateway_websocket: str = None, notebook_gateway: str = None, webhdfs: str = None, ssh: str = None, spark_sql: str = None) -> None:
         """
         Initialize a ServiceEndpoints object.
 
-        :param str phoenix_jdbc: (optional)
-        :param str ambari_console: (optional)
-        :param str livy: (optional)
-        :param str spark_history_server: (optional)
-        :param str oozie_rest: (optional)
-        :param str hive_jdbc: (optional)
-        :param str notebook_gateway_websocket: (optional)
-        :param str notebook_gateway: (optional)
-        :param str webhdfs: (optional)
-        :param str ssh: (optional)
-        :param str spark_sql: (optional)
+        :param str phoenix_jdbc: (optional) Phoenix JDBC service endpoint.
+        :param str ambari_console: (optional) Amabri console service endpoint.
+        :param str livy: (optional) Livy service endpoint.
+        :param str spark_history_server: (optional) Spark history server serivce
+               endpoint.
+        :param str oozie_rest: (optional) Oozie REST service endpi'.
+        :param str hive_jdbc: (optional) Hive JDBC service endpoint.
+        :param str notebook_gateway_websocket: (optional) Notebook gateway
+               websocket service endpoint.
+        :param str notebook_gateway: (optional) Notebook gateway service endpoint.
+        :param str webhdfs: (optional) WebHDFS service endpoint.
+        :param str ssh: (optional) SSH service endpoint.
+        :param str spark_sql: (optional) Spark SQL service endpoint.
         """
         self.phoenix_jdbc = phoenix_jdbc
         self.ambari_console = ambari_console
@@ -1982,60 +2170,6 @@ class ServiceEndpoints():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'ServiceEndpoints') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class InlineResponse200():
-    """
-    InlineResponse200.
-
-    :attr str request_id: (optional)
-    """
-
-    def __init__(self, *, request_id: str = None) -> None:
-        """
-        Initialize a InlineResponse200 object.
-
-        :param str request_id: (optional)
-        """
-        self.request_id = request_id
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'InlineResponse200':
-        """Initialize a InlineResponse200 object from a json dictionary."""
-        args = {}
-        if 'request_id' in _dict:
-            args['request_id'] = _dict.get('request_id')
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a InlineResponse200 object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'request_id') and self.request_id is not None:
-            _dict['request_id'] = self.request_id
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this InlineResponse200 object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'InlineResponse200') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'InlineResponse200') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
