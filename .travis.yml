@@ -10,9 +10,9 @@ notifications:
 matrix:
   include:
     - python: 3.5
-    - python: 3.6
-    - python: 3.7
-    - python: 3.8
+    # - python: 3.6
+    # - python: 3.7
+    # - python: 3.8
 
 before_install:
 - npm install npm@latest -g
@@ -43,8 +43,8 @@ deploy:
     branch: master
 - provider: pypi
   user: __token__
-  password: $PYPI_TOKEN
-  repository: https://upload.pypi.org/legacy
+  password: $PYPI_TEST_TOKEN
+  repository: https://upload.test.pypi.org/legacy
   skip_cleanup: true
   on:
     python: '3.5'
