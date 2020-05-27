@@ -38,13 +38,13 @@ Service Name | Imported Class Name
 To install, use `pip` or `easy_install`:
 
 ```bash
-pip install --upgrade "iaesdk>=1.0.0"
+pip install --upgrade "iaesdk>=1.0.1"
 ```
 
 or
 
 ```bash
-easy_install --upgrade "iaesdk>=1.0.0"
+easy_install --upgrade "iaesdk>=1.0.1"
 ```
 
 ## Using the SDK
