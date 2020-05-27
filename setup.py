@@ -19,7 +19,7 @@ import os
 import sys
 import pkg_resources
 
-__version__ = '0.0.6'
+__version__ = '1.0.0'
 PACKAGE_NAME = 'iaesdk'
 
 with open('requirements.txt') as f:
