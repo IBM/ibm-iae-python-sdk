@@ -23,7 +23,8 @@ from ibm_cloud_sdk_core import *
 from iaesdk.ibm_analytics_engine_api_v3 import *
 
 # Config file name
-config_file = 'ibm_analytics_engine_api_v3.env'
+config_file = 'ibmanalyticsengine-service.env'
+application_id = ''
 
 class TestIbmAnalyticsEngineApiV3():
     """
@@ -37,6 +38,7 @@ class TestIbmAnalyticsEngineApiV3():
 
             cls.ibm_analytics_engine_api_service = IbmAnalyticsEngineApiV3.new_instance(
                 )
+            cls.instance_guid = os.getenv('IBM_ANALYTICS_ENGINE_INSTANCE_GUID')    
             assert cls.ibm_analytics_engine_api_service is not None
 
             cls.config = read_external_sources(
@@ -51,10 +53,9 @@ class TestIbmAnalyticsEngineApiV3():
 
     @needscredentials
     def test_get_instance_by_id(self):
-
-        get_instance_by_id_response = self.ibm_analytics_engine_api_service.get_instance_by_id(
-            instance_id='testString'
-        )
+        print('Instance Id - ***********************')
+        print(self.instance_guid)
+        get_instance_by_id_response = self.ibm_analytics_engine_api_service.get_instance_by_id(self.instance_guid)
 
         assert get_instance_by_id_response.get_status_code() == 200
         instance_details = get_instance_by_id_response.get_result()
@@ -62,31 +63,32 @@ class TestIbmAnalyticsEngineApiV3():
 
     @needscredentials
     def test_create_application(self):
-
+        global application_id 
         # Construct a dict representation of a ApplicationRequestApplicationDetails model
         application_request_application_details_model = {
-            'application': 'testString',
-            'class': 'testString',
-            'application_arguments': ['testString'],
-            'conf': {},
-            'env': {}
+            'application': '/opt/ibm/spark/examples/src/main/python/wordcount.py',
+            'application_arguments': ['/opt/ibm/spark/examples/src/main/resources/people.txt']
         }
 
         create_application_response = self.ibm_analytics_engine_api_service.create_application(
-            instance_id='testString',
+            self.instance_guid,
             application_details=application_request_application_details_model
         )
 
-        assert create_application_response.get_status_code() == 201
+        assert create_application_response.get_status_code() == 202
         application_response = create_application_response.get_result()
+        print('Application Response - ***********************')
+        print(application_response)
+        
+        application_id=application_response.get('application_id')
+        print('Application Id - ***********************')
+        print(application_id)
         assert application_response is not None
 
     @needscredentials
     def test_get_applications(self):
 
-        get_applications_response = self.ibm_analytics_engine_api_service.get_applications(
-            instance_id='testString'
-        )
+        get_applications_response = self.ibm_analytics_engine_api_service.get_applications(self.instance_guid)
 
         assert get_applications_response.get_status_code() == 200
         application_collection = get_applications_response.get_result()
@@ -96,8 +98,8 @@ class TestIbmAnalyticsEngineApiV3():
     def test_get_application_by_id(self):
 
         get_application_by_id_response = self.ibm_analytics_engine_api_service.get_application_by_id(
-            instance_id='testString',
-            application_id='testString'
+            self.instance_guid,
+            application_id
         )
 
         assert get_application_by_id_response.get_status_code() == 200
@@ -108,8 +110,8 @@ class TestIbmAnalyticsEngineApiV3():
     def test_get_application_state(self):
 
         get_application_state_response = self.ibm_analytics_engine_api_service.get_application_state(
-            instance_id='testString',
-            application_id='testString'
+            self.instance_guid,
+            application_id
         )
 
         assert get_application_state_response.get_status_code() == 200
@@ -120,8 +122,8 @@ class TestIbmAnalyticsEngineApiV3():
     def test_delete_application_by_id(self):
 
         delete_application_by_id_response = self.ibm_analytics_engine_api_service.delete_application_by_id(
-            instance_id='testString',
-            application_id='testString'
+            self.instance_guid,
+            application_id
         )
 
         assert delete_application_by_id_response.get_status_code() == 204
