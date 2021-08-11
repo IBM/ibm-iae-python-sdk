@@ -17,9 +17,9 @@
 Examples for IbmAnalyticsEngineApiV3
 """
 
+from ibm_cloud_sdk_core import ApiException, read_external_sources
 import os
 import pytest
-from ibm_cloud_sdk_core import ApiException, read_external_sources
 from iaesdk.ibm_analytics_engine_api_v3 import *
 
 #
@@ -81,6 +81,7 @@ class TestIbmAnalyticsEngineApiV3Examples():
         get_instance_by_id request example
         """
         try:
+            print('\nget_instance_by_id() result:')
             # begin-get_instance_by_id
 
             instance_details = ibm_analytics_engine_api_service.get_instance_by_id(
@@ -100,6 +101,7 @@ class TestIbmAnalyticsEngineApiV3Examples():
         create_application request example
         """
         try:
+            print('\ncreate_application() result:')
             # begin-create_application
 
             application_response = ibm_analytics_engine_api_service.create_application(
@@ -119,6 +121,7 @@ class TestIbmAnalyticsEngineApiV3Examples():
         get_applications request example
         """
         try:
+            print('\nget_applications() result:')
             # begin-get_applications
 
             application_collection = ibm_analytics_engine_api_service.get_applications(
@@ -138,6 +141,7 @@ class TestIbmAnalyticsEngineApiV3Examples():
         get_application_by_id request example
         """
         try:
+            print('\nget_application_by_id() result:')
             # begin-get_application_by_id
 
             application_get_response = ibm_analytics_engine_api_service.get_application_by_id(
@@ -158,6 +162,7 @@ class TestIbmAnalyticsEngineApiV3Examples():
         get_application_state request example
         """
         try:
+            print('\nget_application_state() result:')
             # begin-get_application_state
 
             application_get_state_response = ibm_analytics_engine_api_service.get_application_state(
@@ -183,11 +188,10 @@ class TestIbmAnalyticsEngineApiV3Examples():
             response = ibm_analytics_engine_api_service.delete_application_by_id(
                 instance_id='testString',
                 application_id='testString'
-            ).get_result()
-
-            print(json.dumps(response, indent=2))
+            )
 
             # end-delete_application_by_id
+            print('\ndelete_application_by_id() response status code: ', response.get_status_code())
 
         except ApiException as e:
             pytest.fail(str(e))

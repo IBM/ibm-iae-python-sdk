@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2020.
+# (C) Copyright IBM Corp. 2021.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,45 +13,90 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""
+Unit Tests for IbmAnalyticsEngineApiV2
+"""
+
 from datetime import datetime, timezone
 from ibm_cloud_sdk_core.authenticators.no_auth_authenticator import NoAuthAuthenticator
+from ibm_cloud_sdk_core.utils import datetime_to_string, string_to_datetime
 import inspect
 import json
+import os
 import pytest
+import re
 import responses
+import urllib
 from iaesdk.ibm_analytics_engine_api_v2 import *
 
 
-service = IbmAnalyticsEngineApiV2(
+_service = IbmAnalyticsEngineApiV2(
     authenticator=NoAuthAuthenticator()
     )
 
-base_url = 'https://ibm-analytics-engine-api.cloud.ibm.com/'
-service.set_service_url(base_url)
+_base_url = 'https://ibm-analytics-engine-api.cloud.ibm.com'
+_service.set_service_url(_base_url)
 
 ##############################################################################
-# Start of Service: AnalyticsEngines
+# Start of Service: AnalyticsEnginesV2
 ##############################################################################
 # region
 
-#-----------------------------------------------------------------------------
-# Test Class for get_all_analytics_engines
-#-----------------------------------------------------------------------------
-class TestGetAllAnalyticsEngines():
+class TestNewInstance():
+    """
+    Test Class for new_instance
+    """
 
-    #--------------------------------------------------------
-    # get_all_analytics_engines()
-    #--------------------------------------------------------
+    def test_new_instance(self):
+        """
+        new_instance()
+        """
+        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
+
+        service = IbmAnalyticsEngineApiV2.new_instance(
+            service_name='TEST_SERVICE',
+        )
+
+        assert service is not None
+        assert isinstance(service, IbmAnalyticsEngineApiV2)
+
+    def test_new_instance_without_authenticator(self):
+        """
+        new_instance_without_authenticator()
+        """
+        with pytest.raises(ValueError, match='authenticator must be provided'):
+            service = IbmAnalyticsEngineApiV2.new_instance(
+            )
+
+class TestGetAllAnalyticsEngines():
+    """
+    Test Class for get_all_analytics_engines
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     @responses.activate
     def test_get_all_analytics_engines_all_params(self):
+        """
+        get_all_analytics_engines()
+        """
         # Set up mock
-        url = base_url + '/v2/analytics_engines'
+        url = self.preprocess_url(_base_url + '/v2/analytics_engines')
         responses.add(responses.GET,
                       url,
                       status=200)
 
         # Invoke method
-        response = service.get_all_analytics_engines()
+        response = _service.get_all_analytics_engines()
 
 
         # Check for correct operation
@@ -59,19 +104,30 @@ class TestGetAllAnalyticsEngines():
         assert response.status_code == 200
 
 
-#-----------------------------------------------------------------------------
-# Test Class for get_analytics_engine_by_id
-#-----------------------------------------------------------------------------
 class TestGetAnalyticsEngineById():
+    """
+    Test Class for get_analytics_engine_by_id
+    """
 
-    #--------------------------------------------------------
-    # get_analytics_engine_by_id()
-    #--------------------------------------------------------
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     @responses.activate
     def test_get_analytics_engine_by_id_all_params(self):
+        """
+        get_analytics_engine_by_id()
+        """
         # Set up mock
-        url = base_url + '/v2/analytics_engines/testString'
-        mock_response = '{"id": "id", "name": "name", "service_plan": "service_plan", "hardware_size": "hardware_size", "software_package": "software_package", "domain": "domain", "creation_time": "2019-01-01T12:00:00", "commision_time": "2019-01-01T12:00:00", "decommision_time": "2019-01-01T12:00:00", "deletion_time": "2019-01-01T12:00:00", "state_change_time": "2019-01-01T12:00:00", "state": "state", "nodes": [{"id": 2, "fqdn": "fqdn", "type": "type", "state": "state", "public_ip": "public_ip", "private_ip": "private_ip", "state_change_time": "2019-01-01T12:00:00", "commission_time": "2019-01-01T12:00:00"}], "user_credentials": {"user": "user"}, "service_endpoints": {"phoenix_jdbc": "phoenix_jdbc", "ambari_console": "ambari_console", "livy": "livy", "spark_history_server": "spark_history_server", "oozie_rest": "oozie_rest", "hive_jdbc": "hive_jdbc", "notebook_gateway_websocket": "notebook_gateway_websocket", "notebook_gateway": "notebook_gateway", "webhdfs": "webhdfs", "ssh": "ssh", "spark_sql": "spark_sql"}, "service_endpoints_ip": {"phoenix_jdbc": "phoenix_jdbc", "ambari_console": "ambari_console", "livy": "livy", "spark_history_server": "spark_history_server", "oozie_rest": "oozie_rest", "hive_jdbc": "hive_jdbc", "notebook_gateway_websocket": "notebook_gateway_websocket", "notebook_gateway": "notebook_gateway", "webhdfs": "webhdfs", "ssh": "ssh", "spark_sql": "spark_sql"}, "private_endpoint_whitelist": ["private_endpoint_whitelist"]}'
+        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString')
+        mock_response = '{"id": "id", "name": "name", "service_plan": "service_plan", "hardware_size": "hardware_size", "software_package": "software_package", "domain": "domain", "creation_time": "2019-01-01T12:00:00.000Z", "commision_time": "2019-01-01T12:00:00.000Z", "decommision_time": "2019-01-01T12:00:00.000Z", "deletion_time": "2019-01-01T12:00:00.000Z", "state_change_time": "2019-01-01T12:00:00.000Z", "state": "state", "nodes": [{"id": 2, "fqdn": "fqdn", "type": "type", "state": "state", "public_ip": "public_ip", "private_ip": "private_ip", "state_change_time": "2019-01-01T12:00:00.000Z", "commission_time": "2019-01-01T12:00:00.000Z"}], "user_credentials": {"user": "user"}, "service_endpoints": {"phoenix_jdbc": "phoenix_jdbc", "ambari_console": "ambari_console", "livy": "livy", "spark_history_server": "spark_history_server", "oozie_rest": "oozie_rest", "hive_jdbc": "hive_jdbc", "notebook_gateway_websocket": "notebook_gateway_websocket", "notebook_gateway": "notebook_gateway", "webhdfs": "webhdfs", "ssh": "ssh", "spark_sql": "spark_sql"}, "service_endpoints_ip": {"phoenix_jdbc": "phoenix_jdbc", "ambari_console": "ambari_console", "livy": "livy", "spark_history_server": "spark_history_server", "oozie_rest": "oozie_rest", "hive_jdbc": "hive_jdbc", "notebook_gateway_websocket": "notebook_gateway_websocket", "notebook_gateway": "notebook_gateway", "webhdfs": "webhdfs", "ssh": "ssh", "spark_sql": "spark_sql"}, "private_endpoint_whitelist": ["private_endpoint_whitelist"]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -82,7 +138,7 @@ class TestGetAnalyticsEngineById():
         instance_guid = 'testString'
 
         # Invoke method
-        response = service.get_analytics_engine_by_id(
+        response = _service.get_analytics_engine_by_id(
             instance_guid,
             headers={}
         )
@@ -92,14 +148,14 @@ class TestGetAnalyticsEngineById():
         assert response.status_code == 200
 
 
-    #--------------------------------------------------------
-    # test_get_analytics_engine_by_id_value_error()
-    #--------------------------------------------------------
     @responses.activate
     def test_get_analytics_engine_by_id_value_error(self):
+        """
+        test_get_analytics_engine_by_id_value_error()
+        """
         # Set up mock
-        url = base_url + '/v2/analytics_engines/testString'
-        mock_response = '{"id": "id", "name": "name", "service_plan": "service_plan", "hardware_size": "hardware_size", "software_package": "software_package", "domain": "domain", "creation_time": "2019-01-01T12:00:00", "commision_time": "2019-01-01T12:00:00", "decommision_time": "2019-01-01T12:00:00", "deletion_time": "2019-01-01T12:00:00", "state_change_time": "2019-01-01T12:00:00", "state": "state", "nodes": [{"id": 2, "fqdn": "fqdn", "type": "type", "state": "state", "public_ip": "public_ip", "private_ip": "private_ip", "state_change_time": "2019-01-01T12:00:00", "commission_time": "2019-01-01T12:00:00"}], "user_credentials": {"user": "user"}, "service_endpoints": {"phoenix_jdbc": "phoenix_jdbc", "ambari_console": "ambari_console", "livy": "livy", "spark_history_server": "spark_history_server", "oozie_rest": "oozie_rest", "hive_jdbc": "hive_jdbc", "notebook_gateway_websocket": "notebook_gateway_websocket", "notebook_gateway": "notebook_gateway", "webhdfs": "webhdfs", "ssh": "ssh", "spark_sql": "spark_sql"}, "service_endpoints_ip": {"phoenix_jdbc": "phoenix_jdbc", "ambari_console": "ambari_console", "livy": "livy", "spark_history_server": "spark_history_server", "oozie_rest": "oozie_rest", "hive_jdbc": "hive_jdbc", "notebook_gateway_websocket": "notebook_gateway_websocket", "notebook_gateway": "notebook_gateway", "webhdfs": "webhdfs", "ssh": "ssh", "spark_sql": "spark_sql"}, "private_endpoint_whitelist": ["private_endpoint_whitelist"]}'
+        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString')
+        mock_response = '{"id": "id", "name": "name", "service_plan": "service_plan", "hardware_size": "hardware_size", "software_package": "software_package", "domain": "domain", "creation_time": "2019-01-01T12:00:00.000Z", "commision_time": "2019-01-01T12:00:00.000Z", "decommision_time": "2019-01-01T12:00:00.000Z", "deletion_time": "2019-01-01T12:00:00.000Z", "state_change_time": "2019-01-01T12:00:00.000Z", "state": "state", "nodes": [{"id": 2, "fqdn": "fqdn", "type": "type", "state": "state", "public_ip": "public_ip", "private_ip": "private_ip", "state_change_time": "2019-01-01T12:00:00.000Z", "commission_time": "2019-01-01T12:00:00.000Z"}], "user_credentials": {"user": "user"}, "service_endpoints": {"phoenix_jdbc": "phoenix_jdbc", "ambari_console": "ambari_console", "livy": "livy", "spark_history_server": "spark_history_server", "oozie_rest": "oozie_rest", "hive_jdbc": "hive_jdbc", "notebook_gateway_websocket": "notebook_gateway_websocket", "notebook_gateway": "notebook_gateway", "webhdfs": "webhdfs", "ssh": "ssh", "spark_sql": "spark_sql"}, "service_endpoints_ip": {"phoenix_jdbc": "phoenix_jdbc", "ambari_console": "ambari_console", "livy": "livy", "spark_history_server": "spark_history_server", "oozie_rest": "oozie_rest", "hive_jdbc": "hive_jdbc", "notebook_gateway_websocket": "notebook_gateway_websocket", "notebook_gateway": "notebook_gateway", "webhdfs": "webhdfs", "ssh": "ssh", "spark_sql": "spark_sql"}, "private_endpoint_whitelist": ["private_endpoint_whitelist"]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -116,22 +172,33 @@ class TestGetAnalyticsEngineById():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_analytics_engine_by_id(**req_copy)
+                _service.get_analytics_engine_by_id(**req_copy)
 
 
 
-#-----------------------------------------------------------------------------
-# Test Class for get_analytics_engine_state_by_id
-#-----------------------------------------------------------------------------
 class TestGetAnalyticsEngineStateById():
+    """
+    Test Class for get_analytics_engine_state_by_id
+    """
 
-    #--------------------------------------------------------
-    # get_analytics_engine_state_by_id()
-    #--------------------------------------------------------
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     @responses.activate
     def test_get_analytics_engine_state_by_id_all_params(self):
+        """
+        get_analytics_engine_state_by_id()
+        """
         # Set up mock
-        url = base_url + '/v2/analytics_engines/testString/state'
+        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/state')
         mock_response = '{"state": "state"}'
         responses.add(responses.GET,
                       url,
@@ -143,7 +210,7 @@ class TestGetAnalyticsEngineStateById():
         instance_guid = 'testString'
 
         # Invoke method
-        response = service.get_analytics_engine_state_by_id(
+        response = _service.get_analytics_engine_state_by_id(
             instance_guid,
             headers={}
         )
@@ -153,13 +220,13 @@ class TestGetAnalyticsEngineStateById():
         assert response.status_code == 200
 
 
-    #--------------------------------------------------------
-    # test_get_analytics_engine_state_by_id_value_error()
-    #--------------------------------------------------------
     @responses.activate
     def test_get_analytics_engine_state_by_id_value_error(self):
+        """
+        test_get_analytics_engine_state_by_id_value_error()
+        """
         # Set up mock
-        url = base_url + '/v2/analytics_engines/testString/state'
+        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/state')
         mock_response = '{"state": "state"}'
         responses.add(responses.GET,
                       url,
@@ -177,22 +244,33 @@ class TestGetAnalyticsEngineStateById():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_analytics_engine_state_by_id(**req_copy)
+                _service.get_analytics_engine_state_by_id(**req_copy)
 
 
 
-#-----------------------------------------------------------------------------
-# Test Class for create_customization_request
-#-----------------------------------------------------------------------------
 class TestCreateCustomizationRequest():
+    """
+    Test Class for create_customization_request
+    """
 
-    #--------------------------------------------------------
-    # create_customization_request()
-    #--------------------------------------------------------
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     @responses.activate
     def test_create_customization_request_all_params(self):
+        """
+        create_customization_request()
+        """
         # Set up mock
-        url = base_url + '/v2/analytics_engines/testString/customization_requests'
+        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/customization_requests')
         mock_response = '{"request_id": 10}'
         responses.add(responses.POST,
                       url,
@@ -219,7 +297,7 @@ class TestCreateCustomizationRequest():
         custom_actions = [analytics_engine_custom_action_model]
 
         # Invoke method
-        response = service.create_customization_request(
+        response = _service.create_customization_request(
             instance_guid,
             target,
             custom_actions,
@@ -235,13 +313,13 @@ class TestCreateCustomizationRequest():
         assert req_body['custom_actions'] == [analytics_engine_custom_action_model]
 
 
-    #--------------------------------------------------------
-    # test_create_customization_request_value_error()
-    #--------------------------------------------------------
     @responses.activate
     def test_create_customization_request_value_error(self):
+        """
+        test_create_customization_request_value_error()
+        """
         # Set up mock
-        url = base_url + '/v2/analytics_engines/testString/customization_requests'
+        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/customization_requests')
         mock_response = '{"request_id": 10}'
         responses.add(responses.POST,
                       url,
@@ -276,22 +354,33 @@ class TestCreateCustomizationRequest():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.create_customization_request(**req_copy)
+                _service.create_customization_request(**req_copy)
 
 
 
-#-----------------------------------------------------------------------------
-# Test Class for get_all_customization_requests
-#-----------------------------------------------------------------------------
 class TestGetAllCustomizationRequests():
+    """
+    Test Class for get_all_customization_requests
+    """
 
-    #--------------------------------------------------------
-    # get_all_customization_requests()
-    #--------------------------------------------------------
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     @responses.activate
     def test_get_all_customization_requests_all_params(self):
+        """
+        get_all_customization_requests()
+        """
         # Set up mock
-        url = base_url + '/v2/analytics_engines/testString/customization_requests'
+        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/customization_requests')
         mock_response = '[{"id": "id"}]'
         responses.add(responses.GET,
                       url,
@@ -303,7 +392,7 @@ class TestGetAllCustomizationRequests():
         instance_guid = 'testString'
 
         # Invoke method
-        response = service.get_all_customization_requests(
+        response = _service.get_all_customization_requests(
             instance_guid,
             headers={}
         )
@@ -313,13 +402,13 @@ class TestGetAllCustomizationRequests():
         assert response.status_code == 200
 
 
-    #--------------------------------------------------------
-    # test_get_all_customization_requests_value_error()
-    #--------------------------------------------------------
     @responses.activate
     def test_get_all_customization_requests_value_error(self):
+        """
+        test_get_all_customization_requests_value_error()
+        """
         # Set up mock
-        url = base_url + '/v2/analytics_engines/testString/customization_requests'
+        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/customization_requests')
         mock_response = '[{"id": "id"}]'
         responses.add(responses.GET,
                       url,
@@ -337,22 +426,33 @@ class TestGetAllCustomizationRequests():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_all_customization_requests(**req_copy)
+                _service.get_all_customization_requests(**req_copy)
 
 
 
-#-----------------------------------------------------------------------------
-# Test Class for get_customization_request_by_id
-#-----------------------------------------------------------------------------
 class TestGetCustomizationRequestById():
+    """
+    Test Class for get_customization_request_by_id
+    """
 
-    #--------------------------------------------------------
-    # get_customization_request_by_id()
-    #--------------------------------------------------------
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     @responses.activate
     def test_get_customization_request_by_id_all_params(self):
+        """
+        get_customization_request_by_id()
+        """
         # Set up mock
-        url = base_url + '/v2/analytics_engines/testString/customization_requests/testString'
+        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/customization_requests/testString')
         mock_response = '{"id": "id", "run_status": "run_status", "run_details": {"overall_status": "overall_status", "details": [{"node_name": "node_name", "node_type": "node_type", "start_time": "start_time", "end_time": "end_time", "time_taken": "time_taken", "status": "status", "log_file": "log_file"}]}}'
         responses.add(responses.GET,
                       url,
@@ -365,7 +465,7 @@ class TestGetCustomizationRequestById():
         request_id = 'testString'
 
         # Invoke method
-        response = service.get_customization_request_by_id(
+        response = _service.get_customization_request_by_id(
             instance_guid,
             request_id,
             headers={}
@@ -376,13 +476,13 @@ class TestGetCustomizationRequestById():
         assert response.status_code == 200
 
 
-    #--------------------------------------------------------
-    # test_get_customization_request_by_id_value_error()
-    #--------------------------------------------------------
     @responses.activate
     def test_get_customization_request_by_id_value_error(self):
+        """
+        test_get_customization_request_by_id_value_error()
+        """
         # Set up mock
-        url = base_url + '/v2/analytics_engines/testString/customization_requests/testString'
+        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/customization_requests/testString')
         mock_response = '{"id": "id", "run_status": "run_status", "run_details": {"overall_status": "overall_status", "details": [{"node_name": "node_name", "node_type": "node_type", "start_time": "start_time", "end_time": "end_time", "time_taken": "time_taken", "status": "status", "log_file": "log_file"}]}}'
         responses.add(responses.GET,
                       url,
@@ -402,22 +502,33 @@ class TestGetCustomizationRequestById():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_customization_request_by_id(**req_copy)
+                _service.get_customization_request_by_id(**req_copy)
 
 
 
-#-----------------------------------------------------------------------------
-# Test Class for resize_cluster
-#-----------------------------------------------------------------------------
 class TestResizeCluster():
+    """
+    Test Class for resize_cluster
+    """
 
-    #--------------------------------------------------------
-    # resize_cluster()
-    #--------------------------------------------------------
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     @responses.activate
     def test_resize_cluster_all_params(self):
+        """
+        resize_cluster()
+        """
         # Set up mock
-        url = base_url + '/v2/analytics_engines/testString/resize'
+        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/resize')
         mock_response = '{"request_id": "request_id"}'
         responses.add(responses.POST,
                       url,
@@ -425,14 +536,18 @@ class TestResizeCluster():
                       content_type='application/json',
                       status=200)
 
+        # Construct a dict representation of a ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest model
+        resize_cluster_request_model = {}
+        resize_cluster_request_model['compute_nodes_count'] = 38
+
         # Set up parameter values
         instance_guid = 'testString'
-        compute_nodes_count = 38
+        body = resize_cluster_request_model
 
         # Invoke method
-        response = service.resize_cluster(
+        response = _service.resize_cluster(
             instance_guid,
-            compute_nodes_count=compute_nodes_count,
+            body,
             headers={}
         )
 
@@ -441,16 +556,16 @@ class TestResizeCluster():
         assert response.status_code == 200
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body['compute_nodes_count'] == 38
+        assert req_body == body
 
 
-    #--------------------------------------------------------
-    # test_resize_cluster_value_error()
-    #--------------------------------------------------------
     @responses.activate
     def test_resize_cluster_value_error(self):
+        """
+        test_resize_cluster_value_error()
+        """
         # Set up mock
-        url = base_url + '/v2/analytics_engines/testString/resize'
+        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/resize')
         mock_response = '{"request_id": "request_id"}'
         responses.add(responses.POST,
                       url,
@@ -458,33 +573,49 @@ class TestResizeCluster():
                       content_type='application/json',
                       status=200)
 
+        # Construct a dict representation of a ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest model
+        resize_cluster_request_model = {}
+        resize_cluster_request_model['compute_nodes_count'] = 38
+
         # Set up parameter values
         instance_guid = 'testString'
-        compute_nodes_count = 38
+        body = resize_cluster_request_model
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
             "instance_guid": instance_guid,
+            "body": body,
         }
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.resize_cluster(**req_copy)
+                _service.resize_cluster(**req_copy)
 
 
 
-#-----------------------------------------------------------------------------
-# Test Class for reset_cluster_password
-#-----------------------------------------------------------------------------
 class TestResetClusterPassword():
+    """
+    Test Class for reset_cluster_password
+    """
 
-    #--------------------------------------------------------
-    # reset_cluster_password()
-    #--------------------------------------------------------
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     @responses.activate
     def test_reset_cluster_password_all_params(self):
+        """
+        reset_cluster_password()
+        """
         # Set up mock
-        url = base_url + '/v2/analytics_engines/testString/reset_password'
+        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/reset_password')
         mock_response = '{"id": "id", "user_credentials": {"user": "user", "password": "password"}}'
         responses.add(responses.POST,
                       url,
@@ -496,7 +627,7 @@ class TestResetClusterPassword():
         instance_guid = 'testString'
 
         # Invoke method
-        response = service.reset_cluster_password(
+        response = _service.reset_cluster_password(
             instance_guid,
             headers={}
         )
@@ -506,13 +637,13 @@ class TestResetClusterPassword():
         assert response.status_code == 200
 
 
-    #--------------------------------------------------------
-    # test_reset_cluster_password_value_error()
-    #--------------------------------------------------------
     @responses.activate
     def test_reset_cluster_password_value_error(self):
+        """
+        test_reset_cluster_password_value_error()
+        """
         # Set up mock
-        url = base_url + '/v2/analytics_engines/testString/reset_password'
+        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/reset_password')
         mock_response = '{"id": "id", "user_credentials": {"user": "user", "password": "password"}}'
         responses.add(responses.POST,
                       url,
@@ -530,22 +661,33 @@ class TestResetClusterPassword():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.reset_cluster_password(**req_copy)
+                _service.reset_cluster_password(**req_copy)
 
 
 
-#-----------------------------------------------------------------------------
-# Test Class for configure_logging
-#-----------------------------------------------------------------------------
 class TestConfigureLogging():
+    """
+    Test Class for configure_logging
+    """
 
-    #--------------------------------------------------------
-    # configure_logging()
-    #--------------------------------------------------------
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     @responses.activate
     def test_configure_logging_all_params(self):
+        """
+        configure_logging()
+        """
         # Set up mock
-        url = base_url + '/v2/analytics_engines/testString/log_config'
+        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/log_config')
         responses.add(responses.PUT,
                       url,
                       status=202)
@@ -569,7 +711,7 @@ class TestConfigureLogging():
         log_server = analytics_engine_logging_server_model
 
         # Invoke method
-        response = service.configure_logging(
+        response = _service.configure_logging(
             instance_guid,
             log_specs,
             log_server,
@@ -585,13 +727,13 @@ class TestConfigureLogging():
         assert req_body['log_server'] == analytics_engine_logging_server_model
 
 
-    #--------------------------------------------------------
-    # test_configure_logging_value_error()
-    #--------------------------------------------------------
     @responses.activate
     def test_configure_logging_value_error(self):
+        """
+        test_configure_logging_value_error()
+        """
         # Set up mock
-        url = base_url + '/v2/analytics_engines/testString/log_config'
+        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/log_config')
         responses.add(responses.PUT,
                       url,
                       status=202)
@@ -623,22 +765,33 @@ class TestConfigureLogging():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.configure_logging(**req_copy)
+                _service.configure_logging(**req_copy)
 
 
 
-#-----------------------------------------------------------------------------
-# Test Class for get_logging_config
-#-----------------------------------------------------------------------------
 class TestGetLoggingConfig():
+    """
+    Test Class for get_logging_config
+    """
 
-    #--------------------------------------------------------
-    # get_logging_config()
-    #--------------------------------------------------------
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     @responses.activate
     def test_get_logging_config_all_params(self):
+        """
+        get_logging_config()
+        """
         # Set up mock
-        url = base_url + '/v2/analytics_engines/testString/log_config'
+        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/log_config')
         mock_response = '{"log_specs": [{"node_type": "management", "components": ["ambari-server"]}], "log_server": {"type": "logdna", "credential": "credential", "api_host": "api_host", "log_host": "log_host", "owner": "owner"}, "log_config_status": [{"node_type": "management", "node_id": "node_id", "action": "action", "status": "status"}]}'
         responses.add(responses.GET,
                       url,
@@ -650,7 +803,7 @@ class TestGetLoggingConfig():
         instance_guid = 'testString'
 
         # Invoke method
-        response = service.get_logging_config(
+        response = _service.get_logging_config(
             instance_guid,
             headers={}
         )
@@ -660,13 +813,13 @@ class TestGetLoggingConfig():
         assert response.status_code == 200
 
 
-    #--------------------------------------------------------
-    # test_get_logging_config_value_error()
-    #--------------------------------------------------------
     @responses.activate
     def test_get_logging_config_value_error(self):
+        """
+        test_get_logging_config_value_error()
+        """
         # Set up mock
-        url = base_url + '/v2/analytics_engines/testString/log_config'
+        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/log_config')
         mock_response = '{"log_specs": [{"node_type": "management", "components": ["ambari-server"]}], "log_server": {"type": "logdna", "credential": "credential", "api_host": "api_host", "log_host": "log_host", "owner": "owner"}, "log_config_status": [{"node_type": "management", "node_id": "node_id", "action": "action", "status": "status"}]}'
         responses.add(responses.GET,
                       url,
@@ -684,22 +837,33 @@ class TestGetLoggingConfig():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_logging_config(**req_copy)
+                _service.get_logging_config(**req_copy)
 
 
 
-#-----------------------------------------------------------------------------
-# Test Class for delete_logging_config
-#-----------------------------------------------------------------------------
 class TestDeleteLoggingConfig():
+    """
+    Test Class for delete_logging_config
+    """
 
-    #--------------------------------------------------------
-    # delete_logging_config()
-    #--------------------------------------------------------
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     @responses.activate
     def test_delete_logging_config_all_params(self):
+        """
+        delete_logging_config()
+        """
         # Set up mock
-        url = base_url + '/v2/analytics_engines/testString/log_config'
+        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/log_config')
         responses.add(responses.DELETE,
                       url,
                       status=202)
@@ -708,7 +872,7 @@ class TestDeleteLoggingConfig():
         instance_guid = 'testString'
 
         # Invoke method
-        response = service.delete_logging_config(
+        response = _service.delete_logging_config(
             instance_guid,
             headers={}
         )
@@ -718,13 +882,13 @@ class TestDeleteLoggingConfig():
         assert response.status_code == 202
 
 
-    #--------------------------------------------------------
-    # test_delete_logging_config_value_error()
-    #--------------------------------------------------------
     @responses.activate
     def test_delete_logging_config_value_error(self):
+        """
+        test_delete_logging_config_value_error()
+        """
         # Set up mock
-        url = base_url + '/v2/analytics_engines/testString/log_config'
+        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/log_config')
         responses.add(responses.DELETE,
                       url,
                       status=202)
@@ -739,22 +903,33 @@ class TestDeleteLoggingConfig():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.delete_logging_config(**req_copy)
+                _service.delete_logging_config(**req_copy)
 
 
 
-#-----------------------------------------------------------------------------
-# Test Class for update_private_endpoint_whitelist
-#-----------------------------------------------------------------------------
 class TestUpdatePrivateEndpointWhitelist():
+    """
+    Test Class for update_private_endpoint_whitelist
+    """
 
-    #--------------------------------------------------------
-    # update_private_endpoint_whitelist()
-    #--------------------------------------------------------
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     @responses.activate
     def test_update_private_endpoint_whitelist_all_params(self):
+        """
+        update_private_endpoint_whitelist()
+        """
         # Set up mock
-        url = base_url + '/v2/analytics_engines/testString/private_endpoint_whitelist'
+        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/private_endpoint_whitelist')
         mock_response = '{"private_endpoint_whitelist": ["private_endpoint_whitelist"]}'
         responses.add(responses.PATCH,
                       url,
@@ -768,7 +943,7 @@ class TestUpdatePrivateEndpointWhitelist():
         action = 'add'
 
         # Invoke method
-        response = service.update_private_endpoint_whitelist(
+        response = _service.update_private_endpoint_whitelist(
             instance_guid,
             ip_ranges,
             action,
@@ -784,13 +959,13 @@ class TestUpdatePrivateEndpointWhitelist():
         assert req_body['action'] == 'add'
 
 
-    #--------------------------------------------------------
-    # test_update_private_endpoint_whitelist_value_error()
-    #--------------------------------------------------------
     @responses.activate
     def test_update_private_endpoint_whitelist_value_error(self):
+        """
+        test_update_private_endpoint_whitelist_value_error()
+        """
         # Set up mock
-        url = base_url + '/v2/analytics_engines/testString/private_endpoint_whitelist'
+        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/private_endpoint_whitelist')
         mock_response = '{"private_endpoint_whitelist": ["private_endpoint_whitelist"]}'
         responses.add(responses.PATCH,
                       url,
@@ -812,13 +987,13 @@ class TestUpdatePrivateEndpointWhitelist():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.update_private_endpoint_whitelist(**req_copy)
+                _service.update_private_endpoint_whitelist(**req_copy)
 
 
 
 # endregion
 ##############################################################################
-# End of Service: AnalyticsEngines
+# End of Service: AnalyticsEnginesV2
 ##############################################################################
 
 
@@ -826,27 +1001,27 @@ class TestUpdatePrivateEndpointWhitelist():
 # Start of Model Tests
 ##############################################################################
 # region
-#-----------------------------------------------------------------------------
-# Test Class for AnalyticsEngine
-#-----------------------------------------------------------------------------
-class TestAnalyticsEngine():
+class TestModel_AnalyticsEngine():
+    """
+    Test Class for AnalyticsEngine
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for AnalyticsEngine
-    #--------------------------------------------------------
     def test_analytics_engine_serialization(self):
+        """
+        Test serialization/deserialization for AnalyticsEngine
+        """
 
         # Construct dict forms of any model objects needed in order to build this model.
 
         analytics_engine_cluster_node_model = {} # AnalyticsEngineClusterNode
-        analytics_engine_cluster_node_model['id'] = 36.0
+        analytics_engine_cluster_node_model['id'] = 38
         analytics_engine_cluster_node_model['fqdn'] = 'testString'
         analytics_engine_cluster_node_model['type'] = 'testString'
         analytics_engine_cluster_node_model['state'] = 'testString'
         analytics_engine_cluster_node_model['public_ip'] = 'testString'
         analytics_engine_cluster_node_model['private_ip'] = 'testString'
-        analytics_engine_cluster_node_model['state_change_time'] = '2020-01-28T18:40:40.123456Z'
-        analytics_engine_cluster_node_model['commission_time'] = '2020-01-28T18:40:40.123456Z'
+        analytics_engine_cluster_node_model['state_change_time'] = "2019-01-01T12:00:00Z"
+        analytics_engine_cluster_node_model['commission_time'] = "2019-01-01T12:00:00Z"
 
         analytics_engine_user_credentials_model = {} # AnalyticsEngineUserCredentials
         analytics_engine_user_credentials_model['user'] = 'testString'
@@ -872,11 +1047,11 @@ class TestAnalyticsEngine():
         analytics_engine_model_json['hardware_size'] = 'testString'
         analytics_engine_model_json['software_package'] = 'testString'
         analytics_engine_model_json['domain'] = 'testString'
-        analytics_engine_model_json['creation_time'] = '2020-01-28T18:40:40.123456Z'
-        analytics_engine_model_json['commision_time'] = '2020-01-28T18:40:40.123456Z'
-        analytics_engine_model_json['decommision_time'] = '2020-01-28T18:40:40.123456Z'
-        analytics_engine_model_json['deletion_time'] = '2020-01-28T18:40:40.123456Z'
-        analytics_engine_model_json['state_change_time'] = '2020-01-28T18:40:40.123456Z'
+        analytics_engine_model_json['creation_time'] = "2019-01-01T12:00:00Z"
+        analytics_engine_model_json['commision_time'] = "2019-01-01T12:00:00Z"
+        analytics_engine_model_json['decommision_time'] = "2019-01-01T12:00:00Z"
+        analytics_engine_model_json['deletion_time'] = "2019-01-01T12:00:00Z"
+        analytics_engine_model_json['state_change_time'] = "2019-01-01T12:00:00Z"
         analytics_engine_model_json['state'] = 'testString'
         analytics_engine_model_json['nodes'] = [analytics_engine_cluster_node_model]
         analytics_engine_model_json['user_credentials'] = analytics_engine_user_credentials_model
@@ -899,26 +1074,26 @@ class TestAnalyticsEngine():
         analytics_engine_model_json2 = analytics_engine_model.to_dict()
         assert analytics_engine_model_json2 == analytics_engine_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for AnalyticsEngineClusterNode
-#-----------------------------------------------------------------------------
-class TestAnalyticsEngineClusterNode():
+class TestModel_AnalyticsEngineClusterNode():
+    """
+    Test Class for AnalyticsEngineClusterNode
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for AnalyticsEngineClusterNode
-    #--------------------------------------------------------
     def test_analytics_engine_cluster_node_serialization(self):
+        """
+        Test serialization/deserialization for AnalyticsEngineClusterNode
+        """
 
         # Construct a json representation of a AnalyticsEngineClusterNode model
         analytics_engine_cluster_node_model_json = {}
-        analytics_engine_cluster_node_model_json['id'] = 36.0
+        analytics_engine_cluster_node_model_json['id'] = 38
         analytics_engine_cluster_node_model_json['fqdn'] = 'testString'
         analytics_engine_cluster_node_model_json['type'] = 'testString'
         analytics_engine_cluster_node_model_json['state'] = 'testString'
         analytics_engine_cluster_node_model_json['public_ip'] = 'testString'
         analytics_engine_cluster_node_model_json['private_ip'] = 'testString'
-        analytics_engine_cluster_node_model_json['state_change_time'] = '2020-01-28T18:40:40.123456Z'
-        analytics_engine_cluster_node_model_json['commission_time'] = '2020-01-28T18:40:40.123456Z'
+        analytics_engine_cluster_node_model_json['state_change_time'] = "2019-01-01T12:00:00Z"
+        analytics_engine_cluster_node_model_json['commission_time'] = "2019-01-01T12:00:00Z"
 
         # Construct a model instance of AnalyticsEngineClusterNode by calling from_dict on the json representation
         analytics_engine_cluster_node_model = AnalyticsEngineClusterNode.from_dict(analytics_engine_cluster_node_model_json)
@@ -935,19 +1110,19 @@ class TestAnalyticsEngineClusterNode():
         analytics_engine_cluster_node_model_json2 = analytics_engine_cluster_node_model.to_dict()
         assert analytics_engine_cluster_node_model_json2 == analytics_engine_cluster_node_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for AnalyticsEngineCreateCustomizationResponse
-#-----------------------------------------------------------------------------
-class TestAnalyticsEngineCreateCustomizationResponse():
+class TestModel_AnalyticsEngineCreateCustomizationResponse():
+    """
+    Test Class for AnalyticsEngineCreateCustomizationResponse
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for AnalyticsEngineCreateCustomizationResponse
-    #--------------------------------------------------------
     def test_analytics_engine_create_customization_response_serialization(self):
+        """
+        Test serialization/deserialization for AnalyticsEngineCreateCustomizationResponse
+        """
 
         # Construct a json representation of a AnalyticsEngineCreateCustomizationResponse model
         analytics_engine_create_customization_response_model_json = {}
-        analytics_engine_create_customization_response_model_json['request_id'] = 36.0
+        analytics_engine_create_customization_response_model_json['request_id'] = 38
 
         # Construct a model instance of AnalyticsEngineCreateCustomizationResponse by calling from_dict on the json representation
         analytics_engine_create_customization_response_model = AnalyticsEngineCreateCustomizationResponse.from_dict(analytics_engine_create_customization_response_model_json)
@@ -964,15 +1139,15 @@ class TestAnalyticsEngineCreateCustomizationResponse():
         analytics_engine_create_customization_response_model_json2 = analytics_engine_create_customization_response_model.to_dict()
         assert analytics_engine_create_customization_response_model_json2 == analytics_engine_create_customization_response_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for AnalyticsEngineCustomAction
-#-----------------------------------------------------------------------------
-class TestAnalyticsEngineCustomAction():
+class TestModel_AnalyticsEngineCustomAction():
+    """
+    Test Class for AnalyticsEngineCustomAction
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for AnalyticsEngineCustomAction
-    #--------------------------------------------------------
     def test_analytics_engine_custom_action_serialization(self):
+        """
+        Test serialization/deserialization for AnalyticsEngineCustomAction
+        """
 
         # Construct dict forms of any model objects needed in order to build this model.
 
@@ -1003,15 +1178,15 @@ class TestAnalyticsEngineCustomAction():
         analytics_engine_custom_action_model_json2 = analytics_engine_custom_action_model.to_dict()
         assert analytics_engine_custom_action_model_json2 == analytics_engine_custom_action_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for AnalyticsEngineCustomActionScript
-#-----------------------------------------------------------------------------
-class TestAnalyticsEngineCustomActionScript():
+class TestModel_AnalyticsEngineCustomActionScript():
+    """
+    Test Class for AnalyticsEngineCustomActionScript
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for AnalyticsEngineCustomActionScript
-    #--------------------------------------------------------
     def test_analytics_engine_custom_action_script_serialization(self):
+        """
+        Test serialization/deserialization for AnalyticsEngineCustomActionScript
+        """
 
         # Construct a json representation of a AnalyticsEngineCustomActionScript model
         analytics_engine_custom_action_script_model_json = {}
@@ -1034,15 +1209,15 @@ class TestAnalyticsEngineCustomActionScript():
         analytics_engine_custom_action_script_model_json2 = analytics_engine_custom_action_script_model.to_dict()
         assert analytics_engine_custom_action_script_model_json2 == analytics_engine_custom_action_script_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for AnalyticsEngineCustomizationRequestCollectionItem
-#-----------------------------------------------------------------------------
-class TestAnalyticsEngineCustomizationRequestCollectionItem():
+class TestModel_AnalyticsEngineCustomizationRequestCollectionItem():
+    """
+    Test Class for AnalyticsEngineCustomizationRequestCollectionItem
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for AnalyticsEngineCustomizationRequestCollectionItem
-    #--------------------------------------------------------
     def test_analytics_engine_customization_request_collection_item_serialization(self):
+        """
+        Test serialization/deserialization for AnalyticsEngineCustomizationRequestCollectionItem
+        """
 
         # Construct a json representation of a AnalyticsEngineCustomizationRequestCollectionItem model
         analytics_engine_customization_request_collection_item_model_json = {}
@@ -1063,15 +1238,15 @@ class TestAnalyticsEngineCustomizationRequestCollectionItem():
         analytics_engine_customization_request_collection_item_model_json2 = analytics_engine_customization_request_collection_item_model.to_dict()
         assert analytics_engine_customization_request_collection_item_model_json2 == analytics_engine_customization_request_collection_item_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for AnalyticsEngineCustomizationRunDetails
-#-----------------------------------------------------------------------------
-class TestAnalyticsEngineCustomizationRunDetails():
+class TestModel_AnalyticsEngineCustomizationRunDetails():
+    """
+    Test Class for AnalyticsEngineCustomizationRunDetails
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for AnalyticsEngineCustomizationRunDetails
-    #--------------------------------------------------------
     def test_analytics_engine_customization_run_details_serialization(self):
+        """
+        Test serialization/deserialization for AnalyticsEngineCustomizationRunDetails
+        """
 
         # Construct dict forms of any model objects needed in order to build this model.
 
@@ -1109,15 +1284,15 @@ class TestAnalyticsEngineCustomizationRunDetails():
         analytics_engine_customization_run_details_model_json2 = analytics_engine_customization_run_details_model.to_dict()
         assert analytics_engine_customization_run_details_model_json2 == analytics_engine_customization_run_details_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for AnalyticsEngineCustomizationRunDetailsRunDetails
-#-----------------------------------------------------------------------------
-class TestAnalyticsEngineCustomizationRunDetailsRunDetails():
+class TestModel_AnalyticsEngineCustomizationRunDetailsRunDetails():
+    """
+    Test Class for AnalyticsEngineCustomizationRunDetailsRunDetails
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for AnalyticsEngineCustomizationRunDetailsRunDetails
-    #--------------------------------------------------------
     def test_analytics_engine_customization_run_details_run_details_serialization(self):
+        """
+        Test serialization/deserialization for AnalyticsEngineCustomizationRunDetailsRunDetails
+        """
 
         # Construct dict forms of any model objects needed in order to build this model.
 
@@ -1150,23 +1325,17 @@ class TestAnalyticsEngineCustomizationRunDetailsRunDetails():
         analytics_engine_customization_run_details_run_details_model_json2 = analytics_engine_customization_run_details_run_details_model.to_dict()
         assert analytics_engine_customization_run_details_run_details_model_json2 == analytics_engine_customization_run_details_run_details_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for AnalyticsEngineLoggingConfigDetails
-#-----------------------------------------------------------------------------
-class TestAnalyticsEngineLoggingConfigDetails():
+class TestModel_AnalyticsEngineLoggingConfigDetails():
+    """
+    Test Class for AnalyticsEngineLoggingConfigDetails
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for AnalyticsEngineLoggingConfigDetails
-    #--------------------------------------------------------
     def test_analytics_engine_logging_config_details_serialization(self):
+        """
+        Test serialization/deserialization for AnalyticsEngineLoggingConfigDetails
+        """
 
         # Construct dict forms of any model objects needed in order to build this model.
-
-        analytics_engine_logging_config_status_model = {} # AnalyticsEngineLoggingConfigStatus
-        analytics_engine_logging_config_status_model['node_type'] = 'management'
-        analytics_engine_logging_config_status_model['node_id'] = 'testString'
-        analytics_engine_logging_config_status_model['action'] = 'testString'
-        analytics_engine_logging_config_status_model['status'] = 'testString'
 
         analytics_engine_logging_node_spec_model = {} # AnalyticsEngineLoggingNodeSpec
         analytics_engine_logging_node_spec_model['node_type'] = 'management'
@@ -1178,6 +1347,12 @@ class TestAnalyticsEngineLoggingConfigDetails():
         analytics_engine_logging_server_model['api_host'] = 'testString'
         analytics_engine_logging_server_model['log_host'] = 'testString'
         analytics_engine_logging_server_model['owner'] = 'testString'
+
+        analytics_engine_logging_config_status_model = {} # AnalyticsEngineLoggingConfigStatus
+        analytics_engine_logging_config_status_model['node_type'] = 'management'
+        analytics_engine_logging_config_status_model['node_id'] = 'testString'
+        analytics_engine_logging_config_status_model['action'] = 'testString'
+        analytics_engine_logging_config_status_model['status'] = 'testString'
 
         # Construct a json representation of a AnalyticsEngineLoggingConfigDetails model
         analytics_engine_logging_config_details_model_json = {}
@@ -1200,15 +1375,15 @@ class TestAnalyticsEngineLoggingConfigDetails():
         analytics_engine_logging_config_details_model_json2 = analytics_engine_logging_config_details_model.to_dict()
         assert analytics_engine_logging_config_details_model_json2 == analytics_engine_logging_config_details_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for AnalyticsEngineLoggingConfigStatus
-#-----------------------------------------------------------------------------
-class TestAnalyticsEngineLoggingConfigStatus():
+class TestModel_AnalyticsEngineLoggingConfigStatus():
+    """
+    Test Class for AnalyticsEngineLoggingConfigStatus
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for AnalyticsEngineLoggingConfigStatus
-    #--------------------------------------------------------
     def test_analytics_engine_logging_config_status_serialization(self):
+        """
+        Test serialization/deserialization for AnalyticsEngineLoggingConfigStatus
+        """
 
         # Construct a json representation of a AnalyticsEngineLoggingConfigStatus model
         analytics_engine_logging_config_status_model_json = {}
@@ -1232,15 +1407,15 @@ class TestAnalyticsEngineLoggingConfigStatus():
         analytics_engine_logging_config_status_model_json2 = analytics_engine_logging_config_status_model.to_dict()
         assert analytics_engine_logging_config_status_model_json2 == analytics_engine_logging_config_status_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for AnalyticsEngineLoggingNodeSpec
-#-----------------------------------------------------------------------------
-class TestAnalyticsEngineLoggingNodeSpec():
+class TestModel_AnalyticsEngineLoggingNodeSpec():
+    """
+    Test Class for AnalyticsEngineLoggingNodeSpec
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for AnalyticsEngineLoggingNodeSpec
-    #--------------------------------------------------------
     def test_analytics_engine_logging_node_spec_serialization(self):
+        """
+        Test serialization/deserialization for AnalyticsEngineLoggingNodeSpec
+        """
 
         # Construct a json representation of a AnalyticsEngineLoggingNodeSpec model
         analytics_engine_logging_node_spec_model_json = {}
@@ -1262,15 +1437,15 @@ class TestAnalyticsEngineLoggingNodeSpec():
         analytics_engine_logging_node_spec_model_json2 = analytics_engine_logging_node_spec_model.to_dict()
         assert analytics_engine_logging_node_spec_model_json2 == analytics_engine_logging_node_spec_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for AnalyticsEngineLoggingServer
-#-----------------------------------------------------------------------------
-class TestAnalyticsEngineLoggingServer():
+class TestModel_AnalyticsEngineLoggingServer():
+    """
+    Test Class for AnalyticsEngineLoggingServer
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for AnalyticsEngineLoggingServer
-    #--------------------------------------------------------
     def test_analytics_engine_logging_server_serialization(self):
+        """
+        Test serialization/deserialization for AnalyticsEngineLoggingServer
+        """
 
         # Construct a json representation of a AnalyticsEngineLoggingServer model
         analytics_engine_logging_server_model_json = {}
@@ -1295,15 +1470,15 @@ class TestAnalyticsEngineLoggingServer():
         analytics_engine_logging_server_model_json2 = analytics_engine_logging_server_model.to_dict()
         assert analytics_engine_logging_server_model_json2 == analytics_engine_logging_server_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for AnalyticsEngineNodeLevelCustomizationRunDetails
-#-----------------------------------------------------------------------------
-class TestAnalyticsEngineNodeLevelCustomizationRunDetails():
+class TestModel_AnalyticsEngineNodeLevelCustomizationRunDetails():
+    """
+    Test Class for AnalyticsEngineNodeLevelCustomizationRunDetails
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for AnalyticsEngineNodeLevelCustomizationRunDetails
-    #--------------------------------------------------------
     def test_analytics_engine_node_level_customization_run_details_serialization(self):
+        """
+        Test serialization/deserialization for AnalyticsEngineNodeLevelCustomizationRunDetails
+        """
 
         # Construct a json representation of a AnalyticsEngineNodeLevelCustomizationRunDetails model
         analytics_engine_node_level_customization_run_details_model_json = {}
@@ -1330,15 +1505,15 @@ class TestAnalyticsEngineNodeLevelCustomizationRunDetails():
         analytics_engine_node_level_customization_run_details_model_json2 = analytics_engine_node_level_customization_run_details_model.to_dict()
         assert analytics_engine_node_level_customization_run_details_model_json2 == analytics_engine_node_level_customization_run_details_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for AnalyticsEngineResetClusterPasswordResponse
-#-----------------------------------------------------------------------------
-class TestAnalyticsEngineResetClusterPasswordResponse():
+class TestModel_AnalyticsEngineResetClusterPasswordResponse():
+    """
+    Test Class for AnalyticsEngineResetClusterPasswordResponse
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for AnalyticsEngineResetClusterPasswordResponse
-    #--------------------------------------------------------
     def test_analytics_engine_reset_cluster_password_response_serialization(self):
+        """
+        Test serialization/deserialization for AnalyticsEngineResetClusterPasswordResponse
+        """
 
         # Construct dict forms of any model objects needed in order to build this model.
 
@@ -1366,15 +1541,15 @@ class TestAnalyticsEngineResetClusterPasswordResponse():
         analytics_engine_reset_cluster_password_response_model_json2 = analytics_engine_reset_cluster_password_response_model.to_dict()
         assert analytics_engine_reset_cluster_password_response_model_json2 == analytics_engine_reset_cluster_password_response_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for AnalyticsEngineResetClusterPasswordResponseUserCredentials
-#-----------------------------------------------------------------------------
-class TestAnalyticsEngineResetClusterPasswordResponseUserCredentials():
+class TestModel_AnalyticsEngineResetClusterPasswordResponseUserCredentials():
+    """
+    Test Class for AnalyticsEngineResetClusterPasswordResponseUserCredentials
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for AnalyticsEngineResetClusterPasswordResponseUserCredentials
-    #--------------------------------------------------------
     def test_analytics_engine_reset_cluster_password_response_user_credentials_serialization(self):
+        """
+        Test serialization/deserialization for AnalyticsEngineResetClusterPasswordResponseUserCredentials
+        """
 
         # Construct a json representation of a AnalyticsEngineResetClusterPasswordResponseUserCredentials model
         analytics_engine_reset_cluster_password_response_user_credentials_model_json = {}
@@ -1396,15 +1571,15 @@ class TestAnalyticsEngineResetClusterPasswordResponseUserCredentials():
         analytics_engine_reset_cluster_password_response_user_credentials_model_json2 = analytics_engine_reset_cluster_password_response_user_credentials_model.to_dict()
         assert analytics_engine_reset_cluster_password_response_user_credentials_model_json2 == analytics_engine_reset_cluster_password_response_user_credentials_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for AnalyticsEngineResizeClusterResponse
-#-----------------------------------------------------------------------------
-class TestAnalyticsEngineResizeClusterResponse():
+class TestModel_AnalyticsEngineResizeClusterResponse():
+    """
+    Test Class for AnalyticsEngineResizeClusterResponse
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for AnalyticsEngineResizeClusterResponse
-    #--------------------------------------------------------
     def test_analytics_engine_resize_cluster_response_serialization(self):
+        """
+        Test serialization/deserialization for AnalyticsEngineResizeClusterResponse
+        """
 
         # Construct a json representation of a AnalyticsEngineResizeClusterResponse model
         analytics_engine_resize_cluster_response_model_json = {}
@@ -1425,15 +1600,15 @@ class TestAnalyticsEngineResizeClusterResponse():
         analytics_engine_resize_cluster_response_model_json2 = analytics_engine_resize_cluster_response_model.to_dict()
         assert analytics_engine_resize_cluster_response_model_json2 == analytics_engine_resize_cluster_response_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for AnalyticsEngineState
-#-----------------------------------------------------------------------------
-class TestAnalyticsEngineState():
+class TestModel_AnalyticsEngineState():
+    """
+    Test Class for AnalyticsEngineState
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for AnalyticsEngineState
-    #--------------------------------------------------------
     def test_analytics_engine_state_serialization(self):
+        """
+        Test serialization/deserialization for AnalyticsEngineState
+        """
 
         # Construct a json representation of a AnalyticsEngineState model
         analytics_engine_state_model_json = {}
@@ -1454,15 +1629,15 @@ class TestAnalyticsEngineState():
         analytics_engine_state_model_json2 = analytics_engine_state_model.to_dict()
         assert analytics_engine_state_model_json2 == analytics_engine_state_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for AnalyticsEngineUserCredentials
-#-----------------------------------------------------------------------------
-class TestAnalyticsEngineUserCredentials():
+class TestModel_AnalyticsEngineUserCredentials():
+    """
+    Test Class for AnalyticsEngineUserCredentials
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for AnalyticsEngineUserCredentials
-    #--------------------------------------------------------
     def test_analytics_engine_user_credentials_serialization(self):
+        """
+        Test serialization/deserialization for AnalyticsEngineUserCredentials
+        """
 
         # Construct a json representation of a AnalyticsEngineUserCredentials model
         analytics_engine_user_credentials_model_json = {}
@@ -1483,15 +1658,15 @@ class TestAnalyticsEngineUserCredentials():
         analytics_engine_user_credentials_model_json2 = analytics_engine_user_credentials_model.to_dict()
         assert analytics_engine_user_credentials_model_json2 == analytics_engine_user_credentials_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for AnalyticsEngineWhitelistResponse
-#-----------------------------------------------------------------------------
-class TestAnalyticsEngineWhitelistResponse():
+class TestModel_AnalyticsEngineWhitelistResponse():
+    """
+    Test Class for AnalyticsEngineWhitelistResponse
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for AnalyticsEngineWhitelistResponse
-    #--------------------------------------------------------
     def test_analytics_engine_whitelist_response_serialization(self):
+        """
+        Test serialization/deserialization for AnalyticsEngineWhitelistResponse
+        """
 
         # Construct a json representation of a AnalyticsEngineWhitelistResponse model
         analytics_engine_whitelist_response_model_json = {}
@@ -1512,15 +1687,15 @@ class TestAnalyticsEngineWhitelistResponse():
         analytics_engine_whitelist_response_model_json2 = analytics_engine_whitelist_response_model.to_dict()
         assert analytics_engine_whitelist_response_model_json2 == analytics_engine_whitelist_response_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for ServiceEndpoints
-#-----------------------------------------------------------------------------
-class TestServiceEndpoints():
+class TestModel_ServiceEndpoints():
+    """
+    Test Class for ServiceEndpoints
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for ServiceEndpoints
-    #--------------------------------------------------------
     def test_service_endpoints_serialization(self):
+        """
+        Test serialization/deserialization for ServiceEndpoints
+        """
 
         # Construct a json representation of a ServiceEndpoints model
         service_endpoints_model_json = {}
@@ -1550,6 +1725,64 @@ class TestServiceEndpoints():
         # Convert model instance back to dict and verify no loss of data
         service_endpoints_model_json2 = service_endpoints_model.to_dict()
         assert service_endpoints_model_json2 == service_endpoints_model_json
+
+class TestModel_ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest():
+    """
+    Test Class for ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest
+    """
+
+    def test_resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_serialization(self):
+        """
+        Test serialization/deserialization for ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest
+        """
+
+        # Construct a json representation of a ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest model
+        resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model_json = {}
+        resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model_json['compute_nodes_count'] = 38
+
+        # Construct a model instance of ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest by calling from_dict on the json representation
+        resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model = ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest.from_dict(resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model_json)
+        assert resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model != False
+
+        # Construct a model instance of ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest by calling from_dict on the json representation
+        resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model_dict = ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest.from_dict(resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model_json).__dict__
+        resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model2 = ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest(**resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model_dict)
+
+        # Verify the model instances are equivalent
+        assert resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model == resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model_json2 = resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model.to_dict()
+        assert resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model_json2 == resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model_json
+
+class TestModel_ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest():
+    """
+    Test Class for ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest
+    """
+
+    def test_resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_serialization(self):
+        """
+        Test serialization/deserialization for ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest
+        """
+
+        # Construct a json representation of a ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest model
+        resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model_json = {}
+        resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model_json['task_nodes_count'] = 38
+
+        # Construct a model instance of ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest by calling from_dict on the json representation
+        resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model = ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest.from_dict(resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model_json)
+        assert resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model != False
+
+        # Construct a model instance of ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest by calling from_dict on the json representation
+        resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model_dict = ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest.from_dict(resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model_json).__dict__
+        resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model2 = ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest(**resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model_dict)
+
+        # Verify the model instances are equivalent
+        assert resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model == resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model_json2 = resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model.to_dict()
+        assert resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model_json2 == resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model_json
 
 
 # endregion

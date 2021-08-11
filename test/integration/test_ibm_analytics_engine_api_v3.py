@@ -20,7 +20,8 @@ Integration Tests for IbmAnalyticsEngineApiV3
 import os
 import pytest
 from ibm_cloud_sdk_core import *
-from iaesdk.ibm_analytics_engine_api_v3 import *
+#from iaesdk.ibm_analytics_engine_api_v3 import *
+from .ibm_analytics_engine_api_v3 import IbmAnalyticsEngineApiV3
 
 # Config file name
 config_file = 'ibmanalyticsengine-service.env'
@@ -88,7 +89,9 @@ class TestIbmAnalyticsEngineApiV3():
     @needscredentials
     def test_get_applications(self):
 
-        get_applications_response = self.ibm_analytics_engine_api_service.get_applications(self.instance_guid)
+        get_applications_response = self.ibm_analytics_engine_api_service.get_applications(
+            self.instance_guid
+        )
 
         assert get_applications_response.get_status_code() == 200
         application_collection = get_applications_response.get_result()

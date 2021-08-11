@@ -19,8 +19,10 @@ Unit Tests for IbmAnalyticsEngineApiV3
 
 from datetime import datetime, timezone
 from ibm_cloud_sdk_core.authenticators.no_auth_authenticator import NoAuthAuthenticator
+from ibm_cloud_sdk_core.utils import datetime_to_string, string_to_datetime
 import inspect
 import json
+import os
 import pytest
 import re
 import responses
@@ -28,17 +30,43 @@ import urllib
 from iaesdk.ibm_analytics_engine_api_v3 import *
 
 
-service = IbmAnalyticsEngineApiV3(
+_service = IbmAnalyticsEngineApiV3(
     authenticator=NoAuthAuthenticator()
     )
 
-base_url = 'https://api.us-south.ae.cloud.ibm.com'
-service.set_service_url(base_url)
+_base_url = 'https://api.us-south.ae.cloud.ibm.com'
+_service.set_service_url(_base_url)
 
 ##############################################################################
 # Start of Service: AnalyticsEnginesV3
 ##############################################################################
 # region
+
+class TestNewInstance():
+    """
+    Test Class for new_instance
+    """
+
+    def test_new_instance(self):
+        """
+        new_instance()
+        """
+        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
+
+        service = IbmAnalyticsEngineApiV3.new_instance(
+            service_name='TEST_SERVICE',
+        )
+
+        assert service is not None
+        assert isinstance(service, IbmAnalyticsEngineApiV3)
+
+    def test_new_instance_without_authenticator(self):
+        """
+        new_instance_without_authenticator()
+        """
+        with pytest.raises(ValueError, match='authenticator must be provided'):
+            service = IbmAnalyticsEngineApiV3.new_instance(
+            )
 
 class TestGetInstanceById():
     """
@@ -49,6 +77,8 @@ class TestGetInstanceById():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -60,7 +90,7 @@ class TestGetInstanceById():
         get_instance_by_id()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/analytics_engines/testString')
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/testString')
         mock_response = '{"instance_id": "instance_id", "state": "created", "state_change_time": "2019-01-01T12:00:00.000Z", "default_runtime": {"spark_version": "spark_version", "additional_packages": ["additional_packages"]}, "instance_home": {"guid": "guid", "provider": "provider", "type": "type", "region": "region", "endpoint": "endpoint", "bucket": "bucket", "hmac_access_key": "hmac_access_key", "hmac_secret_key": "hmac_secret_key"}, "default_config": {"key": "key"}}'
         responses.add(responses.GET,
                       url,
@@ -72,7 +102,7 @@ class TestGetInstanceById():
         instance_id = 'testString'
 
         # Invoke method
-        response = service.get_instance_by_id(
+        response = _service.get_instance_by_id(
             instance_id,
             headers={}
         )
@@ -88,7 +118,7 @@ class TestGetInstanceById():
         test_get_instance_by_id_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/analytics_engines/testString')
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/testString')
         mock_response = '{"instance_id": "instance_id", "state": "created", "state_change_time": "2019-01-01T12:00:00.000Z", "default_runtime": {"spark_version": "spark_version", "additional_packages": ["additional_packages"]}, "instance_home": {"guid": "guid", "provider": "provider", "type": "type", "region": "region", "endpoint": "endpoint", "bucket": "bucket", "hmac_access_key": "hmac_access_key", "hmac_secret_key": "hmac_secret_key"}, "default_config": {"key": "key"}}'
         responses.add(responses.GET,
                       url,
@@ -106,7 +136,7 @@ class TestGetInstanceById():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_instance_by_id(**req_copy)
+                _service.get_instance_by_id(**req_copy)
 
 
 
@@ -119,6 +149,8 @@ class TestCreateApplication():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -130,7 +162,7 @@ class TestCreateApplication():
         create_application()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/analytics_engines/testString/spark/applications')
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/testString/spark/applications')
         mock_response = '{"application_id": "application_id", "state": "accepted", "start_time": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -151,7 +183,7 @@ class TestCreateApplication():
         application_details = application_request_application_details_model
 
         # Invoke method
-        response = service.create_application(
+        response = _service.create_application(
             instance_id,
             application_details=application_details,
             headers={}
@@ -171,7 +203,7 @@ class TestCreateApplication():
         test_create_application_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/analytics_engines/testString/spark/applications')
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/testString/spark/applications')
         mock_response = '{"application_id": "application_id", "state": "accepted", "start_time": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -198,7 +230,7 @@ class TestCreateApplication():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.create_application(**req_copy)
+                _service.create_application(**req_copy)
 
 
 
@@ -211,6 +243,8 @@ class TestGetApplications():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -222,7 +256,7 @@ class TestGetApplications():
         get_applications()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/analytics_engines/testString/spark/applications')
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/testString/spark/applications')
         mock_response = '{"applications": [{"application_id": "application_id", "spark_application_id": "spark_application_id", "state": "state", "start_time": "start_time", "finish_time": "finish_time"}]}'
         responses.add(responses.GET,
                       url,
@@ -234,7 +268,7 @@ class TestGetApplications():
         instance_id = 'testString'
 
         # Invoke method
-        response = service.get_applications(
+        response = _service.get_applications(
             instance_id,
             headers={}
         )
@@ -250,7 +284,7 @@ class TestGetApplications():
         test_get_applications_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/analytics_engines/testString/spark/applications')
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/testString/spark/applications')
         mock_response = '{"applications": [{"application_id": "application_id", "spark_application_id": "spark_application_id", "state": "state", "start_time": "start_time", "finish_time": "finish_time"}]}'
         responses.add(responses.GET,
                       url,
@@ -268,7 +302,7 @@ class TestGetApplications():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_applications(**req_copy)
+                _service.get_applications(**req_copy)
 
 
 
@@ -281,6 +315,8 @@ class TestGetApplicationById():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -292,8 +328,8 @@ class TestGetApplicationById():
         get_application_by_id()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/analytics_engines/testString/spark/applications/testString')
-        mock_response = '{"application_details": {"application_details": {"application": "application", "class": "class_", "application_arguments": ["application_arguments"], "conf": {"mapKey": {"anyKey": "anyValue"}}, "env": {"mapKey": {"anyKey": "anyValue"}}}}, "mode": "mode", "application_id": "application_id", "state": "state", "start_time": "start_time", "finish_time": "finish_time"}'
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/testString/spark/applications/testString')
+        mock_response = '{"application_details": {"application_details": {"application": "application", "class": "class_", "application_arguments": ["application_arguments"], "conf": {"mapKey": "anyValue"}, "env": {"mapKey": "anyValue"}}}, "mode": "mode", "application_id": "application_id", "state": "state", "start_time": "start_time", "finish_time": "finish_time"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -305,7 +341,7 @@ class TestGetApplicationById():
         application_id = 'testString'
 
         # Invoke method
-        response = service.get_application_by_id(
+        response = _service.get_application_by_id(
             instance_id,
             application_id,
             headers={}
@@ -322,8 +358,8 @@ class TestGetApplicationById():
         test_get_application_by_id_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/analytics_engines/testString/spark/applications/testString')
-        mock_response = '{"application_details": {"application_details": {"application": "application", "class": "class_", "application_arguments": ["application_arguments"], "conf": {"mapKey": {"anyKey": "anyValue"}}, "env": {"mapKey": {"anyKey": "anyValue"}}}}, "mode": "mode", "application_id": "application_id", "state": "state", "start_time": "start_time", "finish_time": "finish_time"}'
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/testString/spark/applications/testString')
+        mock_response = '{"application_details": {"application_details": {"application": "application", "class": "class_", "application_arguments": ["application_arguments"], "conf": {"mapKey": "anyValue"}, "env": {"mapKey": "anyValue"}}}, "mode": "mode", "application_id": "application_id", "state": "state", "start_time": "start_time", "finish_time": "finish_time"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -342,7 +378,7 @@ class TestGetApplicationById():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_application_by_id(**req_copy)
+                _service.get_application_by_id(**req_copy)
 
 
 
@@ -355,6 +391,8 @@ class TestDeleteApplicationById():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -366,7 +404,7 @@ class TestDeleteApplicationById():
         delete_application_by_id()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/analytics_engines/testString/spark/applications/testString')
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/testString/spark/applications/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -376,7 +414,7 @@ class TestDeleteApplicationById():
         application_id = 'testString'
 
         # Invoke method
-        response = service.delete_application_by_id(
+        response = _service.delete_application_by_id(
             instance_id,
             application_id,
             headers={}
@@ -393,7 +431,7 @@ class TestDeleteApplicationById():
         test_delete_application_by_id_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/analytics_engines/testString/spark/applications/testString')
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/testString/spark/applications/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -410,7 +448,7 @@ class TestDeleteApplicationById():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.delete_application_by_id(**req_copy)
+                _service.delete_application_by_id(**req_copy)
 
 
 
@@ -423,6 +461,8 @@ class TestGetApplicationState():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -434,7 +474,7 @@ class TestGetApplicationState():
         get_application_state()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/analytics_engines/testString/spark/applications/testString/state')
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/testString/spark/applications/testString/state')
         mock_response = '{"application_id": "application_id", "state": "state", "start_time": "start_time", "finish_time": "finish_time"}'
         responses.add(responses.GET,
                       url,
@@ -447,7 +487,7 @@ class TestGetApplicationState():
         application_id = 'testString'
 
         # Invoke method
-        response = service.get_application_state(
+        response = _service.get_application_state(
             instance_id,
             application_id,
             headers={}
@@ -464,7 +504,7 @@ class TestGetApplicationState():
         test_get_application_state_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/analytics_engines/testString/spark/applications/testString/state')
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/testString/spark/applications/testString/state')
         mock_response = '{"application_id": "application_id", "state": "state", "start_time": "start_time", "finish_time": "finish_time"}'
         responses.add(responses.GET,
                       url,
@@ -484,7 +524,7 @@ class TestGetApplicationState():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_application_state(**req_copy)
+                _service.get_application_state(**req_copy)
 
 
 
@@ -498,7 +538,7 @@ class TestGetApplicationState():
 # Start of Model Tests
 ##############################################################################
 # region
-class TestApplicationCollection():
+class TestModel_ApplicationCollection():
     """
     Test Class for ApplicationCollection
     """
@@ -536,7 +576,7 @@ class TestApplicationCollection():
         application_collection_model_json2 = application_collection_model.to_dict()
         assert application_collection_model_json2 == application_collection_model_json
 
-class TestApplicationDetails():
+class TestModel_ApplicationDetails():
     """
     Test Class for ApplicationDetails
     """
@@ -569,7 +609,7 @@ class TestApplicationDetails():
         application_details_model_json2 = application_details_model.to_dict()
         assert application_details_model_json2 == application_details_model_json
 
-class TestApplicationGetResponse():
+class TestModel_ApplicationGetResponse():
     """
     Test Class for ApplicationGetResponse
     """
@@ -615,7 +655,7 @@ class TestApplicationGetResponse():
         application_get_response_model_json2 = application_get_response_model.to_dict()
         assert application_get_response_model_json2 == application_get_response_model_json
 
-class TestApplicationGetStateResponse():
+class TestModel_ApplicationGetStateResponse():
     """
     Test Class for ApplicationGetStateResponse
     """
@@ -647,7 +687,7 @@ class TestApplicationGetStateResponse():
         application_get_state_response_model_json2 = application_get_state_response_model.to_dict()
         assert application_get_state_response_model_json2 == application_get_state_response_model_json
 
-class TestApplicationRequest():
+class TestModel_ApplicationRequest():
     """
     Test Class for ApplicationRequest
     """
@@ -685,7 +725,7 @@ class TestApplicationRequest():
         application_request_model_json2 = application_request_model.to_dict()
         assert application_request_model_json2 == application_request_model_json
 
-class TestApplicationRequestApplicationDetails():
+class TestModel_ApplicationRequestApplicationDetails():
     """
     Test Class for ApplicationRequestApplicationDetails
     """
@@ -718,7 +758,7 @@ class TestApplicationRequestApplicationDetails():
         application_request_application_details_model_json2 = application_request_application_details_model.to_dict()
         assert application_request_application_details_model_json2 == application_request_application_details_model_json
 
-class TestApplicationResponse():
+class TestModel_ApplicationResponse():
     """
     Test Class for ApplicationResponse
     """
@@ -732,7 +772,7 @@ class TestApplicationResponse():
         application_response_model_json = {}
         application_response_model_json['application_id'] = 'testString'
         application_response_model_json['state'] = 'accepted'
-        application_response_model_json['start_time'] = '2020-01-28T18:40:40.123456Z'
+        application_response_model_json['start_time'] = "2019-01-01T12:00:00Z"
 
         # Construct a model instance of ApplicationResponse by calling from_dict on the json representation
         application_response_model = ApplicationResponse.from_dict(application_response_model_json)
@@ -749,7 +789,7 @@ class TestApplicationResponse():
         application_response_model_json2 = application_response_model.to_dict()
         assert application_response_model_json2 == application_response_model_json
 
-class TestInstanceDetails():
+class TestModel_InstanceDetails():
     """
     Test Class for InstanceDetails
     """
@@ -782,7 +822,7 @@ class TestInstanceDetails():
         instance_details_model_json = {}
         instance_details_model_json['instance_id'] = 'testString'
         instance_details_model_json['state'] = 'created'
-        instance_details_model_json['state_change_time'] = '2020-01-28T18:40:40.123456Z'
+        instance_details_model_json['state_change_time'] = "2019-01-01T12:00:00Z"
         instance_details_model_json['default_runtime'] = instance_details_default_runtime_model
         instance_details_model_json['instance_home'] = instance_details_instance_home_model
         instance_details_model_json['default_config'] = instance_details_default_config_model
@@ -802,7 +842,7 @@ class TestInstanceDetails():
         instance_details_model_json2 = instance_details_model.to_dict()
         assert instance_details_model_json2 == instance_details_model_json
 
-class TestInstanceDetailsDefaultConfig():
+class TestModel_InstanceDetailsDefaultConfig():
     """
     Test Class for InstanceDetailsDefaultConfig
     """
@@ -831,7 +871,7 @@ class TestInstanceDetailsDefaultConfig():
         instance_details_default_config_model_json2 = instance_details_default_config_model.to_dict()
         assert instance_details_default_config_model_json2 == instance_details_default_config_model_json
 
-class TestInstanceDetailsDefaultRuntime():
+class TestModel_InstanceDetailsDefaultRuntime():
     """
     Test Class for InstanceDetailsDefaultRuntime
     """
@@ -861,7 +901,7 @@ class TestInstanceDetailsDefaultRuntime():
         instance_details_default_runtime_model_json2 = instance_details_default_runtime_model.to_dict()
         assert instance_details_default_runtime_model_json2 == instance_details_default_runtime_model_json
 
-class TestInstanceDetailsInstanceHome():
+class TestModel_InstanceDetailsInstanceHome():
     """
     Test Class for InstanceDetailsInstanceHome
     """

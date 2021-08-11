@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2020.
+# (C) Copyright IBM Corp. 2021.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# IBM OpenAPI SDK Code Generator Version: 3.37.0-a85661cd-20210802-190136
+ 
 """
 With IBM Analytics Engine you can create Apache Spark and Apache Hadoop clusters and
 customize these clusters by using scripts. You can work with data in IBM Cloud Object
@@ -40,7 +42,7 @@ from .common import get_sdk_headers
 class IbmAnalyticsEngineApiV2(BaseService):
     """The IBM Analytics Engine API V2 service."""
 
-    DEFAULT_SERVICE_URL = 'https://ibm-analytics-engine-api.cloud.ibm.com/'
+    DEFAULT_SERVICE_URL = 'https://ibm-analytics-engine-api.cloud.ibm.com'
     DEFAULT_SERVICE_NAME = 'ibm_analytics_engine_api'
 
     @classmethod
@@ -74,11 +76,13 @@ class IbmAnalyticsEngineApiV2(BaseService):
 
 
     #########################
-    # Analytics Engines
+    # Analytics Engines V2
     #########################
 
 
-    def get_all_analytics_engines(self, **kwargs) -> DetailedResponse:
+    def get_all_analytics_engines(self,
+        **kwargs
+    ) -> DetailedResponse:
         """
         List all Analytics Engines.
 
@@ -92,7 +96,9 @@ class IbmAnalyticsEngineApiV2(BaseService):
         """
 
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V2', operation_id='get_all_analytics_engines')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='get_all_analytics_engines')
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -103,11 +109,14 @@ class IbmAnalyticsEngineApiV2(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
-    def get_analytics_engine_by_id(self, instance_guid: str, **kwargs) -> DetailedResponse:
+    def get_analytics_engine_by_id(self,
+        instance_guid: str,
+        **kwargs
+    ) -> DetailedResponse:
         """
         Get details of Analytics Engine.
 
@@ -127,22 +136,31 @@ class IbmAnalyticsEngineApiV2(BaseService):
         if instance_guid is None:
             raise ValueError('instance_guid must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V2', operation_id='get_analytics_engine_by_id')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='get_analytics_engine_by_id')
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v2/analytics_engines/{0}'.format(*self.encode_path_vars(instance_guid))
+        path_param_keys = ['instance_guid']
+        path_param_values = self.encode_path_vars(instance_guid)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/analytics_engines/{instance_guid}'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
-    def get_analytics_engine_state_by_id(self, instance_guid: str, **kwargs) -> DetailedResponse:
+    def get_analytics_engine_state_by_id(self,
+        instance_guid: str,
+        **kwargs
+    ) -> DetailedResponse:
         """
         Get state of Analytics Engine.
 
@@ -164,22 +182,33 @@ class IbmAnalyticsEngineApiV2(BaseService):
         if instance_guid is None:
             raise ValueError('instance_guid must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V2', operation_id='get_analytics_engine_state_by_id')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='get_analytics_engine_state_by_id')
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v2/analytics_engines/{0}/state'.format(*self.encode_path_vars(instance_guid))
+        path_param_keys = ['instance_guid']
+        path_param_values = self.encode_path_vars(instance_guid)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/analytics_engines/{instance_guid}/state'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
-    def create_customization_request(self, instance_guid: str, target: str, custom_actions: List['AnalyticsEngineCustomAction'], **kwargs) -> DetailedResponse:
+    def create_customization_request(self,
+        instance_guid: str,
+        target: str,
+        custom_actions: List['AnalyticsEngineCustomAction'],
+        **kwargs
+    ) -> DetailedResponse:
         """
         Create an adhoc customization request.
 
@@ -202,9 +231,11 @@ class IbmAnalyticsEngineApiV2(BaseService):
             raise ValueError('target must be provided')
         if custom_actions is None:
             raise ValueError('custom_actions must be provided')
-        custom_actions = [ convert_model(x) for x in custom_actions ]
+        custom_actions = [convert_model(x) for x in custom_actions]
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V2', operation_id='create_customization_request')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='create_customization_request')
         headers.update(sdk_headers)
 
         data = {
@@ -217,18 +248,25 @@ class IbmAnalyticsEngineApiV2(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v2/analytics_engines/{0}/customization_requests'.format(*self.encode_path_vars(instance_guid))
+        path_param_keys = ['instance_guid']
+        path_param_values = self.encode_path_vars(instance_guid)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/analytics_engines/{instance_guid}/customization_requests'.format(**path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
-    def get_all_customization_requests(self, instance_guid: str, **kwargs) -> DetailedResponse:
+    def get_all_customization_requests(self,
+        instance_guid: str,
+        **kwargs
+    ) -> DetailedResponse:
         """
         Get all customization requests run on an Analytics Engine cluster.
 
@@ -244,22 +282,32 @@ class IbmAnalyticsEngineApiV2(BaseService):
         if instance_guid is None:
             raise ValueError('instance_guid must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V2', operation_id='get_all_customization_requests')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='get_all_customization_requests')
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v2/analytics_engines/{0}/customization_requests'.format(*self.encode_path_vars(instance_guid))
+        path_param_keys = ['instance_guid']
+        path_param_values = self.encode_path_vars(instance_guid)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/analytics_engines/{instance_guid}/customization_requests'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
-    def get_customization_request_by_id(self, instance_guid: str, request_id: str, **kwargs) -> DetailedResponse:
+    def get_customization_request_by_id(self,
+        instance_guid: str,
+        request_id: str,
+        **kwargs
+    ) -> DetailedResponse:
         """
         Retrieve details of specified customization request ID.
 
@@ -278,33 +326,51 @@ class IbmAnalyticsEngineApiV2(BaseService):
         if request_id is None:
             raise ValueError('request_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V2', operation_id='get_customization_request_by_id')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='get_customization_request_by_id')
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v2/analytics_engines/{0}/customization_requests/{1}'.format(*self.encode_path_vars(instance_guid, request_id))
+        path_param_keys = ['instance_guid', 'request_id']
+        path_param_values = self.encode_path_vars(instance_guid, request_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/analytics_engines/{instance_guid}/customization_requests/{request_id}'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
-    def resize_cluster(self, instance_guid: str, *, compute_nodes_count: int = None, **kwargs) -> DetailedResponse:
+    def resize_cluster(self,
+        instance_guid: str,
+        body: 'ResizeClusterRequest',
+        **kwargs
+    ) -> DetailedResponse:
         """
-        Add nodes to the cluster.
+        Resize the cluster.
 
-        Resizes the cluster by adding compute nodes.
-        **Note:** You can't resize the cluster if the software package on the cluster is
-        deprecated or if the software package doesn't permit cluster resizing. See
+        Resizes the cluster by adjusting the number of compute and task nodes. Task nodes
+        can be added and removed. Compute nodes, once added, can't be removed.
+        **Note:**
+         1. You can't modify the number of compute nodes and tasks nodes in the same
+        request.
+        2. You can't modify the number of task nodes if you enabled auto scaling when you
+        created the cluster.
+        3. Task nodes are not supported on Lite plan clusters.
+        4. You can't resize the cluster if the software package on the cluster is
+        deprecated or doesn't permit cluster resizing. See
         [here](https://cloud.ibm.com/docs/AnalyticsEngine?topic=AnalyticsEngine-unsupported-operations).
 
         :param str instance_guid: Service instance GUID.
-        :param int compute_nodes_count: (optional) Expected number of nodes in the
-               cluster after the resize operation.
+        :param ResizeClusterRequest body: Expected size of the cluster after the
+               resize operation. If the number of nodes in the cluster is 5 and you want
+               to add 2 nodes, specify 7.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `AnalyticsEngineResizeClusterResponse` object
@@ -312,31 +378,40 @@ class IbmAnalyticsEngineApiV2(BaseService):
 
         if instance_guid is None:
             raise ValueError('instance_guid must be provided')
+        if body is None:
+            raise ValueError('body must be provided')
+        if isinstance(body, ResizeClusterRequest):
+            body = convert_model(body)
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V2', operation_id='resize_cluster')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='resize_cluster')
         headers.update(sdk_headers)
 
-        data = {
-            'compute_nodes_count': compute_nodes_count
-        }
-        data = {k: v for (k, v) in data.items() if v is not None}
-        data = json.dumps(data)
+        data = json.dumps(body)
         headers['content-type'] = 'application/json'
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v2/analytics_engines/{0}/resize'.format(*self.encode_path_vars(instance_guid))
+        path_param_keys = ['instance_guid']
+        path_param_values = self.encode_path_vars(instance_guid)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/analytics_engines/{instance_guid}/resize'.format(**path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
-    def reset_cluster_password(self, instance_guid: str, **kwargs) -> DetailedResponse:
+    def reset_cluster_password(self,
+        instance_guid: str,
+        **kwargs
+    ) -> DetailedResponse:
         """
         Reset cluster password.
 
@@ -353,28 +428,39 @@ class IbmAnalyticsEngineApiV2(BaseService):
         if instance_guid is None:
             raise ValueError('instance_guid must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V2', operation_id='reset_cluster_password')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='reset_cluster_password')
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v2/analytics_engines/{0}/reset_password'.format(*self.encode_path_vars(instance_guid))
+        path_param_keys = ['instance_guid']
+        path_param_values = self.encode_path_vars(instance_guid)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/analytics_engines/{instance_guid}/reset_password'.format(**path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
-    def configure_logging(self, instance_guid: str, log_specs: List['AnalyticsEngineLoggingNodeSpec'], log_server: 'AnalyticsEngineLoggingServer', **kwargs) -> DetailedResponse:
+    def configure_logging(self,
+        instance_guid: str,
+        log_specs: List['AnalyticsEngineLoggingNodeSpec'],
+        log_server: 'AnalyticsEngineLoggingServer',
+        **kwargs
+    ) -> DetailedResponse:
         """
         Configure log aggregation.
 
         Collects the logs for the following components in an IBM Analytics Engine cluster:
         * IBM Analytics Engine daemon logs, for example those for Spark, Hive, Yarn, and
-        Knox on the management and data nodes
+        Knox on the management, data and task nodes
         * Yarn application job logs.
 
         :param str instance_guid: GUID of the service instance.
@@ -393,10 +479,12 @@ class IbmAnalyticsEngineApiV2(BaseService):
             raise ValueError('log_specs must be provided')
         if log_server is None:
             raise ValueError('log_server must be provided')
-        log_specs = [ convert_model(x) for x in log_specs ]
+        log_specs = [convert_model(x) for x in log_specs]
         log_server = convert_model(log_server)
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V2', operation_id='configure_logging')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='configure_logging')
         headers.update(sdk_headers)
 
         data = {
@@ -410,17 +498,23 @@ class IbmAnalyticsEngineApiV2(BaseService):
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
 
-        url = '/v2/analytics_engines/{0}/log_config'.format(*self.encode_path_vars(instance_guid))
+        path_param_keys = ['instance_guid']
+        path_param_values = self.encode_path_vars(instance_guid)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/analytics_engines/{instance_guid}/log_config'.format(**path_param_dict)
         request = self.prepare_request(method='PUT',
                                        url=url,
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
-    def get_logging_config(self, instance_guid: str, **kwargs) -> DetailedResponse:
+    def get_logging_config(self,
+        instance_guid: str,
+        **kwargs
+    ) -> DetailedResponse:
         """
         Retrieve the status of log configuration.
 
@@ -435,22 +529,31 @@ class IbmAnalyticsEngineApiV2(BaseService):
         if instance_guid is None:
             raise ValueError('instance_guid must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V2', operation_id='get_logging_config')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='get_logging_config')
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v2/analytics_engines/{0}/log_config'.format(*self.encode_path_vars(instance_guid))
+        path_param_keys = ['instance_guid']
+        path_param_values = self.encode_path_vars(instance_guid)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/analytics_engines/{instance_guid}/log_config'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
-    def delete_logging_config(self, instance_guid: str, **kwargs) -> DetailedResponse:
+    def delete_logging_config(self,
+        instance_guid: str,
+        **kwargs
+    ) -> DetailedResponse:
         """
         Delete the log configuration.
 
@@ -466,22 +569,32 @@ class IbmAnalyticsEngineApiV2(BaseService):
         if instance_guid is None:
             raise ValueError('instance_guid must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V2', operation_id='delete_logging_config')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='delete_logging_config')
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
 
-        url = '/v2/analytics_engines/{0}/log_config'.format(*self.encode_path_vars(instance_guid))
+        path_param_keys = ['instance_guid']
+        path_param_values = self.encode_path_vars(instance_guid)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/analytics_engines/{instance_guid}/log_config'.format(**path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
-    def update_private_endpoint_whitelist(self, instance_guid: str, ip_ranges: List[str], action: str, **kwargs) -> DetailedResponse:
+    def update_private_endpoint_whitelist(self,
+        instance_guid: str,
+        ip_ranges: List[str],
+        action: str,
+        **kwargs
+    ) -> DetailedResponse:
         """
         Update private endpoint whitelist.
 
@@ -504,7 +617,9 @@ class IbmAnalyticsEngineApiV2(BaseService):
         if action is None:
             raise ValueError('action must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V2', operation_id='update_private_endpoint_whitelist')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='update_private_endpoint_whitelist')
         headers.update(sdk_headers)
 
         data = {
@@ -517,14 +632,18 @@ class IbmAnalyticsEngineApiV2(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v2/analytics_engines/{0}/private_endpoint_whitelist'.format(*self.encode_path_vars(instance_guid))
+        path_param_keys = ['instance_guid']
+        path_param_values = self.encode_path_vars(instance_guid)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/analytics_engines/{instance_guid}/private_endpoint_whitelist'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -562,7 +681,25 @@ class AnalyticsEngine():
           Analytics Engine Service with private endpoints.
     """
 
-    def __init__(self, id: str, name: str, service_plan: str, hardware_size: str, software_package: str, domain: str, creation_time: datetime, commision_time: datetime, decommision_time: datetime, deletion_time: datetime, state_change_time: datetime, state: str, user_credentials: 'AnalyticsEngineUserCredentials', *, nodes: List['AnalyticsEngineClusterNode'] = None, service_endpoints: 'ServiceEndpoints' = None, service_endpoints_ip: 'ServiceEndpoints' = None, private_endpoint_whitelist: List[str] = None) -> None:
+    def __init__(self,
+                 id: str,
+                 name: str,
+                 service_plan: str,
+                 hardware_size: str,
+                 software_package: str,
+                 domain: str,
+                 creation_time: datetime,
+                 commision_time: datetime,
+                 decommision_time: datetime,
+                 deletion_time: datetime,
+                 state_change_time: datetime,
+                 state: str,
+                 user_credentials: 'AnalyticsEngineUserCredentials',
+                 *,
+                 nodes: List['AnalyticsEngineClusterNode'] = None,
+                 service_endpoints: 'ServiceEndpoints' = None,
+                 service_endpoints_ip: 'ServiceEndpoints' = None,
+                 private_endpoint_whitelist: List[str] = None) -> None:
         """
         Initialize a AnalyticsEngine object.
 
@@ -736,12 +873,11 @@ class AnalyticsEngine():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-
 class AnalyticsEngineClusterNode():
     """
     Cluster node details.
 
-    :attr float id: (optional) Node ID.
+    :attr int id: (optional) Node ID.
     :attr str fqdn: (optional) Fully qualified domain name.
     :attr str type: (optional) Node type.
     :attr str state: (optional) State of node.
@@ -751,11 +887,20 @@ class AnalyticsEngineClusterNode():
     :attr datetime commission_time: (optional) Commission time.
     """
 
-    def __init__(self, *, id: float = None, fqdn: str = None, type: str = None, state: str = None, public_ip: str = None, private_ip: str = None, state_change_time: datetime = None, commission_time: datetime = None) -> None:
+    def __init__(self,
+                 *,
+                 id: int = None,
+                 fqdn: str = None,
+                 type: str = None,
+                 state: str = None,
+                 public_ip: str = None,
+                 private_ip: str = None,
+                 state_change_time: datetime = None,
+                 commission_time: datetime = None) -> None:
         """
         Initialize a AnalyticsEngineClusterNode object.
 
-        :param float id: (optional) Node ID.
+        :param int id: (optional) Node ID.
         :param str fqdn: (optional) Fully qualified domain name.
         :param str type: (optional) Node type.
         :param str state: (optional) State of node.
@@ -839,19 +984,20 @@ class AnalyticsEngineClusterNode():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-
 class AnalyticsEngineCreateCustomizationResponse():
     """
     Create customization request response.
 
-    :attr float request_id: (optional) Customization request ID.
+    :attr int request_id: (optional) Customization request ID.
     """
 
-    def __init__(self, *, request_id: float = None) -> None:
+    def __init__(self,
+                 *,
+                 request_id: int = None) -> None:
         """
         Initialize a AnalyticsEngineCreateCustomizationResponse object.
 
-        :param float request_id: (optional) Customization request ID.
+        :param int request_id: (optional) Customization request ID.
         """
         self.request_id = request_id
 
@@ -893,7 +1039,6 @@ class AnalyticsEngineCreateCustomizationResponse():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-
 class AnalyticsEngineCustomAction():
     """
     Custom action details for customization.
@@ -905,7 +1050,12 @@ class AnalyticsEngineCustomAction():
     :attr List[str] script_params: (optional) Customization script parameters.
     """
 
-    def __init__(self, name: str, *, type: str = None, script: 'AnalyticsEngineCustomActionScript' = None, script_params: List[str] = None) -> None:
+    def __init__(self,
+                 name: str,
+                 *,
+                 type: str = None,
+                 script: 'AnalyticsEngineCustomActionScript' = None,
+                 script_params: List[str] = None) -> None:
         """
         Initialize a AnalyticsEngineCustomAction object.
 
@@ -972,12 +1122,11 @@ class AnalyticsEngineCustomAction():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    
-    class TypeEnum(Enum):
+    class TypeEnum(str, Enum):
         """
         Customization type.
         """
-        BOOTSTRAP = "bootstrap"
+        BOOTSTRAP = 'bootstrap'
 
 
 class AnalyticsEngineCustomActionScript():
@@ -990,7 +1139,11 @@ class AnalyticsEngineCustomActionScript():
     :attr object source_props: (optional) Customization script properties.
     """
 
-    def __init__(self, *, source_type: str = None, script_path: str = None, source_props: object = None) -> None:
+    def __init__(self,
+                 *,
+                 source_type: str = None,
+                 script_path: str = None,
+                 source_props: object = None) -> None:
         """
         Initialize a AnalyticsEngineCustomActionScript object.
 
@@ -1049,16 +1202,15 @@ class AnalyticsEngineCustomActionScript():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    
-    class SourceTypeEnum(Enum):
+    class SourceTypeEnum(str, Enum):
         """
         Defines where to access the customization script.
         """
-        HTTP = "http"
-        HTTPS = "https"
-        BLUEMIXSWIFT = "BluemixSwift"
-        SOFTLAYERSWIFT = "SoftLayerSwift"
-        COSS3 = "CosS3"
+        HTTP = 'http'
+        HTTPS = 'https'
+        BLUEMIXSWIFT = 'BluemixSwift'
+        SOFTLAYERSWIFT = 'SoftLayerSwift'
+        COSS3 = 'CosS3'
 
 
 class AnalyticsEngineCustomizationRequestCollectionItem():
@@ -1068,7 +1220,9 @@ class AnalyticsEngineCustomizationRequestCollectionItem():
     :attr str id: (optional) Customization request ID.
     """
 
-    def __init__(self, *, id: str = None) -> None:
+    def __init__(self,
+                 *,
+                 id: str = None) -> None:
         """
         Initialize a AnalyticsEngineCustomizationRequestCollectionItem object.
 
@@ -1114,7 +1268,6 @@ class AnalyticsEngineCustomizationRequestCollectionItem():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-
 class AnalyticsEngineCustomizationRunDetails():
     """
     Customization run details for the cluster.
@@ -1125,7 +1278,11 @@ class AnalyticsEngineCustomizationRunDetails():
           Customization run details.
     """
 
-    def __init__(self, *, id: str = None, run_status: str = None, run_details: 'AnalyticsEngineCustomizationRunDetailsRunDetails' = None) -> None:
+    def __init__(self,
+                 *,
+                 id: str = None,
+                 run_status: str = None,
+                 run_details: 'AnalyticsEngineCustomizationRunDetailsRunDetails' = None) -> None:
         """
         Initialize a AnalyticsEngineCustomizationRunDetails object.
 
@@ -1184,7 +1341,6 @@ class AnalyticsEngineCustomizationRunDetails():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-
 class AnalyticsEngineCustomizationRunDetailsRunDetails():
     """
     Customization run details.
@@ -1194,7 +1350,10 @@ class AnalyticsEngineCustomizationRunDetailsRunDetails():
           Customization run details for each node.
     """
 
-    def __init__(self, *, overall_status: str = None, details: List['AnalyticsEngineNodeLevelCustomizationRunDetails'] = None) -> None:
+    def __init__(self,
+                 *,
+                 overall_status: str = None,
+                 details: List['AnalyticsEngineNodeLevelCustomizationRunDetails'] = None) -> None:
         """
         Initialize a AnalyticsEngineCustomizationRunDetailsRunDetails object.
 
@@ -1247,7 +1406,6 @@ class AnalyticsEngineCustomizationRunDetailsRunDetails():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-
 class AnalyticsEngineLoggingConfigDetails():
     """
     Logging configuration.
@@ -1259,7 +1417,10 @@ class AnalyticsEngineLoggingConfigDetails():
           configuration status.
     """
 
-    def __init__(self, log_specs: List['AnalyticsEngineLoggingNodeSpec'], log_server: 'AnalyticsEngineLoggingServer', log_config_status: List['AnalyticsEngineLoggingConfigStatus']) -> None:
+    def __init__(self,
+                 log_specs: List['AnalyticsEngineLoggingNodeSpec'],
+                 log_server: 'AnalyticsEngineLoggingServer',
+                 log_config_status: List['AnalyticsEngineLoggingConfigStatus']) -> None:
         """
         Initialize a AnalyticsEngineLoggingConfigDetails object.
 
@@ -1326,7 +1487,6 @@ class AnalyticsEngineLoggingConfigDetails():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-
 class AnalyticsEngineLoggingConfigStatus():
     """
     Log configuration status.
@@ -1337,7 +1497,11 @@ class AnalyticsEngineLoggingConfigStatus():
     :attr str status: Log configuration status.
     """
 
-    def __init__(self, node_type: str, node_id: str, action: str, status: str) -> None:
+    def __init__(self,
+                 node_type: str,
+                 node_id: str,
+                 action: str,
+                 status: str) -> None:
         """
         Initialize a AnalyticsEngineLoggingConfigStatus object.
 
@@ -1409,13 +1573,13 @@ class AnalyticsEngineLoggingConfigStatus():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    
-    class NodeTypeEnum(Enum):
+    class NodeTypeEnum(str, Enum):
         """
         Node type.
         """
-        MANAGEMENT = "management"
-        DATA = "data"
+        MANAGEMENT = 'management'
+        DATA = 'data'
+        TASK = 'task'
 
 
 class AnalyticsEngineLoggingNodeSpec():
@@ -1426,7 +1590,9 @@ class AnalyticsEngineLoggingNodeSpec():
     :attr List[str] components: Node components to be monitored.
     """
 
-    def __init__(self, node_type: str, components: List[str]) -> None:
+    def __init__(self,
+                 node_type: str,
+                 components: List[str]) -> None:
         """
         Initialize a AnalyticsEngineLoggingNodeSpec object.
 
@@ -1482,29 +1648,32 @@ class AnalyticsEngineLoggingNodeSpec():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    
-    class NodeTypeEnum(Enum):
+    class NodeTypeEnum(str, Enum):
         """
         Node type.
         """
-        MANAGEMENT = "management"
-        DATA = "data"
+        MANAGEMENT = 'management'
+        DATA = 'data'
+        TASK = 'task'
 
-    
-    class ComponentsEnum(Enum):
+
+    class ComponentsEnum(str, Enum):
         """
         Node components to be logged.
         """
-        AMBARI_SERVER = "ambari-server"
-        HADOOP_MAPREDUCE = "hadoop-mapreduce"
-        HADOOP_YARN = "hadoop-yarn"
-        HBASE = "hbase"
-        HIVE = "hive"
-        JNBG = "jnbg"
-        KNOX = "knox"
-        LIVY2 = "livy2"
-        SPARK2 = "spark2"
-        YARN_APPS = "yarn-apps"
+        AMBARI_SERVER = 'ambari-server'
+        HADOOP_MAPREDUCE = 'hadoop-mapreduce'
+        HADOOP_YARN = 'hadoop-yarn'
+        HBASE = 'hbase'
+        HDFS = 'hdfs'
+        HDFS_AUDIT = 'hdfs-audit'
+        HIVE = 'hive'
+        JNBG = 'jnbg'
+        KNOX = 'knox'
+        KNOX_AUDIT = 'knox-audit'
+        LIVY2 = 'livy2'
+        SPARK2 = 'spark2'
+        YARN_APPS = 'yarn-apps'
 
 
 class AnalyticsEngineLoggingServer():
@@ -1518,7 +1687,13 @@ class AnalyticsEngineLoggingServer():
     :attr str owner: (optional) Logging server owner.
     """
 
-    def __init__(self, type: str, credential: str, api_host: str, log_host: str, *, owner: str = None) -> None:
+    def __init__(self,
+                 type: str,
+                 credential: str,
+                 api_host: str,
+                 log_host: str,
+                 *,
+                 owner: str = None) -> None:
         """
         Initialize a AnalyticsEngineLoggingServer object.
 
@@ -1596,12 +1771,11 @@ class AnalyticsEngineLoggingServer():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    
-    class TypeEnum(Enum):
+    class TypeEnum(str, Enum):
         """
         Logging server type.
         """
-        LOGDNA = "logdna"
+        LOGDNA = 'logdna'
 
 
 class AnalyticsEngineNodeLevelCustomizationRunDetails():
@@ -1618,7 +1792,15 @@ class AnalyticsEngineNodeLevelCustomizationRunDetails():
           information.
     """
 
-    def __init__(self, *, node_name: str = None, node_type: str = None, start_time: str = None, end_time: str = None, time_taken: str = None, status: str = None, log_file: str = None) -> None:
+    def __init__(self,
+                 *,
+                 node_name: str = None,
+                 node_type: str = None,
+                 start_time: str = None,
+                 end_time: str = None,
+                 time_taken: str = None,
+                 status: str = None,
+                 log_file: str = None) -> None:
         """
         Initialize a AnalyticsEngineNodeLevelCustomizationRunDetails object.
 
@@ -1702,7 +1884,6 @@ class AnalyticsEngineNodeLevelCustomizationRunDetails():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-
 class AnalyticsEngineResetClusterPasswordResponse():
     """
     Response for resetting cluster password.
@@ -1712,7 +1893,10 @@ class AnalyticsEngineResetClusterPasswordResponse():
           user_credentials: (optional) User credentials.
     """
 
-    def __init__(self, *, id: str = None, user_credentials: 'AnalyticsEngineResetClusterPasswordResponseUserCredentials' = None) -> None:
+    def __init__(self,
+                 *,
+                 id: str = None,
+                 user_credentials: 'AnalyticsEngineResetClusterPasswordResponseUserCredentials' = None) -> None:
         """
         Initialize a AnalyticsEngineResetClusterPasswordResponse object.
 
@@ -1765,7 +1949,6 @@ class AnalyticsEngineResetClusterPasswordResponse():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-
 class AnalyticsEngineResetClusterPasswordResponseUserCredentials():
     """
     User credentials.
@@ -1774,7 +1957,10 @@ class AnalyticsEngineResetClusterPasswordResponseUserCredentials():
     :attr str password: (optional) New password.
     """
 
-    def __init__(self, *, user: str = None, password: str = None) -> None:
+    def __init__(self,
+                 *,
+                 user: str = None,
+                 password: str = None) -> None:
         """
         Initialize a AnalyticsEngineResetClusterPasswordResponseUserCredentials object.
 
@@ -1826,7 +2012,6 @@ class AnalyticsEngineResetClusterPasswordResponseUserCredentials():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-
 class AnalyticsEngineResizeClusterResponse():
     """
     Resize request response.
@@ -1834,7 +2019,9 @@ class AnalyticsEngineResizeClusterResponse():
     :attr str request_id: (optional) Request ID.
     """
 
-    def __init__(self, *, request_id: str = None) -> None:
+    def __init__(self,
+                 *,
+                 request_id: str = None) -> None:
         """
         Initialize a AnalyticsEngineResizeClusterResponse object.
 
@@ -1880,7 +2067,6 @@ class AnalyticsEngineResizeClusterResponse():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-
 class AnalyticsEngineState():
     """
     Cluster state.
@@ -1888,7 +2074,8 @@ class AnalyticsEngineState():
     :attr str state: Cluster state.
     """
 
-    def __init__(self, state: str) -> None:
+    def __init__(self,
+                 state: str) -> None:
         """
         Initialize a AnalyticsEngineState object.
 
@@ -1936,7 +2123,6 @@ class AnalyticsEngineState():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-
 class AnalyticsEngineUserCredentials():
     """
     User credentials.
@@ -1944,7 +2130,9 @@ class AnalyticsEngineUserCredentials():
     :attr str user: (optional) Username.
     """
 
-    def __init__(self, *, user: str = None) -> None:
+    def __init__(self,
+                 *,
+                 user: str = None) -> None:
         """
         Initialize a AnalyticsEngineUserCredentials object.
 
@@ -1990,7 +2178,6 @@ class AnalyticsEngineUserCredentials():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-
 class AnalyticsEngineWhitelistResponse():
     """
     Whitelisted IP Ranges.
@@ -1998,7 +2185,9 @@ class AnalyticsEngineWhitelistResponse():
     :attr List[str] private_endpoint_whitelist: (optional) Whitelisted IP Ranges.
     """
 
-    def __init__(self, *, private_endpoint_whitelist: List[str] = None) -> None:
+    def __init__(self,
+                 *,
+                 private_endpoint_whitelist: List[str] = None) -> None:
         """
         Initialize a AnalyticsEngineWhitelistResponse object.
 
@@ -2045,6 +2234,20 @@ class AnalyticsEngineWhitelistResponse():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+class ResizeClusterRequest():
+    """
+    ResizeClusterRequest.
+
+    """
+
+    def __init__(self) -> None:
+        """
+        Initialize a ResizeClusterRequest object.
+
+        """
+        msg = "Cannot instantiate base class. Instead, instantiate one of the defined subclasses: {0}".format(
+                  ", ".join(['ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest', 'ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest']))
+        raise Exception(msg)
 
 class ServiceEndpoints():
     """
@@ -2065,7 +2268,19 @@ class ServiceEndpoints():
     :attr str spark_sql: (optional) Spark SQL service endpoint.
     """
 
-    def __init__(self, *, phoenix_jdbc: str = None, ambari_console: str = None, livy: str = None, spark_history_server: str = None, oozie_rest: str = None, hive_jdbc: str = None, notebook_gateway_websocket: str = None, notebook_gateway: str = None, webhdfs: str = None, ssh: str = None, spark_sql: str = None) -> None:
+    def __init__(self,
+                 *,
+                 phoenix_jdbc: str = None,
+                 ambari_console: str = None,
+                 livy: str = None,
+                 spark_history_server: str = None,
+                 oozie_rest: str = None,
+                 hive_jdbc: str = None,
+                 notebook_gateway_websocket: str = None,
+                 notebook_gateway: str = None,
+                 webhdfs: str = None,
+                 ssh: str = None,
+                 spark_sql: str = None) -> None:
         """
         Initialize a ServiceEndpoints object.
 
@@ -2173,4 +2388,118 @@ class ServiceEndpoints():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+class ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest(ResizeClusterRequest):
+    """
+    Resize cluster request.
 
+    :attr int compute_nodes_count: (optional) Expected number of compute nodes in
+          the cluster after the resize operation.
+    """
+
+    def __init__(self,
+                 *,
+                 compute_nodes_count: int = None) -> None:
+        """
+        Initialize a ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest object.
+
+        :param int compute_nodes_count: (optional) Expected number of compute nodes
+               in the cluster after the resize operation.
+        """
+        # pylint: disable=super-init-not-called
+        self.compute_nodes_count = compute_nodes_count
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest':
+        """Initialize a ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest object from a json dictionary."""
+        args = {}
+        if 'compute_nodes_count' in _dict:
+            args['compute_nodes_count'] = _dict.get('compute_nodes_count')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'compute_nodes_count') and self.compute_nodes_count is not None:
+            _dict['compute_nodes_count'] = self.compute_nodes_count
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest(ResizeClusterRequest):
+    """
+    ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest.
+
+    :attr int task_nodes_count: (optional) Expected number of task nodes in the
+          cluster after the resize operation.
+    """
+
+    def __init__(self,
+                 *,
+                 task_nodes_count: int = None) -> None:
+        """
+        Initialize a ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest object.
+
+        :param int task_nodes_count: (optional) Expected number of task nodes in
+               the cluster after the resize operation.
+        """
+        # pylint: disable=super-init-not-called
+        self.task_nodes_count = task_nodes_count
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest':
+        """Initialize a ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest object from a json dictionary."""
+        args = {}
+        if 'task_nodes_count' in _dict:
+            args['task_nodes_count'] = _dict.get('task_nodes_count')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'task_nodes_count') and self.task_nodes_count is not None:
+            _dict['task_nodes_count'] = self.task_nodes_count
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
