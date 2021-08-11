@@ -20,8 +20,7 @@ Integration Tests for IbmAnalyticsEngineApiV3
 import os
 import pytest
 from ibm_cloud_sdk_core import *
-#from iaesdk.ibm_analytics_engine_api_v3 import *
-from .ibm_analytics_engine_api_v3 import IbmAnalyticsEngineApiV3
+from iaesdk.ibm_analytics_engine_api_v3 import *
 
 # Config file name
 config_file = 'ibmanalyticsengine-service.env'
