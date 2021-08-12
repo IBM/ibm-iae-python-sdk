@@ -1,6 +1,5 @@
-# coding: utf-8
-
-# Copyright 2019 IBM All Rights Reserved.
+# -*- coding: utf-8 -*-
+# (C) Copyright IBM Corp. 2021.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,105 +14,161 @@
 # limitations under the License.
 
 """
-Test the iaesdk service API operations
+Integration Tests for IbmAnalyticsEngineApiV2
 """
 
-import pytest
-import unittest
 import os
-import json
-import time
-from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
-from iaesdk import IbmAnalyticsEngineApiV2
+import pytest
+from ibm_cloud_sdk_core import *
+from iaesdk.ibm_analytics_engine_api_v2 import *
 
-# Read config file
-configFile = 'ibmanalyticsengine-service.env'
-configLoaded = None
+# Config file name
+config_file = 'ibm_analytics_engine_api_v2.env'
 
-if os.path.exists(configFile):
-    os.environ['IBM_CREDENTIALS_FILE'] = configFile
-    configLoaded = True
-else:
-    print('External configuration was not found, skipping tests...')
+class TestIbmAnalyticsEngineApiV2():
+    """
+    Integration Test Class for IbmAnalyticsEngineApiV2
+    """
 
-class TestIbmAnalyticsEngineApiV2(unittest.TestCase):
-    def setUp(self):
-        if not configLoaded:
-            self.skipTest("External configuration not available, skipping...")
+    @classmethod
+    def setup_class(cls):
+        if os.path.exists(config_file):
+            os.environ['IBM_CREDENTIALS_FILE'] = config_file
 
-        self.iaesdk_service = IbmAnalyticsEngineApiV2.new_instance()
-        self.instance_guid = os.getenv('IBM_ANALYTICS_ENGINE_INSTANCE_GUID')
-        assert self.iaesdk_service is not None
-        time.sleep(10)
+            cls.ibm_analytics_engine_api_service = IbmAnalyticsEngineApiV2.new_instance()
+            cls.instance_guid = os.getenv('IBM_ANALYTICS_ENGINE_INSTANCE_GUID')
+            
+            assert cls.ibm_analytics_engine_api_service is not None
 
-    def tearDown(self):
-        # Delete the resources
-        print("Clean up complete.")
+            cls.config = read_external_sources(
+                IbmAnalyticsEngineApiV2.DEFAULT_SERVICE_NAME)
+            assert cls.config is not None
 
+        print('Setup complete.')
+
+    needscredentials = pytest.mark.skipif(
+        not os.path.exists(config_file), reason="External configuration not available, skipping..."
+    )
+
+    @needscredentials
+    def test_get_all_analytics_engines(self):
+
+        get_all_analytics_engines_response = self.ibm_analytics_engine_api_service.get_all_analytics_engines()
+
+        assert get_all_analytics_engines_response.get_status_code() == 200
+
+    @needscredentials
     def test_get_analytics_engine_by_id(self):
-        status_code = self.iaesdk_service.get_analytics_engine_by_id(self.instance_guid).get_status_code()
-        assert status_code == 200
 
+        get_analytics_engine_by_id_response = self.ibm_analytics_engine_api_service.get_analytics_engine_by_id(
+            self.instance_guid
+        )
+
+        assert get_analytics_engine_by_id_response.get_status_code() == 200
+        analytics_engine = get_analytics_engine_by_id_response.get_result()
+        assert analytics_engine is not None
+
+    @needscredentials
     def test_get_analytics_engine_state_by_id(self):
-        status_code = self.iaesdk_service.get_analytics_engine_state_by_id(self.instance_guid).get_status_code()
-        assert status_code == 200
 
+        get_analytics_engine_state_by_id_response = self.ibm_analytics_engine_api_service.get_analytics_engine_state_by_id(
+            self.instance_guid
+        )
+
+        assert get_analytics_engine_state_by_id_response.get_status_code() == 200
+        analytics_engine_state = get_analytics_engine_state_by_id_response.get_result()
+        assert analytics_engine_state is not None
+
+    @needscredentials
     def test_create_customization_request(self):
+
         # Construct a dict representation of a AnalyticsEngineCustomActionScript model
-        analytics_engine_custom_action_script_model =  {
+        analytics_engine_custom_action_script_model = {
             'source_type': 'http',
             'script_path': 'testString',
-            'source_props': 'unknown type: object'
+            'source_props': { 'unknown type: object' }
         }
+
         # Construct a dict representation of a AnalyticsEngineCustomAction model
-        analytics_engine_custom_action_model =  {
+        analytics_engine_custom_action_model = {
             'name': 'testString',
             'type': 'bootstrap',
             'script': analytics_engine_custom_action_script_model,
             'script_params': ['testString']
         }
 
-        # Set up parameter values
-        target = 'all'
-        custom_actions = [analytics_engine_custom_action_model]
-
-        # Invoke method
-        status_code = self.iaesdk_service.create_customization_request(
+        create_customization_request_response = self.ibm_analytics_engine_api_service.create_customization_request(
             self.instance_guid,
-            target,
-            custom_actions,
-        ).get_status_code()
+            target='all',
+            custom_actions=[analytics_engine_custom_action_model]
+        )
 
-        assert status_code == 200
+        assert create_customization_request_response.get_status_code() == 200
+        analytics_engine_create_customization_response = create_customization_request_response.get_result()
+        assert analytics_engine_create_customization_response is not None
 
+    @needscredentials
     def test_get_all_customization_requests(self):
-        status_code = self.iaesdk_service.get_all_customization_requests(self.instance_guid).get_status_code()
-        assert status_code == 200
 
+        get_all_customization_requests_response = self.ibm_analytics_engine_api_service.get_all_customization_requests(
+            self.instance_guid
+        )
+
+        assert get_all_customization_requests_response.get_status_code() == 200
+        list_analytics_engine_customization_request_collection_item = get_all_customization_requests_response.get_result()
+        assert list_analytics_engine_customization_request_collection_item is not None
+
+    @needscredentials
     def test_get_customization_request_by_id(self):
-        result = self.iaesdk_service.get_all_customization_requests(self.instance_guid).get_result()
-        request_id = result[0]["id"]
-        status_code = self.iaesdk_service.get_customization_request_by_id(self.instance_guid, request_id).get_status_code()
-        assert status_code == 200
 
+        get_customization_request_by_id_response = self.ibm_analytics_engine_api_service.get_customization_request_by_id(
+            self.instance_guid,
+            request_id='testString'
+        )
+
+        assert get_customization_request_by_id_response.get_status_code() == 200
+        analytics_engine_customization_run_details = get_customization_request_by_id_response.get_result()
+        assert analytics_engine_customization_run_details is not None
+
+    @needscredentials
     def test_resize_cluster(self):
-        compute_nodes_count = 1
-        status_code = self.iaesdk_service.resize_cluster(self.instance_guid, compute_nodes_count).get_status_code()
-        assert status_code == 200
 
+        # Construct a dict representation of a ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest model
+        resize_cluster_request_model = {
+            'compute_nodes_count': 38,
+        }
+
+        resize_cluster_response = self.ibm_analytics_engine_api_service.resize_cluster(
+            self.instance_guid,
+            body=resize_cluster_request_model
+        )
+
+        assert resize_cluster_response.get_status_code() == 200
+        analytics_engine_resize_cluster_response = resize_cluster_response.get_result()
+        assert analytics_engine_resize_cluster_response is not None
+
+    @needscredentials
     def test_reset_cluster_password(self):
-        status_code = self.iaesdk_service.reset_cluster_password(self.instance_guid).get_status_code()
-        assert status_code == 200
 
+        reset_cluster_password_response = self.ibm_analytics_engine_api_service.reset_cluster_password(
+            self.instance_guid
+        )
+
+        assert reset_cluster_password_response.get_status_code() == 200
+        analytics_engine_reset_cluster_password_response = reset_cluster_password_response.get_result()
+        assert analytics_engine_reset_cluster_password_response is not None
+
+    @needscredentials
     def test_configure_logging(self):
 
         # Construct a dict representation of a AnalyticsEngineLoggingNodeSpec model
-        analytics_engine_logging_node_spec_model =  {
+        analytics_engine_logging_node_spec_model = {
             'node_type': 'management',
-            'components': ['ambari-server']
+            'components': ['ambari-server'],
         }
+
         # Construct a dict representation of a AnalyticsEngineLoggingServer model
-        analytics_engine_logging_server_model =  {
+        analytics_engine_logging_server_model = {
             'type': 'logdna',
             'credential': 'testString',
             'api_host': 'testString',
@@ -121,38 +176,44 @@ class TestIbmAnalyticsEngineApiV2(unittest.TestCase):
             'owner': 'testString'
         }
 
-        # Set up parameter values
-        log_specs = [analytics_engine_logging_node_spec_model]
-        log_server = analytics_engine_logging_server_model
-
-        status_code = self.iaesdk_service.configure_logging(
+        configure_logging_response = self.ibm_analytics_engine_api_service.configure_logging(
             self.instance_guid,
-            log_specs,
-            log_server,
-        ).get_status_code()
+            log_specs=[analytics_engine_logging_node_spec_model],
+            log_server=analytics_engine_logging_server_model
+        )
 
-        assert status_code == 202
+        assert configure_logging_response.get_status_code() == 202
 
+    @needscredentials
     def test_get_logging_config(self):
-        status_code = self.iaesdk_service.get_logging_config(self.instance_guid).get_status_code()
-        assert status_code == 200
 
-    def test_delete_logging_config(self):
-        status_code = self.iaesdk_service.delete_logging_config(self.instance_guid).get_status_code()
-        assert status_code == 202
+        get_logging_config_response = self.ibm_analytics_engine_api_service.get_logging_config(
+            self.instance_guid
+        )
 
-    def test_update_private_endpoint_whitelist_all_params(self):
+        assert get_logging_config_response.get_status_code() == 200
+        analytics_engine_logging_config_details = get_logging_config_response.get_result()
+        assert analytics_engine_logging_config_details is not None
 
-        # Set up parameter values
-        ip_ranges = ['testString']
-        action = 'add'
+    @needscredentials
+    def test_update_private_endpoint_whitelist(self):
 
-        # Invoke method
-        response = self.iaesdk_service.update_private_endpoint_whitelist(
+        update_private_endpoint_whitelist_response = self.ibm_analytics_engine_api_service.update_private_endpoint_whitelist(
             self.instance_guid,
-            ip_ranges,
-            action,
-            headers={}
-        ).get_status_code()
+            ip_ranges=['testString'],
+            action='add'
+        )
 
-        assert status_code == 200
+        assert update_private_endpoint_whitelist_response.get_status_code() == 200
+        analytics_engine_whitelist_response = update_private_endpoint_whitelist_response.get_result()
+        assert analytics_engine_whitelist_response is not None
+
+    @needscredentials
+    def test_delete_logging_config(self):
+
+        delete_logging_config_response = self.ibm_analytics_engine_api_service.delete_logging_config(
+            self.instance_guid
+        )
+
+        assert delete_logging_config_response.get_status_code() == 202
+
