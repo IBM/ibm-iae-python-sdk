@@ -23,7 +23,15 @@ IBM Cloud services:
 
 Service Name | Imported Class Name
 --- | --- 
-[IBM Analytics Engine](https://cloud.ibm.com/apidocs/ibm-analytics-engine) | IbmAnalyticsEngineApiV2
+[IBM Analytics Engine v2](https://cloud.ibm.com/apidocs/ibm-analytics-engine/ibm-analytics-engine-v2) | IbmAnalyticsEngineApiV2
+[IBM Analytics Engine v3](https://cloud.ibm.com/apidocs/ibm-analytics-engine/ibm-analytics-engine-v3) | IbmAnalyticsEngineApiV3
+
+**NOTE**
+
+IBM Analytics Engine v2 is for the classic plans : Lite, Standard Hourly and Standard monthly
+
+IBM Analytics Engine v3 is for the Standard Serverless Spark plan
+
 
 ## Prerequisites
 
