@@ -68,9 +68,9 @@ class TestNewInstance():
             service = IbmAnalyticsEngineApiV3.new_instance(
             )
 
-class TestGetInstanceById():
+class TestGetInstance():
     """
-    Test Class for get_instance_by_id
+    Test Class for get_instance
     """
 
     def preprocess_url(self, request_url: str):
@@ -85,13 +85,13 @@ class TestGetInstanceById():
             return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
-    def test_get_instance_by_id_all_params(self):
+    def test_get_instance_all_params(self):
         """
-        get_instance_by_id()
+        get_instance()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/analytics_engines/testString')
-        mock_response = '{"instance_id": "instance_id", "state": "created", "state_change_time": "2019-01-01T12:00:00.000Z", "default_runtime": {"spark_version": "spark_version", "additional_packages": ["additional_packages"]}, "instance_home": {"guid": "guid", "provider": "provider", "type": "type", "region": "region", "endpoint": "endpoint", "bucket": "bucket", "hmac_access_key": "hmac_access_key", "hmac_secret_key": "hmac_secret_key"}, "default_config": {"key": "key"}}'
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09')
+        mock_response = '{"id": "id", "href": "href", "state": "created", "state_change_time": "2021-01-30T08:30:00.000Z", "default_runtime": {"spark_version": "spark_version"}, "instance_home": {"id": "id", "provider": "provider", "type": "type", "region": "region", "endpoint": "endpoint", "bucket": "bucket", "hmac_access_key": "hmac_access_key", "hmac_secret_key": "hmac_secret_key"}, "default_config": {"key": "key"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -99,10 +99,10 @@ class TestGetInstanceById():
                       status=200)
 
         # Set up parameter values
-        instance_id = 'testString'
+        instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
 
         # Invoke method
-        response = _service.get_instance_by_id(
+        response = _service.get_instance(
             instance_id,
             headers={}
         )
@@ -113,13 +113,13 @@ class TestGetInstanceById():
 
 
     @responses.activate
-    def test_get_instance_by_id_value_error(self):
+    def test_get_instance_value_error(self):
         """
-        test_get_instance_by_id_value_error()
+        test_get_instance_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/analytics_engines/testString')
-        mock_response = '{"instance_id": "instance_id", "state": "created", "state_change_time": "2019-01-01T12:00:00.000Z", "default_runtime": {"spark_version": "spark_version", "additional_packages": ["additional_packages"]}, "instance_home": {"guid": "guid", "provider": "provider", "type": "type", "region": "region", "endpoint": "endpoint", "bucket": "bucket", "hmac_access_key": "hmac_access_key", "hmac_secret_key": "hmac_secret_key"}, "default_config": {"key": "key"}}'
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09')
+        mock_response = '{"id": "id", "href": "href", "state": "created", "state_change_time": "2021-01-30T08:30:00.000Z", "default_runtime": {"spark_version": "spark_version"}, "instance_home": {"id": "id", "provider": "provider", "type": "type", "region": "region", "endpoint": "endpoint", "bucket": "bucket", "hmac_access_key": "hmac_access_key", "hmac_secret_key": "hmac_secret_key"}, "default_config": {"key": "key"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -127,7 +127,7 @@ class TestGetInstanceById():
                       status=200)
 
         # Set up parameter values
-        instance_id = 'testString'
+        instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
@@ -136,7 +136,7 @@ class TestGetInstanceById():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.get_instance_by_id(**req_copy)
+                _service.get_instance(**req_copy)
 
 
 
@@ -162,24 +162,24 @@ class TestCreateApplication():
         create_application()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/analytics_engines/testString/spark/applications')
-        mock_response = '{"application_id": "application_id", "state": "accepted", "start_time": "2019-01-01T12:00:00.000Z"}'
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications')
+        mock_response = '{"id": "id", "state": "accepted"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
                       content_type='application/json',
-                      status=201)
+                      status=202)
 
         # Construct a dict representation of a ApplicationRequestApplicationDetails model
         application_request_application_details_model = {}
-        application_request_application_details_model['application'] = 'testString'
-        application_request_application_details_model['class'] = 'testString'
-        application_request_application_details_model['application_arguments'] = ['testString']
+        application_request_application_details_model['application'] = 'cos://bucket_name.my_cos/my_spark_app.py'
+        application_request_application_details_model['class'] = 'com.company.path.ClassName'
+        application_request_application_details_model['arguments'] = ['[arg1, arg2, arg3]']
         application_request_application_details_model['conf'] = {}
         application_request_application_details_model['env'] = {}
 
         # Set up parameter values
-        instance_id = 'testString'
+        instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
         application_details = application_request_application_details_model
 
         # Invoke method
@@ -191,7 +191,7 @@ class TestCreateApplication():
 
         # Check for correct operation
         assert len(responses.calls) == 1
-        assert response.status_code == 201
+        assert response.status_code == 202
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['application_details'] == application_request_application_details_model
@@ -203,24 +203,24 @@ class TestCreateApplication():
         test_create_application_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/analytics_engines/testString/spark/applications')
-        mock_response = '{"application_id": "application_id", "state": "accepted", "start_time": "2019-01-01T12:00:00.000Z"}'
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications')
+        mock_response = '{"id": "id", "state": "accepted"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
                       content_type='application/json',
-                      status=201)
+                      status=202)
 
         # Construct a dict representation of a ApplicationRequestApplicationDetails model
         application_request_application_details_model = {}
-        application_request_application_details_model['application'] = 'testString'
-        application_request_application_details_model['class'] = 'testString'
-        application_request_application_details_model['application_arguments'] = ['testString']
+        application_request_application_details_model['application'] = 'cos://bucket_name.my_cos/my_spark_app.py'
+        application_request_application_details_model['class'] = 'com.company.path.ClassName'
+        application_request_application_details_model['arguments'] = ['[arg1, arg2, arg3]']
         application_request_application_details_model['conf'] = {}
         application_request_application_details_model['env'] = {}
 
         # Set up parameter values
-        instance_id = 'testString'
+        instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
         application_details = application_request_application_details_model
 
         # Pass in all but one required param and check for a ValueError
@@ -234,9 +234,9 @@ class TestCreateApplication():
 
 
 
-class TestGetApplications():
+class TestListApplications():
     """
-    Test Class for get_applications
+    Test Class for list_applications
     """
 
     def preprocess_url(self, request_url: str):
@@ -251,13 +251,13 @@ class TestGetApplications():
             return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
-    def test_get_applications_all_params(self):
+    def test_list_applications_all_params(self):
         """
-        get_applications()
+        list_applications()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/analytics_engines/testString/spark/applications')
-        mock_response = '{"applications": [{"application_id": "application_id", "spark_application_id": "spark_application_id", "state": "state", "start_time": "start_time", "finish_time": "finish_time"}]}'
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications')
+        mock_response = '{"applications": [{"id": "id", "href": "href", "spark_application_id": "spark_application_id", "state": "state", "start_time": "start_time", "finish_time": "finish_time"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -265,10 +265,10 @@ class TestGetApplications():
                       status=200)
 
         # Set up parameter values
-        instance_id = 'testString'
+        instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
 
         # Invoke method
-        response = _service.get_applications(
+        response = _service.list_applications(
             instance_id,
             headers={}
         )
@@ -279,13 +279,13 @@ class TestGetApplications():
 
 
     @responses.activate
-    def test_get_applications_value_error(self):
+    def test_list_applications_value_error(self):
         """
-        test_get_applications_value_error()
+        test_list_applications_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/analytics_engines/testString/spark/applications')
-        mock_response = '{"applications": [{"application_id": "application_id", "spark_application_id": "spark_application_id", "state": "state", "start_time": "start_time", "finish_time": "finish_time"}]}'
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications')
+        mock_response = '{"applications": [{"id": "id", "href": "href", "spark_application_id": "spark_application_id", "state": "state", "start_time": "start_time", "finish_time": "finish_time"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -293,7 +293,7 @@ class TestGetApplications():
                       status=200)
 
         # Set up parameter values
-        instance_id = 'testString'
+        instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
@@ -302,13 +302,13 @@ class TestGetApplications():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.get_applications(**req_copy)
+                _service.list_applications(**req_copy)
 
 
 
-class TestGetApplicationById():
+class TestGetApplication():
     """
-    Test Class for get_application_by_id
+    Test Class for get_application
     """
 
     def preprocess_url(self, request_url: str):
@@ -323,13 +323,13 @@ class TestGetApplicationById():
             return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
-    def test_get_application_by_id_all_params(self):
+    def test_get_application_all_params(self):
         """
-        get_application_by_id()
+        get_application()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/analytics_engines/testString/spark/applications/testString')
-        mock_response = '{"application_details": {"application_details": {"application": "application", "class": "class_", "application_arguments": ["application_arguments"], "conf": {"mapKey": "anyValue"}, "env": {"mapKey": "anyValue"}}}, "mode": "mode", "application_id": "application_id", "state": "state", "start_time": "start_time", "finish_time": "finish_time"}'
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications/ff48cc19-0e7e-4627-aac6-0b4ad080397b')
+        mock_response = '{"application_details": {"application_details": {"application": "cos://bucket_name.my_cos/my_spark_app.py", "class": "com.company.path.ClassName", "arguments": ["[arg1, arg2, arg3]"], "conf": {"mapKey": "anyValue"}, "env": {"mapKey": "anyValue"}}}, "id": "2b83d31c-397b-48ad-ad76-b83347c982db", "state": "accepted", "start_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -337,11 +337,11 @@ class TestGetApplicationById():
                       status=200)
 
         # Set up parameter values
-        instance_id = 'testString'
-        application_id = 'testString'
+        instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
+        application_id = 'ff48cc19-0e7e-4627-aac6-0b4ad080397b'
 
         # Invoke method
-        response = _service.get_application_by_id(
+        response = _service.get_application(
             instance_id,
             application_id,
             headers={}
@@ -353,13 +353,13 @@ class TestGetApplicationById():
 
 
     @responses.activate
-    def test_get_application_by_id_value_error(self):
+    def test_get_application_value_error(self):
         """
-        test_get_application_by_id_value_error()
+        test_get_application_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/analytics_engines/testString/spark/applications/testString')
-        mock_response = '{"application_details": {"application_details": {"application": "application", "class": "class_", "application_arguments": ["application_arguments"], "conf": {"mapKey": "anyValue"}, "env": {"mapKey": "anyValue"}}}, "mode": "mode", "application_id": "application_id", "state": "state", "start_time": "start_time", "finish_time": "finish_time"}'
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications/ff48cc19-0e7e-4627-aac6-0b4ad080397b')
+        mock_response = '{"application_details": {"application_details": {"application": "cos://bucket_name.my_cos/my_spark_app.py", "class": "com.company.path.ClassName", "arguments": ["[arg1, arg2, arg3]"], "conf": {"mapKey": "anyValue"}, "env": {"mapKey": "anyValue"}}}, "id": "2b83d31c-397b-48ad-ad76-b83347c982db", "state": "accepted", "start_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -367,8 +367,8 @@ class TestGetApplicationById():
                       status=200)
 
         # Set up parameter values
-        instance_id = 'testString'
-        application_id = 'testString'
+        instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
+        application_id = 'ff48cc19-0e7e-4627-aac6-0b4ad080397b'
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
@@ -378,13 +378,13 @@ class TestGetApplicationById():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.get_application_by_id(**req_copy)
+                _service.get_application(**req_copy)
 
 
 
-class TestDeleteApplicationById():
+class TestDeleteApplication():
     """
-    Test Class for delete_application_by_id
+    Test Class for delete_application
     """
 
     def preprocess_url(self, request_url: str):
@@ -399,22 +399,22 @@ class TestDeleteApplicationById():
             return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
-    def test_delete_application_by_id_all_params(self):
+    def test_delete_application_all_params(self):
         """
-        delete_application_by_id()
+        delete_application()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/analytics_engines/testString/spark/applications/testString')
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications/ff48cc19-0e7e-4627-aac6-0b4ad080397b')
         responses.add(responses.DELETE,
                       url,
                       status=204)
 
         # Set up parameter values
-        instance_id = 'testString'
-        application_id = 'testString'
+        instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
+        application_id = 'ff48cc19-0e7e-4627-aac6-0b4ad080397b'
 
         # Invoke method
-        response = _service.delete_application_by_id(
+        response = _service.delete_application(
             instance_id,
             application_id,
             headers={}
@@ -426,19 +426,19 @@ class TestDeleteApplicationById():
 
 
     @responses.activate
-    def test_delete_application_by_id_value_error(self):
+    def test_delete_application_value_error(self):
         """
-        test_delete_application_by_id_value_error()
+        test_delete_application_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/analytics_engines/testString/spark/applications/testString')
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications/ff48cc19-0e7e-4627-aac6-0b4ad080397b')
         responses.add(responses.DELETE,
                       url,
                       status=204)
 
         # Set up parameter values
-        instance_id = 'testString'
-        application_id = 'testString'
+        instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
+        application_id = 'ff48cc19-0e7e-4627-aac6-0b4ad080397b'
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
@@ -448,7 +448,7 @@ class TestDeleteApplicationById():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.delete_application_by_id(**req_copy)
+                _service.delete_application(**req_copy)
 
 
 
@@ -474,8 +474,8 @@ class TestGetApplicationState():
         get_application_state()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/analytics_engines/testString/spark/applications/testString/state')
-        mock_response = '{"application_id": "application_id", "state": "state", "start_time": "start_time", "finish_time": "finish_time"}'
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications/ff48cc19-0e7e-4627-aac6-0b4ad080397b/state')
+        mock_response = '{"id": "id", "state": "state", "start_time": "start_time", "finish_time": "finish_time"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -483,8 +483,8 @@ class TestGetApplicationState():
                       status=200)
 
         # Set up parameter values
-        instance_id = 'testString'
-        application_id = 'testString'
+        instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
+        application_id = 'ff48cc19-0e7e-4627-aac6-0b4ad080397b'
 
         # Invoke method
         response = _service.get_application_state(
@@ -504,8 +504,8 @@ class TestGetApplicationState():
         test_get_application_state_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/analytics_engines/testString/spark/applications/testString/state')
-        mock_response = '{"application_id": "application_id", "state": "state", "start_time": "start_time", "finish_time": "finish_time"}'
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications/ff48cc19-0e7e-4627-aac6-0b4ad080397b/state')
+        mock_response = '{"id": "id", "state": "state", "start_time": "start_time", "finish_time": "finish_time"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -513,8 +513,8 @@ class TestGetApplicationState():
                       status=200)
 
         # Set up parameter values
-        instance_id = 'testString'
-        application_id = 'testString'
+        instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
+        application_id = 'ff48cc19-0e7e-4627-aac6-0b4ad080397b'
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
@@ -538,6 +538,40 @@ class TestGetApplicationState():
 # Start of Model Tests
 ##############################################################################
 # region
+class TestModel_Application():
+    """
+    Test Class for Application
+    """
+
+    def test_application_serialization(self):
+        """
+        Test serialization/deserialization for Application
+        """
+
+        # Construct a json representation of a Application model
+        application_model_json = {}
+        application_model_json['id'] = 'testString'
+        application_model_json['href'] = 'testString'
+        application_model_json['spark_application_id'] = 'testString'
+        application_model_json['state'] = 'testString'
+        application_model_json['start_time'] = 'testString'
+        application_model_json['finish_time'] = 'testString'
+
+        # Construct a model instance of Application by calling from_dict on the json representation
+        application_model = Application.from_dict(application_model_json)
+        assert application_model != False
+
+        # Construct a model instance of Application by calling from_dict on the json representation
+        application_model_dict = Application.from_dict(application_model_json).__dict__
+        application_model2 = Application(**application_model_dict)
+
+        # Verify the model instances are equivalent
+        assert application_model == application_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        application_model_json2 = application_model.to_dict()
+        assert application_model_json2 == application_model_json
+
 class TestModel_ApplicationCollection():
     """
     Test Class for ApplicationCollection
@@ -550,16 +584,17 @@ class TestModel_ApplicationCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        application_details_model = {} # ApplicationDetails
-        application_details_model['application_id'] = 'testString'
-        application_details_model['spark_application_id'] = 'testString'
-        application_details_model['state'] = 'testString'
-        application_details_model['start_time'] = 'testString'
-        application_details_model['finish_time'] = 'testString'
+        application_model = {} # Application
+        application_model['id'] = 'testString'
+        application_model['href'] = 'testString'
+        application_model['spark_application_id'] = 'testString'
+        application_model['state'] = 'testString'
+        application_model['start_time'] = 'testString'
+        application_model['finish_time'] = 'testString'
 
         # Construct a json representation of a ApplicationCollection model
         application_collection_model_json = {}
-        application_collection_model_json['applications'] = [application_details_model]
+        application_collection_model_json['applications'] = [application_model]
 
         # Construct a model instance of ApplicationCollection by calling from_dict on the json representation
         application_collection_model = ApplicationCollection.from_dict(application_collection_model_json)
@@ -576,39 +611,6 @@ class TestModel_ApplicationCollection():
         application_collection_model_json2 = application_collection_model.to_dict()
         assert application_collection_model_json2 == application_collection_model_json
 
-class TestModel_ApplicationDetails():
-    """
-    Test Class for ApplicationDetails
-    """
-
-    def test_application_details_serialization(self):
-        """
-        Test serialization/deserialization for ApplicationDetails
-        """
-
-        # Construct a json representation of a ApplicationDetails model
-        application_details_model_json = {}
-        application_details_model_json['application_id'] = 'testString'
-        application_details_model_json['spark_application_id'] = 'testString'
-        application_details_model_json['state'] = 'testString'
-        application_details_model_json['start_time'] = 'testString'
-        application_details_model_json['finish_time'] = 'testString'
-
-        # Construct a model instance of ApplicationDetails by calling from_dict on the json representation
-        application_details_model = ApplicationDetails.from_dict(application_details_model_json)
-        assert application_details_model != False
-
-        # Construct a model instance of ApplicationDetails by calling from_dict on the json representation
-        application_details_model_dict = ApplicationDetails.from_dict(application_details_model_json).__dict__
-        application_details_model2 = ApplicationDetails(**application_details_model_dict)
-
-        # Verify the model instances are equivalent
-        assert application_details_model == application_details_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        application_details_model_json2 = application_details_model.to_dict()
-        assert application_details_model_json2 == application_details_model_json
-
 class TestModel_ApplicationGetResponse():
     """
     Test Class for ApplicationGetResponse
@@ -622,9 +624,9 @@ class TestModel_ApplicationGetResponse():
         # Construct dict forms of any model objects needed in order to build this model.
 
         application_request_application_details_model = {} # ApplicationRequestApplicationDetails
-        application_request_application_details_model['application'] = 'testString'
-        application_request_application_details_model['class'] = 'testString'
-        application_request_application_details_model['application_arguments'] = ['testString']
+        application_request_application_details_model['application'] = 'cos://bucket_name.my_cos/my_spark_app.py'
+        application_request_application_details_model['class'] = 'com.company.path.ClassName'
+        application_request_application_details_model['arguments'] = ['[arg1, arg2, arg3]']
         application_request_application_details_model['conf'] = {}
         application_request_application_details_model['env'] = {}
 
@@ -634,11 +636,10 @@ class TestModel_ApplicationGetResponse():
         # Construct a json representation of a ApplicationGetResponse model
         application_get_response_model_json = {}
         application_get_response_model_json['application_details'] = application_request_model
-        application_get_response_model_json['mode'] = 'testString'
-        application_get_response_model_json['application_id'] = 'testString'
-        application_get_response_model_json['state'] = 'testString'
-        application_get_response_model_json['start_time'] = 'testString'
-        application_get_response_model_json['finish_time'] = 'testString'
+        application_get_response_model_json['id'] = '2b83d31c-397b-48ad-ad76-b83347c982db'
+        application_get_response_model_json['state'] = 'accepted'
+        application_get_response_model_json['start_time'] = "2021-01-30T08:30:00Z"
+        application_get_response_model_json['finish_time'] = "2021-01-30T08:30:00Z"
 
         # Construct a model instance of ApplicationGetResponse by calling from_dict on the json representation
         application_get_response_model = ApplicationGetResponse.from_dict(application_get_response_model_json)
@@ -667,7 +668,7 @@ class TestModel_ApplicationGetStateResponse():
 
         # Construct a json representation of a ApplicationGetStateResponse model
         application_get_state_response_model_json = {}
-        application_get_state_response_model_json['application_id'] = 'testString'
+        application_get_state_response_model_json['id'] = 'testString'
         application_get_state_response_model_json['state'] = 'testString'
         application_get_state_response_model_json['start_time'] = 'testString'
         application_get_state_response_model_json['finish_time'] = 'testString'
@@ -700,9 +701,9 @@ class TestModel_ApplicationRequest():
         # Construct dict forms of any model objects needed in order to build this model.
 
         application_request_application_details_model = {} # ApplicationRequestApplicationDetails
-        application_request_application_details_model['application'] = 'testString'
-        application_request_application_details_model['class'] = 'testString'
-        application_request_application_details_model['application_arguments'] = ['testString']
+        application_request_application_details_model['application'] = 'cos://bucket_name.my_cos/my_spark_app.py'
+        application_request_application_details_model['class'] = 'com.company.path.ClassName'
+        application_request_application_details_model['arguments'] = ['[arg1, arg2, arg3]']
         application_request_application_details_model['conf'] = {}
         application_request_application_details_model['env'] = {}
 
@@ -737,9 +738,9 @@ class TestModel_ApplicationRequestApplicationDetails():
 
         # Construct a json representation of a ApplicationRequestApplicationDetails model
         application_request_application_details_model_json = {}
-        application_request_application_details_model_json['application'] = 'testString'
-        application_request_application_details_model_json['class'] = 'testString'
-        application_request_application_details_model_json['application_arguments'] = ['testString']
+        application_request_application_details_model_json['application'] = 'cos://bucket_name.my_cos/my_spark_app.py'
+        application_request_application_details_model_json['class'] = 'com.company.path.ClassName'
+        application_request_application_details_model_json['arguments'] = ['[arg1, arg2, arg3]']
         application_request_application_details_model_json['conf'] = {}
         application_request_application_details_model_json['env'] = {}
 
@@ -770,9 +771,8 @@ class TestModel_ApplicationResponse():
 
         # Construct a json representation of a ApplicationResponse model
         application_response_model_json = {}
-        application_response_model_json['application_id'] = 'testString'
+        application_response_model_json['id'] = 'testString'
         application_response_model_json['state'] = 'accepted'
-        application_response_model_json['start_time'] = "2019-01-01T12:00:00Z"
 
         # Construct a model instance of ApplicationResponse by calling from_dict on the json representation
         application_response_model = ApplicationResponse.from_dict(application_response_model_json)
@@ -789,153 +789,152 @@ class TestModel_ApplicationResponse():
         application_response_model_json2 = application_response_model.to_dict()
         assert application_response_model_json2 == application_response_model_json
 
-class TestModel_InstanceDetails():
+class TestModel_Instance():
     """
-    Test Class for InstanceDetails
+    Test Class for Instance
     """
 
-    def test_instance_details_serialization(self):
+    def test_instance_serialization(self):
         """
-        Test serialization/deserialization for InstanceDetails
+        Test serialization/deserialization for Instance
         """
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        instance_details_default_runtime_model = {} # InstanceDetailsDefaultRuntime
-        instance_details_default_runtime_model['spark_version'] = 'testString'
-        instance_details_default_runtime_model['additional_packages'] = ['testString']
+        instance_default_runtime_model = {} # InstanceDefaultRuntime
+        instance_default_runtime_model['spark_version'] = 'testString'
 
-        instance_details_instance_home_model = {} # InstanceDetailsInstanceHome
-        instance_details_instance_home_model['guid'] = 'testString'
-        instance_details_instance_home_model['provider'] = 'testString'
-        instance_details_instance_home_model['type'] = 'testString'
-        instance_details_instance_home_model['region'] = 'testString'
-        instance_details_instance_home_model['endpoint'] = 'testString'
-        instance_details_instance_home_model['bucket'] = 'testString'
-        instance_details_instance_home_model['hmac_access_key'] = 'testString'
-        instance_details_instance_home_model['hmac_secret_key'] = 'testString'
+        instance_home_model = {} # InstanceHome
+        instance_home_model['id'] = 'testString'
+        instance_home_model['provider'] = 'testString'
+        instance_home_model['type'] = 'testString'
+        instance_home_model['region'] = 'testString'
+        instance_home_model['endpoint'] = 'testString'
+        instance_home_model['bucket'] = 'testString'
+        instance_home_model['hmac_access_key'] = 'testString'
+        instance_home_model['hmac_secret_key'] = 'testString'
 
-        instance_details_default_config_model = {} # InstanceDetailsDefaultConfig
-        instance_details_default_config_model['key'] = 'testString'
+        instance_default_config_model = {} # InstanceDefaultConfig
+        instance_default_config_model['key'] = 'testString'
 
-        # Construct a json representation of a InstanceDetails model
-        instance_details_model_json = {}
-        instance_details_model_json['instance_id'] = 'testString'
-        instance_details_model_json['state'] = 'created'
-        instance_details_model_json['state_change_time'] = "2019-01-01T12:00:00Z"
-        instance_details_model_json['default_runtime'] = instance_details_default_runtime_model
-        instance_details_model_json['instance_home'] = instance_details_instance_home_model
-        instance_details_model_json['default_config'] = instance_details_default_config_model
+        # Construct a json representation of a Instance model
+        instance_model_json = {}
+        instance_model_json['id'] = 'testString'
+        instance_model_json['href'] = 'testString'
+        instance_model_json['state'] = 'created'
+        instance_model_json['state_change_time'] = "2021-01-30T08:30:00Z"
+        instance_model_json['default_runtime'] = instance_default_runtime_model
+        instance_model_json['instance_home'] = instance_home_model
+        instance_model_json['default_config'] = instance_default_config_model
 
-        # Construct a model instance of InstanceDetails by calling from_dict on the json representation
-        instance_details_model = InstanceDetails.from_dict(instance_details_model_json)
-        assert instance_details_model != False
+        # Construct a model instance of Instance by calling from_dict on the json representation
+        instance_model = Instance.from_dict(instance_model_json)
+        assert instance_model != False
 
-        # Construct a model instance of InstanceDetails by calling from_dict on the json representation
-        instance_details_model_dict = InstanceDetails.from_dict(instance_details_model_json).__dict__
-        instance_details_model2 = InstanceDetails(**instance_details_model_dict)
-
-        # Verify the model instances are equivalent
-        assert instance_details_model == instance_details_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        instance_details_model_json2 = instance_details_model.to_dict()
-        assert instance_details_model_json2 == instance_details_model_json
-
-class TestModel_InstanceDetailsDefaultConfig():
-    """
-    Test Class for InstanceDetailsDefaultConfig
-    """
-
-    def test_instance_details_default_config_serialization(self):
-        """
-        Test serialization/deserialization for InstanceDetailsDefaultConfig
-        """
-
-        # Construct a json representation of a InstanceDetailsDefaultConfig model
-        instance_details_default_config_model_json = {}
-        instance_details_default_config_model_json['key'] = 'testString'
-
-        # Construct a model instance of InstanceDetailsDefaultConfig by calling from_dict on the json representation
-        instance_details_default_config_model = InstanceDetailsDefaultConfig.from_dict(instance_details_default_config_model_json)
-        assert instance_details_default_config_model != False
-
-        # Construct a model instance of InstanceDetailsDefaultConfig by calling from_dict on the json representation
-        instance_details_default_config_model_dict = InstanceDetailsDefaultConfig.from_dict(instance_details_default_config_model_json).__dict__
-        instance_details_default_config_model2 = InstanceDetailsDefaultConfig(**instance_details_default_config_model_dict)
+        # Construct a model instance of Instance by calling from_dict on the json representation
+        instance_model_dict = Instance.from_dict(instance_model_json).__dict__
+        instance_model2 = Instance(**instance_model_dict)
 
         # Verify the model instances are equivalent
-        assert instance_details_default_config_model == instance_details_default_config_model2
+        assert instance_model == instance_model2
 
         # Convert model instance back to dict and verify no loss of data
-        instance_details_default_config_model_json2 = instance_details_default_config_model.to_dict()
-        assert instance_details_default_config_model_json2 == instance_details_default_config_model_json
+        instance_model_json2 = instance_model.to_dict()
+        assert instance_model_json2 == instance_model_json
 
-class TestModel_InstanceDetailsDefaultRuntime():
+class TestModel_InstanceDefaultConfig():
     """
-    Test Class for InstanceDetailsDefaultRuntime
+    Test Class for InstanceDefaultConfig
     """
 
-    def test_instance_details_default_runtime_serialization(self):
+    def test_instance_default_config_serialization(self):
         """
-        Test serialization/deserialization for InstanceDetailsDefaultRuntime
+        Test serialization/deserialization for InstanceDefaultConfig
         """
 
-        # Construct a json representation of a InstanceDetailsDefaultRuntime model
-        instance_details_default_runtime_model_json = {}
-        instance_details_default_runtime_model_json['spark_version'] = 'testString'
-        instance_details_default_runtime_model_json['additional_packages'] = ['testString']
+        # Construct a json representation of a InstanceDefaultConfig model
+        instance_default_config_model_json = {}
+        instance_default_config_model_json['key'] = 'testString'
 
-        # Construct a model instance of InstanceDetailsDefaultRuntime by calling from_dict on the json representation
-        instance_details_default_runtime_model = InstanceDetailsDefaultRuntime.from_dict(instance_details_default_runtime_model_json)
-        assert instance_details_default_runtime_model != False
+        # Construct a model instance of InstanceDefaultConfig by calling from_dict on the json representation
+        instance_default_config_model = InstanceDefaultConfig.from_dict(instance_default_config_model_json)
+        assert instance_default_config_model != False
 
-        # Construct a model instance of InstanceDetailsDefaultRuntime by calling from_dict on the json representation
-        instance_details_default_runtime_model_dict = InstanceDetailsDefaultRuntime.from_dict(instance_details_default_runtime_model_json).__dict__
-        instance_details_default_runtime_model2 = InstanceDetailsDefaultRuntime(**instance_details_default_runtime_model_dict)
+        # Construct a model instance of InstanceDefaultConfig by calling from_dict on the json representation
+        instance_default_config_model_dict = InstanceDefaultConfig.from_dict(instance_default_config_model_json).__dict__
+        instance_default_config_model2 = InstanceDefaultConfig(**instance_default_config_model_dict)
 
         # Verify the model instances are equivalent
-        assert instance_details_default_runtime_model == instance_details_default_runtime_model2
+        assert instance_default_config_model == instance_default_config_model2
 
         # Convert model instance back to dict and verify no loss of data
-        instance_details_default_runtime_model_json2 = instance_details_default_runtime_model.to_dict()
-        assert instance_details_default_runtime_model_json2 == instance_details_default_runtime_model_json
+        instance_default_config_model_json2 = instance_default_config_model.to_dict()
+        assert instance_default_config_model_json2 == instance_default_config_model_json
 
-class TestModel_InstanceDetailsInstanceHome():
+class TestModel_InstanceDefaultRuntime():
     """
-    Test Class for InstanceDetailsInstanceHome
+    Test Class for InstanceDefaultRuntime
     """
 
-    def test_instance_details_instance_home_serialization(self):
+    def test_instance_default_runtime_serialization(self):
         """
-        Test serialization/deserialization for InstanceDetailsInstanceHome
+        Test serialization/deserialization for InstanceDefaultRuntime
         """
 
-        # Construct a json representation of a InstanceDetailsInstanceHome model
-        instance_details_instance_home_model_json = {}
-        instance_details_instance_home_model_json['guid'] = 'testString'
-        instance_details_instance_home_model_json['provider'] = 'testString'
-        instance_details_instance_home_model_json['type'] = 'testString'
-        instance_details_instance_home_model_json['region'] = 'testString'
-        instance_details_instance_home_model_json['endpoint'] = 'testString'
-        instance_details_instance_home_model_json['bucket'] = 'testString'
-        instance_details_instance_home_model_json['hmac_access_key'] = 'testString'
-        instance_details_instance_home_model_json['hmac_secret_key'] = 'testString'
+        # Construct a json representation of a InstanceDefaultRuntime model
+        instance_default_runtime_model_json = {}
+        instance_default_runtime_model_json['spark_version'] = 'testString'
 
-        # Construct a model instance of InstanceDetailsInstanceHome by calling from_dict on the json representation
-        instance_details_instance_home_model = InstanceDetailsInstanceHome.from_dict(instance_details_instance_home_model_json)
-        assert instance_details_instance_home_model != False
+        # Construct a model instance of InstanceDefaultRuntime by calling from_dict on the json representation
+        instance_default_runtime_model = InstanceDefaultRuntime.from_dict(instance_default_runtime_model_json)
+        assert instance_default_runtime_model != False
 
-        # Construct a model instance of InstanceDetailsInstanceHome by calling from_dict on the json representation
-        instance_details_instance_home_model_dict = InstanceDetailsInstanceHome.from_dict(instance_details_instance_home_model_json).__dict__
-        instance_details_instance_home_model2 = InstanceDetailsInstanceHome(**instance_details_instance_home_model_dict)
+        # Construct a model instance of InstanceDefaultRuntime by calling from_dict on the json representation
+        instance_default_runtime_model_dict = InstanceDefaultRuntime.from_dict(instance_default_runtime_model_json).__dict__
+        instance_default_runtime_model2 = InstanceDefaultRuntime(**instance_default_runtime_model_dict)
 
         # Verify the model instances are equivalent
-        assert instance_details_instance_home_model == instance_details_instance_home_model2
+        assert instance_default_runtime_model == instance_default_runtime_model2
 
         # Convert model instance back to dict and verify no loss of data
-        instance_details_instance_home_model_json2 = instance_details_instance_home_model.to_dict()
-        assert instance_details_instance_home_model_json2 == instance_details_instance_home_model_json
+        instance_default_runtime_model_json2 = instance_default_runtime_model.to_dict()
+        assert instance_default_runtime_model_json2 == instance_default_runtime_model_json
+
+class TestModel_InstanceHome():
+    """
+    Test Class for InstanceHome
+    """
+
+    def test_instance_home_serialization(self):
+        """
+        Test serialization/deserialization for InstanceHome
+        """
+
+        # Construct a json representation of a InstanceHome model
+        instance_home_model_json = {}
+        instance_home_model_json['id'] = 'testString'
+        instance_home_model_json['provider'] = 'testString'
+        instance_home_model_json['type'] = 'testString'
+        instance_home_model_json['region'] = 'testString'
+        instance_home_model_json['endpoint'] = 'testString'
+        instance_home_model_json['bucket'] = 'testString'
+        instance_home_model_json['hmac_access_key'] = 'testString'
+        instance_home_model_json['hmac_secret_key'] = 'testString'
+
+        # Construct a model instance of InstanceHome by calling from_dict on the json representation
+        instance_home_model = InstanceHome.from_dict(instance_home_model_json)
+        assert instance_home_model != False
+
+        # Construct a model instance of InstanceHome by calling from_dict on the json representation
+        instance_home_model_dict = InstanceHome.from_dict(instance_home_model_json).__dict__
+        instance_home_model2 = InstanceHome(**instance_home_model_dict)
+
+        # Verify the model instances are equivalent
+        assert instance_home_model == instance_home_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        instance_home_model_json2 = instance_home_model.to_dict()
+        assert instance_home_model_json2 == instance_home_model_json
 
 
 # endregion
