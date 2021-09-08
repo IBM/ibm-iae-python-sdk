@@ -76,21 +76,21 @@ class TestIbmAnalyticsEngineApiV3Examples():
     )
 
     @needscredentials
-    def test_get_instance_by_id_example(self):
+    def test_get_instance_example(self):
         """
-        get_instance_by_id request example
+        get_instance request example
         """
         try:
-            print('\nget_instance_by_id() result:')
-            # begin-get_instance_by_id
+            print('\nget_instance() result:')
+            # begin-get_instance
 
-            instance_details = ibm_analytics_engine_api_service.get_instance_by_id(
-                instance_id='testString'
+            instance = ibm_analytics_engine_api_service.get_instance(
+                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
             ).get_result()
 
-            print(json.dumps(instance_details, indent=2))
+            print(json.dumps(instance, indent=2))
 
-            # end-get_instance_by_id
+            # end-get_instance
 
         except ApiException as e:
             pytest.fail(str(e))
@@ -104,8 +104,14 @@ class TestIbmAnalyticsEngineApiV3Examples():
             print('\ncreate_application() result:')
             # begin-create_application
 
+            application_request_application_details_model = {
+                'application': '/opt/ibm/spark/examples/src/main/python/wordcount.py',
+                'arguments': ['/opt/ibm/spark/examples/src/main/resources/people.txt']
+            }
+
             application_response = ibm_analytics_engine_api_service.create_application(
-                instance_id='testString',
+                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+                application_details = application_request_application_details_model,
             ).get_result()
 
             print(json.dumps(application_response, indent=2))
@@ -116,42 +122,42 @@ class TestIbmAnalyticsEngineApiV3Examples():
             pytest.fail(str(e))
 
     @needscredentials
-    def test_get_applications_example(self):
+    def test_list_applications_example(self):
         """
-        get_applications request example
+        list_applications request example
         """
         try:
-            print('\nget_applications() result:')
-            # begin-get_applications
+            print('\nlist_applications() result:')
+            # begin-list_applications
 
-            application_collection = ibm_analytics_engine_api_service.get_applications(
-                instance_id='testString'
+            application_collection = ibm_analytics_engine_api_service.list_applications(
+                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
             ).get_result()
 
             print(json.dumps(application_collection, indent=2))
 
-            # end-get_applications
+            # end-list_applications
 
         except ApiException as e:
             pytest.fail(str(e))
 
     @needscredentials
-    def test_get_application_by_id_example(self):
+    def test_get_application_example(self):
         """
-        get_application_by_id request example
+        get_application request example
         """
         try:
-            print('\nget_application_by_id() result:')
-            # begin-get_application_by_id
+            print('\nget_application() result:')
+            # begin-get_application
 
-            application_get_response = ibm_analytics_engine_api_service.get_application_by_id(
-                instance_id='testString',
-                application_id='testString'
+            application_get_response = ibm_analytics_engine_api_service.get_application(
+                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+                application_id='ff48cc19-0e7e-4627-aac6-0b4ad080397b'
             ).get_result()
 
             print(json.dumps(application_get_response, indent=2))
 
-            # end-get_application_by_id
+            # end-get_application
 
         except ApiException as e:
             pytest.fail(str(e))
@@ -166,8 +172,8 @@ class TestIbmAnalyticsEngineApiV3Examples():
             # begin-get_application_state
 
             application_get_state_response = ibm_analytics_engine_api_service.get_application_state(
-                instance_id='testString',
-                application_id='testString'
+                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+                application_id='ff48cc19-0e7e-4627-aac6-0b4ad080397b'
             ).get_result()
 
             print(json.dumps(application_get_state_response, indent=2))
@@ -178,20 +184,20 @@ class TestIbmAnalyticsEngineApiV3Examples():
             pytest.fail(str(e))
 
     @needscredentials
-    def test_delete_application_by_id_example(self):
+    def test_delete_application_example(self):
         """
-        delete_application_by_id request example
+        delete_application request example
         """
         try:
-            # begin-delete_application_by_id
+            # begin-delete_application
 
-            response = ibm_analytics_engine_api_service.delete_application_by_id(
-                instance_id='testString',
-                application_id='testString'
+            response = ibm_analytics_engine_api_service.delete_application(
+                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+                application_id='ff48cc19-0e7e-4627-aac6-0b4ad080397b'
             )
 
-            # end-delete_application_by_id
-            print('\ndelete_application_by_id() response status code: ', response.get_status_code())
+            # end-delete_application
+            print('\ndelete_application() response status code: ', response.get_status_code())
 
         except ApiException as e:
             pytest.fail(str(e))
