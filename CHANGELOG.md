@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/IBM/ibm-iae-python-sdk/compare/v1.1.0...v1.1.1) (2021-09-08)
+
+
+### Bug Fixes
+
+* **analytics engine:** fixed Spark application submit path and payload ([#6](https://github.com/IBM/ibm-iae-python-sdk/issues/6)) ([522d541](https://github.com/IBM/ibm-iae-python-sdk/commit/522d5416a744ec3fca7393da653750e29876c281))
+
 # [1.1.0](https://github.com/IBM/ibm-iae-python-sdk/compare/v1.0.3...v1.1.0) (2021-08-17)
 
 
