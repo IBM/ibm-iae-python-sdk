@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/IBM/ibm-iae-python-sdk.svg?branch=master)](https://travis-ci.org/IBM/ibm-iae-python-sdk)
+[![Build Status](https://api.travis-ci.com/IBM/ibm-iae-python-sdk.svg?branch=master)](https://app.travis-ci.com/IBM/ibm-iae-python-sdk)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 # IBM Cloud Analytics Engine Python SDK Version 1.1.1
 
@@ -21,10 +21,10 @@ Python client library to interact with various [iaesdk Service APIs](https://clo
 The IBM Cloud iaesdk Python SDK allows developers to programmatically interact with the following 
 IBM Cloud services:
 
-Service Name | Imported Class Name
---- | --- 
-[IBM Analytics Engine v2](https://cloud.ibm.com/apidocs/ibm-analytics-engine/ibm-analytics-engine-v2) | IbmAnalyticsEngineApiV2
-[IBM Analytics Engine v3](https://cloud.ibm.com/apidocs/ibm-analytics-engine/ibm-analytics-engine-v3) | IbmAnalyticsEngineApiV3
+Service Name | Module Name | Service Class Name
+--- | --- | --- 
+[IBM Analytics Engine v2](https://cloud.ibm.com/apidocs/ibm-analytics-engine/ibm-analytics-engine-v2) | ibm_analytics_engine_api_v2 | IbmAnalyticsEngineApiV2
+[IBM Analytics Engine v3](https://cloud.ibm.com/apidocs/ibm-analytics-engine/ibm-analytics-engine-v3) | ibm_analytics_engine_api_v3 | IbmAnalyticsEngineApiV3
 
 **NOTE**
 
