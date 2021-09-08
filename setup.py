@@ -19,7 +19,7 @@ import os
 import sys
 import pkg_resources
 
-__version__ = '1.1.0'
+__version__ = '1.1.1'
 PACKAGE_NAME = 'iaesdk'
 PACKAGE_DESC = 'Python client library for IBM Cloud Analytics Engine Services'
 
