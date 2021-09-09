@@ -508,12 +508,114 @@ class ApplicationCollection():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+class ApplicationDetails():
+    """
+    Application details.
+
+    :attr str application: (optional) Path of the application to run.
+    :attr str class_: (optional) Entry point for a Spark application bundled as a
+          '.jar' file. This is applicable only for Java or Scala applications.
+    :attr List[str] arguments: (optional) An array of arguments to be passed to the
+          application.
+    :attr dict conf: (optional) Application configurations to override the value
+          specified at instance level. See [Spark environment variables](
+          https://spark.apache.org/docs/latest/configuration.html#available-properties)
+          for a list of the supported variables.
+    :attr dict env: (optional) Application environment configurations to use. See
+          [Spark environment
+          variables](https://spark.apache.org/docs/latest/configuration.html#environment-variables)
+          for a list of the supported variables.
+    """
+
+    def __init__(self,
+                 *,
+                 application: str = None,
+                 class_: str = None,
+                 arguments: List[str] = None,
+                 conf: dict = None,
+                 env: dict = None) -> None:
+        """
+        Initialize a ApplicationDetails object.
+
+        :param str application: (optional) Path of the application to run.
+        :param str class_: (optional) Entry point for a Spark application bundled
+               as a '.jar' file. This is applicable only for Java or Scala applications.
+        :param List[str] arguments: (optional) An array of arguments to be passed
+               to the application.
+        :param dict conf: (optional) Application configurations to override the
+               value specified at instance level. See [Spark environment variables](
+               https://spark.apache.org/docs/latest/configuration.html#available-properties)
+               for a list of the supported variables.
+        :param dict env: (optional) Application environment configurations to use.
+               See [Spark environment
+               variables](https://spark.apache.org/docs/latest/configuration.html#environment-variables)
+               for a list of the supported variables.
+        """
+        self.application = application
+        self.class_ = class_
+        self.arguments = arguments
+        self.conf = conf
+        self.env = env
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ApplicationDetails':
+        """Initialize a ApplicationDetails object from a json dictionary."""
+        args = {}
+        if 'application' in _dict:
+            args['application'] = _dict.get('application')
+        if 'class' in _dict:
+            args['class_'] = _dict.get('class')
+        if 'arguments' in _dict:
+            args['arguments'] = _dict.get('arguments')
+        if 'conf' in _dict:
+            args['conf'] = _dict.get('conf')
+        if 'env' in _dict:
+            args['env'] = _dict.get('env')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ApplicationDetails object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'application') and self.application is not None:
+            _dict['application'] = self.application
+        if hasattr(self, 'class_') and self.class_ is not None:
+            _dict['class'] = self.class_
+        if hasattr(self, 'arguments') and self.arguments is not None:
+            _dict['arguments'] = self.arguments
+        if hasattr(self, 'conf') and self.conf is not None:
+            _dict['conf'] = self.conf
+        if hasattr(self, 'env') and self.env is not None:
+            _dict['env'] = self.env
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ApplicationDetails object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ApplicationDetails') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ApplicationDetails') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
 class ApplicationGetResponse():
     """
     Response of the Application Get API.
 
-    :attr ApplicationRequest application_details: (optional) Application request
-          details.
+    :attr ApplicationDetails application_details: (optional) Application details.
     :attr str id: (optional) Application ID.
     :attr str state: (optional) Application state.
     :attr datetime start_time: (optional) Application start time in the format
@@ -524,7 +626,7 @@ class ApplicationGetResponse():
 
     def __init__(self,
                  *,
-                 application_details: 'ApplicationRequest' = None,
+                 application_details: 'ApplicationDetails' = None,
                  id: str = None,
                  state: str = None,
                  start_time: datetime = None,
@@ -532,8 +634,8 @@ class ApplicationGetResponse():
         """
         Initialize a ApplicationGetResponse object.
 
-        :param ApplicationRequest application_details: (optional) Application
-               request details.
+        :param ApplicationDetails application_details: (optional) Application
+               details.
         :param str id: (optional) Application ID.
         :param str state: (optional) Application state.
         :param datetime start_time: (optional) Application start time in the format
@@ -552,7 +654,7 @@ class ApplicationGetResponse():
         """Initialize a ApplicationGetResponse object from a json dictionary."""
         args = {}
         if 'application_details' in _dict:
-            args['application_details'] = ApplicationRequest.from_dict(_dict.get('application_details'))
+            args['application_details'] = ApplicationDetails.from_dict(_dict.get('application_details'))
         if 'id' in _dict:
             args['id'] = _dict.get('id')
         if 'state' in _dict:
@@ -677,63 +779,6 @@ class ApplicationGetStateResponse():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'ApplicationGetStateResponse') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-class ApplicationRequest():
-    """
-    Application request details.
-
-    :attr ApplicationRequestApplicationDetails application_details: (optional)
-          Application details.
-    """
-
-    def __init__(self,
-                 *,
-                 application_details: 'ApplicationRequestApplicationDetails' = None) -> None:
-        """
-        Initialize a ApplicationRequest object.
-
-        :param ApplicationRequestApplicationDetails application_details: (optional)
-               Application details.
-        """
-        self.application_details = application_details
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'ApplicationRequest':
-        """Initialize a ApplicationRequest object from a json dictionary."""
-        args = {}
-        if 'application_details' in _dict:
-            args['application_details'] = ApplicationRequestApplicationDetails.from_dict(_dict.get('application_details'))
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a ApplicationRequest object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'application_details') and self.application_details is not None:
-            _dict['application_details'] = self.application_details.to_dict()
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this ApplicationRequest object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'ApplicationRequest') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'ApplicationRequest') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 

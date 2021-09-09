@@ -329,7 +329,7 @@ class TestGetApplication():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications/ff48cc19-0e7e-4627-aac6-0b4ad080397b')
-        mock_response = '{"application_details": {"application_details": {"application": "cos://bucket_name.my_cos/my_spark_app.py", "class": "com.company.path.ClassName", "arguments": ["[arg1, arg2, arg3]"], "conf": {"mapKey": "anyValue"}, "env": {"mapKey": "anyValue"}}}, "id": "2b83d31c-397b-48ad-ad76-b83347c982db", "state": "accepted", "start_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z"}'
+        mock_response = '{"application_details": {"application": "cos://bucket_name.my_cos/my_spark_app.py", "class": "com.company.path.ClassName", "arguments": ["[arg1, arg2, arg3]"], "conf": {"mapKey": "anyValue"}, "env": {"mapKey": "anyValue"}}, "id": "2b83d31c-397b-48ad-ad76-b83347c982db", "state": "accepted", "start_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -359,7 +359,7 @@ class TestGetApplication():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications/ff48cc19-0e7e-4627-aac6-0b4ad080397b')
-        mock_response = '{"application_details": {"application_details": {"application": "cos://bucket_name.my_cos/my_spark_app.py", "class": "com.company.path.ClassName", "arguments": ["[arg1, arg2, arg3]"], "conf": {"mapKey": "anyValue"}, "env": {"mapKey": "anyValue"}}}, "id": "2b83d31c-397b-48ad-ad76-b83347c982db", "state": "accepted", "start_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z"}'
+        mock_response = '{"application_details": {"application": "cos://bucket_name.my_cos/my_spark_app.py", "class": "com.company.path.ClassName", "arguments": ["[arg1, arg2, arg3]"], "conf": {"mapKey": "anyValue"}, "env": {"mapKey": "anyValue"}}, "id": "2b83d31c-397b-48ad-ad76-b83347c982db", "state": "accepted", "start_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -611,6 +611,39 @@ class TestModel_ApplicationCollection():
         application_collection_model_json2 = application_collection_model.to_dict()
         assert application_collection_model_json2 == application_collection_model_json
 
+class TestModel_ApplicationDetails():
+    """
+    Test Class for ApplicationDetails
+    """
+
+    def test_application_details_serialization(self):
+        """
+        Test serialization/deserialization for ApplicationDetails
+        """
+
+        # Construct a json representation of a ApplicationDetails model
+        application_details_model_json = {}
+        application_details_model_json['application'] = 'cos://bucket_name.my_cos/my_spark_app.py'
+        application_details_model_json['class'] = 'com.company.path.ClassName'
+        application_details_model_json['arguments'] = ['[arg1, arg2, arg3]']
+        application_details_model_json['conf'] = {}
+        application_details_model_json['env'] = {}
+
+        # Construct a model instance of ApplicationDetails by calling from_dict on the json representation
+        application_details_model = ApplicationDetails.from_dict(application_details_model_json)
+        assert application_details_model != False
+
+        # Construct a model instance of ApplicationDetails by calling from_dict on the json representation
+        application_details_model_dict = ApplicationDetails.from_dict(application_details_model_json).__dict__
+        application_details_model2 = ApplicationDetails(**application_details_model_dict)
+
+        # Verify the model instances are equivalent
+        assert application_details_model == application_details_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        application_details_model_json2 = application_details_model.to_dict()
+        assert application_details_model_json2 == application_details_model_json
+
 class TestModel_ApplicationGetResponse():
     """
     Test Class for ApplicationGetResponse
@@ -623,19 +656,16 @@ class TestModel_ApplicationGetResponse():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        application_request_application_details_model = {} # ApplicationRequestApplicationDetails
-        application_request_application_details_model['application'] = 'cos://bucket_name.my_cos/my_spark_app.py'
-        application_request_application_details_model['class'] = 'com.company.path.ClassName'
-        application_request_application_details_model['arguments'] = ['[arg1, arg2, arg3]']
-        application_request_application_details_model['conf'] = {}
-        application_request_application_details_model['env'] = {}
-
-        application_request_model = {} # ApplicationRequest
-        application_request_model['application_details'] = application_request_application_details_model
+        application_details_model = {} # ApplicationDetails
+        application_details_model['application'] = 'cos://bucket_name.my_cos/my_spark_app.py'
+        application_details_model['class'] = 'com.company.path.ClassName'
+        application_details_model['arguments'] = ['[arg1, arg2, arg3]']
+        application_details_model['conf'] = {}
+        application_details_model['env'] = {}
 
         # Construct a json representation of a ApplicationGetResponse model
         application_get_response_model_json = {}
-        application_get_response_model_json['application_details'] = application_request_model
+        application_get_response_model_json['application_details'] = application_details_model
         application_get_response_model_json['id'] = '2b83d31c-397b-48ad-ad76-b83347c982db'
         application_get_response_model_json['state'] = 'accepted'
         application_get_response_model_json['start_time'] = "2021-01-30T08:30:00Z"
@@ -687,44 +717,6 @@ class TestModel_ApplicationGetStateResponse():
         # Convert model instance back to dict and verify no loss of data
         application_get_state_response_model_json2 = application_get_state_response_model.to_dict()
         assert application_get_state_response_model_json2 == application_get_state_response_model_json
-
-class TestModel_ApplicationRequest():
-    """
-    Test Class for ApplicationRequest
-    """
-
-    def test_application_request_serialization(self):
-        """
-        Test serialization/deserialization for ApplicationRequest
-        """
-
-        # Construct dict forms of any model objects needed in order to build this model.
-
-        application_request_application_details_model = {} # ApplicationRequestApplicationDetails
-        application_request_application_details_model['application'] = 'cos://bucket_name.my_cos/my_spark_app.py'
-        application_request_application_details_model['class'] = 'com.company.path.ClassName'
-        application_request_application_details_model['arguments'] = ['[arg1, arg2, arg3]']
-        application_request_application_details_model['conf'] = {}
-        application_request_application_details_model['env'] = {}
-
-        # Construct a json representation of a ApplicationRequest model
-        application_request_model_json = {}
-        application_request_model_json['application_details'] = application_request_application_details_model
-
-        # Construct a model instance of ApplicationRequest by calling from_dict on the json representation
-        application_request_model = ApplicationRequest.from_dict(application_request_model_json)
-        assert application_request_model != False
-
-        # Construct a model instance of ApplicationRequest by calling from_dict on the json representation
-        application_request_model_dict = ApplicationRequest.from_dict(application_request_model_json).__dict__
-        application_request_model2 = ApplicationRequest(**application_request_model_dict)
-
-        # Verify the model instances are equivalent
-        assert application_request_model == application_request_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        application_request_model_json2 = application_request_model.to_dict()
-        assert application_request_model_json2 == application_request_model_json
 
 class TestModel_ApplicationRequestApplicationDetails():
     """
