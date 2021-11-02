@@ -96,6 +96,46 @@ class TestIbmAnalyticsEngineApiV3Examples():
             pytest.fail(str(e))
 
     @needscredentials
+    def test_get_instance_state_example(self):
+        """
+        get_instance_state request example
+        """
+        try:
+            print('\nget_instance_state() result:')
+            # begin-get_instance_state
+
+            instance_get_state_response = ibm_analytics_engine_api_service.get_instance_state(
+                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
+            ).get_result()
+
+            print(json.dumps(instance_get_state_response, indent=2))
+
+            # end-get_instance_state
+
+        except ApiException as e:
+            pytest.fail(str(e))
+
+    @needscredentials
+    def test_create_instance_home_example(self):
+        """
+        create_instance_home request example
+        """
+        try:
+            print('\ncreate_instance_home() result:')
+            # begin-create_instance_home
+
+            instance_home_response = ibm_analytics_engine_api_service.create_instance_home(
+                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+            ).get_result()
+
+            print(json.dumps(instance_home_response, indent=2))
+
+            # end-create_instance_home
+
+        except ApiException as e:
+            pytest.fail(str(e))
+
+    @needscredentials
     def test_create_application_example(self):
         """
         create_application request example
@@ -104,14 +144,8 @@ class TestIbmAnalyticsEngineApiV3Examples():
             print('\ncreate_application() result:')
             # begin-create_application
 
-            application_request_application_details_model = {
-                'application': '/opt/ibm/spark/examples/src/main/python/wordcount.py',
-                'arguments': ['/opt/ibm/spark/examples/src/main/resources/people.txt']
-            }
-
             application_response = ibm_analytics_engine_api_service.create_application(
                 instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
-                application_details = application_request_application_details_model,
             ).get_result()
 
             print(json.dumps(application_response, indent=2))
@@ -179,6 +213,84 @@ class TestIbmAnalyticsEngineApiV3Examples():
             print(json.dumps(application_get_state_response, indent=2))
 
             # end-get_application_state
+
+        except ApiException as e:
+            pytest.fail(str(e))
+
+    @needscredentials
+    def test_enable_platform_logging_example(self):
+        """
+        enable_platform_logging request example
+        """
+        try:
+            print('\nenable_platform_logging() result:')
+            # begin-enable_platform_logging
+
+            logging_configuration_response = ibm_analytics_engine_api_service.enable_platform_logging(
+                instance_guid='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+            ).get_result()
+
+            print(json.dumps(logging_configuration_response, indent=2))
+
+            # end-enable_platform_logging
+
+        except ApiException as e:
+            pytest.fail(str(e))
+
+    @needscredentials
+    def test_disable_platform_logging_example(self):
+        """
+        disable_platform_logging request example
+        """
+        try:
+            print('\ndisable_platform_logging() result:')
+            # begin-disable_platform_logging
+
+            logging_configuration_response = ibm_analytics_engine_api_service.disable_platform_logging(
+                instance_guid='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+            ).get_result()
+
+            print(json.dumps(logging_configuration_response, indent=2))
+
+            # end-disable_platform_logging
+
+        except ApiException as e:
+            pytest.fail(str(e))
+
+    @needscredentials
+    def test_get_logging_configuration_example(self):
+        """
+        get_logging_configuration request example
+        """
+        try:
+            print('\nget_logging_configuration() result:')
+            # begin-get_logging_configuration
+
+            logging_configuration_response = ibm_analytics_engine_api_service.get_logging_configuration(
+                instance_guid='e64c907a-e82f-46fd-addc-ccfafbd28b09'
+            ).get_result()
+
+            print(json.dumps(logging_configuration_response, indent=2))
+
+            # end-get_logging_configuration
+
+        except ApiException as e:
+            pytest.fail(str(e))
+
+    @needscredentials
+    def test_delete_logging_configuration_example(self):
+        """
+        delete_logging_configuration request example
+        """
+        try:
+            # begin-delete_logging_configuration
+
+            response = ibm_analytics_engine_api_service.delete_logging_configuration(
+                instance_guid='e64c907a-e82f-46fd-addc-ccfafbd28b09'
+            )
+
+            # end-delete_logging_configuration
+            print('\ndelete_logging_configuration() response status code: ', response.get_status_code())
 
         except ApiException as e:
             pytest.fail(str(e))

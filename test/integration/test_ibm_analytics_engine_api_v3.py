@@ -16,7 +16,6 @@
 """
 Integration Tests for IbmAnalyticsEngineApiV3
 """
-
 import os
 import pytest
 from ibm_cloud_sdk_core import *
@@ -37,13 +36,18 @@ class TestIbmAnalyticsEngineApiV3():
             os.environ['IBM_CREDENTIALS_FILE'] = config_file
 
             cls.ibm_analytics_engine_api_service = IbmAnalyticsEngineApiV3.new_instance(
-                )
-            cls.instance_id = os.getenv('IBM_ANALYTICS_ENGINE_INSTANCE_GUID')
+            )
+            cls.instance_id = os.getenv('IBM_ANALYTICS_ENGINE_INSTANCE_GUID')  
+            cls.instance_id_instance_home = os.getenv('IBM_ANALYTICS_ENGINE_INSTANCE_GUID_INSTANCE_HOME') 
+            cls.hmacAccessKey = os.getenv('HMAC_ACCESS_KEY') 
+            cls.hmacSecretKey = os.getenv('HMAC_SECRET_KEY')  
             assert cls.ibm_analytics_engine_api_service is not None
 
             cls.config = read_external_sources(
                 IbmAnalyticsEngineApiV3.DEFAULT_SERVICE_NAME)
             assert cls.config is not None
+
+            cls.ibm_analytics_engine_api_service.enable_retries()
 
         print('Setup complete.')
 
@@ -74,25 +78,73 @@ class TestIbmAnalyticsEngineApiV3():
         #
 
     @needscredentials
-    def test_create_application(self):
+    def test_get_instance_state(self):
+        
+        get_instance_state_response = self.ibm_analytics_engine_api_service.get_instance_state(
+            self.instance_id
+        )
 
+        assert get_instance_state_response.get_status_code() == 200
+        instance_get_state_response = get_instance_state_response.get_result()
+        assert instance_get_state_response is not None
+
+        #
+        # The following status codes aren't covered by tests.
+        # Please provide integration tests for these too.
+        #
+        # 400
+        # 401
+        # 403
+        # 404
+        # 500
+        #
+
+    @needscredentials
+    def test_create_instance_home(self):
+
+        create_instance_home_response = self.ibm_analytics_engine_api_service.create_instance_home(
+            self.instance_id_instance_home,
+            new_instance_id='testString',
+            new_provider='ibm-cos',
+            new_type='objectstore',
+            new_region='us-south',
+            new_endpoint='s3.direct.us-south.cloud-object-storage.appdomain.cloud',
+            new_hmac_access_key=self.hmacAccessKey,
+            new_hmac_secret_key=self.hmacSecretKey
+        )
+
+        assert create_instance_home_response.get_status_code() == 200
+        instance_home_response = create_instance_home_response.get_result()
+        assert instance_home_response is not None
+
+        #
+        # The following status codes aren't covered by tests.
+        # Please provide integration tests for these too.
+        #
+        # 400
+        # 401
+        # 403
+        # 404
+        # 500
+        #
+
+    @needscredentials
+    def test_create_application(self):
         global application_id
         # Construct a dict representation of a ApplicationRequestApplicationDetails model
         application_request_application_details_model = {
-            'application': '/opt/ibm/spark/examples/src/main/python/wordcount.py',
-            'arguments': ['/opt/ibm/spark/examples/src/main/resources/people.txt']
+             'application': '/opt/ibm/spark/examples/src/main/python/wordcount.py',
+             'arguments': ['/opt/ibm/spark/examples/src/main/resources/people.txt'],
         }
 
         create_application_response = self.ibm_analytics_engine_api_service.create_application(
             self.instance_id,
-            application_details = application_request_application_details_model
+            application_details=application_request_application_details_model
         )
 
         assert create_application_response.get_status_code() == 202
         application_response = create_application_response.get_result()
-        
         application_id=application_response.get('id')
-
         assert application_response is not None
 
         #
@@ -135,7 +187,7 @@ class TestIbmAnalyticsEngineApiV3():
             self.instance_id,
             application_id
         )
-
+        
         assert get_application_response.get_status_code() == 200
         application_get_response = get_application_response.get_result()
         assert application_get_response is not None
@@ -153,15 +205,102 @@ class TestIbmAnalyticsEngineApiV3():
 
     @needscredentials
     def test_get_application_state(self):
-
         get_application_state_response = self.ibm_analytics_engine_api_service.get_application_state(
             self.instance_id,
             application_id
         )
-
+        
         assert get_application_state_response.get_status_code() == 200
         application_get_state_response = get_application_state_response.get_result()
         assert application_get_state_response is not None
+
+        #
+        # The following status codes aren't covered by tests.
+        # Please provide integration tests for these too.
+        #
+        # 400
+        # 401
+        # 403
+        # 404
+        # 500
+        #
+
+    @needscredentials
+    def test_enable_platform_logging(self):
+
+        enable_platform_logging_response = self.ibm_analytics_engine_api_service.enable_platform_logging(
+            self.instance_id,
+            enable=True
+        )
+
+        assert enable_platform_logging_response.get_status_code() == 201
+        logging_configuration_response = enable_platform_logging_response.get_result()
+        assert logging_configuration_response is not None
+
+        #
+        # The following status codes aren't covered by tests.
+        # Please provide integration tests for these too.
+        #
+        # 400
+        # 401
+        # 403
+        # 404
+        # 500
+        #
+
+    @needscredentials
+    def test_disable_platform_logging(self):
+
+        disable_platform_logging_response = self.ibm_analytics_engine_api_service.disable_platform_logging(
+            self.instance_id,
+            enable=True
+        )
+
+        assert disable_platform_logging_response.get_status_code() == 200
+        logging_configuration_response = disable_platform_logging_response.get_result()
+        assert logging_configuration_response is not None
+
+        #
+        # The following status codes aren't covered by tests.
+        # Please provide integration tests for these too.
+        #
+        # 400
+        # 401
+        # 403
+        # 404
+        # 500
+        #
+
+    @needscredentials
+    def test_get_logging_configuration(self):
+
+        get_logging_configuration_response = self.ibm_analytics_engine_api_service.get_logging_configuration(
+            self.instance_id
+        )
+
+        assert get_logging_configuration_response.get_status_code() == 200
+        logging_configuration_response = get_logging_configuration_response.get_result()
+        assert logging_configuration_response is not None
+
+        #
+        # The following status codes aren't covered by tests.
+        # Please provide integration tests for these too.
+        #
+        # 400
+        # 401
+        # 403
+        # 404
+        # 500
+        #
+
+    @needscredentials
+    def test_delete_logging_configuration(self):
+
+        delete_logging_configuration_response = self.ibm_analytics_engine_api_service.delete_logging_configuration(
+            self.instance_id
+        )
+
+        assert delete_logging_configuration_response.get_status_code() == 204
 
         #
         # The following status codes aren't covered by tests.
@@ -181,7 +320,7 @@ class TestIbmAnalyticsEngineApiV3():
             self.instance_id,
             application_id
         )
-
+        
         assert delete_application_response.get_status_code() == 204
 
         #
