@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.41.1-790c0dfc-20211021-231519
+# IBM OpenAPI SDK Code Generator Version: 3.39.0-748eb4ca-20210917-165907
  
 """
 Manage serverless Spark instances and run applications.
@@ -808,6 +808,12 @@ class ApplicationDetails():
     Application details.
 
     :attr str application: (optional) Path of the application to run.
+    :attr str jars: (optional) Path of the jar files containing the application.
+    :attr str packages: (optional) Package names.
+    :attr str repositories: (optional) Repositories names.
+    :attr str files: (optional) File names.
+    :attr str archives: (optional) Archive Names.
+    :attr str name: (optional) Name of the application.
     :attr str class_: (optional) Entry point for a Spark application bundled as a
           '.jar' file. This is applicable only for Java or Scala applications.
     :attr List[str] arguments: (optional) An array of arguments to be passed to the
@@ -825,6 +831,12 @@ class ApplicationDetails():
     def __init__(self,
                  *,
                  application: str = None,
+                 jars: str = None,
+                 packages: str = None,
+                 repositories: str = None,
+                 files: str = None,
+                 archives: str = None,
+                 name: str = None,
                  class_: str = None,
                  arguments: List[str] = None,
                  conf: dict = None,
@@ -833,6 +845,13 @@ class ApplicationDetails():
         Initialize a ApplicationDetails object.
 
         :param str application: (optional) Path of the application to run.
+        :param str jars: (optional) Path of the jar files containing the
+               application.
+        :param str packages: (optional) Package names.
+        :param str repositories: (optional) Repositories names.
+        :param str files: (optional) File names.
+        :param str archives: (optional) Archive Names.
+        :param str name: (optional) Name of the application.
         :param str class_: (optional) Entry point for a Spark application bundled
                as a '.jar' file. This is applicable only for Java or Scala applications.
         :param List[str] arguments: (optional) An array of arguments to be passed
@@ -847,6 +866,12 @@ class ApplicationDetails():
                for a list of the supported variables.
         """
         self.application = application
+        self.jars = jars
+        self.packages = packages
+        self.repositories = repositories
+        self.files = files
+        self.archives = archives
+        self.name = name
         self.class_ = class_
         self.arguments = arguments
         self.conf = conf
@@ -858,6 +883,18 @@ class ApplicationDetails():
         args = {}
         if 'application' in _dict:
             args['application'] = _dict.get('application')
+        if 'jars' in _dict:
+            args['jars'] = _dict.get('jars')
+        if 'packages' in _dict:
+            args['packages'] = _dict.get('packages')
+        if 'repositories' in _dict:
+            args['repositories'] = _dict.get('repositories')
+        if 'files' in _dict:
+            args['files'] = _dict.get('files')
+        if 'archives' in _dict:
+            args['archives'] = _dict.get('archives')
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
         if 'class' in _dict:
             args['class_'] = _dict.get('class')
         if 'arguments' in _dict:
@@ -878,6 +915,18 @@ class ApplicationDetails():
         _dict = {}
         if hasattr(self, 'application') and self.application is not None:
             _dict['application'] = self.application
+        if hasattr(self, 'jars') and self.jars is not None:
+            _dict['jars'] = self.jars
+        if hasattr(self, 'packages') and self.packages is not None:
+            _dict['packages'] = self.packages
+        if hasattr(self, 'repositories') and self.repositories is not None:
+            _dict['repositories'] = self.repositories
+        if hasattr(self, 'files') and self.files is not None:
+            _dict['files'] = self.files
+        if hasattr(self, 'archives') and self.archives is not None:
+            _dict['archives'] = self.archives
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
         if hasattr(self, 'class_') and self.class_ is not None:
             _dict['class'] = self.class_
         if hasattr(self, 'arguments') and self.arguments is not None:
@@ -1082,6 +1131,12 @@ class ApplicationRequestApplicationDetails():
     Application details.
 
     :attr str application: (optional) Path of the application to run.
+    :attr str jars: (optional) Path of the jar files containing the application.
+    :attr str packages: (optional) Package names.
+    :attr str repositories: (optional) Repositories names.
+    :attr str files: (optional) File names.
+    :attr str archives: (optional) Archive Names.
+    :attr str name: (optional) Name of the application.
     :attr str class_: (optional) Entry point for a Spark application bundled as a
           '.jar' file. This is applicable only for Java or Scala applications.
     :attr List[str] arguments: (optional) An array of arguments to be passed to the
@@ -1099,6 +1154,12 @@ class ApplicationRequestApplicationDetails():
     def __init__(self,
                  *,
                  application: str = None,
+                 jars: str = None,
+                 packages: str = None,
+                 repositories: str = None,
+                 files: str = None,
+                 archives: str = None,
+                 name: str = None,
                  class_: str = None,
                  arguments: List[str] = None,
                  conf: dict = None,
@@ -1107,6 +1168,13 @@ class ApplicationRequestApplicationDetails():
         Initialize a ApplicationRequestApplicationDetails object.
 
         :param str application: (optional) Path of the application to run.
+        :param str jars: (optional) Path of the jar files containing the
+               application.
+        :param str packages: (optional) Package names.
+        :param str repositories: (optional) Repositories names.
+        :param str files: (optional) File names.
+        :param str archives: (optional) Archive Names.
+        :param str name: (optional) Name of the application.
         :param str class_: (optional) Entry point for a Spark application bundled
                as a '.jar' file. This is applicable only for Java or Scala applications.
         :param List[str] arguments: (optional) An array of arguments to be passed
@@ -1121,6 +1189,12 @@ class ApplicationRequestApplicationDetails():
                for a list of the supported variables.
         """
         self.application = application
+        self.jars = jars
+        self.packages = packages
+        self.repositories = repositories
+        self.files = files
+        self.archives = archives
+        self.name = name
         self.class_ = class_
         self.arguments = arguments
         self.conf = conf
@@ -1132,6 +1206,18 @@ class ApplicationRequestApplicationDetails():
         args = {}
         if 'application' in _dict:
             args['application'] = _dict.get('application')
+        if 'jars' in _dict:
+            args['jars'] = _dict.get('jars')
+        if 'packages' in _dict:
+            args['packages'] = _dict.get('packages')
+        if 'repositories' in _dict:
+            args['repositories'] = _dict.get('repositories')
+        if 'files' in _dict:
+            args['files'] = _dict.get('files')
+        if 'archives' in _dict:
+            args['archives'] = _dict.get('archives')
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
         if 'class' in _dict:
             args['class_'] = _dict.get('class')
         if 'arguments' in _dict:
@@ -1152,6 +1238,18 @@ class ApplicationRequestApplicationDetails():
         _dict = {}
         if hasattr(self, 'application') and self.application is not None:
             _dict['application'] = self.application
+        if hasattr(self, 'jars') and self.jars is not None:
+            _dict['jars'] = self.jars
+        if hasattr(self, 'packages') and self.packages is not None:
+            _dict['packages'] = self.packages
+        if hasattr(self, 'repositories') and self.repositories is not None:
+            _dict['repositories'] = self.repositories
+        if hasattr(self, 'files') and self.files is not None:
+            _dict['files'] = self.files
+        if hasattr(self, 'archives') and self.archives is not None:
+            _dict['archives'] = self.archives
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
         if hasattr(self, 'class_') and self.class_ is not None:
             _dict['class'] = self.class_
         if hasattr(self, 'arguments') and self.arguments is not None:
