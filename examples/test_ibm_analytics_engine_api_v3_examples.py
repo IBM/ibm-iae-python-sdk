@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2021.
+# (C) Copyright IBM Corp. 2022.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -131,6 +131,62 @@ class TestIbmAnalyticsEngineApiV3Examples():
             print(json.dumps(instance_home_response, indent=2))
 
             # end-create_instance_home
+
+        except ApiException as e:
+            pytest.fail(str(e))
+
+    @needscredentials
+    def test_get_default_configs_example(self):
+        """
+        get_default_configs request example
+        """
+        try:
+            # begin-get_default_configs
+
+            response = ibm_analytics_engine_api_service.get_default_configs(
+                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
+            )
+
+            # end-get_default_configs
+            print('\nget_default_configs() response status code: ', response.get_status_code())
+
+        except ApiException as e:
+            pytest.fail(str(e))
+
+    @needscredentials
+    def test_update_default_configs_example(self):
+        """
+        update_default_configs request example
+        """
+        try:
+            # begin-update_default_configs
+
+            response = ibm_analytics_engine_api_service.update_default_configs(
+                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+                body={}
+            )
+
+            # end-update_default_configs
+            print('\nupdate_default_configs() response status code: ', response.get_status_code())
+
+        except ApiException as e:
+            pytest.fail(str(e))
+
+    @needscredentials
+    def test_edit_default_configs_example(self):
+        """
+        edit_default_configs request example
+        """
+        try:
+            # begin-edit_default_configs
+
+            response = ibm_analytics_engine_api_service.edit_default_configs(
+                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+                body={}
+            )
+
+            # end-edit_default_configs
+            print('\nedit_default_configs() response status code: ', response.get_status_code())
 
         except ApiException as e:
             pytest.fail(str(e))

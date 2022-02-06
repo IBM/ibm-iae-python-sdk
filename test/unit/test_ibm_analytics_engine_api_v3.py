@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2021.
+# (C) Copyright IBM Corp. 2022.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -66,6 +66,7 @@ class TestNewInstance():
         """
         with pytest.raises(ValueError, match='authenticator must be provided'):
             service = IbmAnalyticsEngineApiV3.new_instance(
+                service_name='TEST_SERVICE_NOT_FOUND',
             )
 
 class TestGetInstance():
@@ -112,13 +113,13 @@ class TestGetInstance():
         assert response.status_code == 200
 
     def test_get_instance_all_params_with_retries(self):
-    	# Enable retries and run test_get_instance_all_params.
-    	_service.enable_retries()
-    	self.test_get_instance_all_params()
+        # Enable retries and run test_get_instance_all_params.
+        _service.enable_retries()
+        self.test_get_instance_all_params()
 
-    	# Disable retries and run test_get_instance_all_params.
-    	_service.disable_retries()
-    	self.test_get_instance_all_params()
+        # Disable retries and run test_get_instance_all_params.
+        _service.disable_retries()
+        self.test_get_instance_all_params()
 
     @responses.activate
     def test_get_instance_value_error(self):
@@ -148,13 +149,13 @@ class TestGetInstance():
 
 
     def test_get_instance_value_error_with_retries(self):
-    	# Enable retries and run test_get_instance_value_error.
-    	_service.enable_retries()
-    	self.test_get_instance_value_error()
+        # Enable retries and run test_get_instance_value_error.
+        _service.enable_retries()
+        self.test_get_instance_value_error()
 
-    	# Disable retries and run test_get_instance_value_error.
-    	_service.disable_retries()
-    	self.test_get_instance_value_error()
+        # Disable retries and run test_get_instance_value_error.
+        _service.disable_retries()
+        self.test_get_instance_value_error()
 
 class TestGetInstanceState():
     """
@@ -200,13 +201,13 @@ class TestGetInstanceState():
         assert response.status_code == 200
 
     def test_get_instance_state_all_params_with_retries(self):
-    	# Enable retries and run test_get_instance_state_all_params.
-    	_service.enable_retries()
-    	self.test_get_instance_state_all_params()
+        # Enable retries and run test_get_instance_state_all_params.
+        _service.enable_retries()
+        self.test_get_instance_state_all_params()
 
-    	# Disable retries and run test_get_instance_state_all_params.
-    	_service.disable_retries()
-    	self.test_get_instance_state_all_params()
+        # Disable retries and run test_get_instance_state_all_params.
+        _service.disable_retries()
+        self.test_get_instance_state_all_params()
 
     @responses.activate
     def test_get_instance_state_value_error(self):
@@ -236,13 +237,13 @@ class TestGetInstanceState():
 
 
     def test_get_instance_state_value_error_with_retries(self):
-    	# Enable retries and run test_get_instance_state_value_error.
-    	_service.enable_retries()
-    	self.test_get_instance_state_value_error()
+        # Enable retries and run test_get_instance_state_value_error.
+        _service.enable_retries()
+        self.test_get_instance_state_value_error()
 
-    	# Disable retries and run test_get_instance_state_value_error.
-    	_service.disable_retries()
-    	self.test_get_instance_state_value_error()
+        # Disable retries and run test_get_instance_state_value_error.
+        _service.disable_retries()
+        self.test_get_instance_state_value_error()
 
 class TestCreateInstanceHome():
     """
@@ -311,13 +312,13 @@ class TestCreateInstanceHome():
         assert req_body['hmac_secret_key'] == '03e****************4fc3'
 
     def test_create_instance_home_all_params_with_retries(self):
-    	# Enable retries and run test_create_instance_home_all_params.
-    	_service.enable_retries()
-    	self.test_create_instance_home_all_params()
+        # Enable retries and run test_create_instance_home_all_params.
+        _service.enable_retries()
+        self.test_create_instance_home_all_params()
 
-    	# Disable retries and run test_create_instance_home_all_params.
-    	_service.disable_retries()
-    	self.test_create_instance_home_all_params()
+        # Disable retries and run test_create_instance_home_all_params.
+        _service.disable_retries()
+        self.test_create_instance_home_all_params()
 
     @responses.activate
     def test_create_instance_home_value_error(self):
@@ -354,13 +355,273 @@ class TestCreateInstanceHome():
 
 
     def test_create_instance_home_value_error_with_retries(self):
-    	# Enable retries and run test_create_instance_home_value_error.
-    	_service.enable_retries()
-    	self.test_create_instance_home_value_error()
+        # Enable retries and run test_create_instance_home_value_error.
+        _service.enable_retries()
+        self.test_create_instance_home_value_error()
 
-    	# Disable retries and run test_create_instance_home_value_error.
-    	_service.disable_retries()
-    	self.test_create_instance_home_value_error()
+        # Disable retries and run test_create_instance_home_value_error.
+        _service.disable_retries()
+        self.test_create_instance_home_value_error()
+
+class TestGetDefaultConfigs():
+    """
+    Test Class for get_default_configs
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_get_default_configs_all_params(self):
+        """
+        get_default_configs()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_configs')
+        responses.add(responses.GET,
+                      url,
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
+
+        # Invoke method
+        response = _service.get_default_configs(
+            instance_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_default_configs_all_params_with_retries(self):
+        # Enable retries and run test_get_default_configs_all_params.
+        _service.enable_retries()
+        self.test_get_default_configs_all_params()
+
+        # Disable retries and run test_get_default_configs_all_params.
+        _service.disable_retries()
+        self.test_get_default_configs_all_params()
+
+    @responses.activate
+    def test_get_default_configs_value_error(self):
+        """
+        test_get_default_configs_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_configs')
+        responses.add(responses.GET,
+                      url,
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "instance_id": instance_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_default_configs(**req_copy)
+
+
+    def test_get_default_configs_value_error_with_retries(self):
+        # Enable retries and run test_get_default_configs_value_error.
+        _service.enable_retries()
+        self.test_get_default_configs_value_error()
+
+        # Disable retries and run test_get_default_configs_value_error.
+        _service.disable_retries()
+        self.test_get_default_configs_value_error()
+
+class TestUpdateDefaultConfigs():
+    """
+    Test Class for update_default_configs
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_update_default_configs_all_params(self):
+        """
+        update_default_configs()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_configs')
+        responses.add(responses.PUT,
+                      url,
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
+        body = {}
+
+        # Invoke method
+        response = _service.update_default_configs(
+            instance_id,
+            body,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body == body
+
+    def test_update_default_configs_all_params_with_retries(self):
+        # Enable retries and run test_update_default_configs_all_params.
+        _service.enable_retries()
+        self.test_update_default_configs_all_params()
+
+        # Disable retries and run test_update_default_configs_all_params.
+        _service.disable_retries()
+        self.test_update_default_configs_all_params()
+
+    @responses.activate
+    def test_update_default_configs_value_error(self):
+        """
+        test_update_default_configs_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_configs')
+        responses.add(responses.PUT,
+                      url,
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
+        body = {}
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "instance_id": instance_id,
+            "body": body,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.update_default_configs(**req_copy)
+
+
+    def test_update_default_configs_value_error_with_retries(self):
+        # Enable retries and run test_update_default_configs_value_error.
+        _service.enable_retries()
+        self.test_update_default_configs_value_error()
+
+        # Disable retries and run test_update_default_configs_value_error.
+        _service.disable_retries()
+        self.test_update_default_configs_value_error()
+
+class TestEditDefaultConfigs():
+    """
+    Test Class for edit_default_configs
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_edit_default_configs_all_params(self):
+        """
+        edit_default_configs()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_configs')
+        responses.add(responses.PATCH,
+                      url,
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
+        body = {}
+
+        # Invoke method
+        response = _service.edit_default_configs(
+            instance_id,
+            body,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body == body
+
+    def test_edit_default_configs_all_params_with_retries(self):
+        # Enable retries and run test_edit_default_configs_all_params.
+        _service.enable_retries()
+        self.test_edit_default_configs_all_params()
+
+        # Disable retries and run test_edit_default_configs_all_params.
+        _service.disable_retries()
+        self.test_edit_default_configs_all_params()
+
+    @responses.activate
+    def test_edit_default_configs_value_error(self):
+        """
+        test_edit_default_configs_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_configs')
+        responses.add(responses.PATCH,
+                      url,
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
+        body = {}
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "instance_id": instance_id,
+            "body": body,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.edit_default_configs(**req_copy)
+
+
+    def test_edit_default_configs_value_error_with_retries(self):
+        # Enable retries and run test_edit_default_configs_value_error.
+        _service.enable_retries()
+        self.test_edit_default_configs_value_error()
+
+        # Disable retries and run test_edit_default_configs_value_error.
+        _service.disable_retries()
+        self.test_edit_default_configs_value_error()
 
 class TestCreateApplication():
     """
@@ -395,12 +656,6 @@ class TestCreateApplication():
         # Construct a dict representation of a ApplicationRequestApplicationDetails model
         application_request_application_details_model = {}
         application_request_application_details_model['application'] = 'cos://bucket_name.my_cos/my_spark_app.py'
-        application_request_application_details_model['jars'] = 'cos://cloud-object-storage/jars/tests.jar'
-        application_request_application_details_model['packages'] = 'testString'
-        application_request_application_details_model['repositories'] = 'testString'
-        application_request_application_details_model['files'] = 'testString'
-        application_request_application_details_model['archives'] = 'testString'
-        application_request_application_details_model['name'] = 'spark-app'
         application_request_application_details_model['class'] = 'com.company.path.ClassName'
         application_request_application_details_model['arguments'] = ['[arg1, arg2, arg3]']
         application_request_application_details_model['conf'] = {}
@@ -425,13 +680,13 @@ class TestCreateApplication():
         assert req_body['application_details'] == application_request_application_details_model
 
     def test_create_application_all_params_with_retries(self):
-    	# Enable retries and run test_create_application_all_params.
-    	_service.enable_retries()
-    	self.test_create_application_all_params()
+        # Enable retries and run test_create_application_all_params.
+        _service.enable_retries()
+        self.test_create_application_all_params()
 
-    	# Disable retries and run test_create_application_all_params.
-    	_service.disable_retries()
-    	self.test_create_application_all_params()
+        # Disable retries and run test_create_application_all_params.
+        _service.disable_retries()
+        self.test_create_application_all_params()
 
     @responses.activate
     def test_create_application_value_error(self):
@@ -450,12 +705,6 @@ class TestCreateApplication():
         # Construct a dict representation of a ApplicationRequestApplicationDetails model
         application_request_application_details_model = {}
         application_request_application_details_model['application'] = 'cos://bucket_name.my_cos/my_spark_app.py'
-        application_request_application_details_model['jars'] = 'cos://cloud-object-storage/jars/tests.jar'
-        application_request_application_details_model['packages'] = 'testString'
-        application_request_application_details_model['repositories'] = 'testString'
-        application_request_application_details_model['files'] = 'testString'
-        application_request_application_details_model['archives'] = 'testString'
-        application_request_application_details_model['name'] = 'spark-app'
         application_request_application_details_model['class'] = 'com.company.path.ClassName'
         application_request_application_details_model['arguments'] = ['[arg1, arg2, arg3]']
         application_request_application_details_model['conf'] = {}
@@ -476,13 +725,13 @@ class TestCreateApplication():
 
 
     def test_create_application_value_error_with_retries(self):
-    	# Enable retries and run test_create_application_value_error.
-    	_service.enable_retries()
-    	self.test_create_application_value_error()
+        # Enable retries and run test_create_application_value_error.
+        _service.enable_retries()
+        self.test_create_application_value_error()
 
-    	# Disable retries and run test_create_application_value_error.
-    	_service.disable_retries()
-    	self.test_create_application_value_error()
+        # Disable retries and run test_create_application_value_error.
+        _service.disable_retries()
+        self.test_create_application_value_error()
 
 class TestListApplications():
     """
@@ -528,13 +777,13 @@ class TestListApplications():
         assert response.status_code == 200
 
     def test_list_applications_all_params_with_retries(self):
-    	# Enable retries and run test_list_applications_all_params.
-    	_service.enable_retries()
-    	self.test_list_applications_all_params()
+        # Enable retries and run test_list_applications_all_params.
+        _service.enable_retries()
+        self.test_list_applications_all_params()
 
-    	# Disable retries and run test_list_applications_all_params.
-    	_service.disable_retries()
-    	self.test_list_applications_all_params()
+        # Disable retries and run test_list_applications_all_params.
+        _service.disable_retries()
+        self.test_list_applications_all_params()
 
     @responses.activate
     def test_list_applications_value_error(self):
@@ -564,13 +813,13 @@ class TestListApplications():
 
 
     def test_list_applications_value_error_with_retries(self):
-    	# Enable retries and run test_list_applications_value_error.
-    	_service.enable_retries()
-    	self.test_list_applications_value_error()
+        # Enable retries and run test_list_applications_value_error.
+        _service.enable_retries()
+        self.test_list_applications_value_error()
 
-    	# Disable retries and run test_list_applications_value_error.
-    	_service.disable_retries()
-    	self.test_list_applications_value_error()
+        # Disable retries and run test_list_applications_value_error.
+        _service.disable_retries()
+        self.test_list_applications_value_error()
 
 class TestGetApplication():
     """
@@ -595,7 +844,7 @@ class TestGetApplication():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications/ff48cc19-0e7e-4627-aac6-0b4ad080397b')
-        mock_response = '{"application_details": {"application": "cos://bucket_name.my_cos/my_spark_app.py", "jars": "cos://cloud-object-storage/jars/tests.jar", "packages": "packages", "repositories": "repositories", "files": "files", "archives": "archives", "name": "spark-app", "class": "com.company.path.ClassName", "arguments": ["[arg1, arg2, arg3]"], "conf": {"mapKey": "anyValue"}, "env": {"mapKey": "anyValue"}}, "id": "2b83d31c-397b-48ad-ad76-b83347c982db", "state": "accepted", "start_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z"}'
+        mock_response = '{"application_details": {"application": "cos://bucket_name.my_cos/my_spark_app.py", "class": "com.company.path.ClassName", "arguments": ["[arg1, arg2, arg3]"], "conf": {"mapKey": "anyValue"}, "env": {"mapKey": "anyValue"}}, "id": "2b83d31c-397b-48ad-ad76-b83347c982db", "state": "accepted", "start_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -618,13 +867,13 @@ class TestGetApplication():
         assert response.status_code == 200
 
     def test_get_application_all_params_with_retries(self):
-    	# Enable retries and run test_get_application_all_params.
-    	_service.enable_retries()
-    	self.test_get_application_all_params()
+        # Enable retries and run test_get_application_all_params.
+        _service.enable_retries()
+        self.test_get_application_all_params()
 
-    	# Disable retries and run test_get_application_all_params.
-    	_service.disable_retries()
-    	self.test_get_application_all_params()
+        # Disable retries and run test_get_application_all_params.
+        _service.disable_retries()
+        self.test_get_application_all_params()
 
     @responses.activate
     def test_get_application_value_error(self):
@@ -633,7 +882,7 @@ class TestGetApplication():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications/ff48cc19-0e7e-4627-aac6-0b4ad080397b')
-        mock_response = '{"application_details": {"application": "cos://bucket_name.my_cos/my_spark_app.py", "jars": "cos://cloud-object-storage/jars/tests.jar", "packages": "packages", "repositories": "repositories", "files": "files", "archives": "archives", "name": "spark-app", "class": "com.company.path.ClassName", "arguments": ["[arg1, arg2, arg3]"], "conf": {"mapKey": "anyValue"}, "env": {"mapKey": "anyValue"}}, "id": "2b83d31c-397b-48ad-ad76-b83347c982db", "state": "accepted", "start_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z"}'
+        mock_response = '{"application_details": {"application": "cos://bucket_name.my_cos/my_spark_app.py", "class": "com.company.path.ClassName", "arguments": ["[arg1, arg2, arg3]"], "conf": {"mapKey": "anyValue"}, "env": {"mapKey": "anyValue"}}, "id": "2b83d31c-397b-48ad-ad76-b83347c982db", "state": "accepted", "start_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -656,13 +905,13 @@ class TestGetApplication():
 
 
     def test_get_application_value_error_with_retries(self):
-    	# Enable retries and run test_get_application_value_error.
-    	_service.enable_retries()
-    	self.test_get_application_value_error()
+        # Enable retries and run test_get_application_value_error.
+        _service.enable_retries()
+        self.test_get_application_value_error()
 
-    	# Disable retries and run test_get_application_value_error.
-    	_service.disable_retries()
-    	self.test_get_application_value_error()
+        # Disable retries and run test_get_application_value_error.
+        _service.disable_retries()
+        self.test_get_application_value_error()
 
 class TestDeleteApplication():
     """
@@ -707,13 +956,13 @@ class TestDeleteApplication():
         assert response.status_code == 204
 
     def test_delete_application_all_params_with_retries(self):
-    	# Enable retries and run test_delete_application_all_params.
-    	_service.enable_retries()
-    	self.test_delete_application_all_params()
+        # Enable retries and run test_delete_application_all_params.
+        _service.enable_retries()
+        self.test_delete_application_all_params()
 
-    	# Disable retries and run test_delete_application_all_params.
-    	_service.disable_retries()
-    	self.test_delete_application_all_params()
+        # Disable retries and run test_delete_application_all_params.
+        _service.disable_retries()
+        self.test_delete_application_all_params()
 
     @responses.activate
     def test_delete_application_value_error(self):
@@ -742,13 +991,13 @@ class TestDeleteApplication():
 
 
     def test_delete_application_value_error_with_retries(self):
-    	# Enable retries and run test_delete_application_value_error.
-    	_service.enable_retries()
-    	self.test_delete_application_value_error()
+        # Enable retries and run test_delete_application_value_error.
+        _service.enable_retries()
+        self.test_delete_application_value_error()
 
-    	# Disable retries and run test_delete_application_value_error.
-    	_service.disable_retries()
-    	self.test_delete_application_value_error()
+        # Disable retries and run test_delete_application_value_error.
+        _service.disable_retries()
+        self.test_delete_application_value_error()
 
 class TestGetApplicationState():
     """
@@ -796,13 +1045,13 @@ class TestGetApplicationState():
         assert response.status_code == 200
 
     def test_get_application_state_all_params_with_retries(self):
-    	# Enable retries and run test_get_application_state_all_params.
-    	_service.enable_retries()
-    	self.test_get_application_state_all_params()
+        # Enable retries and run test_get_application_state_all_params.
+        _service.enable_retries()
+        self.test_get_application_state_all_params()
 
-    	# Disable retries and run test_get_application_state_all_params.
-    	_service.disable_retries()
-    	self.test_get_application_state_all_params()
+        # Disable retries and run test_get_application_state_all_params.
+        _service.disable_retries()
+        self.test_get_application_state_all_params()
 
     @responses.activate
     def test_get_application_state_value_error(self):
@@ -834,13 +1083,13 @@ class TestGetApplicationState():
 
 
     def test_get_application_state_value_error_with_retries(self):
-    	# Enable retries and run test_get_application_state_value_error.
-    	_service.enable_retries()
-    	self.test_get_application_state_value_error()
+        # Enable retries and run test_get_application_state_value_error.
+        _service.enable_retries()
+        self.test_get_application_state_value_error()
 
-    	# Disable retries and run test_get_application_state_value_error.
-    	_service.disable_retries()
-    	self.test_get_application_state_value_error()
+        # Disable retries and run test_get_application_state_value_error.
+        _service.disable_retries()
+        self.test_get_application_state_value_error()
 
 class TestEnablePlatformLogging():
     """
@@ -891,13 +1140,13 @@ class TestEnablePlatformLogging():
         assert req_body['enable'] == True
 
     def test_enable_platform_logging_all_params_with_retries(self):
-    	# Enable retries and run test_enable_platform_logging_all_params.
-    	_service.enable_retries()
-    	self.test_enable_platform_logging_all_params()
+        # Enable retries and run test_enable_platform_logging_all_params.
+        _service.enable_retries()
+        self.test_enable_platform_logging_all_params()
 
-    	# Disable retries and run test_enable_platform_logging_all_params.
-    	_service.disable_retries()
-    	self.test_enable_platform_logging_all_params()
+        # Disable retries and run test_enable_platform_logging_all_params.
+        _service.disable_retries()
+        self.test_enable_platform_logging_all_params()
 
     @responses.activate
     def test_enable_platform_logging_value_error(self):
@@ -928,13 +1177,13 @@ class TestEnablePlatformLogging():
 
 
     def test_enable_platform_logging_value_error_with_retries(self):
-    	# Enable retries and run test_enable_platform_logging_value_error.
-    	_service.enable_retries()
-    	self.test_enable_platform_logging_value_error()
+        # Enable retries and run test_enable_platform_logging_value_error.
+        _service.enable_retries()
+        self.test_enable_platform_logging_value_error()
 
-    	# Disable retries and run test_enable_platform_logging_value_error.
-    	_service.disable_retries()
-    	self.test_enable_platform_logging_value_error()
+        # Disable retries and run test_enable_platform_logging_value_error.
+        _service.disable_retries()
+        self.test_enable_platform_logging_value_error()
 
 class TestDisablePlatformLogging():
     """
@@ -985,13 +1234,13 @@ class TestDisablePlatformLogging():
         assert req_body['enable'] == True
 
     def test_disable_platform_logging_all_params_with_retries(self):
-    	# Enable retries and run test_disable_platform_logging_all_params.
-    	_service.enable_retries()
-    	self.test_disable_platform_logging_all_params()
+        # Enable retries and run test_disable_platform_logging_all_params.
+        _service.enable_retries()
+        self.test_disable_platform_logging_all_params()
 
-    	# Disable retries and run test_disable_platform_logging_all_params.
-    	_service.disable_retries()
-    	self.test_disable_platform_logging_all_params()
+        # Disable retries and run test_disable_platform_logging_all_params.
+        _service.disable_retries()
+        self.test_disable_platform_logging_all_params()
 
     @responses.activate
     def test_disable_platform_logging_value_error(self):
@@ -1022,13 +1271,13 @@ class TestDisablePlatformLogging():
 
 
     def test_disable_platform_logging_value_error_with_retries(self):
-    	# Enable retries and run test_disable_platform_logging_value_error.
-    	_service.enable_retries()
-    	self.test_disable_platform_logging_value_error()
+        # Enable retries and run test_disable_platform_logging_value_error.
+        _service.enable_retries()
+        self.test_disable_platform_logging_value_error()
 
-    	# Disable retries and run test_disable_platform_logging_value_error.
-    	_service.disable_retries()
-    	self.test_disable_platform_logging_value_error()
+        # Disable retries and run test_disable_platform_logging_value_error.
+        _service.disable_retries()
+        self.test_disable_platform_logging_value_error()
 
 class TestGetLoggingConfiguration():
     """
@@ -1074,13 +1323,13 @@ class TestGetLoggingConfiguration():
         assert response.status_code == 200
 
     def test_get_logging_configuration_all_params_with_retries(self):
-    	# Enable retries and run test_get_logging_configuration_all_params.
-    	_service.enable_retries()
-    	self.test_get_logging_configuration_all_params()
+        # Enable retries and run test_get_logging_configuration_all_params.
+        _service.enable_retries()
+        self.test_get_logging_configuration_all_params()
 
-    	# Disable retries and run test_get_logging_configuration_all_params.
-    	_service.disable_retries()
-    	self.test_get_logging_configuration_all_params()
+        # Disable retries and run test_get_logging_configuration_all_params.
+        _service.disable_retries()
+        self.test_get_logging_configuration_all_params()
 
     @responses.activate
     def test_get_logging_configuration_value_error(self):
@@ -1110,13 +1359,13 @@ class TestGetLoggingConfiguration():
 
 
     def test_get_logging_configuration_value_error_with_retries(self):
-    	# Enable retries and run test_get_logging_configuration_value_error.
-    	_service.enable_retries()
-    	self.test_get_logging_configuration_value_error()
+        # Enable retries and run test_get_logging_configuration_value_error.
+        _service.enable_retries()
+        self.test_get_logging_configuration_value_error()
 
-    	# Disable retries and run test_get_logging_configuration_value_error.
-    	_service.disable_retries()
-    	self.test_get_logging_configuration_value_error()
+        # Disable retries and run test_get_logging_configuration_value_error.
+        _service.disable_retries()
+        self.test_get_logging_configuration_value_error()
 
 class TestDeleteLoggingConfiguration():
     """
@@ -1159,13 +1408,13 @@ class TestDeleteLoggingConfiguration():
         assert response.status_code == 204
 
     def test_delete_logging_configuration_all_params_with_retries(self):
-    	# Enable retries and run test_delete_logging_configuration_all_params.
-    	_service.enable_retries()
-    	self.test_delete_logging_configuration_all_params()
+        # Enable retries and run test_delete_logging_configuration_all_params.
+        _service.enable_retries()
+        self.test_delete_logging_configuration_all_params()
 
-    	# Disable retries and run test_delete_logging_configuration_all_params.
-    	_service.disable_retries()
-    	self.test_delete_logging_configuration_all_params()
+        # Disable retries and run test_delete_logging_configuration_all_params.
+        _service.disable_retries()
+        self.test_delete_logging_configuration_all_params()
 
     @responses.activate
     def test_delete_logging_configuration_value_error(self):
@@ -1192,13 +1441,13 @@ class TestDeleteLoggingConfiguration():
 
 
     def test_delete_logging_configuration_value_error_with_retries(self):
-    	# Enable retries and run test_delete_logging_configuration_value_error.
-    	_service.enable_retries()
-    	self.test_delete_logging_configuration_value_error()
+        # Enable retries and run test_delete_logging_configuration_value_error.
+        _service.enable_retries()
+        self.test_delete_logging_configuration_value_error()
 
-    	# Disable retries and run test_delete_logging_configuration_value_error.
-    	_service.disable_retries()
-    	self.test_delete_logging_configuration_value_error()
+        # Disable retries and run test_delete_logging_configuration_value_error.
+        _service.disable_retries()
+        self.test_delete_logging_configuration_value_error()
 
 # endregion
 ##############################################################################
@@ -1296,12 +1545,6 @@ class TestModel_ApplicationDetails():
         # Construct a json representation of a ApplicationDetails model
         application_details_model_json = {}
         application_details_model_json['application'] = 'cos://bucket_name.my_cos/my_spark_app.py'
-        application_details_model_json['jars'] = 'cos://cloud-object-storage/jars/tests.jar'
-        application_details_model_json['packages'] = 'testString'
-        application_details_model_json['repositories'] = 'testString'
-        application_details_model_json['files'] = 'testString'
-        application_details_model_json['archives'] = 'testString'
-        application_details_model_json['name'] = 'spark-app'
         application_details_model_json['class'] = 'com.company.path.ClassName'
         application_details_model_json['arguments'] = ['[arg1, arg2, arg3]']
         application_details_model_json['conf'] = {}
@@ -1336,12 +1579,6 @@ class TestModel_ApplicationGetResponse():
 
         application_details_model = {} # ApplicationDetails
         application_details_model['application'] = 'cos://bucket_name.my_cos/my_spark_app.py'
-        application_details_model['jars'] = 'cos://cloud-object-storage/jars/tests.jar'
-        application_details_model['packages'] = 'testString'
-        application_details_model['repositories'] = 'testString'
-        application_details_model['files'] = 'testString'
-        application_details_model['archives'] = 'testString'
-        application_details_model['name'] = 'spark-app'
         application_details_model['class'] = 'com.company.path.ClassName'
         application_details_model['arguments'] = ['[arg1, arg2, arg3]']
         application_details_model['conf'] = {}
@@ -1415,12 +1652,6 @@ class TestModel_ApplicationRequestApplicationDetails():
         # Construct a json representation of a ApplicationRequestApplicationDetails model
         application_request_application_details_model_json = {}
         application_request_application_details_model_json['application'] = 'cos://bucket_name.my_cos/my_spark_app.py'
-        application_request_application_details_model_json['jars'] = 'cos://cloud-object-storage/jars/tests.jar'
-        application_request_application_details_model_json['packages'] = 'testString'
-        application_request_application_details_model_json['repositories'] = 'testString'
-        application_request_application_details_model_json['files'] = 'testString'
-        application_request_application_details_model_json['archives'] = 'testString'
-        application_request_application_details_model_json['name'] = 'spark-app'
         application_request_application_details_model_json['class'] = 'com.company.path.ClassName'
         application_request_application_details_model_json['arguments'] = ['[arg1, arg2, arg3]']
         application_request_application_details_model_json['conf'] = {}

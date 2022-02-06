@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2021.
+# (C) Copyright IBM Corp. 2022.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 """
 Integration Tests for IbmAnalyticsEngineApiV3
 """
+
 import os
 import pytest
 from ibm_cloud_sdk_core import *
@@ -79,7 +80,6 @@ class TestIbmAnalyticsEngineApiV3():
 
     @needscredentials
     def test_get_instance_state(self):
-        
         get_instance_state_response = self.ibm_analytics_engine_api_service.get_instance_state(
             self.instance_id
         )
@@ -129,12 +129,75 @@ class TestIbmAnalyticsEngineApiV3():
         #
 
     @needscredentials
+    def test_get_default_configs(self):
+
+        get_default_configs_response = self.ibm_analytics_engine_api_service.get_default_configs(
+            self.instance_id
+        )
+
+        assert get_default_configs_response.get_status_code() == 200
+
+        #
+        # The following status codes aren't covered by tests.
+        # Please provide integration tests for these too.
+        #
+        # 400
+        # 401
+        # 403
+        # 404
+        # 500
+        #
+
+    @needscredentials
+    def test_update_default_configs(self):
+
+        update_default_configs_response = self.ibm_analytics_engine_api_service.update_default_configs(
+            self.instance_id,
+            body={"key1": "value1"}
+        )
+
+        assert update_default_configs_response.get_status_code() == 200
+
+        #
+        # The following status codes aren't covered by tests.
+        # Please provide integration tests for these too.
+        #
+        # 400
+        # 401
+        # 403
+        # 404
+        # 500
+        #
+
+    @needscredentials
+    def test_edit_default_configs(self):
+
+        edit_default_configs_response = self.ibm_analytics_engine_api_service.edit_default_configs(
+            self.instance_id,
+            body={"key2": "value2"}
+        )
+
+        assert edit_default_configs_response.get_status_code() == 200
+
+        #
+        # The following status codes aren't covered by tests.
+        # Please provide integration tests for these too.
+        #
+        # 400
+        # 401
+        # 403
+        # 404
+        # 500
+        #
+
+    @needscredentials
     def test_create_application(self):
         global application_id
+
         # Construct a dict representation of a ApplicationRequestApplicationDetails model
         application_request_application_details_model = {
-             'application': '/opt/ibm/spark/examples/src/main/python/wordcount.py',
-             'arguments': ['/opt/ibm/spark/examples/src/main/resources/people.txt'],
+            'application': '/opt/ibm/spark/examples/src/main/python/wordcount.py',
+            'arguments': ['/opt/ibm/spark/examples/src/main/resources/people.txt'],
         }
 
         create_application_response = self.ibm_analytics_engine_api_service.create_application(
@@ -187,7 +250,7 @@ class TestIbmAnalyticsEngineApiV3():
             self.instance_id,
             application_id
         )
-        
+
         assert get_application_response.get_status_code() == 200
         application_get_response = get_application_response.get_result()
         assert application_get_response is not None
@@ -205,11 +268,12 @@ class TestIbmAnalyticsEngineApiV3():
 
     @needscredentials
     def test_get_application_state(self):
+
         get_application_state_response = self.ibm_analytics_engine_api_service.get_application_state(
             self.instance_id,
             application_id
         )
-        
+
         assert get_application_state_response.get_status_code() == 200
         application_get_state_response = get_application_state_response.get_result()
         assert application_get_state_response is not None
@@ -253,7 +317,7 @@ class TestIbmAnalyticsEngineApiV3():
 
         disable_platform_logging_response = self.ibm_analytics_engine_api_service.disable_platform_logging(
             self.instance_id,
-            enable=True
+            enable=False
         )
 
         assert disable_platform_logging_response.get_status_code() == 200
@@ -320,7 +384,7 @@ class TestIbmAnalyticsEngineApiV3():
             self.instance_id,
             application_id
         )
-        
+
         assert delete_application_response.get_status_code() == 204
 
         #

@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2021.
+# (C) Copyright IBM Corp. 2022.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.39.0-748eb4ca-20210917-165907
+# IBM OpenAPI SDK Code Generator Version: 3.43.5-e0ec19e2-20220124-172004
  
 """
 Manage serverless Spark instances and run applications.
@@ -225,6 +225,149 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v3/analytics_engines/{instance_id}/instance_home'.format(**path_param_dict)
         request = self.prepare_request(method='PUT',
+                                       url=url,
+                                       headers=headers,
+                                       data=data)
+
+        response = self.send(request, **kwargs)
+        return response
+
+
+    def get_default_configs(self,
+        instance_id: str,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Get the default spark configuration by instance id.
+
+        Instance level default configuration for Spark workloads.This can also contain
+        custom spark configs, like "ae.spark.executor.count", "ae.spark.librarysets" or
+        "ae.spark.autoscale.enable".
+
+        :param str instance_id: The identifier of the instance details to be added.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V3',
+                                      operation_id='get_default_configs')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id']
+        path_param_values = self.encode_path_vars(instance_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v3/analytics_engines/{instance_id}/default_configs'.format(**path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request, **kwargs)
+        return response
+
+
+    def update_default_configs(self,
+        instance_id: str,
+        body: dict,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Update default spark configuration.
+
+        Instance level default configuration for Spark workloads.This can also contain
+        custom spark configs, like "ae.spark.executor.count", "ae.spark.librarysets" or
+        "ae.spark.autoscale.enable".
+
+        :param str instance_id: The identifier of the instance details to be
+               updated.
+        :param dict body: Request json with default configuration details of the
+               Object Storage instance.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if body is None:
+            raise ValueError('body must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V3',
+                                      operation_id='update_default_configs')
+        headers.update(sdk_headers)
+
+        data = json.dumps(body)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id']
+        path_param_values = self.encode_path_vars(instance_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v3/analytics_engines/{instance_id}/default_configs'.format(**path_param_dict)
+        request = self.prepare_request(method='PUT',
+                                       url=url,
+                                       headers=headers,
+                                       data=data)
+
+        response = self.send(request, **kwargs)
+        return response
+
+
+    def edit_default_configs(self,
+        instance_id: str,
+        body: dict,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Edit default spark configuration.
+
+        Instance level default configuration for Spark workloads.This can also contain
+        custom spark configs, like "ae.spark.executor.count", "ae.spark.librarysets" or
+        "ae.spark.autoscale.enable".
+
+        :param str instance_id: The identifier of the instance details to be
+               edited.
+        :param dict body: Request json with default configuration details of the
+               Object Storage instance.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if body is None:
+            raise ValueError('body must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V3',
+                                      operation_id='edit_default_configs')
+        headers.update(sdk_headers)
+
+        data = json.dumps(body)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id']
+        path_param_values = self.encode_path_vars(instance_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v3/analytics_engines/{instance_id}/default_configs'.format(**path_param_dict)
+        request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
                                        data=data)
@@ -808,12 +951,6 @@ class ApplicationDetails():
     Application details.
 
     :attr str application: (optional) Path of the application to run.
-    :attr str jars: (optional) Path of the jar files containing the application.
-    :attr str packages: (optional) Package names.
-    :attr str repositories: (optional) Repositories names.
-    :attr str files: (optional) File names.
-    :attr str archives: (optional) Archive Names.
-    :attr str name: (optional) Name of the application.
     :attr str class_: (optional) Entry point for a Spark application bundled as a
           '.jar' file. This is applicable only for Java or Scala applications.
     :attr List[str] arguments: (optional) An array of arguments to be passed to the
@@ -831,12 +968,6 @@ class ApplicationDetails():
     def __init__(self,
                  *,
                  application: str = None,
-                 jars: str = None,
-                 packages: str = None,
-                 repositories: str = None,
-                 files: str = None,
-                 archives: str = None,
-                 name: str = None,
                  class_: str = None,
                  arguments: List[str] = None,
                  conf: dict = None,
@@ -845,13 +976,6 @@ class ApplicationDetails():
         Initialize a ApplicationDetails object.
 
         :param str application: (optional) Path of the application to run.
-        :param str jars: (optional) Path of the jar files containing the
-               application.
-        :param str packages: (optional) Package names.
-        :param str repositories: (optional) Repositories names.
-        :param str files: (optional) File names.
-        :param str archives: (optional) Archive Names.
-        :param str name: (optional) Name of the application.
         :param str class_: (optional) Entry point for a Spark application bundled
                as a '.jar' file. This is applicable only for Java or Scala applications.
         :param List[str] arguments: (optional) An array of arguments to be passed
@@ -866,12 +990,6 @@ class ApplicationDetails():
                for a list of the supported variables.
         """
         self.application = application
-        self.jars = jars
-        self.packages = packages
-        self.repositories = repositories
-        self.files = files
-        self.archives = archives
-        self.name = name
         self.class_ = class_
         self.arguments = arguments
         self.conf = conf
@@ -883,18 +1001,6 @@ class ApplicationDetails():
         args = {}
         if 'application' in _dict:
             args['application'] = _dict.get('application')
-        if 'jars' in _dict:
-            args['jars'] = _dict.get('jars')
-        if 'packages' in _dict:
-            args['packages'] = _dict.get('packages')
-        if 'repositories' in _dict:
-            args['repositories'] = _dict.get('repositories')
-        if 'files' in _dict:
-            args['files'] = _dict.get('files')
-        if 'archives' in _dict:
-            args['archives'] = _dict.get('archives')
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
         if 'class' in _dict:
             args['class_'] = _dict.get('class')
         if 'arguments' in _dict:
@@ -915,18 +1021,6 @@ class ApplicationDetails():
         _dict = {}
         if hasattr(self, 'application') and self.application is not None:
             _dict['application'] = self.application
-        if hasattr(self, 'jars') and self.jars is not None:
-            _dict['jars'] = self.jars
-        if hasattr(self, 'packages') and self.packages is not None:
-            _dict['packages'] = self.packages
-        if hasattr(self, 'repositories') and self.repositories is not None:
-            _dict['repositories'] = self.repositories
-        if hasattr(self, 'files') and self.files is not None:
-            _dict['files'] = self.files
-        if hasattr(self, 'archives') and self.archives is not None:
-            _dict['archives'] = self.archives
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
         if hasattr(self, 'class_') and self.class_ is not None:
             _dict['class'] = self.class_
         if hasattr(self, 'arguments') and self.arguments is not None:
@@ -1131,12 +1225,6 @@ class ApplicationRequestApplicationDetails():
     Application details.
 
     :attr str application: (optional) Path of the application to run.
-    :attr str jars: (optional) Path of the jar files containing the application.
-    :attr str packages: (optional) Package names.
-    :attr str repositories: (optional) Repositories names.
-    :attr str files: (optional) File names.
-    :attr str archives: (optional) Archive Names.
-    :attr str name: (optional) Name of the application.
     :attr str class_: (optional) Entry point for a Spark application bundled as a
           '.jar' file. This is applicable only for Java or Scala applications.
     :attr List[str] arguments: (optional) An array of arguments to be passed to the
@@ -1154,12 +1242,6 @@ class ApplicationRequestApplicationDetails():
     def __init__(self,
                  *,
                  application: str = None,
-                 jars: str = None,
-                 packages: str = None,
-                 repositories: str = None,
-                 files: str = None,
-                 archives: str = None,
-                 name: str = None,
                  class_: str = None,
                  arguments: List[str] = None,
                  conf: dict = None,
@@ -1168,13 +1250,6 @@ class ApplicationRequestApplicationDetails():
         Initialize a ApplicationRequestApplicationDetails object.
 
         :param str application: (optional) Path of the application to run.
-        :param str jars: (optional) Path of the jar files containing the
-               application.
-        :param str packages: (optional) Package names.
-        :param str repositories: (optional) Repositories names.
-        :param str files: (optional) File names.
-        :param str archives: (optional) Archive Names.
-        :param str name: (optional) Name of the application.
         :param str class_: (optional) Entry point for a Spark application bundled
                as a '.jar' file. This is applicable only for Java or Scala applications.
         :param List[str] arguments: (optional) An array of arguments to be passed
@@ -1189,12 +1264,6 @@ class ApplicationRequestApplicationDetails():
                for a list of the supported variables.
         """
         self.application = application
-        self.jars = jars
-        self.packages = packages
-        self.repositories = repositories
-        self.files = files
-        self.archives = archives
-        self.name = name
         self.class_ = class_
         self.arguments = arguments
         self.conf = conf
@@ -1206,18 +1275,6 @@ class ApplicationRequestApplicationDetails():
         args = {}
         if 'application' in _dict:
             args['application'] = _dict.get('application')
-        if 'jars' in _dict:
-            args['jars'] = _dict.get('jars')
-        if 'packages' in _dict:
-            args['packages'] = _dict.get('packages')
-        if 'repositories' in _dict:
-            args['repositories'] = _dict.get('repositories')
-        if 'files' in _dict:
-            args['files'] = _dict.get('files')
-        if 'archives' in _dict:
-            args['archives'] = _dict.get('archives')
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
         if 'class' in _dict:
             args['class_'] = _dict.get('class')
         if 'arguments' in _dict:
@@ -1238,18 +1295,6 @@ class ApplicationRequestApplicationDetails():
         _dict = {}
         if hasattr(self, 'application') and self.application is not None:
             _dict['application'] = self.application
-        if hasattr(self, 'jars') and self.jars is not None:
-            _dict['jars'] = self.jars
-        if hasattr(self, 'packages') and self.packages is not None:
-            _dict['packages'] = self.packages
-        if hasattr(self, 'repositories') and self.repositories is not None:
-            _dict['repositories'] = self.repositories
-        if hasattr(self, 'files') and self.files is not None:
-            _dict['files'] = self.files
-        if hasattr(self, 'archives') and self.archives is not None:
-            _dict['archives'] = self.archives
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
         if hasattr(self, 'class_') and self.class_ is not None:
             _dict['class'] = self.class_
         if hasattr(self, 'arguments') and self.arguments is not None:
