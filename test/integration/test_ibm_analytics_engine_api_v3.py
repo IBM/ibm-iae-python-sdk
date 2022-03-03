@@ -281,69 +281,69 @@ class TestIbmAnalyticsEngineApiV3():
         # 500
         #
 
-    # @needscredentials
-    # def test_start_spark_history_server(self):
+    @needscredentials
+    def test_start_spark_history_server(self):
 
-    #     start_spark_history_server_response = self.ibm_analytics_engine_api_service.start_spark_history_server(
-    #         self.instance_id
-    #     )
+        start_spark_history_server_response = self.ibm_analytics_engine_api_service.start_spark_history_server(
+            self.instance_id
+        )
 
-    #     assert start_spark_history_server_response.get_status_code() == 201
-    #     spark_history_server_start_response = start_spark_history_server_response.get_result()
-    #     assert spark_history_server_start_response is not None
+        assert start_spark_history_server_response.get_status_code() == 201
+        spark_history_server_start_response = start_spark_history_server_response.get_result()
+        assert spark_history_server_start_response is not None
 
-    #     #
-    #     # The following status codes aren't covered by tests.
-    #     # Please provide integration tests for these too.
-    #     #
-    #     # 400
-    #     # 401
-    #     # 403
-    #     # 404
-    #     # 500
-    #     #
+        #
+        # The following status codes aren't covered by tests.
+        # Please provide integration tests for these too.
+        #
+        # 400
+        # 401
+        # 403
+        # 404
+        # 500
+        #
 
-    # @needscredentials
-    # def test_get_spark_history_server(self):
+    @needscredentials
+    def test_get_spark_history_server(self):
 
-    #     get_spark_history_server_response = self.ibm_analytics_engine_api_service.get_spark_history_server(
-    #         self.instance_id
-    #     )
+        get_spark_history_server_response = self.ibm_analytics_engine_api_service.get_spark_history_server(
+            self.instance_id
+        )
 
-    #     assert get_spark_history_server_response.get_status_code() == 200
-    #     spark_history_server_response = get_spark_history_server_response.get_result()
-    #     assert spark_history_server_response is not None
+        assert get_spark_history_server_response.get_status_code() == 200
+        spark_history_server_response = get_spark_history_server_response.get_result()
+        assert spark_history_server_response is not None
 
-    #     #
-    #     # The following status codes aren't covered by tests.
-    #     # Please provide integration tests for these too.
-    #     #
-    #     # 400
-    #     # 401
-    #     # 403
-    #     # 404
-    #     # 500
-    #     #
+        #
+        # The following status codes aren't covered by tests.
+        # Please provide integration tests for these too.
+        #
+        # 400
+        # 401
+        # 403
+        # 404
+        # 500
+        #
 
-    # @needscredentials
-    # def test_stop_spark_history_server(self):
+    @needscredentials
+    def test_stop_spark_history_server(self):
 
-    #     stop_spark_history_server_response = self.ibm_analytics_engine_api_service.stop_spark_history_server(
-    #         self.instance_id
-    #     )
+        stop_spark_history_server_response = self.ibm_analytics_engine_api_service.stop_spark_history_server(
+            self.instance_id
+        )
 
-    #     assert stop_spark_history_server_response.get_status_code() == 204
+        assert stop_spark_history_server_response.get_status_code() == 204
 
-    #     #
-    #     # The following status codes aren't covered by tests.
-    #     # Please provide integration tests for these too.
-    #     #
-    #     # 400
-    #     # 401
-    #     # 403
-    #     # 404
-    #     # 500
-    #     #
+        #
+        # The following status codes aren't covered by tests.
+        # Please provide integration tests for these too.
+        #
+        # 400
+        # 401
+        # 403
+        # 404
+        # 500
+        #
 
     @needscredentials
     def test_delete_logging_configuration(self):

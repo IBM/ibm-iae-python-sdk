@@ -27,4 +27,4 @@
 ## Unit Tests
 
 1. Go to `/test/unit/` directory.
-1. Run `pytest`.
+1. Run `pytest test_ibm_analytics_engine_api_v3.py -s`.
