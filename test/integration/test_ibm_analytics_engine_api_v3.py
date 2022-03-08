@@ -41,6 +41,7 @@ class TestIbmAnalyticsEngineApiV3():
             cls.ibm_analytics_engine_api_service = IbmAnalyticsEngineApiV3.new_instance(
             )
             # !!! Start of custom content to be copied !!!
+            # Assignment of configuration variables from environment
             cls.instance_id = os.getenv('IBM_ANALYTICS_ENGINE_INSTANCE_GUID')  
             cls.instance_id_instance_home = os.getenv('IBM_ANALYTICS_ENGINE_INSTANCE_GUID_INSTANCE_HOME') 
             cls.hmacAccessKey = os.getenv('IBM_ANALYTICS_ENGINE_HMAC_ACCESS_KEY') 
