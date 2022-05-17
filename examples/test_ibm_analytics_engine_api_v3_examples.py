@@ -116,21 +116,21 @@ class TestIbmAnalyticsEngineApiV3Examples():
             pytest.fail(str(e))
 
     @needscredentials
-    def test_create_instance_home_example(self):
+    def test_set_instance_home_example(self):
         """
-        create_instance_home request example
+        set_instance_home request example
         """
         try:
-            print('\ncreate_instance_home() result:')
-            # begin-create_instance_home
+            print('\nset_instance_home() result:')
+            # begin-set_instance_home
 
-            instance_home_response = ibm_analytics_engine_api_service.create_instance_home(
+            instance_home_response = ibm_analytics_engine_api_service.set_instance_home(
                 instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
             ).get_result()
 
             print(json.dumps(instance_home_response, indent=2))
 
-            # end-create_instance_home
+            # end-set_instance_home
 
         except ApiException as e:
             pytest.fail(str(e))
@@ -311,24 +311,6 @@ class TestIbmAnalyticsEngineApiV3Examples():
 
             # end-stop_spark_history_server
             print('\nstop_spark_history_server() response status code: ', response.get_status_code())
-
-        except ApiException as e:
-            pytest.fail(str(e))
-
-    @needscredentials
-    def test_delete_logging_configuration_example(self):
-        """
-        delete_logging_configuration request example
-        """
-        try:
-            # begin-delete_logging_configuration
-
-            response = ibm_analytics_engine_api_service.delete_logging_configuration(
-                instance_guid='e64c907a-e82f-46fd-addc-ccfafbd28b09'
-            )
-
-            # end-delete_logging_configuration
-            print('\ndelete_logging_configuration() response status code: ', response.get_status_code())
 
         except ApiException as e:
             pytest.fail(str(e))

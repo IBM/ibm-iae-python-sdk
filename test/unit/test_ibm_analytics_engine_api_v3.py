@@ -259,15 +259,15 @@ class TestGetInstanceState():
         _service.disable_retries()
         self.test_get_instance_state_value_error()
 
-class TestCreateInstanceHome():
+class TestSetInstanceHome():
     """
-    Test Class for create_instance_home
+    Test Class for set_instance_home
     """
 
     @responses.activate
-    def test_create_instance_home_all_params(self):
+    def test_set_instance_home_all_params(self):
         """
-        create_instance_home()
+        set_instance_home()
         """
         # Set up mock
         url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/instance_home')
@@ -289,7 +289,7 @@ class TestCreateInstanceHome():
         new_hmac_secret_key = '03e****************4fc3'
 
         # Invoke method
-        response = _service.create_instance_home(
+        response = _service.set_instance_home(
             instance_id,
             new_instance_id=new_instance_id,
             new_provider=new_provider,
@@ -314,19 +314,19 @@ class TestCreateInstanceHome():
         assert req_body['hmac_access_key'] == '821**********0ae'
         assert req_body['hmac_secret_key'] == '03e****************4fc3'
 
-    def test_create_instance_home_all_params_with_retries(self):
-        # Enable retries and run test_create_instance_home_all_params.
+    def test_set_instance_home_all_params_with_retries(self):
+        # Enable retries and run test_set_instance_home_all_params.
         _service.enable_retries()
-        self.test_create_instance_home_all_params()
+        self.test_set_instance_home_all_params()
 
-        # Disable retries and run test_create_instance_home_all_params.
+        # Disable retries and run test_set_instance_home_all_params.
         _service.disable_retries()
-        self.test_create_instance_home_all_params()
+        self.test_set_instance_home_all_params()
 
     @responses.activate
-    def test_create_instance_home_value_error(self):
+    def test_set_instance_home_value_error(self):
         """
-        test_create_instance_home_value_error()
+        test_set_instance_home_value_error()
         """
         # Set up mock
         url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/instance_home')
@@ -354,17 +354,17 @@ class TestCreateInstanceHome():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.create_instance_home(**req_copy)
+                _service.set_instance_home(**req_copy)
 
 
-    def test_create_instance_home_value_error_with_retries(self):
-        # Enable retries and run test_create_instance_home_value_error.
+    def test_set_instance_home_value_error_with_retries(self):
+        # Enable retries and run test_set_instance_home_value_error.
         _service.enable_retries()
-        self.test_create_instance_home_value_error()
+        self.test_set_instance_home_value_error()
 
-        # Disable retries and run test_create_instance_home_value_error.
+        # Disable retries and run test_set_instance_home_value_error.
         _service.disable_retries()
-        self.test_create_instance_home_value_error()
+        self.test_set_instance_home_value_error()
 
 class TestCreateApplication():
     """
@@ -396,8 +396,8 @@ class TestCreateApplication():
         application_request_application_details_model['name'] = 'spark-app'
         application_request_application_details_model['class'] = 'com.company.path.ClassName'
         application_request_application_details_model['arguments'] = ['[arg1, arg2, arg3]']
-        application_request_application_details_model['conf'] = {}
-        application_request_application_details_model['env'] = {}
+        application_request_application_details_model['conf'] = {'key1': 'testString'}
+        application_request_application_details_model['env'] = {'key1': 'testString'}
 
         # Set up parameter values
         instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
@@ -451,8 +451,8 @@ class TestCreateApplication():
         application_request_application_details_model['name'] = 'spark-app'
         application_request_application_details_model['class'] = 'com.company.path.ClassName'
         application_request_application_details_model['arguments'] = ['[arg1, arg2, arg3]']
-        application_request_application_details_model['conf'] = {}
-        application_request_application_details_model['env'] = {}
+        application_request_application_details_model['conf'] = {'key1': 'testString'}
+        application_request_application_details_model['env'] = {'key1': 'testString'}
 
         # Set up parameter values
         instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
@@ -951,77 +951,6 @@ class TestGetLoggingConfiguration():
         _service.disable_retries()
         self.test_get_logging_configuration_value_error()
 
-class TestDeleteLoggingConfiguration():
-    """
-    Test Class for delete_logging_configuration
-    """
-
-    @responses.activate
-    def test_delete_logging_configuration_all_params(self):
-        """
-        delete_logging_configuration()
-        """
-        # Set up mock
-        url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/logging')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
-
-        # Set up parameter values
-        instance_guid = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
-
-        # Invoke method
-        response = _service.delete_logging_configuration(
-            instance_guid,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 204
-
-    def test_delete_logging_configuration_all_params_with_retries(self):
-        # Enable retries and run test_delete_logging_configuration_all_params.
-        _service.enable_retries()
-        self.test_delete_logging_configuration_all_params()
-
-        # Disable retries and run test_delete_logging_configuration_all_params.
-        _service.disable_retries()
-        self.test_delete_logging_configuration_all_params()
-
-    @responses.activate
-    def test_delete_logging_configuration_value_error(self):
-        """
-        test_delete_logging_configuration_value_error()
-        """
-        # Set up mock
-        url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/logging')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
-
-        # Set up parameter values
-        instance_guid = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "instance_guid": instance_guid,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.delete_logging_configuration(**req_copy)
-
-
-    def test_delete_logging_configuration_value_error_with_retries(self):
-        # Enable retries and run test_delete_logging_configuration_value_error.
-        _service.enable_retries()
-        self.test_delete_logging_configuration_value_error()
-
-        # Disable retries and run test_delete_logging_configuration_value_error.
-        _service.disable_retries()
-        self.test_delete_logging_configuration_value_error()
-
 class TestStartSparkHistoryServer():
     """
     Test Class for start_spark_history_server
@@ -1039,7 +968,7 @@ class TestStartSparkHistoryServer():
                       url,
                       body=mock_response,
                       content_type='application/json',
-                      status=200)
+                      status=201)
 
         # Set up parameter values
         instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
@@ -1052,7 +981,7 @@ class TestStartSparkHistoryServer():
 
         # Check for correct operation
         assert len(responses.calls) == 1
-        assert response.status_code == 200
+        assert response.status_code == 201
 
     def test_start_spark_history_server_all_params_with_retries(self):
         # Enable retries and run test_start_spark_history_server_all_params.
@@ -1075,7 +1004,7 @@ class TestStartSparkHistoryServer():
                       url,
                       body=mock_response,
                       content_type='application/json',
-                      status=200)
+                      status=201)
 
         # Set up parameter values
         instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
@@ -1351,8 +1280,8 @@ class TestModel_ApplicationDetails():
         application_details_model_json['name'] = 'spark-app'
         application_details_model_json['class'] = 'com.company.path.ClassName'
         application_details_model_json['arguments'] = ['[arg1, arg2, arg3]']
-        application_details_model_json['conf'] = {}
-        application_details_model_json['env'] = {}
+        application_details_model_json['conf'] = {'key1': 'testString'}
+        application_details_model_json['env'] = {'key1': 'testString'}
 
         # Construct a model instance of ApplicationDetails by calling from_dict on the json representation
         application_details_model = ApplicationDetails.from_dict(application_details_model_json)
@@ -1391,8 +1320,8 @@ class TestModel_ApplicationGetResponse():
         application_details_model['name'] = 'spark-app'
         application_details_model['class'] = 'com.company.path.ClassName'
         application_details_model['arguments'] = ['[arg1, arg2, arg3]']
-        application_details_model['conf'] = {}
-        application_details_model['env'] = {}
+        application_details_model['conf'] = {'key1': 'testString'}
+        application_details_model['env'] = {'key1': 'testString'}
 
         # Construct a json representation of a ApplicationGetResponse model
         application_get_response_model_json = {}
@@ -1470,8 +1399,8 @@ class TestModel_ApplicationRequestApplicationDetails():
         application_request_application_details_model_json['name'] = 'spark-app'
         application_request_application_details_model_json['class'] = 'com.company.path.ClassName'
         application_request_application_details_model_json['arguments'] = ['[arg1, arg2, arg3]']
-        application_request_application_details_model_json['conf'] = {}
-        application_request_application_details_model_json['env'] = {}
+        application_request_application_details_model_json['conf'] = {'key1': 'testString'}
+        application_request_application_details_model_json['env'] = {'key1': 'testString'}
 
         # Construct a model instance of ApplicationRequestApplicationDetails by calling from_dict on the json representation
         application_request_application_details_model = ApplicationRequestApplicationDetails.from_dict(application_request_application_details_model_json)

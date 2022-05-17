@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.45.1-632ec580-20220210-190638
+# IBM OpenAPI SDK Code Generator Version: 3.49.0-be9b22fb-20220504-154308
  
 """
 Manage serverless Spark instances and run applications.
@@ -178,7 +178,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         return response
 
 
-    def create_instance_home(self,
+    def set_instance_home(self,
         instance_id: str,
         *,
         new_instance_id: str = None,
@@ -191,13 +191,14 @@ class IbmAnalyticsEngineApiV3(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Edit instance home details.
+        Set instance home.
 
-        Update details of the Object Storage associated as 'instance home' for an
-        Analytics Engine instance.
+        Provide the details of the Cloud Object Storage instance to associate with the
+        Analytics Engine instance and use as 'instance home' if 'instance home' has not
+        already been set.
 
         :param str instance_id: GUID of the Analytics Engine instance for which
-               'instance home' is to be updated.
+               'instance home' is to be set.
         :param str new_instance_id: (optional) UUID of the instance home storage
                instance.
         :param str new_provider: (optional) Currently only ibm-cos (IBM Cloud
@@ -220,7 +221,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V3',
-                                      operation_id='create_instance_home')
+                                      operation_id='set_instance_home')
         headers.update(sdk_headers)
 
         data = {
@@ -490,7 +491,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Enable or disable log fowarding.
+        Enable or disable log forwarding.
 
         Enable or disable log forwarding from IBM Analytics Engine to IBM Log Analysis
         server.
@@ -575,45 +576,6 @@ class IbmAnalyticsEngineApiV3(BaseService):
         return response
 
 
-    def delete_logging_configuration(self,
-        instance_guid: str,
-        **kwargs
-    ) -> DetailedResponse:
-        """
-        Delete logging configuration of a given instance id.
-
-        Delete the logging configuration of a given Analytics Engine instance.
-
-        :param str instance_guid: GUID of the instance for which log configuration
-               is to be deleted.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-
-        if instance_guid is None:
-            raise ValueError('instance_guid must be provided')
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='delete_logging_configuration')
-        headers.update(sdk_headers)
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-
-        path_param_keys = ['instance_guid']
-        path_param_values = self.encode_path_vars(instance_guid)
-        path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v3/analytics_engines/{instance_guid}/logging'.format(**path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers)
-
-        response = self.send(request, **kwargs)
-        return response
-
-
     def start_spark_history_server(self,
         instance_id: str,
         **kwargs
@@ -621,10 +583,10 @@ class IbmAnalyticsEngineApiV3(BaseService):
         """
         Start Spark history server.
 
-        Start the Spark history server for a given serverless Spark instance.
+        Start the Spark history server for the given Analytics Engine instance.
 
-        :param str instance_id: The identifier of the instance for which the Spark
-               history server is started.
+        :param str instance_id: The ID of the Analytics Engine instance whose Spark
+               history server is to be started.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `SparkHistoryServerStartResponse` object
@@ -659,13 +621,13 @@ class IbmAnalyticsEngineApiV3(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Retrieve Spark history server details by ID.
+        Retrieve Spark history server details.
 
-        Retrieve the Spark history server details for an Analytics Engine instance by the
-        instance ID.
+        Get the details of the Spark history server of the given Analytics Engine
+        instance.
 
-        :param str instance_id: The identifier of the instance for which the Spark
-               history server is started.
+        :param str instance_id: The ID of the Analytics Engine instance to which
+               the Spark history server belongs.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `SparkHistoryServerResponse` object
@@ -702,10 +664,10 @@ class IbmAnalyticsEngineApiV3(BaseService):
         """
         Stop Spark history server.
 
-        Stop the Spark history server for a given serverless Spark instance.
+        Stop the Spark history server of the given Analytics Engine instance.
 
-        :param str instance_id: The identifier of the instance for which the Spark
-               history server is stopped.
+        :param str instance_id: The ID of the Analytics Engine instance whose Spark
+               history server is to be stopped.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2106,11 +2068,12 @@ class LoggingConfigurationResponseLogServer():
 
 class SparkHistoryServerResponse():
     """
-    State of Spark history server.
+    State of the Spark history server.
 
-    :attr str state: (optional) State of Spark history server.
-    :attr str cores: (optional) Number of cores used for the Spark history server.
-    :attr str memory: (optional) Memory used for the Spark history server.
+    :attr str state: (optional) State of the Spark history server.
+    :attr str cores: (optional) Number of cpu cores used by the Spark history
+          server.
+    :attr str memory: (optional) Amount of memory used by the Spark history server.
     :attr str start_time: (optional) Time when the Spark history server was started.
     :attr str stop_time: (optional) Time when the Spark history server was stopped.
     """
@@ -2125,10 +2088,11 @@ class SparkHistoryServerResponse():
         """
         Initialize a SparkHistoryServerResponse object.
 
-        :param str state: (optional) State of Spark history server.
-        :param str cores: (optional) Number of cores used for the Spark history
+        :param str state: (optional) State of the Spark history server.
+        :param str cores: (optional) Number of cpu cores used by the Spark history
                server.
-        :param str memory: (optional) Memory used for the Spark history server.
+        :param str memory: (optional) Amount of memory used by the Spark history
+               server.
         :param str start_time: (optional) Time when the Spark history server was
                started.
         :param str stop_time: (optional) Time when the Spark history server was
@@ -2196,11 +2160,12 @@ class SparkHistoryServerResponse():
 
 class SparkHistoryServerStartResponse():
     """
-    Spark history server started response.
+    Response of the request to start the Spark history server.
 
-    :attr str state: (optional) State of Spark history server.
-    :attr str cores: (optional) Number of cores used for the Spark history server.
-    :attr str memory: (optional) Memory used for the Spark history server.
+    :attr str state: (optional) State of the Spark history server.
+    :attr str cores: (optional) Number of cpu cores used by the Spark history
+          server.
+    :attr str memory: (optional) Amount of memory used by the Spark history server.
     :attr str start_time: (optional) Time when the Spark history server was started.
     """
 
@@ -2213,10 +2178,11 @@ class SparkHistoryServerStartResponse():
         """
         Initialize a SparkHistoryServerStartResponse object.
 
-        :param str state: (optional) State of Spark history server.
-        :param str cores: (optional) Number of cores used for the Spark history
+        :param str state: (optional) State of the Spark history server.
+        :param str cores: (optional) Number of cpu cores used by the Spark history
                server.
-        :param str memory: (optional) Memory used for the Spark history server.
+        :param str memory: (optional) Amount of memory used by the Spark history
+               server.
         :param str start_time: (optional) Time when the Spark history server was
                started.
         """
