@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2021.
+# (C) Copyright IBM Corp. 2022.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ from iaesdk.ibm_analytics_engine_api_v3 import *
 # in a configuration file and then:
 # export IBM_CREDENTIALS_FILE=<name of configuration file>
 #
-config_file = 'ibm_analytics_engine_api_v3.env'
+config_file = '../../ibm_analytics_engine_api_v3.env'
 
 ibm_analytics_engine_api_service = None
 
@@ -96,6 +96,46 @@ class TestIbmAnalyticsEngineApiV3Examples():
             pytest.fail(str(e))
 
     @needscredentials
+    def test_get_instance_state_example(self):
+        """
+        get_instance_state request example
+        """
+        try:
+            print('\nget_instance_state() result:')
+            # begin-get_instance_state
+
+            instance_get_state_response = ibm_analytics_engine_api_service.get_instance_state(
+                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
+            ).get_result()
+
+            print(json.dumps(instance_get_state_response, indent=2))
+
+            # end-get_instance_state
+
+        except ApiException as e:
+            pytest.fail(str(e))
+
+    @needscredentials
+    def test_set_instance_home_example(self):
+        """
+        set_instance_home request example
+        """
+        try:
+            print('\nset_instance_home() result:')
+            # begin-set_instance_home
+
+            instance_home_response = ibm_analytics_engine_api_service.set_instance_home(
+                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+            ).get_result()
+
+            print(json.dumps(instance_home_response, indent=2))
+
+            # end-set_instance_home
+
+        except ApiException as e:
+            pytest.fail(str(e))
+
+    @needscredentials
     def test_create_application_example(self):
         """
         create_application request example
@@ -104,14 +144,8 @@ class TestIbmAnalyticsEngineApiV3Examples():
             print('\ncreate_application() result:')
             # begin-create_application
 
-            application_request_application_details_model = {
-                'application': '/opt/ibm/spark/examples/src/main/python/wordcount.py',
-                'arguments': ['/opt/ibm/spark/examples/src/main/resources/people.txt']
-            }
-
             application_response = ibm_analytics_engine_api_service.create_application(
                 instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
-                application_details = application_request_application_details_model,
             ).get_result()
 
             print(json.dumps(application_response, indent=2))
@@ -179,6 +213,104 @@ class TestIbmAnalyticsEngineApiV3Examples():
             print(json.dumps(application_get_state_response, indent=2))
 
             # end-get_application_state
+
+        except ApiException as e:
+            pytest.fail(str(e))
+
+    @needscredentials
+    def test_configure_platform_logging_example(self):
+        """
+        configure_platform_logging request example
+        """
+        try:
+            print('\nconfigure_platform_logging() result:')
+            # begin-configure_platform_logging
+
+            logging_configuration_response = ibm_analytics_engine_api_service.configure_platform_logging(
+                instance_guid='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+            ).get_result()
+
+            print(json.dumps(logging_configuration_response, indent=2))
+
+            # end-configure_platform_logging
+
+        except ApiException as e:
+            pytest.fail(str(e))
+
+    @needscredentials
+    def test_get_logging_configuration_example(self):
+        """
+        get_logging_configuration request example
+        """
+        try:
+            print('\nget_logging_configuration() result:')
+            # begin-get_logging_configuration
+
+            logging_configuration_response = ibm_analytics_engine_api_service.get_logging_configuration(
+                instance_guid='e64c907a-e82f-46fd-addc-ccfafbd28b09'
+            ).get_result()
+
+            print(json.dumps(logging_configuration_response, indent=2))
+
+            # end-get_logging_configuration
+
+        except ApiException as e:
+            pytest.fail(str(e))
+
+    @needscredentials
+    def test_start_spark_history_server_example(self):
+        """
+        start_spark_history_server request example
+        """
+        try:
+            print('\nstart_spark_history_server() result:')
+            # begin-start_spark_history_server
+
+            spark_history_server_start_response = ibm_analytics_engine_api_service.start_spark_history_server(
+                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
+            ).get_result()
+
+            print(json.dumps(spark_history_server_start_response, indent=2))
+
+            # end-start_spark_history_server
+
+        except ApiException as e:
+            pytest.fail(str(e))
+
+    @needscredentials
+    def test_get_spark_history_server_example(self):
+        """
+        get_spark_history_server request example
+        """
+        try:
+            print('\nget_spark_history_server() result:')
+            # begin-get_spark_history_server
+
+            spark_history_server_response = ibm_analytics_engine_api_service.get_spark_history_server(
+                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
+            ).get_result()
+
+            print(json.dumps(spark_history_server_response, indent=2))
+
+            # end-get_spark_history_server
+
+        except ApiException as e:
+            pytest.fail(str(e))
+
+    @needscredentials
+    def test_stop_spark_history_server_example(self):
+        """
+        stop_spark_history_server request example
+        """
+        try:
+            # begin-stop_spark_history_server
+
+            response = ibm_analytics_engine_api_service.stop_spark_history_server(
+                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
+            )
+
+            # end-stop_spark_history_server
+            print('\nstop_spark_history_server() response status code: ', response.get_status_code())
 
         except ApiException as e:
             pytest.fail(str(e))
