@@ -77,7 +77,6 @@ class TestIbmAnalyticsEngineApiV3():
         # The following status codes aren't covered by tests.
         # Please provide integration tests for these too.
         #
-        # 400
         # 401
         # 403
         # 404
@@ -99,7 +98,6 @@ class TestIbmAnalyticsEngineApiV3():
         # The following status codes aren't covered by tests.
         # Please provide integration tests for these too.
         #
-        # 400
         # 401
         # 403
         # 404
@@ -107,9 +105,9 @@ class TestIbmAnalyticsEngineApiV3():
         #
 
     @needscredentials
-    def test_create_instance_home(self):
+    def test_set_instance_home(self):
 
-        create_instance_home_response = self.ibm_analytics_engine_api_service.create_instance_home(
+        set_instance_home_response = self.ibm_analytics_engine_api_service.set_instance_home(
             self.instance_id_instance_home,
             new_instance_id='testString',
             new_provider='ibm-cos',
@@ -120,8 +118,8 @@ class TestIbmAnalyticsEngineApiV3():
             new_hmac_secret_key=self.hmacSecretKey
         )
 
-        assert create_instance_home_response.get_status_code() == 200
-        instance_home_response = create_instance_home_response.get_result()
+        assert set_instance_home_response.get_status_code() == 200
+        instance_home_response = set_instance_home_response.get_result()
         assert instance_home_response is not None
 
         #
@@ -132,6 +130,7 @@ class TestIbmAnalyticsEngineApiV3():
         # 401
         # 403
         # 404
+        # 409
         # 500
         #
 
@@ -140,10 +139,20 @@ class TestIbmAnalyticsEngineApiV3():
         # !!! Start of custom content to be copied !!!
         global application_id
         # !!! End of custom content to be copied !!!
+
         # Construct a dict representation of a ApplicationRequestApplicationDetails model
         application_request_application_details_model = {
             'application': '/opt/ibm/spark/examples/src/main/python/wordcount.py',
+            # 'jars': 'cos://cloud-object-storage/jars/tests.jar',
+            # 'packages': 'testString',
+            # 'repositories': 'testString',
+            # 'files': 'testString',
+            # 'archives': 'testString',
+            # 'name': 'spark-app',
+            # 'class': 'com.company.path.ClassName',
             'arguments': ['/opt/ibm/spark/examples/src/main/resources/people.txt'],
+            # 'conf': {'spark.driver.cores':'1','spark.driver.memory':'4G'},
+            # 'env': {'SPARK_ENV_LOADED':'2'},
         }
 
         create_application_response = self.ibm_analytics_engine_api_service.create_application(
@@ -184,7 +193,6 @@ class TestIbmAnalyticsEngineApiV3():
         # The following status codes aren't covered by tests.
         # Please provide integration tests for these too.
         #
-        # 400
         # 401
         # 403
         # 404
@@ -207,7 +215,6 @@ class TestIbmAnalyticsEngineApiV3():
         # The following status codes aren't covered by tests.
         # Please provide integration tests for these too.
         #
-        # 400
         # 401
         # 403
         # 404
@@ -230,7 +237,6 @@ class TestIbmAnalyticsEngineApiV3():
         # The following status codes aren't covered by tests.
         # Please provide integration tests for these too.
         #
-        # 400
         # 401
         # 403
         # 404
@@ -275,7 +281,6 @@ class TestIbmAnalyticsEngineApiV3():
         # The following status codes aren't covered by tests.
         # Please provide integration tests for these too.
         #
-        # 400
         # 401
         # 403
         # 404
@@ -334,26 +339,6 @@ class TestIbmAnalyticsEngineApiV3():
         )
 
         assert stop_spark_history_server_response.get_status_code() == 204
-
-        #
-        # The following status codes aren't covered by tests.
-        # Please provide integration tests for these too.
-        #
-        # 400
-        # 401
-        # 403
-        # 404
-        # 500
-        #
-
-    @needscredentials
-    def test_delete_logging_configuration(self):
-
-        delete_logging_configuration_response = self.ibm_analytics_engine_api_service.delete_logging_configuration(
-            self.instance_id,
-        )
-
-        assert delete_logging_configuration_response.get_status_code() == 204
 
         #
         # The following status codes aren't covered by tests.

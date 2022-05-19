@@ -15,7 +15,7 @@
 
 1. The SDK has been generated from the latest ibmanalyticsengine-v3.json which contains modifications and newly added api methods.
 The Integration tests have to run on the generated SDK not on the sdk from git. 
-2. To merge with remote version pick the code marked between and update `IbmAnalyticsEngineApiIT.java`
+2. To merge with remote version pick the code marked between and update `test/integration/test_ibm_analytics_engine_api_v3.py`
     `# !!! Start of custom content to be copied !!!`
     `# !!! End of custom content to be copied !!!`
 3. Create a `ibm_analytics_engine_api_v3.env` file in the `ibm-iae-python-sdk` directory using `ibmanalyticsengine-service.env.hide` as an example.
