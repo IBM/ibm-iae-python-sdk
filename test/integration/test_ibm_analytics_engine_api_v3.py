@@ -24,6 +24,7 @@ from iaesdk.ibm_analytics_engine_api_v3 import *
 
 # Config file name
 config_file = 'ibm_analytics_engine_api_v3.env'
+application_id = ''
 
 class TestIbmAnalyticsEngineApiV3():
     """
@@ -43,6 +44,11 @@ class TestIbmAnalyticsEngineApiV3():
                 IbmAnalyticsEngineApiV3.DEFAULT_SERVICE_NAME)
             assert cls.config is not None
 
+            cls.instance_id = cls.config['INSTANCE_GUID']
+            cls.instance_id_without_instance_home = cls.config['INSTANCE_GUID_WO_INSTANCE_HOME']
+            cls.hmac_access_key = cls.config['HMAC_ACCESS_KEY']
+            cls.hmac_secret_key = cls.config['HMAC_SECRET_KEY']
+
             cls.ibm_analytics_engine_api_service.enable_retries()
 
         print('Setup complete.')
@@ -55,7 +61,7 @@ class TestIbmAnalyticsEngineApiV3():
     def test_get_instance(self):
 
         get_instance_response = self.ibm_analytics_engine_api_service.get_instance(
-            instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
+            instance_id=self.instance_id
         )
 
         assert get_instance_response.get_status_code() == 200
@@ -66,7 +72,7 @@ class TestIbmAnalyticsEngineApiV3():
     def test_get_instance_state(self):
 
         get_instance_state_response = self.ibm_analytics_engine_api_service.get_instance_state(
-            instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
+            instance_id=self.instance_id
         )
 
         assert get_instance_state_response.get_status_code() == 200
@@ -77,14 +83,14 @@ class TestIbmAnalyticsEngineApiV3():
     def test_set_instance_home(self):
 
         set_instance_home_response = self.ibm_analytics_engine_api_service.set_instance_home(
-            instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+            instance_id=self.instance_id_without_instance_home,
             new_instance_id='testString',
             new_provider='ibm-cos',
             new_type='objectstore',
             new_region='us-south',
             new_endpoint='s3.direct.us-south.cloud-object-storage.appdomain.cloud',
-            new_hmac_access_key='821**********0ae',
-            new_hmac_secret_key='03e****************4fc3'
+            new_hmac_access_key=self.hmac_access_key,
+            new_hmac_secret_key=self.hmac_secret_key
         )
 
         assert set_instance_home_response.get_status_code() == 200
@@ -95,7 +101,7 @@ class TestIbmAnalyticsEngineApiV3():
     def test_get_instance_default_configs(self):
 
         get_instance_default_configs_response = self.ibm_analytics_engine_api_service.get_instance_default_configs(
-            instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
+            instance_id=self.instance_id
         )
 
         assert get_instance_default_configs_response.get_status_code() == 200
@@ -106,7 +112,7 @@ class TestIbmAnalyticsEngineApiV3():
     def test_replace_instance_default_configs(self):
 
         replace_instance_default_configs_response = self.ibm_analytics_engine_api_service.replace_instance_default_configs(
-            instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+            instance_id=self.instance_id,
             body={'key1': 'testString'}
         )
 
@@ -118,7 +124,7 @@ class TestIbmAnalyticsEngineApiV3():
     def test_update_instance_default_configs(self):
 
         update_instance_default_configs_response = self.ibm_analytics_engine_api_service.update_instance_default_configs(
-            instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+            instance_id=self.instance_id,
             body={'key1': 'testString'}
         )
 
@@ -131,33 +137,27 @@ class TestIbmAnalyticsEngineApiV3():
 
         # Construct a dict representation of a ApplicationRequestApplicationDetails model
         application_request_application_details_model = {
-            'application': 'cos://bucket_name.my_cos/my_spark_app.py',
-            'jars': 'cos://cloud-object-storage/jars/tests.jar',
-            'packages': 'testString',
-            'repositories': 'testString',
-            'files': 'testString',
-            'archives': 'testString',
-            'name': 'spark-app',
-            'class': 'com.company.path.ClassName',
-            'arguments': ['[arg1, arg2, arg3]'],
-            'conf': {'spark.driver.cores':'1','spark.driver.memory':'4G'},
-            'env': {'SPARK_ENV_LOADED':'2'},
+            'application': '/opt/ibm/spark/examples/src/main/python/wordcount.py',
+            'arguments': ['/opt/ibm/spark/examples/src/main/resources/people.txt']
         }
 
         create_application_response = self.ibm_analytics_engine_api_service.create_application(
-            instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+            instance_id=self.instance_id,
             application_details=application_request_application_details_model
         )
 
         assert create_application_response.get_status_code() == 202
         application_response = create_application_response.get_result()
         assert application_response is not None
+        
+        global application_id
+        application_id = application_response.get('id')
 
     @needscredentials
     def test_list_applications(self):
 
         list_applications_response = self.ibm_analytics_engine_api_service.list_applications(
-            instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
+            instance_id=self.instance_id
         )
 
         assert list_applications_response.get_status_code() == 200
@@ -168,8 +168,8 @@ class TestIbmAnalyticsEngineApiV3():
     def test_get_application(self):
 
         get_application_response = self.ibm_analytics_engine_api_service.get_application(
-            instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
-            application_id='ff48cc19-0e7e-4627-aac6-0b4ad080397b'
+            instance_id=self.instance_id,
+            application_id=application_id
         )
 
         assert get_application_response.get_status_code() == 200
@@ -180,8 +180,8 @@ class TestIbmAnalyticsEngineApiV3():
     def test_get_application_state(self):
 
         get_application_state_response = self.ibm_analytics_engine_api_service.get_application_state(
-            instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
-            application_id='ff48cc19-0e7e-4627-aac6-0b4ad080397b'
+            instance_id=self.instance_id,
+            application_id=application_id
         )
 
         assert get_application_state_response.get_status_code() == 200
@@ -192,7 +192,7 @@ class TestIbmAnalyticsEngineApiV3():
     def test_get_current_resource_consumption(self):
 
         get_current_resource_consumption_response = self.ibm_analytics_engine_api_service.get_current_resource_consumption(
-            instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
+            instance_id=self.instance_id
         )
 
         assert get_current_resource_consumption_response.get_status_code() == 200
@@ -203,7 +203,7 @@ class TestIbmAnalyticsEngineApiV3():
     def test_replace_log_forwarding_config(self):
 
         replace_log_forwarding_config_response = self.ibm_analytics_engine_api_service.replace_log_forwarding_config(
-            instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+            instance_id=self.instance_id,
             enabled=True,
             sources=['spark-driver', 'spark-executor'],
             tags=['<tag_1>', '<tag_2>', '<tag_n']
@@ -217,7 +217,7 @@ class TestIbmAnalyticsEngineApiV3():
     def test_get_log_forwarding_config(self):
 
         get_log_forwarding_config_response = self.ibm_analytics_engine_api_service.get_log_forwarding_config(
-            instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
+            instance_id=self.instance_id
         )
 
         assert get_log_forwarding_config_response.get_status_code() == 200
@@ -228,7 +228,7 @@ class TestIbmAnalyticsEngineApiV3():
     def test_configure_platform_logging(self):
 
         configure_platform_logging_response = self.ibm_analytics_engine_api_service.configure_platform_logging(
-            instance_guid='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+            instance_guid=self.instance_id,
             enable=True
         )
 
@@ -240,7 +240,7 @@ class TestIbmAnalyticsEngineApiV3():
     def test_get_logging_configuration(self):
 
         get_logging_configuration_response = self.ibm_analytics_engine_api_service.get_logging_configuration(
-            instance_guid='e64c907a-e82f-46fd-addc-ccfafbd28b09'
+            instance_guid=self.instance_id
         )
 
         assert get_logging_configuration_response.get_status_code() == 200
@@ -251,8 +251,8 @@ class TestIbmAnalyticsEngineApiV3():
     def test_delete_application(self):
 
         delete_application_response = self.ibm_analytics_engine_api_service.delete_application(
-            instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
-            application_id='ff48cc19-0e7e-4627-aac6-0b4ad080397b'
+            instance_id=self.instance_id,
+            application_id=application_id
         )
 
         assert delete_application_response.get_status_code() == 204
