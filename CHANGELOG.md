@@ -1,3 +1,19 @@
+# [2.0.0](https://github.com/IBM/ibm-iae-python-sdk/compare/v1.1.1...v2.0.0) (2022-09-08)
+
+
+### Features
+
+* update sdk methods and dependencies ([dea7bcf](https://github.com/IBM/ibm-iae-python-sdk/commit/dea7bcf430c641f97426cdce41af073dbb3d6399))
+
+
+### BREAKING CHANGES
+
+* Minimum supported python version
+
+The minimum supported python version is now 3.7.
+
+Signed-off-by: Subin Shekhar <subinpc@gmail.com>
+
 ## [1.1.1](https://github.com/IBM/ibm-iae-python-sdk/compare/v1.1.0...v1.1.1) (2021-09-08)
 
 
