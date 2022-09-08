@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2021.
+# (C) Copyright IBM Corp. 2022.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -32,10 +32,37 @@ from iaesdk.ibm_analytics_engine_api_v2 import *
 
 _service = IbmAnalyticsEngineApiV2(
     authenticator=NoAuthAuthenticator()
-    )
+)
 
-_base_url = 'https://ibm-analytics-engine-api.cloud.ibm.com'
+_base_url = 'https://fake'
 _service.set_service_url(_base_url)
+
+
+def preprocess_url(operation_path: str):
+    """
+    Returns the request url associated with the specified operation path.
+    This will be base_url concatenated with a quoted version of operation_path.
+    The returned request URL is used to register the mock response so it needs
+    to match the request URL that is formed by the requests library.
+    """
+    # First, unquote the path since it might have some quoted/escaped characters in it
+    # due to how the generator inserts the operation paths into the unit test code.
+    operation_path = urllib.parse.unquote(operation_path)
+
+    # Next, quote the path using urllib so that we approximate what will
+    # happen during request processing.
+    operation_path = urllib.parse.quote(operation_path, safe='/')
+
+    # Finally, form the request URL from the base URL and operation path.
+    request_url = _base_url + operation_path
+
+    # If the request url does NOT end with a /, then just return it as-is.
+    # Otherwise, return a regular expression that matches one or more trailing /.
+    if re.fullmatch('.*/+', request_url) is None:
+        return request_url
+    else:
+        return re.compile(request_url.rstrip('/') + '/+')
+
 
 ##############################################################################
 # Start of Service: AnalyticsEnginesV2
@@ -66,6 +93,7 @@ class TestNewInstance():
         """
         with pytest.raises(ValueError, match='authenticator must be provided'):
             service = IbmAnalyticsEngineApiV2.new_instance(
+                service_name='TEST_SERVICE_NOT_FOUND',
             )
 
 class TestGetAllAnalyticsEngines():
@@ -73,24 +101,13 @@ class TestGetAllAnalyticsEngines():
     Test Class for get_all_analytics_engines
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_get_all_analytics_engines_all_params(self):
         """
         get_all_analytics_engines()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/analytics_engines')
+        url = preprocess_url('/v2/analytics_engines')
         responses.add(responses.GET,
                       url,
                       status=200)
@@ -103,22 +120,19 @@ class TestGetAllAnalyticsEngines():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_all_analytics_engines_all_params_with_retries(self):
+        # Enable retries and run test_get_all_analytics_engines_all_params.
+        _service.enable_retries()
+        self.test_get_all_analytics_engines_all_params()
+
+        # Disable retries and run test_get_all_analytics_engines_all_params.
+        _service.disable_retries()
+        self.test_get_all_analytics_engines_all_params()
 
 class TestGetAnalyticsEngineById():
     """
     Test Class for get_analytics_engine_by_id
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_analytics_engine_by_id_all_params(self):
@@ -126,7 +140,7 @@ class TestGetAnalyticsEngineById():
         get_analytics_engine_by_id()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString')
+        url = preprocess_url('/v2/analytics_engines/testString')
         mock_response = '{"id": "id", "name": "name", "service_plan": "service_plan", "hardware_size": "hardware_size", "software_package": "software_package", "domain": "domain", "creation_time": "2019-01-01T12:00:00.000Z", "commision_time": "2019-01-01T12:00:00.000Z", "decommision_time": "2019-01-01T12:00:00.000Z", "deletion_time": "2019-01-01T12:00:00.000Z", "state_change_time": "2019-01-01T12:00:00.000Z", "state": "state", "nodes": [{"id": 2, "fqdn": "fqdn", "type": "type", "state": "state", "public_ip": "public_ip", "private_ip": "private_ip", "state_change_time": "2019-01-01T12:00:00.000Z", "commission_time": "2019-01-01T12:00:00.000Z"}], "user_credentials": {"user": "user"}, "service_endpoints": {"phoenix_jdbc": "phoenix_jdbc", "ambari_console": "ambari_console", "livy": "livy", "spark_history_server": "spark_history_server", "oozie_rest": "oozie_rest", "hive_jdbc": "hive_jdbc", "notebook_gateway_websocket": "notebook_gateway_websocket", "notebook_gateway": "notebook_gateway", "webhdfs": "webhdfs", "ssh": "ssh", "spark_sql": "spark_sql"}, "service_endpoints_ip": {"phoenix_jdbc": "phoenix_jdbc", "ambari_console": "ambari_console", "livy": "livy", "spark_history_server": "spark_history_server", "oozie_rest": "oozie_rest", "hive_jdbc": "hive_jdbc", "notebook_gateway_websocket": "notebook_gateway_websocket", "notebook_gateway": "notebook_gateway", "webhdfs": "webhdfs", "ssh": "ssh", "spark_sql": "spark_sql"}, "private_endpoint_whitelist": ["private_endpoint_whitelist"]}'
         responses.add(responses.GET,
                       url,
@@ -147,6 +161,14 @@ class TestGetAnalyticsEngineById():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_analytics_engine_by_id_all_params_with_retries(self):
+        # Enable retries and run test_get_analytics_engine_by_id_all_params.
+        _service.enable_retries()
+        self.test_get_analytics_engine_by_id_all_params()
+
+        # Disable retries and run test_get_analytics_engine_by_id_all_params.
+        _service.disable_retries()
+        self.test_get_analytics_engine_by_id_all_params()
 
     @responses.activate
     def test_get_analytics_engine_by_id_value_error(self):
@@ -154,7 +176,7 @@ class TestGetAnalyticsEngineById():
         test_get_analytics_engine_by_id_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString')
+        url = preprocess_url('/v2/analytics_engines/testString')
         mock_response = '{"id": "id", "name": "name", "service_plan": "service_plan", "hardware_size": "hardware_size", "software_package": "software_package", "domain": "domain", "creation_time": "2019-01-01T12:00:00.000Z", "commision_time": "2019-01-01T12:00:00.000Z", "decommision_time": "2019-01-01T12:00:00.000Z", "deletion_time": "2019-01-01T12:00:00.000Z", "state_change_time": "2019-01-01T12:00:00.000Z", "state": "state", "nodes": [{"id": 2, "fqdn": "fqdn", "type": "type", "state": "state", "public_ip": "public_ip", "private_ip": "private_ip", "state_change_time": "2019-01-01T12:00:00.000Z", "commission_time": "2019-01-01T12:00:00.000Z"}], "user_credentials": {"user": "user"}, "service_endpoints": {"phoenix_jdbc": "phoenix_jdbc", "ambari_console": "ambari_console", "livy": "livy", "spark_history_server": "spark_history_server", "oozie_rest": "oozie_rest", "hive_jdbc": "hive_jdbc", "notebook_gateway_websocket": "notebook_gateway_websocket", "notebook_gateway": "notebook_gateway", "webhdfs": "webhdfs", "ssh": "ssh", "spark_sql": "spark_sql"}, "service_endpoints_ip": {"phoenix_jdbc": "phoenix_jdbc", "ambari_console": "ambari_console", "livy": "livy", "spark_history_server": "spark_history_server", "oozie_rest": "oozie_rest", "hive_jdbc": "hive_jdbc", "notebook_gateway_websocket": "notebook_gateway_websocket", "notebook_gateway": "notebook_gateway", "webhdfs": "webhdfs", "ssh": "ssh", "spark_sql": "spark_sql"}, "private_endpoint_whitelist": ["private_endpoint_whitelist"]}'
         responses.add(responses.GET,
                       url,
@@ -174,23 +196,19 @@ class TestGetAnalyticsEngineById():
             with pytest.raises(ValueError):
                 _service.get_analytics_engine_by_id(**req_copy)
 
+    def test_get_analytics_engine_by_id_value_error_with_retries(self):
+        # Enable retries and run test_get_analytics_engine_by_id_value_error.
+        _service.enable_retries()
+        self.test_get_analytics_engine_by_id_value_error()
 
+        # Disable retries and run test_get_analytics_engine_by_id_value_error.
+        _service.disable_retries()
+        self.test_get_analytics_engine_by_id_value_error()
 
 class TestGetAnalyticsEngineStateById():
     """
     Test Class for get_analytics_engine_state_by_id
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_analytics_engine_state_by_id_all_params(self):
@@ -198,7 +216,7 @@ class TestGetAnalyticsEngineStateById():
         get_analytics_engine_state_by_id()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/state')
+        url = preprocess_url('/v2/analytics_engines/testString/state')
         mock_response = '{"state": "state"}'
         responses.add(responses.GET,
                       url,
@@ -219,6 +237,14 @@ class TestGetAnalyticsEngineStateById():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_analytics_engine_state_by_id_all_params_with_retries(self):
+        # Enable retries and run test_get_analytics_engine_state_by_id_all_params.
+        _service.enable_retries()
+        self.test_get_analytics_engine_state_by_id_all_params()
+
+        # Disable retries and run test_get_analytics_engine_state_by_id_all_params.
+        _service.disable_retries()
+        self.test_get_analytics_engine_state_by_id_all_params()
 
     @responses.activate
     def test_get_analytics_engine_state_by_id_value_error(self):
@@ -226,7 +252,7 @@ class TestGetAnalyticsEngineStateById():
         test_get_analytics_engine_state_by_id_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/state')
+        url = preprocess_url('/v2/analytics_engines/testString/state')
         mock_response = '{"state": "state"}'
         responses.add(responses.GET,
                       url,
@@ -246,23 +272,19 @@ class TestGetAnalyticsEngineStateById():
             with pytest.raises(ValueError):
                 _service.get_analytics_engine_state_by_id(**req_copy)
 
+    def test_get_analytics_engine_state_by_id_value_error_with_retries(self):
+        # Enable retries and run test_get_analytics_engine_state_by_id_value_error.
+        _service.enable_retries()
+        self.test_get_analytics_engine_state_by_id_value_error()
 
+        # Disable retries and run test_get_analytics_engine_state_by_id_value_error.
+        _service.disable_retries()
+        self.test_get_analytics_engine_state_by_id_value_error()
 
 class TestCreateCustomizationRequest():
     """
     Test Class for create_customization_request
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_create_customization_request_all_params(self):
@@ -270,7 +292,7 @@ class TestCreateCustomizationRequest():
         create_customization_request()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/customization_requests')
+        url = preprocess_url('/v2/analytics_engines/testString/customization_requests')
         mock_response = '{"request_id": 10}'
         responses.add(responses.POST,
                       url,
@@ -282,7 +304,7 @@ class TestCreateCustomizationRequest():
         analytics_engine_custom_action_script_model = {}
         analytics_engine_custom_action_script_model['source_type'] = 'http'
         analytics_engine_custom_action_script_model['script_path'] = 'testString'
-        analytics_engine_custom_action_script_model['source_props'] = { 'foo': 'bar' }
+        analytics_engine_custom_action_script_model['source_props'] = {'foo': 'bar'}
 
         # Construct a dict representation of a AnalyticsEngineCustomAction model
         analytics_engine_custom_action_model = {}
@@ -312,6 +334,14 @@ class TestCreateCustomizationRequest():
         assert req_body['target'] == 'all'
         assert req_body['custom_actions'] == [analytics_engine_custom_action_model]
 
+    def test_create_customization_request_all_params_with_retries(self):
+        # Enable retries and run test_create_customization_request_all_params.
+        _service.enable_retries()
+        self.test_create_customization_request_all_params()
+
+        # Disable retries and run test_create_customization_request_all_params.
+        _service.disable_retries()
+        self.test_create_customization_request_all_params()
 
     @responses.activate
     def test_create_customization_request_value_error(self):
@@ -319,7 +349,7 @@ class TestCreateCustomizationRequest():
         test_create_customization_request_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/customization_requests')
+        url = preprocess_url('/v2/analytics_engines/testString/customization_requests')
         mock_response = '{"request_id": 10}'
         responses.add(responses.POST,
                       url,
@@ -331,7 +361,7 @@ class TestCreateCustomizationRequest():
         analytics_engine_custom_action_script_model = {}
         analytics_engine_custom_action_script_model['source_type'] = 'http'
         analytics_engine_custom_action_script_model['script_path'] = 'testString'
-        analytics_engine_custom_action_script_model['source_props'] = { 'foo': 'bar' }
+        analytics_engine_custom_action_script_model['source_props'] = {'foo': 'bar'}
 
         # Construct a dict representation of a AnalyticsEngineCustomAction model
         analytics_engine_custom_action_model = {}
@@ -356,23 +386,19 @@ class TestCreateCustomizationRequest():
             with pytest.raises(ValueError):
                 _service.create_customization_request(**req_copy)
 
+    def test_create_customization_request_value_error_with_retries(self):
+        # Enable retries and run test_create_customization_request_value_error.
+        _service.enable_retries()
+        self.test_create_customization_request_value_error()
 
+        # Disable retries and run test_create_customization_request_value_error.
+        _service.disable_retries()
+        self.test_create_customization_request_value_error()
 
 class TestGetAllCustomizationRequests():
     """
     Test Class for get_all_customization_requests
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_all_customization_requests_all_params(self):
@@ -380,7 +406,7 @@ class TestGetAllCustomizationRequests():
         get_all_customization_requests()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/customization_requests')
+        url = preprocess_url('/v2/analytics_engines/testString/customization_requests')
         mock_response = '[{"id": "id"}]'
         responses.add(responses.GET,
                       url,
@@ -401,6 +427,14 @@ class TestGetAllCustomizationRequests():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_all_customization_requests_all_params_with_retries(self):
+        # Enable retries and run test_get_all_customization_requests_all_params.
+        _service.enable_retries()
+        self.test_get_all_customization_requests_all_params()
+
+        # Disable retries and run test_get_all_customization_requests_all_params.
+        _service.disable_retries()
+        self.test_get_all_customization_requests_all_params()
 
     @responses.activate
     def test_get_all_customization_requests_value_error(self):
@@ -408,7 +442,7 @@ class TestGetAllCustomizationRequests():
         test_get_all_customization_requests_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/customization_requests')
+        url = preprocess_url('/v2/analytics_engines/testString/customization_requests')
         mock_response = '[{"id": "id"}]'
         responses.add(responses.GET,
                       url,
@@ -428,23 +462,19 @@ class TestGetAllCustomizationRequests():
             with pytest.raises(ValueError):
                 _service.get_all_customization_requests(**req_copy)
 
+    def test_get_all_customization_requests_value_error_with_retries(self):
+        # Enable retries and run test_get_all_customization_requests_value_error.
+        _service.enable_retries()
+        self.test_get_all_customization_requests_value_error()
 
+        # Disable retries and run test_get_all_customization_requests_value_error.
+        _service.disable_retries()
+        self.test_get_all_customization_requests_value_error()
 
 class TestGetCustomizationRequestById():
     """
     Test Class for get_customization_request_by_id
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_customization_request_by_id_all_params(self):
@@ -452,7 +482,7 @@ class TestGetCustomizationRequestById():
         get_customization_request_by_id()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/customization_requests/testString')
+        url = preprocess_url('/v2/analytics_engines/testString/customization_requests/testString')
         mock_response = '{"id": "id", "run_status": "run_status", "run_details": {"overall_status": "overall_status", "details": [{"node_name": "node_name", "node_type": "node_type", "start_time": "start_time", "end_time": "end_time", "time_taken": "time_taken", "status": "status", "log_file": "log_file"}]}}'
         responses.add(responses.GET,
                       url,
@@ -475,6 +505,14 @@ class TestGetCustomizationRequestById():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_customization_request_by_id_all_params_with_retries(self):
+        # Enable retries and run test_get_customization_request_by_id_all_params.
+        _service.enable_retries()
+        self.test_get_customization_request_by_id_all_params()
+
+        # Disable retries and run test_get_customization_request_by_id_all_params.
+        _service.disable_retries()
+        self.test_get_customization_request_by_id_all_params()
 
     @responses.activate
     def test_get_customization_request_by_id_value_error(self):
@@ -482,7 +520,7 @@ class TestGetCustomizationRequestById():
         test_get_customization_request_by_id_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/customization_requests/testString')
+        url = preprocess_url('/v2/analytics_engines/testString/customization_requests/testString')
         mock_response = '{"id": "id", "run_status": "run_status", "run_details": {"overall_status": "overall_status", "details": [{"node_name": "node_name", "node_type": "node_type", "start_time": "start_time", "end_time": "end_time", "time_taken": "time_taken", "status": "status", "log_file": "log_file"}]}}'
         responses.add(responses.GET,
                       url,
@@ -504,23 +542,19 @@ class TestGetCustomizationRequestById():
             with pytest.raises(ValueError):
                 _service.get_customization_request_by_id(**req_copy)
 
+    def test_get_customization_request_by_id_value_error_with_retries(self):
+        # Enable retries and run test_get_customization_request_by_id_value_error.
+        _service.enable_retries()
+        self.test_get_customization_request_by_id_value_error()
 
+        # Disable retries and run test_get_customization_request_by_id_value_error.
+        _service.disable_retries()
+        self.test_get_customization_request_by_id_value_error()
 
 class TestResizeCluster():
     """
     Test Class for resize_cluster
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_resize_cluster_all_params(self):
@@ -528,7 +562,7 @@ class TestResizeCluster():
         resize_cluster()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/resize')
+        url = preprocess_url('/v2/analytics_engines/testString/resize')
         mock_response = '{"request_id": "request_id"}'
         responses.add(responses.POST,
                       url,
@@ -558,6 +592,14 @@ class TestResizeCluster():
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body == body
 
+    def test_resize_cluster_all_params_with_retries(self):
+        # Enable retries and run test_resize_cluster_all_params.
+        _service.enable_retries()
+        self.test_resize_cluster_all_params()
+
+        # Disable retries and run test_resize_cluster_all_params.
+        _service.disable_retries()
+        self.test_resize_cluster_all_params()
 
     @responses.activate
     def test_resize_cluster_value_error(self):
@@ -565,7 +607,7 @@ class TestResizeCluster():
         test_resize_cluster_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/resize')
+        url = preprocess_url('/v2/analytics_engines/testString/resize')
         mock_response = '{"request_id": "request_id"}'
         responses.add(responses.POST,
                       url,
@@ -591,23 +633,19 @@ class TestResizeCluster():
             with pytest.raises(ValueError):
                 _service.resize_cluster(**req_copy)
 
+    def test_resize_cluster_value_error_with_retries(self):
+        # Enable retries and run test_resize_cluster_value_error.
+        _service.enable_retries()
+        self.test_resize_cluster_value_error()
 
+        # Disable retries and run test_resize_cluster_value_error.
+        _service.disable_retries()
+        self.test_resize_cluster_value_error()
 
 class TestResetClusterPassword():
     """
     Test Class for reset_cluster_password
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_reset_cluster_password_all_params(self):
@@ -615,7 +653,7 @@ class TestResetClusterPassword():
         reset_cluster_password()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/reset_password')
+        url = preprocess_url('/v2/analytics_engines/testString/reset_password')
         mock_response = '{"id": "id", "user_credentials": {"user": "user", "password": "password"}}'
         responses.add(responses.POST,
                       url,
@@ -636,6 +674,14 @@ class TestResetClusterPassword():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_reset_cluster_password_all_params_with_retries(self):
+        # Enable retries and run test_reset_cluster_password_all_params.
+        _service.enable_retries()
+        self.test_reset_cluster_password_all_params()
+
+        # Disable retries and run test_reset_cluster_password_all_params.
+        _service.disable_retries()
+        self.test_reset_cluster_password_all_params()
 
     @responses.activate
     def test_reset_cluster_password_value_error(self):
@@ -643,7 +689,7 @@ class TestResetClusterPassword():
         test_reset_cluster_password_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/reset_password')
+        url = preprocess_url('/v2/analytics_engines/testString/reset_password')
         mock_response = '{"id": "id", "user_credentials": {"user": "user", "password": "password"}}'
         responses.add(responses.POST,
                       url,
@@ -663,23 +709,19 @@ class TestResetClusterPassword():
             with pytest.raises(ValueError):
                 _service.reset_cluster_password(**req_copy)
 
+    def test_reset_cluster_password_value_error_with_retries(self):
+        # Enable retries and run test_reset_cluster_password_value_error.
+        _service.enable_retries()
+        self.test_reset_cluster_password_value_error()
 
+        # Disable retries and run test_reset_cluster_password_value_error.
+        _service.disable_retries()
+        self.test_reset_cluster_password_value_error()
 
 class TestConfigureLogging():
     """
     Test Class for configure_logging
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_configure_logging_all_params(self):
@@ -687,7 +729,7 @@ class TestConfigureLogging():
         configure_logging()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/log_config')
+        url = preprocess_url('/v2/analytics_engines/testString/log_config')
         responses.add(responses.PUT,
                       url,
                       status=202)
@@ -726,6 +768,14 @@ class TestConfigureLogging():
         assert req_body['log_specs'] == [analytics_engine_logging_node_spec_model]
         assert req_body['log_server'] == analytics_engine_logging_server_model
 
+    def test_configure_logging_all_params_with_retries(self):
+        # Enable retries and run test_configure_logging_all_params.
+        _service.enable_retries()
+        self.test_configure_logging_all_params()
+
+        # Disable retries and run test_configure_logging_all_params.
+        _service.disable_retries()
+        self.test_configure_logging_all_params()
 
     @responses.activate
     def test_configure_logging_value_error(self):
@@ -733,7 +783,7 @@ class TestConfigureLogging():
         test_configure_logging_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/log_config')
+        url = preprocess_url('/v2/analytics_engines/testString/log_config')
         responses.add(responses.PUT,
                       url,
                       status=202)
@@ -767,23 +817,19 @@ class TestConfigureLogging():
             with pytest.raises(ValueError):
                 _service.configure_logging(**req_copy)
 
+    def test_configure_logging_value_error_with_retries(self):
+        # Enable retries and run test_configure_logging_value_error.
+        _service.enable_retries()
+        self.test_configure_logging_value_error()
 
+        # Disable retries and run test_configure_logging_value_error.
+        _service.disable_retries()
+        self.test_configure_logging_value_error()
 
 class TestGetLoggingConfig():
     """
     Test Class for get_logging_config
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_logging_config_all_params(self):
@@ -791,7 +837,7 @@ class TestGetLoggingConfig():
         get_logging_config()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/log_config')
+        url = preprocess_url('/v2/analytics_engines/testString/log_config')
         mock_response = '{"log_specs": [{"node_type": "management", "components": ["ambari-server"]}], "log_server": {"type": "logdna", "credential": "credential", "api_host": "api_host", "log_host": "log_host", "owner": "owner"}, "log_config_status": [{"node_type": "management", "node_id": "node_id", "action": "action", "status": "status"}]}'
         responses.add(responses.GET,
                       url,
@@ -812,6 +858,14 @@ class TestGetLoggingConfig():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_logging_config_all_params_with_retries(self):
+        # Enable retries and run test_get_logging_config_all_params.
+        _service.enable_retries()
+        self.test_get_logging_config_all_params()
+
+        # Disable retries and run test_get_logging_config_all_params.
+        _service.disable_retries()
+        self.test_get_logging_config_all_params()
 
     @responses.activate
     def test_get_logging_config_value_error(self):
@@ -819,7 +873,7 @@ class TestGetLoggingConfig():
         test_get_logging_config_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/log_config')
+        url = preprocess_url('/v2/analytics_engines/testString/log_config')
         mock_response = '{"log_specs": [{"node_type": "management", "components": ["ambari-server"]}], "log_server": {"type": "logdna", "credential": "credential", "api_host": "api_host", "log_host": "log_host", "owner": "owner"}, "log_config_status": [{"node_type": "management", "node_id": "node_id", "action": "action", "status": "status"}]}'
         responses.add(responses.GET,
                       url,
@@ -839,23 +893,19 @@ class TestGetLoggingConfig():
             with pytest.raises(ValueError):
                 _service.get_logging_config(**req_copy)
 
+    def test_get_logging_config_value_error_with_retries(self):
+        # Enable retries and run test_get_logging_config_value_error.
+        _service.enable_retries()
+        self.test_get_logging_config_value_error()
 
+        # Disable retries and run test_get_logging_config_value_error.
+        _service.disable_retries()
+        self.test_get_logging_config_value_error()
 
 class TestDeleteLoggingConfig():
     """
     Test Class for delete_logging_config
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_logging_config_all_params(self):
@@ -863,7 +913,7 @@ class TestDeleteLoggingConfig():
         delete_logging_config()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/log_config')
+        url = preprocess_url('/v2/analytics_engines/testString/log_config')
         responses.add(responses.DELETE,
                       url,
                       status=202)
@@ -881,6 +931,14 @@ class TestDeleteLoggingConfig():
         assert len(responses.calls) == 1
         assert response.status_code == 202
 
+    def test_delete_logging_config_all_params_with_retries(self):
+        # Enable retries and run test_delete_logging_config_all_params.
+        _service.enable_retries()
+        self.test_delete_logging_config_all_params()
+
+        # Disable retries and run test_delete_logging_config_all_params.
+        _service.disable_retries()
+        self.test_delete_logging_config_all_params()
 
     @responses.activate
     def test_delete_logging_config_value_error(self):
@@ -888,7 +946,7 @@ class TestDeleteLoggingConfig():
         test_delete_logging_config_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/log_config')
+        url = preprocess_url('/v2/analytics_engines/testString/log_config')
         responses.add(responses.DELETE,
                       url,
                       status=202)
@@ -905,23 +963,19 @@ class TestDeleteLoggingConfig():
             with pytest.raises(ValueError):
                 _service.delete_logging_config(**req_copy)
 
+    def test_delete_logging_config_value_error_with_retries(self):
+        # Enable retries and run test_delete_logging_config_value_error.
+        _service.enable_retries()
+        self.test_delete_logging_config_value_error()
 
+        # Disable retries and run test_delete_logging_config_value_error.
+        _service.disable_retries()
+        self.test_delete_logging_config_value_error()
 
 class TestUpdatePrivateEndpointWhitelist():
     """
     Test Class for update_private_endpoint_whitelist
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_update_private_endpoint_whitelist_all_params(self):
@@ -929,7 +983,7 @@ class TestUpdatePrivateEndpointWhitelist():
         update_private_endpoint_whitelist()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/private_endpoint_whitelist')
+        url = preprocess_url('/v2/analytics_engines/testString/private_endpoint_whitelist')
         mock_response = '{"private_endpoint_whitelist": ["private_endpoint_whitelist"]}'
         responses.add(responses.PATCH,
                       url,
@@ -958,6 +1012,14 @@ class TestUpdatePrivateEndpointWhitelist():
         assert req_body['ip_ranges'] == ['testString']
         assert req_body['action'] == 'add'
 
+    def test_update_private_endpoint_whitelist_all_params_with_retries(self):
+        # Enable retries and run test_update_private_endpoint_whitelist_all_params.
+        _service.enable_retries()
+        self.test_update_private_endpoint_whitelist_all_params()
+
+        # Disable retries and run test_update_private_endpoint_whitelist_all_params.
+        _service.disable_retries()
+        self.test_update_private_endpoint_whitelist_all_params()
 
     @responses.activate
     def test_update_private_endpoint_whitelist_value_error(self):
@@ -965,7 +1027,7 @@ class TestUpdatePrivateEndpointWhitelist():
         test_update_private_endpoint_whitelist_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v2/analytics_engines/testString/private_endpoint_whitelist')
+        url = preprocess_url('/v2/analytics_engines/testString/private_endpoint_whitelist')
         mock_response = '{"private_endpoint_whitelist": ["private_endpoint_whitelist"]}'
         responses.add(responses.PATCH,
                       url,
@@ -989,7 +1051,14 @@ class TestUpdatePrivateEndpointWhitelist():
             with pytest.raises(ValueError):
                 _service.update_private_endpoint_whitelist(**req_copy)
 
+    def test_update_private_endpoint_whitelist_value_error_with_retries(self):
+        # Enable retries and run test_update_private_endpoint_whitelist_value_error.
+        _service.enable_retries()
+        self.test_update_private_endpoint_whitelist_value_error()
 
+        # Disable retries and run test_update_private_endpoint_whitelist_value_error.
+        _service.disable_retries()
+        self.test_update_private_endpoint_whitelist_value_error()
 
 # endregion
 ##############################################################################
@@ -1020,8 +1089,8 @@ class TestModel_AnalyticsEngine():
         analytics_engine_cluster_node_model['state'] = 'testString'
         analytics_engine_cluster_node_model['public_ip'] = 'testString'
         analytics_engine_cluster_node_model['private_ip'] = 'testString'
-        analytics_engine_cluster_node_model['state_change_time'] = "2019-01-01T12:00:00Z"
-        analytics_engine_cluster_node_model['commission_time'] = "2019-01-01T12:00:00Z"
+        analytics_engine_cluster_node_model['state_change_time'] = '2019-01-01T12:00:00Z'
+        analytics_engine_cluster_node_model['commission_time'] = '2019-01-01T12:00:00Z'
 
         analytics_engine_user_credentials_model = {} # AnalyticsEngineUserCredentials
         analytics_engine_user_credentials_model['user'] = 'testString'
@@ -1047,11 +1116,11 @@ class TestModel_AnalyticsEngine():
         analytics_engine_model_json['hardware_size'] = 'testString'
         analytics_engine_model_json['software_package'] = 'testString'
         analytics_engine_model_json['domain'] = 'testString'
-        analytics_engine_model_json['creation_time'] = "2019-01-01T12:00:00Z"
-        analytics_engine_model_json['commision_time'] = "2019-01-01T12:00:00Z"
-        analytics_engine_model_json['decommision_time'] = "2019-01-01T12:00:00Z"
-        analytics_engine_model_json['deletion_time'] = "2019-01-01T12:00:00Z"
-        analytics_engine_model_json['state_change_time'] = "2019-01-01T12:00:00Z"
+        analytics_engine_model_json['creation_time'] = '2019-01-01T12:00:00Z'
+        analytics_engine_model_json['commision_time'] = '2019-01-01T12:00:00Z'
+        analytics_engine_model_json['decommision_time'] = '2019-01-01T12:00:00Z'
+        analytics_engine_model_json['deletion_time'] = '2019-01-01T12:00:00Z'
+        analytics_engine_model_json['state_change_time'] = '2019-01-01T12:00:00Z'
         analytics_engine_model_json['state'] = 'testString'
         analytics_engine_model_json['nodes'] = [analytics_engine_cluster_node_model]
         analytics_engine_model_json['user_credentials'] = analytics_engine_user_credentials_model
@@ -1092,8 +1161,8 @@ class TestModel_AnalyticsEngineClusterNode():
         analytics_engine_cluster_node_model_json['state'] = 'testString'
         analytics_engine_cluster_node_model_json['public_ip'] = 'testString'
         analytics_engine_cluster_node_model_json['private_ip'] = 'testString'
-        analytics_engine_cluster_node_model_json['state_change_time'] = "2019-01-01T12:00:00Z"
-        analytics_engine_cluster_node_model_json['commission_time'] = "2019-01-01T12:00:00Z"
+        analytics_engine_cluster_node_model_json['state_change_time'] = '2019-01-01T12:00:00Z'
+        analytics_engine_cluster_node_model_json['commission_time'] = '2019-01-01T12:00:00Z'
 
         # Construct a model instance of AnalyticsEngineClusterNode by calling from_dict on the json representation
         analytics_engine_cluster_node_model = AnalyticsEngineClusterNode.from_dict(analytics_engine_cluster_node_model_json)
@@ -1154,7 +1223,7 @@ class TestModel_AnalyticsEngineCustomAction():
         analytics_engine_custom_action_script_model = {} # AnalyticsEngineCustomActionScript
         analytics_engine_custom_action_script_model['source_type'] = 'http'
         analytics_engine_custom_action_script_model['script_path'] = 'testString'
-        analytics_engine_custom_action_script_model['source_props'] = { 'foo': 'bar' }
+        analytics_engine_custom_action_script_model['source_props'] = {'foo': 'bar'}
 
         # Construct a json representation of a AnalyticsEngineCustomAction model
         analytics_engine_custom_action_model_json = {}
@@ -1192,7 +1261,7 @@ class TestModel_AnalyticsEngineCustomActionScript():
         analytics_engine_custom_action_script_model_json = {}
         analytics_engine_custom_action_script_model_json['source_type'] = 'http'
         analytics_engine_custom_action_script_model_json['script_path'] = 'testString'
-        analytics_engine_custom_action_script_model_json['source_props'] = { 'foo': 'bar' }
+        analytics_engine_custom_action_script_model_json['source_props'] = {'foo': 'bar'}
 
         # Construct a model instance of AnalyticsEngineCustomActionScript by calling from_dict on the json representation
         analytics_engine_custom_action_script_model = AnalyticsEngineCustomActionScript.from_dict(analytics_engine_custom_action_script_model_json)

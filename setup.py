@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright 2016 IBM All Rights Reserved.
+# Copyright 2016,2022 IBM All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -38,56 +38,37 @@ if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist upload -r pypi')
     sys.exit()
 
-class PyTest(TestCommand):
-    def finalize_options(self):
-        TestCommand.finalize_options(self)
-        self.test_args = ['--strict', '--verbose', '--tb=long', 'test']
-        self.test_suite = True
-
-    def run_tests(self):
-        import pytest
-        errcode = pytest.main(self.test_args)
-        sys.exit(errcode)
-
-class PyTestUnit(PyTest):
-    def finalize_options(self):
-        self.test_args = ['--strict', '--verbose', '--tb=long', 'test/unit']
-
-class PyTestIntegration(PyTest):
-    def finalize_options(self):
-        self.test_args = ['--strict', '--verbose', '--tb=long', 'test/integration']
-
 with open("README.md", "r") as fh:
     readme = fh.read()
 
-setup(name=PACKAGE_NAME.replace('_', '-'),
-      version=__version__,
-      description=PACKAGE_DESC,
-      license='Apache 2.0',
-      install_requires=install_requires,
-      tests_require=tests_require,
-      cmdclass={'test': PyTest, 'test_unit': PyTestUnit, 'test_integration': PyTestIntegration},
-      author='IBM',
-      author_email='surya.penumatcha@ibm.com',
-      long_description=readme,
-      long_description_content_type='text/markdown',
-      url='https://github.com/IBM/ibm-iae-python-sdk',
-      packages=[PACKAGE_NAME],
-      include_package_data=True,
-      keywords=PACKAGE_NAME,
-      classifiers=[
-          'Programming Language :: Python',
-          'Programming Language :: Python :: 3',
-          'Programming Language :: Python :: 3.6',
-          'Programming Language :: Python :: 3.7',
-          'Programming Language :: Python :: 3.8',
-          'Programming Language :: Python :: 3.9',
-          'Development Status :: 4 - Beta',
-          'Intended Audience :: Developers',
-          'License :: OSI Approved :: Apache Software License',
-          'Operating System :: OS Independent',
-          'Topic :: Software Development :: Libraries :: Python Modules',
-          'Topic :: Software Development :: Libraries :: Application Frameworks',
-      ],
-      zip_safe=True
-     )
+setup(
+    name=PACKAGE_NAME.replace('_', '-'),
+    version=__version__,
+    description=PACKAGE_DESC,
+    license='Apache 2.0',
+    install_requires=install_requires,
+    tests_require=tests_require,
+    author='IBM',
+    author_email='surya.penumatcha@ibm.com',
+    long_description=readme,
+    long_description_content_type='text/markdown',
+    url='https://github.com/IBM/ibm-iae-python-sdk',
+    packages=[PACKAGE_NAME],
+    include_package_data=True,
+    keywords=PACKAGE_NAME,
+    classifiers=[
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Development Status :: 4 - Beta',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: Apache Software License',
+        'Operating System :: OS Independent',
+        'Topic :: Software Development :: Libraries :: Python Modules',
+        'Topic :: Software Development :: Libraries :: Application Frameworks',
+    ],
+    zip_safe=True
+    )
