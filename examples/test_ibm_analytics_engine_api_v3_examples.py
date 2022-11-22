@@ -166,7 +166,10 @@ class TestIbmAnalyticsEngineApiV3Examples():
 
             instance_default_configs = ibm_analytics_engine_api_service.replace_instance_default_configs(
                 instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
-                body={'key1': 'testString'}
+                body={
+                    "spark.driver.memory": "8G",
+                    "spark.driver.cores": "2",
+                }
             ).get_result()
 
             print(json.dumps(instance_default_configs, indent=2))
@@ -187,12 +190,56 @@ class TestIbmAnalyticsEngineApiV3Examples():
 
             instance_default_configs = ibm_analytics_engine_api_service.update_instance_default_configs(
                 instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
-                body={'key1': 'testString'}
+                body={
+                    "ae.spark.history-server.cores": "1",
+                    "ae.spark.history-server.memory": "4G",
+                }
             ).get_result()
 
             print(json.dumps(instance_default_configs, indent=2))
 
             # end-update_instance_default_configs
+
+        except ApiException as e:
+            pytest.fail(str(e))
+
+    @needscredentials
+    def test_get_instance_default_runtime_example(self):
+        """
+        get_instance_default_runtime request example
+        """
+        try:
+            print('\nget_instance_default_runtime() result:')
+            # begin-get_instance_default_runtime
+
+            runtime = ibm_analytics_engine_api_service.get_instance_default_runtime(
+                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
+            ).get_result()
+
+            print(json.dumps(runtime, indent=2))
+
+            # end-get_instance_default_runtime
+
+        except ApiException as e:
+            pytest.fail(str(e))
+
+    @needscredentials
+    def test_replace_instance_default_runtime_example(self):
+        """
+        replace_instance_default_runtime request example
+        """
+        try:
+            print('\nreplace_instance_default_runtime() result:')
+            # begin-replace_instance_default_runtime
+
+            runtime = ibm_analytics_engine_api_service.replace_instance_default_runtime(
+                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+                spark_version='3.3'
+            ).get_result()
+
+            print(json.dumps(runtime, indent=2))
+
+            # end-replace_instance_default_runtime
 
         except ApiException as e:
             pytest.fail(str(e))
@@ -206,8 +253,16 @@ class TestIbmAnalyticsEngineApiV3Examples():
             print('\ncreate_application() result:')
             # begin-create_application
 
+            application_details = ApplicationRequestApplicationDetails(
+                application='/opt/ibm/spark/examples/src/main/python/wordcount.py',
+                arguments=['/opt/ibm/spark/examples/src/main/resources/people.txt'],
+                runtime={
+                    'spark_version': '3.3'
+                }
+            )
             application_response = ibm_analytics_engine_api_service.create_application(
                 instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+                application_details=application_details,
             ).get_result()
 
             print(json.dumps(application_response, indent=2))
@@ -295,6 +350,26 @@ class TestIbmAnalyticsEngineApiV3Examples():
             print(json.dumps(current_resource_consumption_response, indent=2))
 
             # end-get_current_resource_consumption
+
+        except ApiException as e:
+            pytest.fail(str(e))
+
+    @needscredentials
+    def test_get_resource_consumption_limits_example(self):
+        """
+        get_resource_consumption_limits request example
+        """
+        try:
+            print('\nget_resource_consumption_limits() result:')
+            # begin-get_resource_consumption_limits
+
+            resource_consumption_limits_response = ibm_analytics_engine_api_service.get_resource_consumption_limits(
+                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
+            ).get_result()
+
+            print(json.dumps(resource_consumption_limits_response, indent=2))
+
+            # end-get_resource_consumption_limits
 
         except ApiException as e:
             pytest.fail(str(e))

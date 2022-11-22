@@ -25,6 +25,7 @@ import json
 import os
 import pytest
 import re
+import requests
 import responses
 import urllib
 from iaesdk.ibm_analytics_engine_api_v3 import *
@@ -117,7 +118,7 @@ class TestGetInstance():
         """
         # Set up mock
         url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09')
-        mock_response = '{"id": "id", "href": "href", "state": "created", "state_change_time": "2021-01-30T08:30:00.000Z", "default_runtime": {"spark_version": "spark_version"}, "instance_home": {"id": "id", "provider": "provider", "type": "type", "region": "region", "endpoint": "endpoint", "bucket": "bucket", "hmac_access_key": "hmac_access_key", "hmac_secret_key": "hmac_secret_key"}, "default_config": {"key": "key"}}'
+        mock_response = '{"id": "id", "href": "href", "state": "creation_accepted", "state_change_time": "2021-01-30T08:30:00.000Z", "default_runtime": {"spark_version": "3.1"}, "instance_home": {"id": "id", "provider": "provider", "type": "type", "region": "region", "endpoint": "endpoint", "bucket": "bucket", "hmac_access_key": "hmac_access_key", "hmac_secret_key": "hmac_secret_key"}, "default_config": {"key": "key"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -153,7 +154,7 @@ class TestGetInstance():
         """
         # Set up mock
         url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09')
-        mock_response = '{"id": "id", "href": "href", "state": "created", "state_change_time": "2021-01-30T08:30:00.000Z", "default_runtime": {"spark_version": "spark_version"}, "instance_home": {"id": "id", "provider": "provider", "type": "type", "region": "region", "endpoint": "endpoint", "bucket": "bucket", "hmac_access_key": "hmac_access_key", "hmac_secret_key": "hmac_secret_key"}, "default_config": {"key": "key"}}'
+        mock_response = '{"id": "id", "href": "href", "state": "creation_accepted", "state_change_time": "2021-01-30T08:30:00.000Z", "default_runtime": {"spark_version": "3.1"}, "instance_home": {"id": "id", "provider": "provider", "type": "type", "region": "region", "endpoint": "endpoint", "bucket": "bucket", "hmac_access_key": "hmac_access_key", "hmac_secret_key": "hmac_secret_key"}, "default_config": {"key": "key"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -193,7 +194,7 @@ class TestGetInstanceState():
         """
         # Set up mock
         url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/state')
-        mock_response = '{"id": "id", "state": "created"}'
+        mock_response = '{"id": "id", "state": "creation_accepted"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -229,7 +230,7 @@ class TestGetInstanceState():
         """
         # Set up mock
         url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/state')
-        mock_response = '{"id": "id", "state": "created"}'
+        mock_response = '{"id": "id", "state": "creation_accepted"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -605,6 +606,164 @@ class TestUpdateInstanceDefaultConfigs():
         _service.disable_retries()
         self.test_update_instance_default_configs_value_error()
 
+class TestGetInstanceDefaultRuntime():
+    """
+    Test Class for get_instance_default_runtime
+    """
+
+    @responses.activate
+    def test_get_instance_default_runtime_all_params(self):
+        """
+        get_instance_default_runtime()
+        """
+        # Set up mock
+        url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_runtime')
+        mock_response = '{"spark_version": "3.1"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
+
+        # Invoke method
+        response = _service.get_instance_default_runtime(
+            instance_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_instance_default_runtime_all_params_with_retries(self):
+        # Enable retries and run test_get_instance_default_runtime_all_params.
+        _service.enable_retries()
+        self.test_get_instance_default_runtime_all_params()
+
+        # Disable retries and run test_get_instance_default_runtime_all_params.
+        _service.disable_retries()
+        self.test_get_instance_default_runtime_all_params()
+
+    @responses.activate
+    def test_get_instance_default_runtime_value_error(self):
+        """
+        test_get_instance_default_runtime_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_runtime')
+        mock_response = '{"spark_version": "3.1"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "instance_id": instance_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_instance_default_runtime(**req_copy)
+
+    def test_get_instance_default_runtime_value_error_with_retries(self):
+        # Enable retries and run test_get_instance_default_runtime_value_error.
+        _service.enable_retries()
+        self.test_get_instance_default_runtime_value_error()
+
+        # Disable retries and run test_get_instance_default_runtime_value_error.
+        _service.disable_retries()
+        self.test_get_instance_default_runtime_value_error()
+
+class TestReplaceInstanceDefaultRuntime():
+    """
+    Test Class for replace_instance_default_runtime
+    """
+
+    @responses.activate
+    def test_replace_instance_default_runtime_all_params(self):
+        """
+        replace_instance_default_runtime()
+        """
+        # Set up mock
+        url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_runtime')
+        mock_response = '{"spark_version": "3.1"}'
+        responses.add(responses.PUT,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
+        spark_version = '3.1'
+
+        # Invoke method
+        response = _service.replace_instance_default_runtime(
+            instance_id,
+            spark_version=spark_version,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['spark_version'] == '3.1'
+
+    def test_replace_instance_default_runtime_all_params_with_retries(self):
+        # Enable retries and run test_replace_instance_default_runtime_all_params.
+        _service.enable_retries()
+        self.test_replace_instance_default_runtime_all_params()
+
+        # Disable retries and run test_replace_instance_default_runtime_all_params.
+        _service.disable_retries()
+        self.test_replace_instance_default_runtime_all_params()
+
+    @responses.activate
+    def test_replace_instance_default_runtime_value_error(self):
+        """
+        test_replace_instance_default_runtime_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_runtime')
+        mock_response = '{"spark_version": "3.1"}'
+        responses.add(responses.PUT,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
+        spark_version = '3.1'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "instance_id": instance_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.replace_instance_default_runtime(**req_copy)
+
+    def test_replace_instance_default_runtime_value_error_with_retries(self):
+        # Enable retries and run test_replace_instance_default_runtime_value_error.
+        _service.enable_retries()
+        self.test_replace_instance_default_runtime_value_error()
+
+        # Disable retries and run test_replace_instance_default_runtime_value_error.
+        _service.disable_retries()
+        self.test_replace_instance_default_runtime_value_error()
+
 class TestCreateApplication():
     """
     Test Class for create_application
@@ -617,16 +776,21 @@ class TestCreateApplication():
         """
         # Set up mock
         url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications')
-        mock_response = '{"id": "id", "state": "accepted"}'
+        mock_response = '{"id": "id", "state": "finished"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
                       content_type='application/json',
                       status=202)
 
+        # Construct a dict representation of a Runtime model
+        runtime_model = {}
+        runtime_model['spark_version'] = '3.1'
+
         # Construct a dict representation of a ApplicationRequestApplicationDetails model
         application_request_application_details_model = {}
         application_request_application_details_model['application'] = 'cos://bucket_name.my_cos/my_spark_app.py'
+        application_request_application_details_model['runtime'] = runtime_model
         application_request_application_details_model['jars'] = 'cos://cloud-object-storage/jars/tests.jar'
         application_request_application_details_model['packages'] = 'testString'
         application_request_application_details_model['repositories'] = 'testString'
@@ -672,16 +836,21 @@ class TestCreateApplication():
         """
         # Set up mock
         url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications')
-        mock_response = '{"id": "id", "state": "accepted"}'
+        mock_response = '{"id": "id", "state": "finished"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
                       content_type='application/json',
                       status=202)
 
+        # Construct a dict representation of a Runtime model
+        runtime_model = {}
+        runtime_model['spark_version'] = '3.1'
+
         # Construct a dict representation of a ApplicationRequestApplicationDetails model
         application_request_application_details_model = {}
         application_request_application_details_model['application'] = 'cos://bucket_name.my_cos/my_spark_app.py'
+        application_request_application_details_model['runtime'] = runtime_model
         application_request_application_details_model['jars'] = 'cos://cloud-object-storage/jars/tests.jar'
         application_request_application_details_model['packages'] = 'testString'
         application_request_application_details_model['repositories'] = 'testString'
@@ -727,7 +896,49 @@ class TestListApplications():
         """
         # Set up mock
         url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications')
-        mock_response = '{"applications": [{"id": "id", "href": "href", "spark_application_id": "spark_application_id", "spark_application_name": "spark_application_name", "state": "state", "start_time": "start_time", "end_time": "end_time", "finish_time": "finish_time"}]}'
+        mock_response = '{"applications": [{"id": "id", "href": "href", "runtime": {"spark_version": "3.1"}, "spark_application_id": "spark_application_id", "spark_application_name": "spark_application_name", "state": "finished", "start_time": "start_time", "end_time": "end_time", "finish_time": "finish_time"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
+        state = ['finished']
+
+        # Invoke method
+        response = _service.list_applications(
+            instance_id,
+            state=state,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate query params
+        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = urllib.parse.unquote_plus(query_string)
+        assert 'state={}'.format(','.join(state)) in query_string
+
+    def test_list_applications_all_params_with_retries(self):
+        # Enable retries and run test_list_applications_all_params.
+        _service.enable_retries()
+        self.test_list_applications_all_params()
+
+        # Disable retries and run test_list_applications_all_params.
+        _service.disable_retries()
+        self.test_list_applications_all_params()
+
+    @responses.activate
+    def test_list_applications_required_params(self):
+        """
+        test_list_applications_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications')
+        mock_response = '{"applications": [{"id": "id", "href": "href", "runtime": {"spark_version": "3.1"}, "spark_application_id": "spark_application_id", "spark_application_name": "spark_application_name", "state": "finished", "start_time": "start_time", "end_time": "end_time", "finish_time": "finish_time"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -747,14 +958,14 @@ class TestListApplications():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
-    def test_list_applications_all_params_with_retries(self):
-        # Enable retries and run test_list_applications_all_params.
+    def test_list_applications_required_params_with_retries(self):
+        # Enable retries and run test_list_applications_required_params.
         _service.enable_retries()
-        self.test_list_applications_all_params()
+        self.test_list_applications_required_params()
 
-        # Disable retries and run test_list_applications_all_params.
+        # Disable retries and run test_list_applications_required_params.
         _service.disable_retries()
-        self.test_list_applications_all_params()
+        self.test_list_applications_required_params()
 
     @responses.activate
     def test_list_applications_value_error(self):
@@ -763,7 +974,7 @@ class TestListApplications():
         """
         # Set up mock
         url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications')
-        mock_response = '{"applications": [{"id": "id", "href": "href", "spark_application_id": "spark_application_id", "spark_application_name": "spark_application_name", "state": "state", "start_time": "start_time", "end_time": "end_time", "finish_time": "finish_time"}]}'
+        mock_response = '{"applications": [{"id": "id", "href": "href", "runtime": {"spark_version": "3.1"}, "spark_application_id": "spark_application_id", "spark_application_name": "spark_application_name", "state": "finished", "start_time": "start_time", "end_time": "end_time", "finish_time": "finish_time"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -803,7 +1014,7 @@ class TestGetApplication():
         """
         # Set up mock
         url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications/ff48cc19-0e7e-4627-aac6-0b4ad080397b')
-        mock_response = '{"application_details": {"application": "cos://bucket_name.my_cos/my_spark_app.py", "jars": "cos://cloud-object-storage/jars/tests.jar", "packages": "packages", "repositories": "repositories", "files": "files", "archives": "archives", "name": "spark-app", "class": "com.company.path.ClassName", "arguments": ["[arg1, arg2, arg3]"], "conf": {"mapKey": "anyValue"}, "env": {"mapKey": "anyValue"}}, "id": "2b83d31c-397b-48ad-ad76-b83347c982db", "spark_application_id": "spark_application_id", "spark_application_name": "spark_application_name", "state": "accepted", "start_time": "2021-01-30T08:30:00.000Z", "end_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z"}'
+        mock_response = '{"application_details": {"application": "cos://bucket_name.my_cos/my_spark_app.py", "runtime": {"spark_version": "3.1"}, "jars": "cos://cloud-object-storage/jars/tests.jar", "packages": "packages", "repositories": "repositories", "files": "files", "archives": "archives", "name": "spark-app", "class": "com.company.path.ClassName", "arguments": ["[arg1, arg2, arg3]"], "conf": {"mapKey": "anyValue"}, "env": {"mapKey": "anyValue"}}, "id": "2b83d31c-397b-48ad-ad76-b83347c982db", "spark_application_id": "spark_application_id", "spark_application_name": "spark_application_name", "state": "finished", "state_details": [{"type": "server_error", "code": "server_error", "message": "message"}], "start_time": "2021-01-30T08:30:00.000Z", "end_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -841,7 +1052,7 @@ class TestGetApplication():
         """
         # Set up mock
         url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications/ff48cc19-0e7e-4627-aac6-0b4ad080397b')
-        mock_response = '{"application_details": {"application": "cos://bucket_name.my_cos/my_spark_app.py", "jars": "cos://cloud-object-storage/jars/tests.jar", "packages": "packages", "repositories": "repositories", "files": "files", "archives": "archives", "name": "spark-app", "class": "com.company.path.ClassName", "arguments": ["[arg1, arg2, arg3]"], "conf": {"mapKey": "anyValue"}, "env": {"mapKey": "anyValue"}}, "id": "2b83d31c-397b-48ad-ad76-b83347c982db", "spark_application_id": "spark_application_id", "spark_application_name": "spark_application_name", "state": "accepted", "start_time": "2021-01-30T08:30:00.000Z", "end_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z"}'
+        mock_response = '{"application_details": {"application": "cos://bucket_name.my_cos/my_spark_app.py", "runtime": {"spark_version": "3.1"}, "jars": "cos://cloud-object-storage/jars/tests.jar", "packages": "packages", "repositories": "repositories", "files": "files", "archives": "archives", "name": "spark-app", "class": "com.company.path.ClassName", "arguments": ["[arg1, arg2, arg3]"], "conf": {"mapKey": "anyValue"}, "env": {"mapKey": "anyValue"}}, "id": "2b83d31c-397b-48ad-ad76-b83347c982db", "spark_application_id": "spark_application_id", "spark_application_name": "spark_application_name", "state": "finished", "state_details": [{"type": "server_error", "code": "server_error", "message": "message"}], "start_time": "2021-01-30T08:30:00.000Z", "end_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -957,7 +1168,7 @@ class TestGetApplicationState():
         """
         # Set up mock
         url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications/ff48cc19-0e7e-4627-aac6-0b4ad080397b/state')
-        mock_response = '{"id": "id", "state": "state", "start_time": "start_time", "end_time": "end_time", "finish_time": "finish_time"}'
+        mock_response = '{"id": "id", "state": "finished", "start_time": "start_time", "end_time": "end_time", "finish_time": "finish_time"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -995,7 +1206,7 @@ class TestGetApplicationState():
         """
         # Set up mock
         url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications/ff48cc19-0e7e-4627-aac6-0b4ad080397b/state')
-        mock_response = '{"id": "id", "state": "state", "start_time": "start_time", "end_time": "end_time", "finish_time": "finish_time"}'
+        mock_response = '{"id": "id", "state": "finished", "start_time": "start_time", "end_time": "end_time", "finish_time": "finish_time"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1100,6 +1311,82 @@ class TestGetCurrentResourceConsumption():
         # Disable retries and run test_get_current_resource_consumption_value_error.
         _service.disable_retries()
         self.test_get_current_resource_consumption_value_error()
+
+class TestGetResourceConsumptionLimits():
+    """
+    Test Class for get_resource_consumption_limits
+    """
+
+    @responses.activate
+    def test_get_resource_consumption_limits_all_params(self):
+        """
+        get_resource_consumption_limits()
+        """
+        # Set up mock
+        url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/resource_consumption_limits')
+        mock_response = '{"max_cores": "max_cores", "max_memory": "max_memory"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
+
+        # Invoke method
+        response = _service.get_resource_consumption_limits(
+            instance_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_resource_consumption_limits_all_params_with_retries(self):
+        # Enable retries and run test_get_resource_consumption_limits_all_params.
+        _service.enable_retries()
+        self.test_get_resource_consumption_limits_all_params()
+
+        # Disable retries and run test_get_resource_consumption_limits_all_params.
+        _service.disable_retries()
+        self.test_get_resource_consumption_limits_all_params()
+
+    @responses.activate
+    def test_get_resource_consumption_limits_value_error(self):
+        """
+        test_get_resource_consumption_limits_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/resource_consumption_limits')
+        mock_response = '{"max_cores": "max_cores", "max_memory": "max_memory"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "instance_id": instance_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_resource_consumption_limits(**req_copy)
+
+    def test_get_resource_consumption_limits_value_error_with_retries(self):
+        # Enable retries and run test_get_resource_consumption_limits_value_error.
+        _service.enable_retries()
+        self.test_get_resource_consumption_limits_value_error()
+
+        # Disable retries and run test_get_resource_consumption_limits_value_error.
+        _service.disable_retries()
+        self.test_get_resource_consumption_limits_value_error()
 
 class TestReplaceLogForwardingConfig():
     """
@@ -1445,13 +1732,19 @@ class TestModel_Application():
         Test serialization/deserialization for Application
         """
 
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        runtime_model = {} # Runtime
+        runtime_model['spark_version'] = '3.1'
+
         # Construct a json representation of a Application model
         application_model_json = {}
         application_model_json['id'] = 'testString'
         application_model_json['href'] = 'testString'
+        application_model_json['runtime'] = runtime_model
         application_model_json['spark_application_id'] = 'testString'
         application_model_json['spark_application_name'] = 'testString'
-        application_model_json['state'] = 'testString'
+        application_model_json['state'] = 'finished'
         application_model_json['start_time'] = 'testString'
         application_model_json['end_time'] = 'testString'
         application_model_json['finish_time'] = 'testString'
@@ -1483,12 +1776,16 @@ class TestModel_ApplicationCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
+        runtime_model = {} # Runtime
+        runtime_model['spark_version'] = '3.1'
+
         application_model = {} # Application
         application_model['id'] = 'testString'
         application_model['href'] = 'testString'
+        application_model['runtime'] = runtime_model
         application_model['spark_application_id'] = 'testString'
         application_model['spark_application_name'] = 'testString'
-        application_model['state'] = 'testString'
+        application_model['state'] = 'finished'
         application_model['start_time'] = 'testString'
         application_model['end_time'] = 'testString'
         application_model['finish_time'] = 'testString'
@@ -1522,9 +1819,15 @@ class TestModel_ApplicationDetails():
         Test serialization/deserialization for ApplicationDetails
         """
 
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        runtime_model = {} # Runtime
+        runtime_model['spark_version'] = '3.1'
+
         # Construct a json representation of a ApplicationDetails model
         application_details_model_json = {}
         application_details_model_json['application'] = 'cos://bucket_name.my_cos/my_spark_app.py'
+        application_details_model_json['runtime'] = runtime_model
         application_details_model_json['jars'] = 'cos://cloud-object-storage/jars/tests.jar'
         application_details_model_json['packages'] = 'testString'
         application_details_model_json['repositories'] = 'testString'
@@ -1563,8 +1866,12 @@ class TestModel_ApplicationGetResponse():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
+        runtime_model = {} # Runtime
+        runtime_model['spark_version'] = '3.1'
+
         application_details_model = {} # ApplicationDetails
         application_details_model['application'] = 'cos://bucket_name.my_cos/my_spark_app.py'
+        application_details_model['runtime'] = runtime_model
         application_details_model['jars'] = 'cos://cloud-object-storage/jars/tests.jar'
         application_details_model['packages'] = 'testString'
         application_details_model['repositories'] = 'testString'
@@ -1576,13 +1883,19 @@ class TestModel_ApplicationGetResponse():
         application_details_model['conf'] = {'key1': 'testString'}
         application_details_model['env'] = {'key1': 'testString'}
 
+        application_get_response_state_details_item_model = {} # ApplicationGetResponseStateDetailsItem
+        application_get_response_state_details_item_model['type'] = 'server_error'
+        application_get_response_state_details_item_model['code'] = 'server_error'
+        application_get_response_state_details_item_model['message'] = 'testString'
+
         # Construct a json representation of a ApplicationGetResponse model
         application_get_response_model_json = {}
         application_get_response_model_json['application_details'] = application_details_model
         application_get_response_model_json['id'] = '2b83d31c-397b-48ad-ad76-b83347c982db'
         application_get_response_model_json['spark_application_id'] = 'testString'
         application_get_response_model_json['spark_application_name'] = 'testString'
-        application_get_response_model_json['state'] = 'accepted'
+        application_get_response_model_json['state'] = 'finished'
+        application_get_response_model_json['state_details'] = [application_get_response_state_details_item_model]
         application_get_response_model_json['start_time'] = '2021-01-30T08:30:00Z'
         application_get_response_model_json['end_time'] = '2021-01-30T08:30:00Z'
         application_get_response_model_json['finish_time'] = '2021-01-30T08:30:00Z'
@@ -1602,6 +1915,37 @@ class TestModel_ApplicationGetResponse():
         application_get_response_model_json2 = application_get_response_model.to_dict()
         assert application_get_response_model_json2 == application_get_response_model_json
 
+class TestModel_ApplicationGetResponseStateDetailsItem():
+    """
+    Test Class for ApplicationGetResponseStateDetailsItem
+    """
+
+    def test_application_get_response_state_details_item_serialization(self):
+        """
+        Test serialization/deserialization for ApplicationGetResponseStateDetailsItem
+        """
+
+        # Construct a json representation of a ApplicationGetResponseStateDetailsItem model
+        application_get_response_state_details_item_model_json = {}
+        application_get_response_state_details_item_model_json['type'] = 'server_error'
+        application_get_response_state_details_item_model_json['code'] = 'server_error'
+        application_get_response_state_details_item_model_json['message'] = 'testString'
+
+        # Construct a model instance of ApplicationGetResponseStateDetailsItem by calling from_dict on the json representation
+        application_get_response_state_details_item_model = ApplicationGetResponseStateDetailsItem.from_dict(application_get_response_state_details_item_model_json)
+        assert application_get_response_state_details_item_model != False
+
+        # Construct a model instance of ApplicationGetResponseStateDetailsItem by calling from_dict on the json representation
+        application_get_response_state_details_item_model_dict = ApplicationGetResponseStateDetailsItem.from_dict(application_get_response_state_details_item_model_json).__dict__
+        application_get_response_state_details_item_model2 = ApplicationGetResponseStateDetailsItem(**application_get_response_state_details_item_model_dict)
+
+        # Verify the model instances are equivalent
+        assert application_get_response_state_details_item_model == application_get_response_state_details_item_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        application_get_response_state_details_item_model_json2 = application_get_response_state_details_item_model.to_dict()
+        assert application_get_response_state_details_item_model_json2 == application_get_response_state_details_item_model_json
+
 class TestModel_ApplicationGetStateResponse():
     """
     Test Class for ApplicationGetStateResponse
@@ -1615,7 +1959,7 @@ class TestModel_ApplicationGetStateResponse():
         # Construct a json representation of a ApplicationGetStateResponse model
         application_get_state_response_model_json = {}
         application_get_state_response_model_json['id'] = 'testString'
-        application_get_state_response_model_json['state'] = 'testString'
+        application_get_state_response_model_json['state'] = 'finished'
         application_get_state_response_model_json['start_time'] = 'testString'
         application_get_state_response_model_json['end_time'] = 'testString'
         application_get_state_response_model_json['finish_time'] = 'testString'
@@ -1645,9 +1989,15 @@ class TestModel_ApplicationRequestApplicationDetails():
         Test serialization/deserialization for ApplicationRequestApplicationDetails
         """
 
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        runtime_model = {} # Runtime
+        runtime_model['spark_version'] = '3.1'
+
         # Construct a json representation of a ApplicationRequestApplicationDetails model
         application_request_application_details_model_json = {}
         application_request_application_details_model_json['application'] = 'cos://bucket_name.my_cos/my_spark_app.py'
+        application_request_application_details_model_json['runtime'] = runtime_model
         application_request_application_details_model_json['jars'] = 'cos://cloud-object-storage/jars/tests.jar'
         application_request_application_details_model_json['packages'] = 'testString'
         application_request_application_details_model_json['repositories'] = 'testString'
@@ -1687,7 +2037,7 @@ class TestModel_ApplicationResponse():
         # Construct a json representation of a ApplicationResponse model
         application_response_model_json = {}
         application_response_model_json['id'] = 'testString'
-        application_response_model_json['state'] = 'accepted'
+        application_response_model_json['state'] = 'finished'
 
         # Construct a model instance of ApplicationResponse by calling from_dict on the json representation
         application_response_model = ApplicationResponse.from_dict(application_response_model_json)
@@ -1746,8 +2096,8 @@ class TestModel_Instance():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        instance_default_runtime_model = {} # InstanceDefaultRuntime
-        instance_default_runtime_model['spark_version'] = 'testString'
+        runtime_model = {} # Runtime
+        runtime_model['spark_version'] = '3.1'
 
         instance_home_model = {} # InstanceHome
         instance_home_model['id'] = 'testString'
@@ -1766,9 +2116,9 @@ class TestModel_Instance():
         instance_model_json = {}
         instance_model_json['id'] = 'testString'
         instance_model_json['href'] = 'testString'
-        instance_model_json['state'] = 'created'
+        instance_model_json['state'] = 'creation_accepted'
         instance_model_json['state_change_time'] = '2021-01-30T08:30:00Z'
-        instance_model_json['default_runtime'] = instance_default_runtime_model
+        instance_model_json['default_runtime'] = runtime_model
         instance_model_json['instance_home'] = instance_home_model
         instance_model_json['default_config'] = instance_default_config_model
 
@@ -1816,35 +2166,6 @@ class TestModel_InstanceDefaultConfig():
         instance_default_config_model_json2 = instance_default_config_model.to_dict()
         assert instance_default_config_model_json2 == instance_default_config_model_json
 
-class TestModel_InstanceDefaultRuntime():
-    """
-    Test Class for InstanceDefaultRuntime
-    """
-
-    def test_instance_default_runtime_serialization(self):
-        """
-        Test serialization/deserialization for InstanceDefaultRuntime
-        """
-
-        # Construct a json representation of a InstanceDefaultRuntime model
-        instance_default_runtime_model_json = {}
-        instance_default_runtime_model_json['spark_version'] = 'testString'
-
-        # Construct a model instance of InstanceDefaultRuntime by calling from_dict on the json representation
-        instance_default_runtime_model = InstanceDefaultRuntime.from_dict(instance_default_runtime_model_json)
-        assert instance_default_runtime_model != False
-
-        # Construct a model instance of InstanceDefaultRuntime by calling from_dict on the json representation
-        instance_default_runtime_model_dict = InstanceDefaultRuntime.from_dict(instance_default_runtime_model_json).__dict__
-        instance_default_runtime_model2 = InstanceDefaultRuntime(**instance_default_runtime_model_dict)
-
-        # Verify the model instances are equivalent
-        assert instance_default_runtime_model == instance_default_runtime_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        instance_default_runtime_model_json2 = instance_default_runtime_model.to_dict()
-        assert instance_default_runtime_model_json2 == instance_default_runtime_model_json
-
 class TestModel_InstanceGetStateResponse():
     """
     Test Class for InstanceGetStateResponse
@@ -1858,7 +2179,7 @@ class TestModel_InstanceGetStateResponse():
         # Construct a json representation of a InstanceGetStateResponse model
         instance_get_state_response_model_json = {}
         instance_get_state_response_model_json['id'] = 'testString'
-        instance_get_state_response_model_json['state'] = 'created'
+        instance_get_state_response_model_json['state'] = 'creation_accepted'
 
         # Construct a model instance of InstanceGetStateResponse by calling from_dict on the json representation
         instance_get_state_response_model = InstanceGetStateResponse.from_dict(instance_get_state_response_model_json)
@@ -2076,6 +2397,65 @@ class TestModel_LoggingConfigurationResponseLogServer():
         # Convert model instance back to dict and verify no loss of data
         logging_configuration_response_log_server_model_json2 = logging_configuration_response_log_server_model.to_dict()
         assert logging_configuration_response_log_server_model_json2 == logging_configuration_response_log_server_model_json
+
+class TestModel_ResourceConsumptionLimitsResponse():
+    """
+    Test Class for ResourceConsumptionLimitsResponse
+    """
+
+    def test_resource_consumption_limits_response_serialization(self):
+        """
+        Test serialization/deserialization for ResourceConsumptionLimitsResponse
+        """
+
+        # Construct a json representation of a ResourceConsumptionLimitsResponse model
+        resource_consumption_limits_response_model_json = {}
+        resource_consumption_limits_response_model_json['max_cores'] = 'testString'
+        resource_consumption_limits_response_model_json['max_memory'] = 'testString'
+
+        # Construct a model instance of ResourceConsumptionLimitsResponse by calling from_dict on the json representation
+        resource_consumption_limits_response_model = ResourceConsumptionLimitsResponse.from_dict(resource_consumption_limits_response_model_json)
+        assert resource_consumption_limits_response_model != False
+
+        # Construct a model instance of ResourceConsumptionLimitsResponse by calling from_dict on the json representation
+        resource_consumption_limits_response_model_dict = ResourceConsumptionLimitsResponse.from_dict(resource_consumption_limits_response_model_json).__dict__
+        resource_consumption_limits_response_model2 = ResourceConsumptionLimitsResponse(**resource_consumption_limits_response_model_dict)
+
+        # Verify the model instances are equivalent
+        assert resource_consumption_limits_response_model == resource_consumption_limits_response_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        resource_consumption_limits_response_model_json2 = resource_consumption_limits_response_model.to_dict()
+        assert resource_consumption_limits_response_model_json2 == resource_consumption_limits_response_model_json
+
+class TestModel_Runtime():
+    """
+    Test Class for Runtime
+    """
+
+    def test_runtime_serialization(self):
+        """
+        Test serialization/deserialization for Runtime
+        """
+
+        # Construct a json representation of a Runtime model
+        runtime_model_json = {}
+        runtime_model_json['spark_version'] = '3.1'
+
+        # Construct a model instance of Runtime by calling from_dict on the json representation
+        runtime_model = Runtime.from_dict(runtime_model_json)
+        assert runtime_model != False
+
+        # Construct a model instance of Runtime by calling from_dict on the json representation
+        runtime_model_dict = Runtime.from_dict(runtime_model_json).__dict__
+        runtime_model2 = Runtime(**runtime_model_dict)
+
+        # Verify the model instances are equivalent
+        assert runtime_model == runtime_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        runtime_model_json2 = runtime_model.to_dict()
+        assert runtime_model_json2 == runtime_model_json
 
 
 # endregion
