@@ -30,7 +30,7 @@ import json
 from ibm_cloud_sdk_core import BaseService, DetailedResponse
 from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
 from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
-from ibm_cloud_sdk_core.utils import convert_model, datetime_to_string, string_to_datetime
+from ibm_cloud_sdk_core.utils import convert_list, convert_model, datetime_to_string, string_to_datetime
 
 from .common import get_sdk_headers
 
@@ -198,6 +198,8 @@ class IbmAnalyticsEngineApiV3(BaseService):
         Provide the details of the Cloud Object Storage instance to associate with the
         Analytics Engine instance and use as 'instance home' if 'instance home' has not
         already been set.
+        **Note**: You can set 'instance home' again if the instance is in
+        'instance_home_creation_failure' state.
 
         :param str instance_id: The ID of the Analytics Engine instance for which
                'instance home' is to be set.
@@ -399,6 +401,100 @@ class IbmAnalyticsEngineApiV3(BaseService):
         return response
 
 
+    def get_instance_default_runtime(self,
+        instance_id: str,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Get instance default runtime.
+
+        Get the default runtime environment on which all workloads of the instance will
+        run.
+
+        :param str instance_id: The ID of the Analytics Engine instance.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `Runtime` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V3',
+                                      operation_id='get_instance_default_runtime')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id']
+        path_param_values = self.encode_path_vars(instance_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v3/analytics_engines/{instance_id}/default_runtime'.format(**path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request, **kwargs)
+        return response
+
+
+    def replace_instance_default_runtime(self,
+        instance_id: str,
+        *,
+        spark_version: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Replace instance default runtime.
+
+        Replace the default runtime environment on which all workloads of the instance
+        will run.
+
+        :param str instance_id: The ID of the Analytics Engine instance.
+        :param str spark_version: (optional) Spark version of the runtime
+               environment.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `Runtime` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V3',
+                                      operation_id='replace_instance_default_runtime')
+        headers.update(sdk_headers)
+
+        data = {
+            'spark_version': spark_version
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id']
+        path_param_values = self.encode_path_vars(instance_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v3/analytics_engines/{instance_id}/default_runtime'.format(**path_param_dict)
+        request = self.prepare_request(method='PUT',
+                                       url=url,
+                                       headers=headers,
+                                       data=data)
+
+        response = self.send(request, **kwargs)
+        return response
+
+
     def create_application(self,
         instance_id: str,
         *,
@@ -410,8 +506,8 @@ class IbmAnalyticsEngineApiV3(BaseService):
 
         Deploys a Spark application on a given serverless Spark instance.
 
-        :param str instance_id: The identifier of the instance where the Spark
-               application is submitted.
+        :param str instance_id: The identifier of the Analytics Engine instance
+               associated with the Spark application(s).
         :param ApplicationRequestApplicationDetails application_details: (optional)
                Application details.
         :param dict headers: A `dict` containing the request headers
@@ -456,15 +552,20 @@ class IbmAnalyticsEngineApiV3(BaseService):
 
     def list_applications(self,
         instance_id: str,
+        *,
+        state: List[str] = None,
         **kwargs
     ) -> DetailedResponse:
         """
-        Retrieve all Spark applications.
+        List all Spark applications.
 
-        Gets all applications submitted in an instance with a specified instance-id.
+        Returns a list of all Spark applications submitted to the specified Analytics
+        Engine instance. The result can be filtered by specifying query parameters.
 
-        :param str instance_id: Identifier of the instance where the applications
-               run.
+        :param str instance_id: The identifier of the Analytics Engine instance
+               associated with the Spark application(s).
+        :param List[str] state: (optional) List of Spark application states that
+               will be used to filter the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ApplicationCollection` object
@@ -478,6 +579,10 @@ class IbmAnalyticsEngineApiV3(BaseService):
                                       operation_id='list_applications')
         headers.update(sdk_headers)
 
+        params = {
+            'state': convert_list(state)
+        }
+
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
             del kwargs['headers']
@@ -489,7 +594,8 @@ class IbmAnalyticsEngineApiV3(BaseService):
         url = '/v3/analytics_engines/{instance_id}/spark_applications'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
-                                       headers=headers)
+                                       headers=headers,
+                                       params=params)
 
         response = self.send(request, **kwargs)
         return response
@@ -672,6 +778,47 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v3/analytics_engines/{instance_id}/current_resource_consumption'.format(**path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request, **kwargs)
+        return response
+
+
+    def get_resource_consumption_limits(self,
+        instance_id: str,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Get resource consumption limits.
+
+        Returns the maximum total memory and virtual processor cores that can be allotted
+        across all the applications running in the service instance at any point in time.
+
+        :param str instance_id: ID of the Analytics Engine instance.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ResourceConsumptionLimitsResponse` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V3',
+                                      operation_id='get_resource_consumption_limits')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id']
+        path_param_values = self.encode_path_vars(instance_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v3/analytics_engines/{instance_id}/resource_consumption_limits'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -875,6 +1022,28 @@ class IbmAnalyticsEngineApiV3(BaseService):
         return response
 
 
+class ListApplicationsEnums:
+    """
+    Enums for list_applications parameters.
+    """
+
+    class State(str, Enum):
+        """
+        List of Spark application states that will be used to filter the response.
+        """
+        FINISHED = 'finished'
+        RUNNING = 'running'
+        FAILED = 'failed'
+        ERROR = 'error'
+        ACCEPTED = 'accepted'
+        SUBMITTED = 'submitted'
+        WAITING = 'waiting'
+        UNKNOWN = 'unknown'
+        STOPPED = 'stopped'
+        AUTO_TERMINATED = 'auto_terminated'
+        OPS_TERMINATED = 'ops_terminated'
+
+
 ##############################################################################
 # Models
 ##############################################################################
@@ -887,10 +1056,12 @@ class Application():
     :attr str id: (optional) Identifier provided by Analytics Engine service for the
           Spark application.
     :attr str href: (optional) Full URL of the resource.
+    :attr Runtime runtime: (optional) Runtime enviroment for applications and other
+          workloads.
     :attr str spark_application_id: (optional) Identifier provided by Apache Spark
           for the application.
     :attr str spark_application_name: (optional) Name of the Spark application.
-    :attr str state: (optional) Status of the application.
+    :attr str state: (optional) State of the Spark application.
     :attr str start_time: (optional) Time when the application was started.
     :attr str end_time: (optional) Time when the application run ended in success,
           failure or was stopped.
@@ -901,6 +1072,7 @@ class Application():
                  *,
                  id: str = None,
                  href: str = None,
+                 runtime: 'Runtime' = None,
                  spark_application_id: str = None,
                  spark_application_name: str = None,
                  state: str = None,
@@ -913,11 +1085,13 @@ class Application():
         :param str id: (optional) Identifier provided by Analytics Engine service
                for the Spark application.
         :param str href: (optional) Full URL of the resource.
+        :param Runtime runtime: (optional) Runtime enviroment for applications and
+               other workloads.
         :param str spark_application_id: (optional) Identifier provided by Apache
                Spark for the application.
         :param str spark_application_name: (optional) Name of the Spark
                application.
-        :param str state: (optional) Status of the application.
+        :param str state: (optional) State of the Spark application.
         :param str start_time: (optional) Time when the application was started.
         :param str end_time: (optional) Time when the application run ended in
                success, failure or was stopped.
@@ -925,6 +1099,7 @@ class Application():
         """
         self.id = id
         self.href = href
+        self.runtime = runtime
         self.spark_application_id = spark_application_id
         self.spark_application_name = spark_application_name
         self.state = state
@@ -940,6 +1115,8 @@ class Application():
             args['id'] = _dict.get('id')
         if 'href' in _dict:
             args['href'] = _dict.get('href')
+        if 'runtime' in _dict:
+            args['runtime'] = Runtime.from_dict(_dict.get('runtime'))
         if 'spark_application_id' in _dict:
             args['spark_application_id'] = _dict.get('spark_application_id')
         if 'spark_application_name' in _dict:
@@ -966,6 +1143,8 @@ class Application():
             _dict['id'] = self.id
         if hasattr(self, 'href') and self.href is not None:
             _dict['href'] = self.href
+        if hasattr(self, 'runtime') and self.runtime is not None:
+            _dict['runtime'] = self.runtime.to_dict()
         if hasattr(self, 'spark_application_id') and self.spark_application_id is not None:
             _dict['spark_application_id'] = self.spark_application_id
         if hasattr(self, 'spark_application_name') and self.spark_application_name is not None:
@@ -997,6 +1176,23 @@ class Application():
     def __ne__(self, other: 'Application') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
+
+    class StateEnum(str, Enum):
+        """
+        State of the Spark application.
+        """
+        FINISHED = 'finished'
+        RUNNING = 'running'
+        FAILED = 'failed'
+        ERROR = 'error'
+        ACCEPTED = 'accepted'
+        SUBMITTED = 'submitted'
+        WAITING = 'waiting'
+        UNKNOWN = 'unknown'
+        STOPPED = 'stopped'
+        AUTO_TERMINATED = 'auto_terminated'
+        OPS_TERMINATED = 'ops_terminated'
+
 
 class ApplicationCollection():
     """
@@ -1058,6 +1254,8 @@ class ApplicationDetails():
     Application details.
 
     :attr str application: (optional) Path of the application to run.
+    :attr Runtime runtime: (optional) Runtime enviroment for applications and other
+          workloads.
     :attr str jars: (optional) Path of the jar files containing the application.
     :attr str packages: (optional) Package names.
     :attr str repositories: (optional) Repositories names.
@@ -1081,6 +1279,7 @@ class ApplicationDetails():
     def __init__(self,
                  *,
                  application: str = None,
+                 runtime: 'Runtime' = None,
                  jars: str = None,
                  packages: str = None,
                  repositories: str = None,
@@ -1095,6 +1294,8 @@ class ApplicationDetails():
         Initialize a ApplicationDetails object.
 
         :param str application: (optional) Path of the application to run.
+        :param Runtime runtime: (optional) Runtime enviroment for applications and
+               other workloads.
         :param str jars: (optional) Path of the jar files containing the
                application.
         :param str packages: (optional) Package names.
@@ -1116,6 +1317,7 @@ class ApplicationDetails():
                for a list of the supported variables.
         """
         self.application = application
+        self.runtime = runtime
         self.jars = jars
         self.packages = packages
         self.repositories = repositories
@@ -1133,6 +1335,8 @@ class ApplicationDetails():
         args = {}
         if 'application' in _dict:
             args['application'] = _dict.get('application')
+        if 'runtime' in _dict:
+            args['runtime'] = Runtime.from_dict(_dict.get('runtime'))
         if 'jars' in _dict:
             args['jars'] = _dict.get('jars')
         if 'packages' in _dict:
@@ -1165,6 +1369,8 @@ class ApplicationDetails():
         _dict = {}
         if hasattr(self, 'application') and self.application is not None:
             _dict['application'] = self.application
+        if hasattr(self, 'runtime') and self.runtime is not None:
+            _dict['runtime'] = self.runtime.to_dict()
         if hasattr(self, 'jars') and self.jars is not None:
             _dict['jars'] = self.jars
         if hasattr(self, 'packages') and self.packages is not None:
@@ -1214,7 +1420,9 @@ class ApplicationGetResponse():
     :attr str spark_application_id: (optional) Identifier provided by Apache Spark
           for the application.
     :attr str spark_application_name: (optional) Name of the Spark application.
-    :attr str state: (optional) Application state.
+    :attr str state: (optional) State of the Spark application.
+    :attr List[ApplicationGetResponseStateDetailsItem] state_details: (optional)
+          List of additional information messages on the current state of the application.
     :attr datetime start_time: (optional) Application start time in the format
           YYYY-MM-DDTHH:mm:ssZ.
     :attr datetime end_time: (optional) Application end time in the format
@@ -1230,6 +1438,7 @@ class ApplicationGetResponse():
                  spark_application_id: str = None,
                  spark_application_name: str = None,
                  state: str = None,
+                 state_details: List['ApplicationGetResponseStateDetailsItem'] = None,
                  start_time: datetime = None,
                  end_time: datetime = None,
                  finish_time: datetime = None) -> None:
@@ -1243,7 +1452,10 @@ class ApplicationGetResponse():
                Spark for the application.
         :param str spark_application_name: (optional) Name of the Spark
                application.
-        :param str state: (optional) Application state.
+        :param str state: (optional) State of the Spark application.
+        :param List[ApplicationGetResponseStateDetailsItem] state_details:
+               (optional) List of additional information messages on the current state of
+               the application.
         :param datetime start_time: (optional) Application start time in the format
                YYYY-MM-DDTHH:mm:ssZ.
         :param datetime end_time: (optional) Application end time in the format
@@ -1256,6 +1468,7 @@ class ApplicationGetResponse():
         self.spark_application_id = spark_application_id
         self.spark_application_name = spark_application_name
         self.state = state
+        self.state_details = state_details
         self.start_time = start_time
         self.end_time = end_time
         self.finish_time = finish_time
@@ -1274,6 +1487,8 @@ class ApplicationGetResponse():
             args['spark_application_name'] = _dict.get('spark_application_name')
         if 'state' in _dict:
             args['state'] = _dict.get('state')
+        if 'state_details' in _dict:
+            args['state_details'] = [ApplicationGetResponseStateDetailsItem.from_dict(x) for x in _dict.get('state_details')]
         if 'start_time' in _dict:
             args['start_time'] = string_to_datetime(_dict.get('start_time'))
         if 'end_time' in _dict:
@@ -1300,6 +1515,8 @@ class ApplicationGetResponse():
             _dict['spark_application_name'] = self.spark_application_name
         if hasattr(self, 'state') and self.state is not None:
             _dict['state'] = self.state
+        if hasattr(self, 'state_details') and self.state_details is not None:
+            _dict['state_details'] = [x.to_dict() for x in self.state_details]
         if hasattr(self, 'start_time') and self.start_time is not None:
             _dict['start_time'] = datetime_to_string(self.start_time)
         if hasattr(self, 'end_time') and self.end_time is not None:
@@ -1326,12 +1543,111 @@ class ApplicationGetResponse():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class StateEnum(str, Enum):
+        """
+        State of the Spark application.
+        """
+        FINISHED = 'finished'
+        RUNNING = 'running'
+        FAILED = 'failed'
+        ERROR = 'error'
+        ACCEPTED = 'accepted'
+        SUBMITTED = 'submitted'
+        WAITING = 'waiting'
+        UNKNOWN = 'unknown'
+        STOPPED = 'stopped'
+        AUTO_TERMINATED = 'auto_terminated'
+        OPS_TERMINATED = 'ops_terminated'
+
+
+class ApplicationGetResponseStateDetailsItem():
+    """
+    Additional information message on the current state of the application.
+
+    :attr str type: (optional) Type of the message.
+    :attr str code: (optional) Fixed code for the message.
+    :attr str message: (optional) A descriptive message providing additional
+          information on the current application state.
+    """
+
+    def __init__(self,
+                 *,
+                 type: str = None,
+                 code: str = None,
+                 message: str = None) -> None:
+        """
+        Initialize a ApplicationGetResponseStateDetailsItem object.
+
+        :param str type: (optional) Type of the message.
+        :param str code: (optional) Fixed code for the message.
+        :param str message: (optional) A descriptive message providing additional
+               information on the current application state.
+        """
+        self.type = type
+        self.code = code
+        self.message = message
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ApplicationGetResponseStateDetailsItem':
+        """Initialize a ApplicationGetResponseStateDetailsItem object from a json dictionary."""
+        args = {}
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        if 'code' in _dict:
+            args['code'] = _dict.get('code')
+        if 'message' in _dict:
+            args['message'] = _dict.get('message')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ApplicationGetResponseStateDetailsItem object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'code') and self.code is not None:
+            _dict['code'] = self.code
+        if hasattr(self, 'message') and self.message is not None:
+            _dict['message'] = self.message
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ApplicationGetResponseStateDetailsItem object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ApplicationGetResponseStateDetailsItem') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ApplicationGetResponseStateDetailsItem') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class TypeEnum(str, Enum):
+        """
+        Type of the message.
+        """
+        USER_ERROR = 'user_error'
+        SERVER_ERROR = 'server_error'
+        INFO = 'info'
+
+
 class ApplicationGetStateResponse():
     """
     State of a given application.
 
     :attr str id: (optional) Identifier of the application.
-    :attr str state: (optional) Status of the application.
+    :attr str state: (optional) State of the Spark application.
     :attr str start_time: (optional) Time when the application was started.
     :attr str end_time: (optional) Time when the application run ended in success,
           failure or was stopped.
@@ -1349,7 +1665,7 @@ class ApplicationGetStateResponse():
         Initialize a ApplicationGetStateResponse object.
 
         :param str id: (optional) Identifier of the application.
-        :param str state: (optional) Status of the application.
+        :param str state: (optional) State of the Spark application.
         :param str start_time: (optional) Time when the application was started.
         :param str end_time: (optional) Time when the application run ended in
                success, failure or was stopped.
@@ -1415,11 +1731,30 @@ class ApplicationGetStateResponse():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class StateEnum(str, Enum):
+        """
+        State of the Spark application.
+        """
+        FINISHED = 'finished'
+        RUNNING = 'running'
+        FAILED = 'failed'
+        ERROR = 'error'
+        ACCEPTED = 'accepted'
+        SUBMITTED = 'submitted'
+        WAITING = 'waiting'
+        UNKNOWN = 'unknown'
+        STOPPED = 'stopped'
+        AUTO_TERMINATED = 'auto_terminated'
+        OPS_TERMINATED = 'ops_terminated'
+
+
 class ApplicationRequestApplicationDetails():
     """
     Application details.
 
     :attr str application: (optional) Path of the application to run.
+    :attr Runtime runtime: (optional) Runtime enviroment for applications and other
+          workloads.
     :attr str jars: (optional) Path of the jar files containing the application.
     :attr str packages: (optional) Package names.
     :attr str repositories: (optional) Repositories names.
@@ -1443,6 +1778,7 @@ class ApplicationRequestApplicationDetails():
     def __init__(self,
                  *,
                  application: str = None,
+                 runtime: 'Runtime' = None,
                  jars: str = None,
                  packages: str = None,
                  repositories: str = None,
@@ -1457,6 +1793,8 @@ class ApplicationRequestApplicationDetails():
         Initialize a ApplicationRequestApplicationDetails object.
 
         :param str application: (optional) Path of the application to run.
+        :param Runtime runtime: (optional) Runtime enviroment for applications and
+               other workloads.
         :param str jars: (optional) Path of the jar files containing the
                application.
         :param str packages: (optional) Package names.
@@ -1478,6 +1816,7 @@ class ApplicationRequestApplicationDetails():
                for a list of the supported variables.
         """
         self.application = application
+        self.runtime = runtime
         self.jars = jars
         self.packages = packages
         self.repositories = repositories
@@ -1495,6 +1834,8 @@ class ApplicationRequestApplicationDetails():
         args = {}
         if 'application' in _dict:
             args['application'] = _dict.get('application')
+        if 'runtime' in _dict:
+            args['runtime'] = Runtime.from_dict(_dict.get('runtime'))
         if 'jars' in _dict:
             args['jars'] = _dict.get('jars')
         if 'packages' in _dict:
@@ -1527,6 +1868,8 @@ class ApplicationRequestApplicationDetails():
         _dict = {}
         if hasattr(self, 'application') and self.application is not None:
             _dict['application'] = self.application
+        if hasattr(self, 'runtime') and self.runtime is not None:
+            _dict['runtime'] = self.runtime.to_dict()
         if hasattr(self, 'jars') and self.jars is not None:
             _dict['jars'] = self.jars
         if hasattr(self, 'packages') and self.packages is not None:
@@ -1572,7 +1915,7 @@ class ApplicationResponse():
     Application response details.
 
     :attr str id: (optional) Identifier of the application that was submitted.
-    :attr str state: (optional) State of the submitted application.
+    :attr str state: (optional) State of the Spark application.
     """
 
     def __init__(self,
@@ -1583,7 +1926,7 @@ class ApplicationResponse():
         Initialize a ApplicationResponse object.
 
         :param str id: (optional) Identifier of the application that was submitted.
-        :param str state: (optional) State of the submitted application.
+        :param str state: (optional) State of the Spark application.
         """
         self.id = id
         self.state = state
@@ -1632,11 +1975,19 @@ class ApplicationResponse():
 
     class StateEnum(str, Enum):
         """
-        State of the submitted application.
+        State of the Spark application.
         """
-        ACCEPTED = 'accepted'
+        FINISHED = 'finished'
+        RUNNING = 'running'
         FAILED = 'failed'
         ERROR = 'error'
+        ACCEPTED = 'accepted'
+        SUBMITTED = 'submitted'
+        WAITING = 'waiting'
+        UNKNOWN = 'unknown'
+        STOPPED = 'stopped'
+        AUTO_TERMINATED = 'auto_terminated'
+        OPS_TERMINATED = 'ops_terminated'
 
 
 class CurrentResourceConsumptionResponse():
@@ -1708,11 +2059,11 @@ class Instance():
 
     :attr str id: (optional) GUID of the Analytics Engine instance.
     :attr str href: (optional) Full URL of the resource.
-    :attr str state: (optional) Instance state.
+    :attr str state: (optional) State of the Analytics Engine instance.
     :attr datetime state_change_time: (optional) Timestamp when the state of the
           instance was changed, in the format YYYY-MM-DDTHH:mm:ssZ.
-    :attr InstanceDefaultRuntime default_runtime: (optional) Specifies the default
-          runtime to use for all workloads that run in this instance.
+    :attr Runtime default_runtime: (optional) Runtime enviroment for applications
+          and other workloads.
     :attr InstanceHome instance_home: (optional) Object storage instance that acts
           as the home for custom libraries and Spark events.
     :attr InstanceDefaultConfig default_config: (optional) Instance level default
@@ -1725,7 +2076,7 @@ class Instance():
                  href: str = None,
                  state: str = None,
                  state_change_time: datetime = None,
-                 default_runtime: 'InstanceDefaultRuntime' = None,
+                 default_runtime: 'Runtime' = None,
                  instance_home: 'InstanceHome' = None,
                  default_config: 'InstanceDefaultConfig' = None) -> None:
         """
@@ -1733,11 +2084,11 @@ class Instance():
 
         :param str id: (optional) GUID of the Analytics Engine instance.
         :param str href: (optional) Full URL of the resource.
-        :param str state: (optional) Instance state.
+        :param str state: (optional) State of the Analytics Engine instance.
         :param datetime state_change_time: (optional) Timestamp when the state of
                the instance was changed, in the format YYYY-MM-DDTHH:mm:ssZ.
-        :param InstanceDefaultRuntime default_runtime: (optional) Specifies the
-               default runtime to use for all workloads that run in this instance.
+        :param Runtime default_runtime: (optional) Runtime enviroment for
+               applications and other workloads.
         :param InstanceHome instance_home: (optional) Object storage instance that
                acts as the home for custom libraries and Spark events.
         :param InstanceDefaultConfig default_config: (optional) Instance level
@@ -1764,7 +2115,7 @@ class Instance():
         if 'state_change_time' in _dict:
             args['state_change_time'] = string_to_datetime(_dict.get('state_change_time'))
         if 'default_runtime' in _dict:
-            args['default_runtime'] = InstanceDefaultRuntime.from_dict(_dict.get('default_runtime'))
+            args['default_runtime'] = Runtime.from_dict(_dict.get('default_runtime'))
         if 'instance_home' in _dict:
             args['instance_home'] = InstanceHome.from_dict(_dict.get('instance_home'))
         if 'default_config' in _dict:
@@ -1815,11 +2166,15 @@ class Instance():
 
     class StateEnum(str, Enum):
         """
-        Instance state.
+        State of the Analytics Engine instance.
         """
-        CREATED = 'created'
+        CREATION_ACCEPTED = 'creation_accepted'
+        INITIALIZED = 'initialized'
+        PREPARING = 'preparing'
+        ACTIVE = 'active'
         DELETED = 'deleted'
-        FAILED = 'failed'
+        DISABLED = 'disabled'
+        CREATION_FAILED = 'creation_failed'
 
 
 class InstanceDefaultConfig():
@@ -1877,69 +2232,12 @@ class InstanceDefaultConfig():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class InstanceDefaultRuntime():
-    """
-    Specifies the default runtime to use for all workloads that run in this instance.
-
-    :attr str spark_version: (optional) Version of Spark runtime to use. Currently,
-          only 3.1 is supported.
-    """
-
-    def __init__(self,
-                 *,
-                 spark_version: str = None) -> None:
-        """
-        Initialize a InstanceDefaultRuntime object.
-
-        :param str spark_version: (optional) Version of Spark runtime to use.
-               Currently, only 3.1 is supported.
-        """
-        self.spark_version = spark_version
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'InstanceDefaultRuntime':
-        """Initialize a InstanceDefaultRuntime object from a json dictionary."""
-        args = {}
-        if 'spark_version' in _dict:
-            args['spark_version'] = _dict.get('spark_version')
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a InstanceDefaultRuntime object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'spark_version') and self.spark_version is not None:
-            _dict['spark_version'] = self.spark_version
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this InstanceDefaultRuntime object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'InstanceDefaultRuntime') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'InstanceDefaultRuntime') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
 class InstanceGetStateResponse():
     """
     State details of Analytics Engine instance.
 
     :attr str id: (optional) GUID of the Analytics Engine instance.
-    :attr str state: (optional) Instance state.
+    :attr str state: (optional) State of the Analytics Engine instance.
     """
 
     def __init__(self,
@@ -1950,7 +2248,7 @@ class InstanceGetStateResponse():
         Initialize a InstanceGetStateResponse object.
 
         :param str id: (optional) GUID of the Analytics Engine instance.
-        :param str state: (optional) Instance state.
+        :param str state: (optional) State of the Analytics Engine instance.
         """
         self.id = id
         self.state = state
@@ -1999,11 +2297,15 @@ class InstanceGetStateResponse():
 
     class StateEnum(str, Enum):
         """
-        Instance state.
+        State of the Analytics Engine instance.
         """
-        CREATED = 'created'
+        CREATION_ACCEPTED = 'creation_accepted'
+        INITIALIZED = 'initialized'
+        PREPARING = 'preparing'
+        ACTIVE = 'active'
         DELETED = 'deleted'
-        FAILED = 'failed'
+        DISABLED = 'disabled'
+        CREATION_FAILED = 'creation_failed'
 
 
 class InstanceHome():
@@ -2505,5 +2807,128 @@ class LoggingConfigurationResponseLogServer():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'LoggingConfigurationResponseLogServer') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class ResourceConsumptionLimitsResponse():
+    """
+    Resource consumption limits for the instance.
+
+    :attr str max_cores: (optional) Maximum number of virtual processor cores that
+          be used in the instance.
+    :attr str max_memory: (optional) Maximum memory that can be used in the
+          instance.
+    """
+
+    def __init__(self,
+                 *,
+                 max_cores: str = None,
+                 max_memory: str = None) -> None:
+        """
+        Initialize a ResourceConsumptionLimitsResponse object.
+
+        :param str max_cores: (optional) Maximum number of virtual processor cores
+               that be used in the instance.
+        :param str max_memory: (optional) Maximum memory that can be used in the
+               instance.
+        """
+        self.max_cores = max_cores
+        self.max_memory = max_memory
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ResourceConsumptionLimitsResponse':
+        """Initialize a ResourceConsumptionLimitsResponse object from a json dictionary."""
+        args = {}
+        if 'max_cores' in _dict:
+            args['max_cores'] = _dict.get('max_cores')
+        if 'max_memory' in _dict:
+            args['max_memory'] = _dict.get('max_memory')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ResourceConsumptionLimitsResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'max_cores') and self.max_cores is not None:
+            _dict['max_cores'] = self.max_cores
+        if hasattr(self, 'max_memory') and self.max_memory is not None:
+            _dict['max_memory'] = self.max_memory
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ResourceConsumptionLimitsResponse object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ResourceConsumptionLimitsResponse') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ResourceConsumptionLimitsResponse') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class Runtime():
+    """
+    Runtime enviroment for applications and other workloads.
+
+    :attr str spark_version: (optional) Spark version of the runtime environment.
+    """
+
+    def __init__(self,
+                 *,
+                 spark_version: str = None) -> None:
+        """
+        Initialize a Runtime object.
+
+        :param str spark_version: (optional) Spark version of the runtime
+               environment.
+        """
+        self.spark_version = spark_version
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'Runtime':
+        """Initialize a Runtime object from a json dictionary."""
+        args = {}
+        if 'spark_version' in _dict:
+            args['spark_version'] = _dict.get('spark_version')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Runtime object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'spark_version') and self.spark_version is not None:
+            _dict['spark_version'] = self.spark_version
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this Runtime object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'Runtime') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'Runtime') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
