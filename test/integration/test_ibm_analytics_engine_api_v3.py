@@ -113,7 +113,10 @@ class TestIbmAnalyticsEngineApiV3():
 
         replace_instance_default_configs_response = self.ibm_analytics_engine_api_service.replace_instance_default_configs(
             instance_id=self.instance_id,
-            body={'key1': 'testString'}
+            body={
+                "spark.driver.memory": "8G",
+                "spark.driver.cores": "2",
+            }
         )
 
         assert replace_instance_default_configs_response.get_status_code() == 200
@@ -125,7 +128,10 @@ class TestIbmAnalyticsEngineApiV3():
 
         update_instance_default_configs_response = self.ibm_analytics_engine_api_service.update_instance_default_configs(
             instance_id=self.instance_id,
-            body={'key1': 'testString'}
+            body={
+                "ae.spark.history-server.cores": "1",
+                "ae.spark.history-server.memory": "4G",
+            }
         )
 
         assert update_instance_default_configs_response.get_status_code() == 200
@@ -133,12 +139,41 @@ class TestIbmAnalyticsEngineApiV3():
         assert result is not None
 
     @needscredentials
+    def test_get_instance_default_runtime(self):
+
+        get_instance_default_runtime_response = self.ibm_analytics_engine_api_service.get_instance_default_runtime(
+            instance_id=self.instance_id
+        )
+
+        assert get_instance_default_runtime_response.get_status_code() == 200
+        runtime = get_instance_default_runtime_response.get_result()
+        assert runtime is not None
+
+    @needscredentials
+    def test_replace_instance_default_runtime(self):
+
+        replace_instance_default_runtime_response = self.ibm_analytics_engine_api_service.replace_instance_default_runtime(
+            instance_id=self.instance_id,
+            spark_version='3.3'
+        )
+
+        assert replace_instance_default_runtime_response.get_status_code() == 200
+        runtime = replace_instance_default_runtime_response.get_result()
+        assert runtime is not None
+
+    @needscredentials
     def test_create_application(self):
+
+        # Construct a dict representation of a Runtime model
+        runtime_model = {
+            'spark_version': '3.1',
+        }
 
         # Construct a dict representation of a ApplicationRequestApplicationDetails model
         application_request_application_details_model = {
             'application': '/opt/ibm/spark/examples/src/main/python/wordcount.py',
-            'arguments': ['/opt/ibm/spark/examples/src/main/resources/people.txt']
+            'arguments': ['/opt/ibm/spark/examples/src/main/resources/people.txt'],
+            'runtime': runtime_model
         }
 
         create_application_response = self.ibm_analytics_engine_api_service.create_application(
@@ -149,7 +184,7 @@ class TestIbmAnalyticsEngineApiV3():
         assert create_application_response.get_status_code() == 202
         application_response = create_application_response.get_result()
         assert application_response is not None
-        
+
         global application_id
         application_id = application_response.get('id')
 
@@ -157,7 +192,8 @@ class TestIbmAnalyticsEngineApiV3():
     def test_list_applications(self):
 
         list_applications_response = self.ibm_analytics_engine_api_service.list_applications(
-            instance_id=self.instance_id
+            instance_id=self.instance_id,
+            state=['accepted', 'submitted', 'waiting', 'running', 'finished', 'failed']
         )
 
         assert list_applications_response.get_status_code() == 200
@@ -198,6 +234,17 @@ class TestIbmAnalyticsEngineApiV3():
         assert get_current_resource_consumption_response.get_status_code() == 200
         current_resource_consumption_response = get_current_resource_consumption_response.get_result()
         assert current_resource_consumption_response is not None
+
+    @needscredentials
+    def test_get_resource_consumption_limits(self):
+
+        get_resource_consumption_limits_response = self.ibm_analytics_engine_api_service.get_resource_consumption_limits(
+            instance_id=self.instance_id
+        )
+
+        assert get_resource_consumption_limits_response.get_status_code() == 200
+        resource_consumption_limits_response = get_resource_consumption_limits_response.get_result()
+        assert resource_consumption_limits_response is not None
 
     @needscredentials
     def test_replace_log_forwarding_config(self):
