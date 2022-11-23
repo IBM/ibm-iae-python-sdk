@@ -385,6 +385,7 @@ class TestIbmAnalyticsEngineApiV3Examples():
 
             log_forwarding_config_response = ibm_analytics_engine_api_service.replace_log_forwarding_config(
                 instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+                enabled=True,
             ).get_result()
 
             print(json.dumps(log_forwarding_config_response, indent=2))
