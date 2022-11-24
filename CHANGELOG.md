@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/IBM/ibm-iae-python-sdk/compare/v2.0.0...v2.1.0) (2022-11-24)
+
+
+### Features
+
+* add new sdk methods and update existing ([af7fe8d](https://github.com/IBM/ibm-iae-python-sdk/commit/af7fe8db5c5a0118b1c4f69ac50af94950eeb56f))
+
 # [2.0.0](https://github.com/IBM/ibm-iae-python-sdk/compare/v1.1.1...v2.0.0) (2022-09-08)
 
 
