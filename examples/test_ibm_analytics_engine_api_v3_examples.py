@@ -126,6 +126,8 @@ class TestIbmAnalyticsEngineApiV3Examples():
 
             instance_home_response = ibm_analytics_engine_api_service.set_instance_home(
                 instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+                new_hmac_access_key='b9****************************4b',
+                new_hmac_secret_key='fa********************************************8a'
             ).get_result()
 
             print(json.dumps(instance_home_response, indent=2))
@@ -258,7 +260,7 @@ class TestIbmAnalyticsEngineApiV3Examples():
                 arguments=['/opt/ibm/spark/examples/src/main/resources/people.txt'],
                 runtime={
                     'spark_version': '3.3'
-                }
+            }
             )
             application_response = ibm_analytics_engine_api_service.create_application(
                 instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
@@ -451,6 +453,64 @@ class TestIbmAnalyticsEngineApiV3Examples():
             print(json.dumps(logging_configuration_response, indent=2))
 
             # end-get_logging_configuration
+
+        except ApiException as e:
+            pytest.fail(str(e))
+
+    @needscredentials
+    def test_start_spark_history_server_example(self):
+        """
+        start_spark_history_server request example
+        """
+        try:
+            print('\nstart_spark_history_server() result:')
+            # begin-start_spark_history_server
+
+            spark_history_server_response = ibm_analytics_engine_api_service.start_spark_history_server(
+                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
+            ).get_result()
+
+            print(json.dumps(spark_history_server_response, indent=2))
+
+            # end-start_spark_history_server
+
+        except ApiException as e:
+            pytest.fail(str(e))
+
+    @needscredentials
+    def test_get_spark_history_server_example(self):
+        """
+        get_spark_history_server request example
+        """
+        try:
+            print('\nget_spark_history_server() result:')
+            # begin-get_spark_history_server
+
+            spark_history_server_response = ibm_analytics_engine_api_service.get_spark_history_server(
+                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
+            ).get_result()
+
+            print(json.dumps(spark_history_server_response, indent=2))
+
+            # end-get_spark_history_server
+
+        except ApiException as e:
+            pytest.fail(str(e))
+
+    @needscredentials
+    def test_stop_spark_history_server_example(self):
+        """
+        stop_spark_history_server request example
+        """
+        try:
+            # begin-stop_spark_history_server
+
+            response = ibm_analytics_engine_api_service.stop_spark_history_server(
+                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
+            )
+
+            # end-stop_spark_history_server
+            print('\nstop_spark_history_server() response status code: ', response.get_status_code())
 
         except ApiException as e:
             pytest.fail(str(e))

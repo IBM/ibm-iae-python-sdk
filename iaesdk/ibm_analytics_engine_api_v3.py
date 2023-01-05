@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2022.
+# (C) Copyright IBM Corp. 2023.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -939,6 +939,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
 
         Enable or disable log forwarding from IBM Analytics Engine to IBM Log Analysis
         server.
+        *Note:* Deprecated. Use the log forwarding config api instead.
 
         :param str instance_guid: GUID of the instance details for which log
                forwarding is to be configured.
@@ -989,6 +990,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         Retrieve the logging configuration for a given instance id.
 
         Retrieve the logging configuration of a given Analytics Engine instance.
+        *Note:* Deprecated. Use the log forwarding config api instead.
 
         :param str instance_guid: GUID of the Analytics Engine service instance to
                retrieve log configuration.
@@ -1022,6 +1024,129 @@ class IbmAnalyticsEngineApiV3(BaseService):
         return response
 
 
+    def start_spark_history_server(self,
+        instance_id: str,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Start Spark history server.
+
+        Start the Spark history server for the given Analytics Engine instance.
+
+        :param str instance_id: The ID of the Analytics Engine instance to which
+               the Spark history server belongs.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `SparkHistoryServerResponse` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V3',
+                                      operation_id='start_spark_history_server')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id']
+        path_param_values = self.encode_path_vars(instance_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v3/analytics_engines/{instance_id}/spark_history_server'.format(**path_param_dict)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request, **kwargs)
+        return response
+
+
+    def get_spark_history_server(self,
+        instance_id: str,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Get Spark history server details.
+
+        Get the details of the Spark history server of the given Analytics Engine
+        instance.
+
+        :param str instance_id: The ID of the Analytics Engine instance to which
+               the Spark history server belongs.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `SparkHistoryServerResponse` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V3',
+                                      operation_id='get_spark_history_server')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id']
+        path_param_values = self.encode_path_vars(instance_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v3/analytics_engines/{instance_id}/spark_history_server'.format(**path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request, **kwargs)
+        return response
+
+
+    def stop_spark_history_server(self,
+        instance_id: str,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Stop Spark history server.
+
+        Stop the Spark history server of the given Analytics Engine instance.
+
+        :param str instance_id: The ID of the Analytics Engine instance to which
+               the Spark history server belongs.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V3',
+                                      operation_id='stop_spark_history_server')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+
+        path_param_keys = ['instance_id']
+        path_param_values = self.encode_path_vars(instance_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v3/analytics_engines/{instance_id}/spark_history_server'.format(**path_param_dict)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request, **kwargs)
+        return response
+
+
 class ListApplicationsEnums:
     """
     Enums for list_applications parameters.
@@ -1034,11 +1159,7 @@ class ListApplicationsEnums:
         FINISHED = 'finished'
         RUNNING = 'running'
         FAILED = 'failed'
-        ERROR = 'error'
         ACCEPTED = 'accepted'
-        SUBMITTED = 'submitted'
-        WAITING = 'waiting'
-        UNKNOWN = 'unknown'
         STOPPED = 'stopped'
         AUTO_TERMINATED = 'auto_terminated'
         OPS_TERMINATED = 'ops_terminated'
@@ -1062,10 +1183,17 @@ class Application():
           for the application.
     :attr str spark_application_name: (optional) Name of the Spark application.
     :attr str state: (optional) State of the Spark application.
-    :attr str start_time: (optional) Time when the application was started.
-    :attr str end_time: (optional) Time when the application run ended in success,
-          failure or was stopped.
-    :attr str finish_time: (optional) Time when the application was completed.
+    :attr str spark_ui: (optional) URL of the Apache Spark web UI that is available
+          when the application is running.
+    :attr datetime submission_time: (optional) Time when the application was
+          submitted.
+    :attr datetime start_time: (optional) Time when the application was started.
+    :attr datetime end_time: (optional) Time when the application run ended in
+          success, failure or was stopped.
+    :attr datetime finish_time: (optional) (deprecated) Time when the application
+          was completed.
+    :attr datetime auto_termination_time: (optional) Time when the application will
+          be automatically stopped by the service.
     """
 
     def __init__(self,
@@ -1076,9 +1204,12 @@ class Application():
                  spark_application_id: str = None,
                  spark_application_name: str = None,
                  state: str = None,
-                 start_time: str = None,
-                 end_time: str = None,
-                 finish_time: str = None) -> None:
+                 spark_ui: str = None,
+                 submission_time: datetime = None,
+                 start_time: datetime = None,
+                 end_time: datetime = None,
+                 finish_time: datetime = None,
+                 auto_termination_time: datetime = None) -> None:
         """
         Initialize a Application object.
 
@@ -1092,10 +1223,18 @@ class Application():
         :param str spark_application_name: (optional) Name of the Spark
                application.
         :param str state: (optional) State of the Spark application.
-        :param str start_time: (optional) Time when the application was started.
-        :param str end_time: (optional) Time when the application run ended in
+        :param str spark_ui: (optional) URL of the Apache Spark web UI that is
+               available when the application is running.
+        :param datetime submission_time: (optional) Time when the application was
+               submitted.
+        :param datetime start_time: (optional) Time when the application was
+               started.
+        :param datetime end_time: (optional) Time when the application run ended in
                success, failure or was stopped.
-        :param str finish_time: (optional) Time when the application was completed.
+        :param datetime finish_time: (optional) (deprecated) Time when the
+               application was completed.
+        :param datetime auto_termination_time: (optional) Time when the application
+               will be automatically stopped by the service.
         """
         self.id = id
         self.href = href
@@ -1103,9 +1242,12 @@ class Application():
         self.spark_application_id = spark_application_id
         self.spark_application_name = spark_application_name
         self.state = state
+        self.spark_ui = spark_ui
+        self.submission_time = submission_time
         self.start_time = start_time
         self.end_time = end_time
         self.finish_time = finish_time
+        self.auto_termination_time = auto_termination_time
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'Application':
@@ -1123,12 +1265,18 @@ class Application():
             args['spark_application_name'] = _dict.get('spark_application_name')
         if 'state' in _dict:
             args['state'] = _dict.get('state')
+        if 'spark_ui' in _dict:
+            args['spark_ui'] = _dict.get('spark_ui')
+        if 'submission_time' in _dict:
+            args['submission_time'] = string_to_datetime(_dict.get('submission_time'))
         if 'start_time' in _dict:
-            args['start_time'] = _dict.get('start_time')
+            args['start_time'] = string_to_datetime(_dict.get('start_time'))
         if 'end_time' in _dict:
-            args['end_time'] = _dict.get('end_time')
+            args['end_time'] = string_to_datetime(_dict.get('end_time'))
         if 'finish_time' in _dict:
-            args['finish_time'] = _dict.get('finish_time')
+            args['finish_time'] = string_to_datetime(_dict.get('finish_time'))
+        if 'auto_termination_time' in _dict:
+            args['auto_termination_time'] = string_to_datetime(_dict.get('auto_termination_time'))
         return cls(**args)
 
     @classmethod
@@ -1151,12 +1299,18 @@ class Application():
             _dict['spark_application_name'] = self.spark_application_name
         if hasattr(self, 'state') and self.state is not None:
             _dict['state'] = self.state
+        if hasattr(self, 'spark_ui') and self.spark_ui is not None:
+            _dict['spark_ui'] = self.spark_ui
+        if hasattr(self, 'submission_time') and self.submission_time is not None:
+            _dict['submission_time'] = datetime_to_string(self.submission_time)
         if hasattr(self, 'start_time') and self.start_time is not None:
-            _dict['start_time'] = self.start_time
+            _dict['start_time'] = datetime_to_string(self.start_time)
         if hasattr(self, 'end_time') and self.end_time is not None:
-            _dict['end_time'] = self.end_time
+            _dict['end_time'] = datetime_to_string(self.end_time)
         if hasattr(self, 'finish_time') and self.finish_time is not None:
-            _dict['finish_time'] = self.finish_time
+            _dict['finish_time'] = datetime_to_string(self.finish_time)
+        if hasattr(self, 'auto_termination_time') and self.auto_termination_time is not None:
+            _dict['auto_termination_time'] = datetime_to_string(self.auto_termination_time)
         return _dict
 
     def _to_dict(self):
@@ -1184,11 +1338,7 @@ class Application():
         FINISHED = 'finished'
         RUNNING = 'running'
         FAILED = 'failed'
-        ERROR = 'error'
         ACCEPTED = 'accepted'
-        SUBMITTED = 'submitted'
-        WAITING = 'waiting'
-        UNKNOWN = 'unknown'
         STOPPED = 'stopped'
         AUTO_TERMINATED = 'auto_terminated'
         OPS_TERMINATED = 'ops_terminated'
@@ -1421,14 +1571,20 @@ class ApplicationGetResponse():
           for the application.
     :attr str spark_application_name: (optional) Name of the Spark application.
     :attr str state: (optional) State of the Spark application.
+    :attr str spark_ui: (optional) URL of the Apache Spark web UI that is available
+          when the application is running.
     :attr List[ApplicationGetResponseStateDetailsItem] state_details: (optional)
           List of additional information messages on the current state of the application.
-    :attr datetime start_time: (optional) Application start time in the format
-          YYYY-MM-DDTHH:mm:ssZ.
-    :attr datetime end_time: (optional) Application end time in the format
-          YYYY-MM-DDTHH:mm:ssZ.
-    :attr datetime finish_time: (optional) Application finish time in the format
-          YYYY-MM-DDTHH:mm:ssZ.
+    :attr datetime submission_time: (optional) Time when the application was
+          submitted.
+    :attr datetime start_time: (optional) Time when the application started, in the
+          format YYYY-MM-DDTHH:mm:ssZ.
+    :attr datetime end_time: (optional) Time when the application ended either in
+          success or failure, in the format YYYY-MM-DDTHH:mm:ssZ.
+    :attr datetime finish_time: (optional) (deprecated) Time when the application
+          completed successfully, in the format YYYY-MM-DDTHH:mm:ssZ.
+    :attr datetime auto_termination_time: (optional) Time when the application will
+          be automatically stopped by the service.
     """
 
     def __init__(self,
@@ -1438,10 +1594,13 @@ class ApplicationGetResponse():
                  spark_application_id: str = None,
                  spark_application_name: str = None,
                  state: str = None,
+                 spark_ui: str = None,
                  state_details: List['ApplicationGetResponseStateDetailsItem'] = None,
+                 submission_time: datetime = None,
                  start_time: datetime = None,
                  end_time: datetime = None,
-                 finish_time: datetime = None) -> None:
+                 finish_time: datetime = None,
+                 auto_termination_time: datetime = None) -> None:
         """
         Initialize a ApplicationGetResponse object.
 
@@ -1453,25 +1612,34 @@ class ApplicationGetResponse():
         :param str spark_application_name: (optional) Name of the Spark
                application.
         :param str state: (optional) State of the Spark application.
+        :param str spark_ui: (optional) URL of the Apache Spark web UI that is
+               available when the application is running.
         :param List[ApplicationGetResponseStateDetailsItem] state_details:
                (optional) List of additional information messages on the current state of
                the application.
-        :param datetime start_time: (optional) Application start time in the format
-               YYYY-MM-DDTHH:mm:ssZ.
-        :param datetime end_time: (optional) Application end time in the format
-               YYYY-MM-DDTHH:mm:ssZ.
-        :param datetime finish_time: (optional) Application finish time in the
-               format YYYY-MM-DDTHH:mm:ssZ.
+        :param datetime submission_time: (optional) Time when the application was
+               submitted.
+        :param datetime start_time: (optional) Time when the application started,
+               in the format YYYY-MM-DDTHH:mm:ssZ.
+        :param datetime end_time: (optional) Time when the application ended either
+               in success or failure, in the format YYYY-MM-DDTHH:mm:ssZ.
+        :param datetime finish_time: (optional) (deprecated) Time when the
+               application completed successfully, in the format YYYY-MM-DDTHH:mm:ssZ.
+        :param datetime auto_termination_time: (optional) Time when the application
+               will be automatically stopped by the service.
         """
         self.application_details = application_details
         self.id = id
         self.spark_application_id = spark_application_id
         self.spark_application_name = spark_application_name
         self.state = state
+        self.spark_ui = spark_ui
         self.state_details = state_details
+        self.submission_time = submission_time
         self.start_time = start_time
         self.end_time = end_time
         self.finish_time = finish_time
+        self.auto_termination_time = auto_termination_time
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'ApplicationGetResponse':
@@ -1487,14 +1655,20 @@ class ApplicationGetResponse():
             args['spark_application_name'] = _dict.get('spark_application_name')
         if 'state' in _dict:
             args['state'] = _dict.get('state')
+        if 'spark_ui' in _dict:
+            args['spark_ui'] = _dict.get('spark_ui')
         if 'state_details' in _dict:
             args['state_details'] = [ApplicationGetResponseStateDetailsItem.from_dict(x) for x in _dict.get('state_details')]
+        if 'submission_time' in _dict:
+            args['submission_time'] = string_to_datetime(_dict.get('submission_time'))
         if 'start_time' in _dict:
             args['start_time'] = string_to_datetime(_dict.get('start_time'))
         if 'end_time' in _dict:
             args['end_time'] = string_to_datetime(_dict.get('end_time'))
         if 'finish_time' in _dict:
             args['finish_time'] = string_to_datetime(_dict.get('finish_time'))
+        if 'auto_termination_time' in _dict:
+            args['auto_termination_time'] = string_to_datetime(_dict.get('auto_termination_time'))
         return cls(**args)
 
     @classmethod
@@ -1515,14 +1689,20 @@ class ApplicationGetResponse():
             _dict['spark_application_name'] = self.spark_application_name
         if hasattr(self, 'state') and self.state is not None:
             _dict['state'] = self.state
+        if hasattr(self, 'spark_ui') and self.spark_ui is not None:
+            _dict['spark_ui'] = self.spark_ui
         if hasattr(self, 'state_details') and self.state_details is not None:
             _dict['state_details'] = [x.to_dict() for x in self.state_details]
+        if hasattr(self, 'submission_time') and self.submission_time is not None:
+            _dict['submission_time'] = datetime_to_string(self.submission_time)
         if hasattr(self, 'start_time') and self.start_time is not None:
             _dict['start_time'] = datetime_to_string(self.start_time)
         if hasattr(self, 'end_time') and self.end_time is not None:
             _dict['end_time'] = datetime_to_string(self.end_time)
         if hasattr(self, 'finish_time') and self.finish_time is not None:
             _dict['finish_time'] = datetime_to_string(self.finish_time)
+        if hasattr(self, 'auto_termination_time') and self.auto_termination_time is not None:
+            _dict['auto_termination_time'] = datetime_to_string(self.auto_termination_time)
         return _dict
 
     def _to_dict(self):
@@ -1550,11 +1730,7 @@ class ApplicationGetResponse():
         FINISHED = 'finished'
         RUNNING = 'running'
         FAILED = 'failed'
-        ERROR = 'error'
         ACCEPTED = 'accepted'
-        SUBMITTED = 'submitted'
-        WAITING = 'waiting'
-        UNKNOWN = 'unknown'
         STOPPED = 'stopped'
         AUTO_TERMINATED = 'auto_terminated'
         OPS_TERMINATED = 'ops_terminated'
@@ -1648,34 +1824,43 @@ class ApplicationGetStateResponse():
 
     :attr str id: (optional) Identifier of the application.
     :attr str state: (optional) State of the Spark application.
-    :attr str start_time: (optional) Time when the application was started.
-    :attr str end_time: (optional) Time when the application run ended in success,
-          failure or was stopped.
-    :attr str finish_time: (optional) Time when the application was completed.
+    :attr datetime start_time: (optional) Time when the application was started.
+    :attr datetime end_time: (optional) Time when the application run ended in
+          success, failure or was stopped.
+    :attr datetime finish_time: (optional) (deprecated) Time when the application
+          was completed.
+    :attr datetime auto_termination_time: (optional) Time when the application will
+          be automatically stopped by the service.
     """
 
     def __init__(self,
                  *,
                  id: str = None,
                  state: str = None,
-                 start_time: str = None,
-                 end_time: str = None,
-                 finish_time: str = None) -> None:
+                 start_time: datetime = None,
+                 end_time: datetime = None,
+                 finish_time: datetime = None,
+                 auto_termination_time: datetime = None) -> None:
         """
         Initialize a ApplicationGetStateResponse object.
 
         :param str id: (optional) Identifier of the application.
         :param str state: (optional) State of the Spark application.
-        :param str start_time: (optional) Time when the application was started.
-        :param str end_time: (optional) Time when the application run ended in
+        :param datetime start_time: (optional) Time when the application was
+               started.
+        :param datetime end_time: (optional) Time when the application run ended in
                success, failure or was stopped.
-        :param str finish_time: (optional) Time when the application was completed.
+        :param datetime finish_time: (optional) (deprecated) Time when the
+               application was completed.
+        :param datetime auto_termination_time: (optional) Time when the application
+               will be automatically stopped by the service.
         """
         self.id = id
         self.state = state
         self.start_time = start_time
         self.end_time = end_time
         self.finish_time = finish_time
+        self.auto_termination_time = auto_termination_time
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'ApplicationGetStateResponse':
@@ -1686,11 +1871,13 @@ class ApplicationGetStateResponse():
         if 'state' in _dict:
             args['state'] = _dict.get('state')
         if 'start_time' in _dict:
-            args['start_time'] = _dict.get('start_time')
+            args['start_time'] = string_to_datetime(_dict.get('start_time'))
         if 'end_time' in _dict:
-            args['end_time'] = _dict.get('end_time')
+            args['end_time'] = string_to_datetime(_dict.get('end_time'))
         if 'finish_time' in _dict:
-            args['finish_time'] = _dict.get('finish_time')
+            args['finish_time'] = string_to_datetime(_dict.get('finish_time'))
+        if 'auto_termination_time' in _dict:
+            args['auto_termination_time'] = string_to_datetime(_dict.get('auto_termination_time'))
         return cls(**args)
 
     @classmethod
@@ -1706,11 +1893,13 @@ class ApplicationGetStateResponse():
         if hasattr(self, 'state') and self.state is not None:
             _dict['state'] = self.state
         if hasattr(self, 'start_time') and self.start_time is not None:
-            _dict['start_time'] = self.start_time
+            _dict['start_time'] = datetime_to_string(self.start_time)
         if hasattr(self, 'end_time') and self.end_time is not None:
-            _dict['end_time'] = self.end_time
+            _dict['end_time'] = datetime_to_string(self.end_time)
         if hasattr(self, 'finish_time') and self.finish_time is not None:
-            _dict['finish_time'] = self.finish_time
+            _dict['finish_time'] = datetime_to_string(self.finish_time)
+        if hasattr(self, 'auto_termination_time') and self.auto_termination_time is not None:
+            _dict['auto_termination_time'] = datetime_to_string(self.auto_termination_time)
         return _dict
 
     def _to_dict(self):
@@ -1738,11 +1927,7 @@ class ApplicationGetStateResponse():
         FINISHED = 'finished'
         RUNNING = 'running'
         FAILED = 'failed'
-        ERROR = 'error'
         ACCEPTED = 'accepted'
-        SUBMITTED = 'submitted'
-        WAITING = 'waiting'
-        UNKNOWN = 'unknown'
         STOPPED = 'stopped'
         AUTO_TERMINATED = 'auto_terminated'
         OPS_TERMINATED = 'ops_terminated'
@@ -1980,11 +2165,7 @@ class ApplicationResponse():
         FINISHED = 'finished'
         RUNNING = 'running'
         FAILED = 'failed'
-        ERROR = 'error'
         ACCEPTED = 'accepted'
-        SUBMITTED = 'submitted'
-        WAITING = 'waiting'
-        UNKNOWN = 'unknown'
         STOPPED = 'stopped'
         AUTO_TERMINATED = 'auto_terminated'
         OPS_TERMINATED = 'ops_terminated'
@@ -2684,7 +2865,7 @@ class LogForwardingConfigResponseLogServer():
 
 class LoggingConfigurationResponse():
     """
-    Response of logging API.
+    (deprecated) Response of logging API.
 
     :attr List[str] components: (optional) component array.
     :attr LoggingConfigurationResponseLogServer log_server: (optional) log server
@@ -2932,3 +3113,115 @@ class Runtime():
     def __ne__(self, other: 'Runtime') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
+
+class SparkHistoryServerResponse():
+    """
+    Status of the Spark history server.
+
+    :attr str state: (optional) State of the Spark history server.
+    :attr str cores: (optional) Number of cpu cores used by the Spark history
+          server.
+    :attr str memory: (optional) Amount of memory used by the Spark history server.
+    :attr datetime start_time: (optional) Time when the Spark history server was
+          started.
+    :attr datetime stop_time: (optional) Time when the Spark history server was
+          stopped.
+    :attr datetime auto_termination_time: (optional) Time when the Spark history
+          server will be stopped automatically.
+    """
+
+    def __init__(self,
+                 *,
+                 state: str = None,
+                 cores: str = None,
+                 memory: str = None,
+                 start_time: datetime = None,
+                 stop_time: datetime = None,
+                 auto_termination_time: datetime = None) -> None:
+        """
+        Initialize a SparkHistoryServerResponse object.
+
+        :param str state: (optional) State of the Spark history server.
+        :param str cores: (optional) Number of cpu cores used by the Spark history
+               server.
+        :param str memory: (optional) Amount of memory used by the Spark history
+               server.
+        :param datetime start_time: (optional) Time when the Spark history server
+               was started.
+        :param datetime stop_time: (optional) Time when the Spark history server
+               was stopped.
+        :param datetime auto_termination_time: (optional) Time when the Spark
+               history server will be stopped automatically.
+        """
+        self.state = state
+        self.cores = cores
+        self.memory = memory
+        self.start_time = start_time
+        self.stop_time = stop_time
+        self.auto_termination_time = auto_termination_time
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'SparkHistoryServerResponse':
+        """Initialize a SparkHistoryServerResponse object from a json dictionary."""
+        args = {}
+        if 'state' in _dict:
+            args['state'] = _dict.get('state')
+        if 'cores' in _dict:
+            args['cores'] = _dict.get('cores')
+        if 'memory' in _dict:
+            args['memory'] = _dict.get('memory')
+        if 'start_time' in _dict:
+            args['start_time'] = string_to_datetime(_dict.get('start_time'))
+        if 'stop_time' in _dict:
+            args['stop_time'] = string_to_datetime(_dict.get('stop_time'))
+        if 'auto_termination_time' in _dict:
+            args['auto_termination_time'] = string_to_datetime(_dict.get('auto_termination_time'))
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SparkHistoryServerResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'state') and self.state is not None:
+            _dict['state'] = self.state
+        if hasattr(self, 'cores') and self.cores is not None:
+            _dict['cores'] = self.cores
+        if hasattr(self, 'memory') and self.memory is not None:
+            _dict['memory'] = self.memory
+        if hasattr(self, 'start_time') and self.start_time is not None:
+            _dict['start_time'] = datetime_to_string(self.start_time)
+        if hasattr(self, 'stop_time') and self.stop_time is not None:
+            _dict['stop_time'] = datetime_to_string(self.stop_time)
+        if hasattr(self, 'auto_termination_time') and self.auto_termination_time is not None:
+            _dict['auto_termination_time'] = datetime_to_string(self.auto_termination_time)
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this SparkHistoryServerResponse object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'SparkHistoryServerResponse') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'SparkHistoryServerResponse') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class StateEnum(str, Enum):
+        """
+        State of the Spark history server.
+        """
+        STARTED = 'started'
+        STOPPED = 'stopped'
+

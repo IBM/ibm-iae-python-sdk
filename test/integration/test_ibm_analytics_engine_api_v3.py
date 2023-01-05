@@ -198,6 +198,7 @@ class TestIbmAnalyticsEngineApiV3():
 
         assert list_applications_response.get_status_code() == 200
         application_collection = list_applications_response.get_result()
+        print(application_collection)
         assert application_collection is not None
 
     @needscredentials
@@ -210,6 +211,7 @@ class TestIbmAnalyticsEngineApiV3():
 
         assert get_application_response.get_status_code() == 200
         application_get_response = get_application_response.get_result()
+        print(application_get_response)
         assert application_get_response is not None
 
     @needscredentials
@@ -222,6 +224,7 @@ class TestIbmAnalyticsEngineApiV3():
 
         assert get_application_state_response.get_status_code() == 200
         application_get_state_response = get_application_state_response.get_result()
+        print(application_get_state_response)
         assert application_get_state_response is not None
 
     @needscredentials
@@ -293,6 +296,37 @@ class TestIbmAnalyticsEngineApiV3():
         assert get_logging_configuration_response.get_status_code() == 200
         logging_configuration_response = get_logging_configuration_response.get_result()
         assert logging_configuration_response is not None
+
+    @needscredentials
+    def test_start_spark_history_server(self):
+
+        start_spark_history_server_response = self.ibm_analytics_engine_api_service.start_spark_history_server(
+            instance_id=self.instance_id
+        )
+
+        assert start_spark_history_server_response.get_status_code() == 202
+        spark_history_server_response = start_spark_history_server_response.get_result()
+        assert spark_history_server_response is not None
+
+    @needscredentials
+    def test_get_spark_history_server(self):
+
+        get_spark_history_server_response = self.ibm_analytics_engine_api_service.get_spark_history_server(
+            instance_id=self.instance_id
+        )
+
+        assert get_spark_history_server_response.get_status_code() == 200
+        spark_history_server_response = get_spark_history_server_response.get_result()
+        assert spark_history_server_response is not None
+
+    @needscredentials
+    def test_stop_spark_history_server(self):
+
+        stop_spark_history_server_response = self.ibm_analytics_engine_api_service.stop_spark_history_server(
+            instance_id=self.instance_id
+        )
+
+        assert stop_spark_history_server_response.get_status_code() == 204
 
     @needscredentials
     def test_delete_application(self):
