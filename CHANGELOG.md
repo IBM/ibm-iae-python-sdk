@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/IBM/ibm-iae-python-sdk/compare/v2.1.0...v2.2.0) (2023-01-05)
+
+
+### Features
+
+* add spark history server api ([ab7bcfd](https://github.com/IBM/ibm-iae-python-sdk/commit/ab7bcfdc665ba6d3c537c53f4b40301dbed9bdef))
+
 # [2.1.0](https://github.com/IBM/ibm-iae-python-sdk/compare/v2.0.0...v2.1.0) (2022-11-24)
 
 
