@@ -1,3 +1,19 @@
+# [3.0.0](https://github.com/IBM/ibm-iae-python-sdk/compare/v2.2.0...v3.0.0) (2023-01-06)
+
+
+### Bug Fixes
+
+* documentation and version ([938c1e5](https://github.com/IBM/ibm-iae-python-sdk/commit/938c1e516eb02b80ff3cbe8843adaea4151ef99b))
+
+
+### BREAKING CHANGES
+
+* The type of timestamp fields in Application response models has been changed to `datetime`.
+
+Fields in Application and ApplicationGetResponse objects like start_time, end_time, finish_time will now have values of type `datetime` instead of plain strings.
+
+Signed-off-by: Subin Shekhar <subinpc@gmail.com>
+
 # [2.2.0](https://github.com/IBM/ibm-iae-python-sdk/compare/v2.1.0...v2.2.0) (2023-01-05)
 
 
