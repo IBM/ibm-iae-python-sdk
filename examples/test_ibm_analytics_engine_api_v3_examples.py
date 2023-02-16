@@ -318,15 +318,21 @@ class TestIbmAnalyticsEngineApiV3Examples:
             print("\nlist_applications() result:")
             # begin-list_applications
 
-            response = ibm_analytics_engine_api_service.list_applications(
-                instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
+            all_results = []
+            pager = ApplicationsPager(
+                client=ibm_analytics_engine_api_service,
+                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+                state=['accepted','running','finished','failed'],
+                limit=10,
             )
-            application_collection = response.get_result()
+            while pager.has_next():
+                next_page = pager.get_next()
+                assert next_page is not None
+                all_results.extend(next_page)
 
-            print(json.dumps(application_collection, indent=2))
+            print(json.dumps(all_results, indent=2))
 
             # end-list_applications
-
         except ApiException as e:
             pytest.fail(str(e))
 

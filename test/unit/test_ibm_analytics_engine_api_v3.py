@@ -1008,22 +1008,29 @@ class TestListApplications:
         list_applications()
         """
         # Set up mock
-        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications")
-        mock_response = '{"applications": [{"id": "id", "href": "href", "runtime": {"spark_version": "3.1"}, "spark_application_id": "spark_application_id", "spark_application_name": "spark_application_name", "state": "finished", "spark_ui": "spark_ui", "submission_time": "2021-01-30T08:30:00.000Z", "start_time": "2021-01-30T08:30:00.000Z", "end_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z", "auto_termination_time": "2021-01-30T08:30:00.000Z"}]}'
-        responses.add(
-            responses.GET,
-            url,
-            body=mock_response,
-            content_type="application/json",
-            status=200,
+        url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications')
+        mock_response = '{"applications": [{"id": "id", "href": "href", "runtime": {"spark_version": "3.1"}, "spark_application_id": "spark_application_id", "spark_application_name": "spark_application_name", "state": "finished", "spark_ui": "spark_ui", "submission_time": "2021-01-30T08:30:00.000Z", "start_time": "2021-01-30T08:30:00.000Z", "end_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z", "auto_termination_time": "2021-01-30T08:30:00.000Z"}], "first": {"href": "href", "start": "start"}, "next": {"href": "href", "start": "start"}, "previous": {"href": "href", "start": "start"}, "limit": 1}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200,
         )
 
         # Set up parameter values
-        instance_id = "e64c907a-e82f-46fd-addc-ccfafbd28b09"
-        state = ["finished"]
+        instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
+        state = ['finished']
+        limit = 1
+        start = 'testString'
 
         # Invoke method
-        response = _service.list_applications(instance_id, state=state, headers={})
+        response = _service.list_applications(
+            instance_id,
+            state=state,
+            limit=limit,
+            start=start,
+            headers={}
+        )
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -1031,7 +1038,9 @@ class TestListApplications:
         # Validate query params
         query_string = responses.calls[0].request.url.split("?", 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
-        assert "state={}".format(",".join(state)) in query_string
+        assert 'state={}'.format(','.join(state)) in query_string
+        assert 'limit={}'.format(limit) in query_string
+        assert 'start={}'.format(start) in query_string
 
     def test_list_applications_all_params_with_retries(self):
         # Enable retries and run test_list_applications_all_params.
@@ -1048,15 +1057,13 @@ class TestListApplications:
         test_list_applications_required_params()
         """
         # Set up mock
-        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications")
-        mock_response = '{"applications": [{"id": "id", "href": "href", "runtime": {"spark_version": "3.1"}, "spark_application_id": "spark_application_id", "spark_application_name": "spark_application_name", "state": "finished", "spark_ui": "spark_ui", "submission_time": "2021-01-30T08:30:00.000Z", "start_time": "2021-01-30T08:30:00.000Z", "end_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z", "auto_termination_time": "2021-01-30T08:30:00.000Z"}]}'
-        responses.add(
-            responses.GET,
-            url,
-            body=mock_response,
-            content_type="application/json",
-            status=200,
-        )
+        url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications')
+        mock_response = '{"applications": [{"id": "id", "href": "href", "runtime": {"spark_version": "3.1"}, "spark_application_id": "spark_application_id", "spark_application_name": "spark_application_name", "state": "finished", "spark_ui": "spark_ui", "submission_time": "2021-01-30T08:30:00.000Z", "start_time": "2021-01-30T08:30:00.000Z", "end_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z", "auto_termination_time": "2021-01-30T08:30:00.000Z"}], "first": {"href": "href", "start": "start"}, "next": {"href": "href", "start": "start"}, "previous": {"href": "href", "start": "start"}, "limit": 1}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
 
         # Set up parameter values
         instance_id = "e64c907a-e82f-46fd-addc-ccfafbd28b09"
@@ -1114,8 +1121,72 @@ class TestListApplications:
         _service.disable_retries()
         self.test_list_applications_value_error()
 
+    @responses.activate
+    def test_list_applications_with_pager_get_next(self):
+        """
+        test_list_applications_with_pager_get_next()
+        """
+        # Set up a two-page mock response
+        url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications')
+        mock_response1 = '{"next":{"start":"1"},"total_count":2,"limit":1,"applications":[{"id":"id","href":"href","runtime":{"spark_version":"3.1"},"spark_application_id":"spark_application_id","spark_application_name":"spark_application_name","state":"finished","spark_ui":"spark_ui","submission_time":"2021-01-30T08:30:00.000Z","start_time":"2021-01-30T08:30:00.000Z","end_time":"2021-01-30T08:30:00.000Z","finish_time":"2021-01-30T08:30:00.000Z","auto_termination_time":"2021-01-30T08:30:00.000Z"}]}'
+        mock_response2 = '{"total_count":2,"limit":1,"applications":[{"id":"id","href":"href","runtime":{"spark_version":"3.1"},"spark_application_id":"spark_application_id","spark_application_name":"spark_application_name","state":"finished","spark_ui":"spark_ui","submission_time":"2021-01-30T08:30:00.000Z","start_time":"2021-01-30T08:30:00.000Z","end_time":"2021-01-30T08:30:00.000Z","finish_time":"2021-01-30T08:30:00.000Z","auto_termination_time":"2021-01-30T08:30:00.000Z"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response1,
+                      content_type='application/json',
+                      status=200)
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response2,
+                      content_type='application/json',
+                      status=200)
 
-class TestGetApplication:
+        # Exercise the pager class for this operation
+        all_results = []
+        pager = ApplicationsPager(
+            client=_service,
+            instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+            state=['finished'],
+            limit=10,
+        )
+        while pager.has_next():
+            next_page = pager.get_next()
+            assert next_page is not None
+            all_results.extend(next_page)
+        assert len(all_results) == 2
+
+    @responses.activate
+    def test_list_applications_with_pager_get_all(self):
+        """
+        test_list_applications_with_pager_get_all()
+        """
+        # Set up a two-page mock response
+        url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications')
+        mock_response1 = '{"next":{"start":"1"},"total_count":2,"limit":1,"applications":[{"id":"id","href":"href","runtime":{"spark_version":"3.1"},"spark_application_id":"spark_application_id","spark_application_name":"spark_application_name","state":"finished","spark_ui":"spark_ui","submission_time":"2021-01-30T08:30:00.000Z","start_time":"2021-01-30T08:30:00.000Z","end_time":"2021-01-30T08:30:00.000Z","finish_time":"2021-01-30T08:30:00.000Z","auto_termination_time":"2021-01-30T08:30:00.000Z"}]}'
+        mock_response2 = '{"total_count":2,"limit":1,"applications":[{"id":"id","href":"href","runtime":{"spark_version":"3.1"},"spark_application_id":"spark_application_id","spark_application_name":"spark_application_name","state":"finished","spark_ui":"spark_ui","submission_time":"2021-01-30T08:30:00.000Z","start_time":"2021-01-30T08:30:00.000Z","end_time":"2021-01-30T08:30:00.000Z","finish_time":"2021-01-30T08:30:00.000Z","auto_termination_time":"2021-01-30T08:30:00.000Z"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response1,
+                      content_type='application/json',
+                      status=200)
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response2,
+                      content_type='application/json',
+                      status=200)
+
+        # Exercise the pager class for this operation
+        pager = ApplicationsPager(
+            client=_service,
+            instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+            state=['finished'],
+            limit=10,
+        )
+        all_results = pager.get_all()
+        assert all_results is not None
+        assert len(all_results) == 2
+
+class TestGetApplication():
     """
     Test Class for get_application
     """
@@ -2155,9 +2226,17 @@ class TestModel_ApplicationCollection:
         application_model["finish_time"] = "2021-01-30T08:30:00Z"
         application_model["auto_termination_time"] = "2021-01-30T08:30:00Z"
 
+        page_link_model = {} # PageLink
+        page_link_model['href'] = 'testString'
+        page_link_model['start'] = 'testString'
+
         # Construct a json representation of a ApplicationCollection model
         application_collection_model_json = {}
-        application_collection_model_json["applications"] = [application_model]
+        application_collection_model_json['applications'] = [application_model]
+        application_collection_model_json['first'] = page_link_model
+        application_collection_model_json['next'] = page_link_model
+        application_collection_model_json['previous'] = page_link_model
+        application_collection_model_json['limit'] = 1
 
         # Construct a model instance of ApplicationCollection by calling from_dict on the json representation
         application_collection_model = ApplicationCollection.from_dict(application_collection_model_json)
@@ -2854,8 +2933,37 @@ class TestModel_LoggingConfigurationResponseLogServer:
             == logging_configuration_response_log_server_model_json
         )
 
+class TestModel_PageLink():
+    """
+    Test Class for PageLink
+    """
 
-class TestModel_ResourceConsumptionLimitsResponse:
+    def test_page_link_serialization(self):
+        """
+        Test serialization/deserialization for PageLink
+        """
+
+        # Construct a json representation of a PageLink model
+        page_link_model_json = {}
+        page_link_model_json['href'] = 'testString'
+        page_link_model_json['start'] = 'testString'
+
+        # Construct a model instance of PageLink by calling from_dict on the json representation
+        page_link_model = PageLink.from_dict(page_link_model_json)
+        assert page_link_model != False
+
+        # Construct a model instance of PageLink by calling from_dict on the json representation
+        page_link_model_dict = PageLink.from_dict(page_link_model_json).__dict__
+        page_link_model2 = PageLink(**page_link_model_dict)
+
+        # Verify the model instances are equivalent
+        assert page_link_model == page_link_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        page_link_model_json2 = page_link_model.to_dict()
+        assert page_link_model_json2 == page_link_model_json
+
+class TestModel_ResourceConsumptionLimitsResponse():
     """
     Test Class for ResourceConsumptionLimitsResponse
     """

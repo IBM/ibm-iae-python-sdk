@@ -570,7 +570,15 @@ class IbmAnalyticsEngineApiV3(BaseService):
         response = self.send(request, **kwargs)
         return response
 
-    def list_applications(self, instance_id: str, *, state: List[str] = None, **kwargs) -> DetailedResponse:
+
+    def list_applications(self,
+        instance_id: str,
+        *,
+        state: List[str] = None,
+        limit: int = None,
+        start: str = None,
+        **kwargs
+    ) -> DetailedResponse:
         """
         List all Spark applications.
 
@@ -581,6 +589,10 @@ class IbmAnalyticsEngineApiV3(BaseService):
                associated with the Spark application(s).
         :param List[str] state: (optional) List of Spark application states that
                will be used to filter the response.
+        :param int limit: (optional) Number of application entries to be included
+               in the response.
+        :param str start: (optional) Token used to fetch the next or the previous
+               page of the applications list.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ApplicationCollection` object
@@ -597,7 +609,9 @@ class IbmAnalyticsEngineApiV3(BaseService):
         headers.update(sdk_headers)
 
         params = {
-            "state": convert_list(state),
+            'state': convert_list(state),
+            'limit': limit,
+            'start': start
         }
 
         if "headers" in kwargs:
@@ -1318,25 +1332,61 @@ class Application:
 
 class ApplicationCollection:
     """
-    An array of application details.
+    A paginated collection of applications.
 
-    :attr List[Application] applications: (optional) List of applications.
+    :attr List[Application] applications: List of applications.
+    :attr PageLink first: (optional) A reference to a page in a paginated
+          collection.
+    :attr PageLink next: (optional) A reference to a page in a paginated collection.
+    :attr PageLink previous: (optional) A reference to a page in a paginated
+          collection.
+    :attr int limit: The maximum number of results in this page of the collection.
     """
 
-    def __init__(self, *, applications: List["Application"] = None) -> None:
+    def __init__(self,
+                 applications: List['Application'],
+                 limit: int,
+                 *,
+                 first: 'PageLink' = None,
+                 next: 'PageLink' = None,
+                 previous: 'PageLink' = None) -> None:
         """
         Initialize a ApplicationCollection object.
 
-        :param List[Application] applications: (optional) List of applications.
+        :param List[Application] applications: List of applications.
+        :param int limit: The maximum number of results in this page of the
+               collection.
+        :param PageLink first: (optional) A reference to a page in a paginated
+               collection.
+        :param PageLink next: (optional) A reference to a page in a paginated
+               collection.
+        :param PageLink previous: (optional) A reference to a page in a paginated
+               collection.
         """
         self.applications = applications
+        self.first = first
+        self.next = next
+        self.previous = previous
+        self.limit = limit
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> "ApplicationCollection":
         """Initialize a ApplicationCollection object from a json dictionary."""
         args = {}
-        if "applications" in _dict:
-            args["applications"] = [Application.from_dict(v) for v in _dict.get("applications")]
+        if 'applications' in _dict:
+            args['applications'] = [Application.from_dict(x) for x in _dict.get('applications')]
+        else:
+            raise ValueError('Required property \'applications\' not present in ApplicationCollection JSON')
+        if 'first' in _dict:
+            args['first'] = PageLink.from_dict(_dict.get('first'))
+        if 'next' in _dict:
+            args['next'] = PageLink.from_dict(_dict.get('next'))
+        if 'previous' in _dict:
+            args['previous'] = PageLink.from_dict(_dict.get('previous'))
+        if 'limit' in _dict:
+            args['limit'] = _dict.get('limit')
+        else:
+            raise ValueError('Required property \'limit\' not present in ApplicationCollection JSON')
         return cls(**args)
 
     @classmethod
@@ -1347,14 +1397,16 @@ class ApplicationCollection:
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, "applications") and self.applications is not None:
-            applications_list = []
-            for v in self.applications:
-                if isinstance(v, dict):
-                    applications_list.append(v)
-                else:
-                    applications_list.append(v.to_dict())
-            _dict["applications"] = applications_list
+        if hasattr(self, 'applications') and self.applications is not None:
+            _dict['applications'] = [x.to_dict() for x in self.applications]
+        if hasattr(self, 'first') and self.first is not None:
+            _dict['first'] = self.first.to_dict()
+        if hasattr(self, 'next') and self.next is not None:
+            _dict['next'] = self.next.to_dict()
+        if hasattr(self, 'previous') and self.previous is not None:
+            _dict['previous'] = self.previous.to_dict()
+        if hasattr(self, 'limit') and self.limit is not None:
+            _dict['limit'] = self.limit
         return _dict
 
     def _to_dict(self):
@@ -3014,8 +3066,74 @@ class LoggingConfigurationResponseLogServer:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+class PageLink():
+    """
+    A reference to a page in a paginated collection.
 
-class ResourceConsumptionLimitsResponse:
+    :attr str href: A url which returns a specific page of a collection.
+    :attr str start: (optional) A token which loads a specific page of a collection
+          when it is provided the url of the collection.
+    """
+
+    def __init__(self,
+                 href: str,
+                 *,
+                 start: str = None) -> None:
+        """
+        Initialize a PageLink object.
+
+        :param str href: A url which returns a specific page of a collection.
+        :param str start: (optional) A token which loads a specific page of a
+               collection when it is provided the url of the collection.
+        """
+        self.href = href
+        self.start = start
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'PageLink':
+        """Initialize a PageLink object from a json dictionary."""
+        args = {}
+        if 'href' in _dict:
+            args['href'] = _dict.get('href')
+        else:
+            raise ValueError('Required property \'href\' not present in PageLink JSON')
+        if 'start' in _dict:
+            args['start'] = _dict.get('start')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a PageLink object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'href') and self.href is not None:
+            _dict['href'] = self.href
+        if hasattr(self, 'start') and self.start is not None:
+            _dict['start'] = self.start
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this PageLink object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'PageLink') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'PageLink') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class ResourceConsumptionLimitsResponse():
     """
     Resource consumption limits for the instance.
 
@@ -3245,6 +3363,84 @@ class SparkHistoryServerResponse:
         """
         State of the Spark history server.
         """
-
+        
         STARTED = "started"
         STOPPED = "stopped"
+
+
+##############################################################################
+# Pagers
+##############################################################################
+
+class ApplicationsPager():
+    """
+    ApplicationsPager can be used to simplify the use of the "list_applications" method.
+    """
+
+    def __init__(self,
+                 *,
+                 client: IbmAnalyticsEngineApiV3,
+                 instance_id: str,
+                 state: List[str] = None,
+                 limit: int = None,
+    ) -> None:
+        """
+        Initialize a ApplicationsPager object.
+        :param str instance_id: The identifier of the Analytics Engine instance
+               associated with the Spark application(s).
+        :param List[str] state: (optional) List of Spark application states that
+               will be used to filter the response.
+        :param int limit: (optional) Number of application entries to be included
+               in the response.
+        """
+        self._has_next = True
+        self._client = client
+        self._page_context = { 'next': None }
+        self._instance_id = instance_id
+        self._state = state
+        self._limit = limit
+
+    def has_next(self) -> bool:
+        """
+        Returns true if there are potentially more results to be retrieved.
+        """
+        return self._has_next
+
+    def get_next(self) -> List[dict]:
+        """
+        Returns the next page of results.
+        :return: A List[dict], where each element is a dict that represents an instance of Application.
+        :rtype: List[dict]
+        """
+        if not self.has_next():
+            raise StopIteration(message='No more results available')
+
+        result = self._client.list_applications(
+            instance_id=self._instance_id,
+            state=self._state,
+            limit=self._limit,
+            start=self._page_context.get('next'),
+        ).get_result()
+
+        next = None
+        next_page_link = result.get('next')
+        if next_page_link is not None:
+            next = next_page_link.get('start')
+        self._page_context['next'] = next
+        if next is None:
+            self._has_next = False
+
+        return result.get('applications')
+
+    def get_all(self) -> List[dict]:
+        """
+        Returns all results by invoking get_next() repeatedly
+        until all pages of results have been retrieved.
+        :return: A List[dict], where each element is a dict that represents an instance of Application.
+        :rtype: List[dict]
+        """
+        results = []
+        while self.has_next():
+            next_page = self.get_next()
+            results.extend(next_page)
+        return results

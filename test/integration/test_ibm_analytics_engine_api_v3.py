@@ -197,12 +197,42 @@ class TestIbmAnalyticsEngineApiV3:
     def test_list_applications(self):
         response = self.ibm_analytics_engine_api_service.list_applications(
             instance_id=self.instance_id,
-            state=["accepted", "submitted", "waiting", "running", "finished", "failed"],
+            state=['accepted','running','finished','failed','stopped'],
+            limit=1
         )
 
-        assert response.get_status_code() == 200
-        application_collection = response.get_result()
+        assert list_applications_response.get_status_code() == 200
+        application_collection = list_applications_response.get_result()
         assert application_collection is not None
+
+    @needscredentials
+    def test_list_applications_with_pager(self):
+        all_results = []
+
+        # Test get_next().
+        pager = ApplicationsPager(
+            client=self.ibm_analytics_engine_api_service,
+            instance_id=self.instance_id,
+            state=['accepted','running','finished','failed','stopped'],
+            limit=10,
+        )
+        while pager.has_next():
+            next_page = pager.get_next()
+            assert next_page is not None
+            all_results.extend(next_page)
+
+        # Test get_all().
+        pager = ApplicationsPager(
+            client=self.ibm_analytics_engine_api_service,
+            instance_id=self.instance_id,
+            state=['accepted','running','finished','failed','stopped'],
+            limit=10,
+        )
+        all_items = pager.get_all()
+        assert all_items is not None
+
+        assert len(all_results) == len(all_items)
+        print(f'\nlist_applications() returned a total of {len(all_results)} items(s) using ApplicationsPager.')
 
     @needscredentials
     def test_get_application(self):
