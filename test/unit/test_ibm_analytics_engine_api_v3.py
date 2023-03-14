@@ -364,6 +364,94 @@ class TestSetInstanceHome():
         _service.disable_retries()
         self.test_set_instance_home_value_error()
 
+class TestUpdateInstanceHomeCredentials():
+    """
+    Test Class for update_instance_home_credentials
+    """
+
+    @responses.activate
+    def test_update_instance_home_credentials_all_params(self):
+        """
+        update_instance_home_credentials()
+        """
+        # Set up mock
+        url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/instance_home')
+        mock_response = '{"instance_id": "instance_id", "provider": "provider", "type": "type", "region": "region", "endpoint": "endpoint", "hmac_access_key": "hmac_access_key", "hmac_secret_key": "hmac_secret_key"}'
+        responses.add(responses.PATCH,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
+        hmac_access_key = 'b9****************************4b'
+        hmac_secret_key = 'fa********************************************8a'
+
+        # Invoke method
+        response = _service.update_instance_home_credentials(
+            instance_id,
+            hmac_access_key,
+            hmac_secret_key,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['hmac_access_key'] == 'b9****************************4b'
+        assert req_body['hmac_secret_key'] == 'fa********************************************8a'
+
+    def test_update_instance_home_credentials_all_params_with_retries(self):
+        # Enable retries and run test_update_instance_home_credentials_all_params.
+        _service.enable_retries()
+        self.test_update_instance_home_credentials_all_params()
+
+        # Disable retries and run test_update_instance_home_credentials_all_params.
+        _service.disable_retries()
+        self.test_update_instance_home_credentials_all_params()
+
+    @responses.activate
+    def test_update_instance_home_credentials_value_error(self):
+        """
+        test_update_instance_home_credentials_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/instance_home')
+        mock_response = '{"instance_id": "instance_id", "provider": "provider", "type": "type", "region": "region", "endpoint": "endpoint", "hmac_access_key": "hmac_access_key", "hmac_secret_key": "hmac_secret_key"}'
+        responses.add(responses.PATCH,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
+        hmac_access_key = 'b9****************************4b'
+        hmac_secret_key = 'fa********************************************8a'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "instance_id": instance_id,
+            "hmac_access_key": hmac_access_key,
+            "hmac_secret_key": hmac_secret_key,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.update_instance_home_credentials(**req_copy)
+
+    def test_update_instance_home_credentials_value_error_with_retries(self):
+        # Enable retries and run test_update_instance_home_credentials_value_error.
+        _service.enable_retries()
+        self.test_update_instance_home_credentials_value_error()
+
+        # Disable retries and run test_update_instance_home_credentials_value_error.
+        _service.disable_retries()
+        self.test_update_instance_home_credentials_value_error()
+
 class TestGetInstanceDefaultConfigs():
     """
     Test Class for get_instance_default_configs
@@ -785,7 +873,7 @@ class TestCreateApplication():
 
         # Construct a dict representation of a Runtime model
         runtime_model = {}
-        runtime_model['spark_version'] = '3.1'
+        runtime_model['spark_version'] = '3.3'
 
         # Construct a dict representation of a ApplicationRequestApplicationDetails model
         application_request_application_details_model = {}
@@ -845,7 +933,7 @@ class TestCreateApplication():
 
         # Construct a dict representation of a Runtime model
         runtime_model = {}
-        runtime_model['spark_version'] = '3.1'
+        runtime_model['spark_version'] = '3.3'
 
         # Construct a dict representation of a ApplicationRequestApplicationDetails model
         application_request_application_details_model = {}

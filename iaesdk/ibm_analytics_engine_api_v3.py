@@ -14,8 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.54.1-1d9808a7-20220817-143039
- 
+# IBM OpenAPI SDK Code Generator Version: 3.66.0-d6c2d7e0-20230215-221247
+
 """
 Manage serverless Spark instances and run applications.
 
@@ -26,6 +26,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Dict, List
 import json
+import logging
 
 from ibm_cloud_sdk_core import BaseService, DetailedResponse
 from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
@@ -114,7 +115,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `Instance` object
         """
 
-        if instance_id is None:
+        if not instance_id:
             raise ValueError('instance_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -155,7 +156,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `InstanceGetStateResponse` object
         """
 
-        if instance_id is None:
+        if not instance_id:
             raise ValueError('instance_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -201,8 +202,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         **Note**: You can set 'instance home' again if the instance is in
         'instance_home_creation_failure' state.
 
-        :param str instance_id: The ID of the Analytics Engine instance for which
-               'instance home' is to be set.
+        :param str instance_id: The ID of the Analytics Engine instance.
         :param str new_instance_id: (optional) UUID of the instance home storage
                instance.
         :param str new_provider: (optional) Currently only ibm-cos (IBM Cloud
@@ -220,7 +220,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `InstanceHomeResponse` object
         """
 
-        if instance_id is None:
+        if not instance_id:
             raise ValueError('instance_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -235,7 +235,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
             'region': new_region,
             'endpoint': new_endpoint,
             'hmac_access_key': new_hmac_access_key,
-            'hmac_secret_key': new_hmac_secret_key
+            'hmac_secret_key': new_hmac_secret_key,
         }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
@@ -251,6 +251,68 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v3/analytics_engines/{instance_id}/instance_home'.format(**path_param_dict)
         request = self.prepare_request(method='PUT',
+                                       url=url,
+                                       headers=headers,
+                                       data=data)
+
+        response = self.send(request, **kwargs)
+        return response
+
+
+    def update_instance_home_credentials(self,
+        instance_id: str,
+        hmac_access_key: str,
+        hmac_secret_key: str,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Update instance home credentials.
+
+        Update the HMAC credentials used to access the instance home, if the instance home
+        was set earlier. Credentials must have write access to the object storage used as
+        instance home.
+        **Note**: Your running applications and the Spark history server would continue to
+        use the old credentials after updating the HMAC credentials. Before revoking the
+        old credentials, you must either wait for them to finish running or stop them.
+
+        :param str instance_id: The ID of the Analytics Engine instance.
+        :param str hmac_access_key: Cloud Object Storage access key.
+        :param str hmac_secret_key: Cloud Object Storage secret key.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `InstanceHomeResponse` object
+        """
+
+        if not instance_id:
+            raise ValueError('instance_id must be provided')
+        if hmac_access_key is None:
+            raise ValueError('hmac_access_key must be provided')
+        if hmac_secret_key is None:
+            raise ValueError('hmac_secret_key must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V3',
+                                      operation_id='update_instance_home_credentials')
+        headers.update(sdk_headers)
+
+        data = {
+            'hmac_access_key': hmac_access_key,
+            'hmac_secret_key': hmac_secret_key,
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id']
+        path_param_values = self.encode_path_vars(instance_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v3/analytics_engines/{instance_id}/instance_home'.format(**path_param_dict)
+        request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
                                        data=data)
@@ -275,7 +337,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result
         """
 
-        if instance_id is None:
+        if not instance_id:
             raise ValueError('instance_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -319,7 +381,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result
         """
 
-        if instance_id is None:
+        if not instance_id:
             raise ValueError('instance_id must be provided')
         if body is None:
             raise ValueError('body must be provided')
@@ -370,7 +432,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result
         """
 
-        if instance_id is None:
+        if not instance_id:
             raise ValueError('instance_id must be provided')
         if body is None:
             raise ValueError('body must be provided')
@@ -417,7 +479,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `Runtime` object
         """
 
-        if instance_id is None:
+        if not instance_id:
             raise ValueError('instance_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -462,7 +524,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `Runtime` object
         """
 
-        if instance_id is None:
+        if not instance_id:
             raise ValueError('instance_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -471,7 +533,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         headers.update(sdk_headers)
 
         data = {
-            'spark_version': spark_version
+            'spark_version': spark_version,
         }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
@@ -515,7 +577,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `ApplicationResponse` object
         """
 
-        if instance_id is None:
+        if not instance_id:
             raise ValueError('instance_id must be provided')
         if application_details is not None:
             application_details = convert_model(application_details)
@@ -526,7 +588,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         headers.update(sdk_headers)
 
         data = {
-            'application_details': application_details
+            'application_details': application_details,
         }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
@@ -571,7 +633,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `ApplicationCollection` object
         """
 
-        if instance_id is None:
+        if not instance_id:
             raise ValueError('instance_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -580,7 +642,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         headers.update(sdk_headers)
 
         params = {
-            'state': convert_list(state)
+            'state': convert_list(state),
         }
 
         if 'headers' in kwargs:
@@ -620,9 +682,9 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `ApplicationGetResponse` object
         """
 
-        if instance_id is None:
+        if not instance_id:
             raise ValueError('instance_id must be provided')
-        if application_id is None:
+        if not application_id:
             raise ValueError('application_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -668,9 +730,9 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse
         """
 
-        if instance_id is None:
+        if not instance_id:
             raise ValueError('instance_id must be provided')
-        if application_id is None:
+        if not application_id:
             raise ValueError('application_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -713,9 +775,9 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `ApplicationGetStateResponse` object
         """
 
-        if instance_id is None:
+        if not instance_id:
             raise ValueError('instance_id must be provided')
-        if application_id is None:
+        if not application_id:
             raise ValueError('application_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -761,7 +823,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `CurrentResourceConsumptionResponse` object
         """
 
-        if instance_id is None:
+        if not instance_id:
             raise ValueError('instance_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -802,7 +864,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `ResourceConsumptionLimitsResponse` object
         """
 
-        if instance_id is None:
+        if not instance_id:
             raise ValueError('instance_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -853,7 +915,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `LogForwardingConfigResponse` object
         """
 
-        if instance_id is None:
+        if not instance_id:
             raise ValueError('instance_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -864,7 +926,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         data = {
             'enabled': enabled,
             'sources': sources,
-            'tags': tags
+            'tags': tags,
         }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
@@ -903,7 +965,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `LogForwardingConfigResponse` object
         """
 
-        if instance_id is None:
+        if not instance_id:
             raise ValueError('instance_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -947,9 +1009,13 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `LoggingConfigurationResponse` object
+
+        Deprecated: this method is deprecated and may be removed in a future release.
         """
 
-        if instance_guid is None:
+        logging.warning('A deprecated operation has been invoked: configure_platform_logging')
+
+        if not instance_guid:
             raise ValueError('instance_guid must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -958,7 +1024,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         headers.update(sdk_headers)
 
         data = {
-            'enable': enable
+            'enable': enable,
         }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
@@ -997,9 +1063,13 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `LoggingConfigurationResponse` object
+
+        Deprecated: this method is deprecated and may be removed in a future release.
         """
 
-        if instance_guid is None:
+        logging.warning('A deprecated operation has been invoked: get_logging_configuration')
+
+        if not instance_guid:
             raise ValueError('instance_guid must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -1040,7 +1110,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `SparkHistoryServerResponse` object
         """
 
-        if instance_id is None:
+        if not instance_id:
             raise ValueError('instance_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -1082,7 +1152,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `SparkHistoryServerResponse` object
         """
 
-        if instance_id is None:
+        if not instance_id:
             raise ValueError('instance_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -1123,7 +1193,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse
         """
 
-        if instance_id is None:
+        if not instance_id:
             raise ValueError('instance_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
@@ -1190,8 +1260,8 @@ class Application():
     :attr datetime start_time: (optional) Time when the application was started.
     :attr datetime end_time: (optional) Time when the application run ended in
           success, failure or was stopped.
-    :attr datetime finish_time: (optional) (deprecated) Time when the application
-          was completed.
+    :attr datetime finish_time: (optional) Deprecated: (deprecated) Time when the
+          application was completed.
     :attr datetime auto_termination_time: (optional) Time when the application will
           be automatically stopped by the service.
     """
@@ -1231,8 +1301,8 @@ class Application():
                started.
         :param datetime end_time: (optional) Time when the application run ended in
                success, failure or was stopped.
-        :param datetime finish_time: (optional) (deprecated) Time when the
-               application was completed.
+        :param datetime finish_time: (optional) Deprecated: (deprecated) Time when
+               the application was completed.
         :param datetime auto_termination_time: (optional) Time when the application
                will be automatically stopped by the service.
         """
@@ -1292,7 +1362,10 @@ class Application():
         if hasattr(self, 'href') and self.href is not None:
             _dict['href'] = self.href
         if hasattr(self, 'runtime') and self.runtime is not None:
-            _dict['runtime'] = self.runtime.to_dict()
+            if isinstance(self.runtime, dict):
+                _dict['runtime'] = self.runtime
+            else:
+                _dict['runtime'] = self.runtime.to_dict()
         if hasattr(self, 'spark_application_id') and self.spark_application_id is not None:
             _dict['spark_application_id'] = self.spark_application_id
         if hasattr(self, 'spark_application_name') and self.spark_application_name is not None:
@@ -1366,7 +1439,7 @@ class ApplicationCollection():
         """Initialize a ApplicationCollection object from a json dictionary."""
         args = {}
         if 'applications' in _dict:
-            args['applications'] = [Application.from_dict(x) for x in _dict.get('applications')]
+            args['applications'] = [Application.from_dict(v) for v in _dict.get('applications')]
         return cls(**args)
 
     @classmethod
@@ -1378,7 +1451,13 @@ class ApplicationCollection():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'applications') and self.applications is not None:
-            _dict['applications'] = [x.to_dict() for x in self.applications]
+            applications_list = []
+            for v in self.applications:
+                if isinstance(v, dict):
+                    applications_list.append(v)
+                else:
+                    applications_list.append(v.to_dict())
+            _dict['applications'] = applications_list
         return _dict
 
     def _to_dict(self):
@@ -1520,7 +1599,10 @@ class ApplicationDetails():
         if hasattr(self, 'application') and self.application is not None:
             _dict['application'] = self.application
         if hasattr(self, 'runtime') and self.runtime is not None:
-            _dict['runtime'] = self.runtime.to_dict()
+            if isinstance(self.runtime, dict):
+                _dict['runtime'] = self.runtime
+            else:
+                _dict['runtime'] = self.runtime.to_dict()
         if hasattr(self, 'jars') and self.jars is not None:
             _dict['jars'] = self.jars
         if hasattr(self, 'packages') and self.packages is not None:
@@ -1581,8 +1663,8 @@ class ApplicationGetResponse():
           format YYYY-MM-DDTHH:mm:ssZ.
     :attr datetime end_time: (optional) Time when the application ended either in
           success or failure, in the format YYYY-MM-DDTHH:mm:ssZ.
-    :attr datetime finish_time: (optional) (deprecated) Time when the application
-          completed successfully, in the format YYYY-MM-DDTHH:mm:ssZ.
+    :attr datetime finish_time: (optional) Deprecated: (deprecated) Time when the
+          application completed successfully, in the format YYYY-MM-DDTHH:mm:ssZ.
     :attr datetime auto_termination_time: (optional) Time when the application will
           be automatically stopped by the service.
     """
@@ -1623,8 +1705,8 @@ class ApplicationGetResponse():
                in the format YYYY-MM-DDTHH:mm:ssZ.
         :param datetime end_time: (optional) Time when the application ended either
                in success or failure, in the format YYYY-MM-DDTHH:mm:ssZ.
-        :param datetime finish_time: (optional) (deprecated) Time when the
-               application completed successfully, in the format YYYY-MM-DDTHH:mm:ssZ.
+        :param datetime finish_time: (optional) Deprecated: (deprecated) Time when
+               the application completed successfully, in the format YYYY-MM-DDTHH:mm:ssZ.
         :param datetime auto_termination_time: (optional) Time when the application
                will be automatically stopped by the service.
         """
@@ -1658,7 +1740,7 @@ class ApplicationGetResponse():
         if 'spark_ui' in _dict:
             args['spark_ui'] = _dict.get('spark_ui')
         if 'state_details' in _dict:
-            args['state_details'] = [ApplicationGetResponseStateDetailsItem.from_dict(x) for x in _dict.get('state_details')]
+            args['state_details'] = [ApplicationGetResponseStateDetailsItem.from_dict(v) for v in _dict.get('state_details')]
         if 'submission_time' in _dict:
             args['submission_time'] = string_to_datetime(_dict.get('submission_time'))
         if 'start_time' in _dict:
@@ -1680,7 +1762,10 @@ class ApplicationGetResponse():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'application_details') and self.application_details is not None:
-            _dict['application_details'] = self.application_details.to_dict()
+            if isinstance(self.application_details, dict):
+                _dict['application_details'] = self.application_details
+            else:
+                _dict['application_details'] = self.application_details.to_dict()
         if hasattr(self, 'id') and self.id is not None:
             _dict['id'] = self.id
         if hasattr(self, 'spark_application_id') and self.spark_application_id is not None:
@@ -1692,7 +1777,13 @@ class ApplicationGetResponse():
         if hasattr(self, 'spark_ui') and self.spark_ui is not None:
             _dict['spark_ui'] = self.spark_ui
         if hasattr(self, 'state_details') and self.state_details is not None:
-            _dict['state_details'] = [x.to_dict() for x in self.state_details]
+            state_details_list = []
+            for v in self.state_details:
+                if isinstance(v, dict):
+                    state_details_list.append(v)
+                else:
+                    state_details_list.append(v.to_dict())
+            _dict['state_details'] = state_details_list
         if hasattr(self, 'submission_time') and self.submission_time is not None:
             _dict['submission_time'] = datetime_to_string(self.submission_time)
         if hasattr(self, 'start_time') and self.start_time is not None:
@@ -1827,8 +1918,8 @@ class ApplicationGetStateResponse():
     :attr datetime start_time: (optional) Time when the application was started.
     :attr datetime end_time: (optional) Time when the application run ended in
           success, failure or was stopped.
-    :attr datetime finish_time: (optional) (deprecated) Time when the application
-          was completed.
+    :attr datetime finish_time: (optional) Deprecated: (deprecated) Time when the
+          application was completed.
     :attr datetime auto_termination_time: (optional) Time when the application will
           be automatically stopped by the service.
     """
@@ -1850,8 +1941,8 @@ class ApplicationGetStateResponse():
                started.
         :param datetime end_time: (optional) Time when the application run ended in
                success, failure or was stopped.
-        :param datetime finish_time: (optional) (deprecated) Time when the
-               application was completed.
+        :param datetime finish_time: (optional) Deprecated: (deprecated) Time when
+               the application was completed.
         :param datetime auto_termination_time: (optional) Time when the application
                will be automatically stopped by the service.
         """
@@ -2054,7 +2145,10 @@ class ApplicationRequestApplicationDetails():
         if hasattr(self, 'application') and self.application is not None:
             _dict['application'] = self.application
         if hasattr(self, 'runtime') and self.runtime is not None:
-            _dict['runtime'] = self.runtime.to_dict()
+            if isinstance(self.runtime, dict):
+                _dict['runtime'] = self.runtime
+            else:
+                _dict['runtime'] = self.runtime.to_dict()
         if hasattr(self, 'jars') and self.jars is not None:
             _dict['jars'] = self.jars
         if hasattr(self, 'packages') and self.packages is not None:
@@ -2320,11 +2414,20 @@ class Instance():
         if hasattr(self, 'state_change_time') and self.state_change_time is not None:
             _dict['state_change_time'] = datetime_to_string(self.state_change_time)
         if hasattr(self, 'default_runtime') and self.default_runtime is not None:
-            _dict['default_runtime'] = self.default_runtime.to_dict()
+            if isinstance(self.default_runtime, dict):
+                _dict['default_runtime'] = self.default_runtime
+            else:
+                _dict['default_runtime'] = self.default_runtime.to_dict()
         if hasattr(self, 'instance_home') and self.instance_home is not None:
-            _dict['instance_home'] = self.instance_home.to_dict()
+            if isinstance(self.instance_home, dict):
+                _dict['instance_home'] = self.instance_home
+            else:
+                _dict['instance_home'] = self.instance_home.to_dict()
         if hasattr(self, 'default_config') and self.default_config is not None:
-            _dict['default_config'] = self.default_config.to_dict()
+            if isinstance(self.default_config, dict):
+                _dict['default_config'] = self.default_config
+            else:
+                _dict['default_config'] = self.default_config.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -2785,7 +2888,10 @@ class LogForwardingConfigResponse():
         if hasattr(self, 'tags') and self.tags is not None:
             _dict['tags'] = self.tags
         if hasattr(self, 'log_server') and self.log_server is not None:
-            _dict['log_server'] = self.log_server.to_dict()
+            if isinstance(self.log_server, dict):
+                _dict['log_server'] = self.log_server
+            else:
+                _dict['log_server'] = self.log_server.to_dict()
         if hasattr(self, 'enabled') and self.enabled is not None:
             _dict['enabled'] = self.enabled
         return _dict
@@ -2913,7 +3019,10 @@ class LoggingConfigurationResponse():
         if hasattr(self, 'components') and self.components is not None:
             _dict['components'] = self.components
         if hasattr(self, 'log_server') and self.log_server is not None:
-            _dict['log_server'] = self.log_server.to_dict()
+            if isinstance(self.log_server, dict):
+                _dict['log_server'] = self.log_server
+            else:
+                _dict['log_server'] = self.log_server.to_dict()
         if hasattr(self, 'enable') and self.enable is not None:
             _dict['enable'] = self.enable
         return _dict

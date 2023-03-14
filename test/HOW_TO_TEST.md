@@ -17,6 +17,8 @@
     1. `IBM_ANALYTICS_ENGINE_API_INSTANCE_GUID_WO_INSTANCE_HOME`=`<Id of your Analytics Engine Service plan instance created without instance home>`
     1. `IBM_ANALYTICS_ENGINE_API_HMAC_ACCESS_KEY`=`<HMAC access key of the cos instance to be used as instance home>`
     1. `IBM_ANALYTICS_ENGINE_API_HMAC_SECRET_KEY`=`<HMAC secret key of the cos instance to be used as instance home>`
+    1. `IBM_ANALYTICS_ENGINE_API_ALTERNATE_HMAC_ACCESS_KEY`=`<HMAC access key of the cos instance to be used as instance home>`
+    1. `IBM_ANALYTICS_ENGINE_API_ALTERNATE_HMAC_SECRET_KEY`=`<HMAC secret key of the cos instance to be used as instance home>`
 1. From root directory, run
     ```
     pytest test/integration
