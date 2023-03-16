@@ -68,14 +68,8 @@ def test_get_service_url_for_region():
     get_service_url_for_region()
     """
     assert IbmAnalyticsEngineApiV3.get_service_url_for_region("INVALID_REGION") is None
-    assert (
-        IbmAnalyticsEngineApiV3.get_service_url_for_region("us-south")
-        == "https://api.us-south.ae.cloud.ibm.com"
-    )
-    assert (
-        IbmAnalyticsEngineApiV3.get_service_url_for_region("eu-de")
-        == "https://api.eu-de.ae.cloud.ibm.com"
-    )
+    assert IbmAnalyticsEngineApiV3.get_service_url_for_region("us-south") == "https://api.us-south.ae.cloud.ibm.com"
+    assert IbmAnalyticsEngineApiV3.get_service_url_for_region("eu-de") == "https://api.eu-de.ae.cloud.ibm.com"
 
 
 ##############################################################################
@@ -123,9 +117,7 @@ class TestGetInstance:
         get_instance()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09")
         mock_response = '{"id": "id", "href": "href", "state": "creation_accepted", "state_change_time": "2021-01-30T08:30:00.000Z", "default_runtime": {"spark_version": "3.1"}, "instance_home": {"id": "id", "provider": "provider", "type": "type", "region": "region", "endpoint": "endpoint", "bucket": "bucket", "hmac_access_key": "hmac_access_key", "hmac_secret_key": "hmac_secret_key"}, "default_config": {"key": "key"}}'
         responses.add(
             responses.GET,
@@ -160,9 +152,7 @@ class TestGetInstance:
         test_get_instance_value_error()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09")
         mock_response = '{"id": "id", "href": "href", "state": "creation_accepted", "state_change_time": "2021-01-30T08:30:00.000Z", "default_runtime": {"spark_version": "3.1"}, "instance_home": {"id": "id", "provider": "provider", "type": "type", "region": "region", "endpoint": "endpoint", "bucket": "bucket", "hmac_access_key": "hmac_access_key", "hmac_secret_key": "hmac_secret_key"}, "default_config": {"key": "key"}}'
         responses.add(
             responses.GET,
@@ -180,10 +170,7 @@ class TestGetInstance:
             "instance_id": instance_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_instance(**req_copy)
 
@@ -208,9 +195,7 @@ class TestGetInstanceState:
         get_instance_state()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/state"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/state")
         mock_response = '{"id": "id", "state": "creation_accepted"}'
         responses.add(
             responses.GET,
@@ -245,9 +230,7 @@ class TestGetInstanceState:
         test_get_instance_state_value_error()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/state"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/state")
         mock_response = '{"id": "id", "state": "creation_accepted"}'
         responses.add(
             responses.GET,
@@ -265,10 +248,7 @@ class TestGetInstanceState:
             "instance_id": instance_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_instance_state(**req_copy)
 
@@ -293,9 +273,7 @@ class TestSetInstanceHome:
         set_instance_home()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/instance_home"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/instance_home")
         mock_response = '{"instance_id": "instance_id", "provider": "provider", "type": "type", "region": "region", "endpoint": "endpoint", "hmac_access_key": "hmac_access_key", "hmac_secret_key": "hmac_secret_key"}'
         responses.add(
             responses.PUT,
@@ -337,15 +315,9 @@ class TestSetInstanceHome:
         assert req_body["provider"] == "ibm-cos"
         assert req_body["type"] == "objectstore"
         assert req_body["region"] == "us-south"
-        assert (
-            req_body["endpoint"]
-            == "s3.direct.us-south.cloud-object-storage.appdomain.cloud"
-        )
+        assert req_body["endpoint"] == "s3.direct.us-south.cloud-object-storage.appdomain.cloud"
         assert req_body["hmac_access_key"] == "b9****************************4b"
-        assert (
-            req_body["hmac_secret_key"]
-            == "fa********************************************8a"
-        )
+        assert req_body["hmac_secret_key"] == "fa********************************************8a"
 
     def test_set_instance_home_all_params_with_retries(self):
         # Enable retries and run test_set_instance_home_all_params.
@@ -362,9 +334,7 @@ class TestSetInstanceHome:
         test_set_instance_home_value_error()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/instance_home"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/instance_home")
         mock_response = '{"instance_id": "instance_id", "provider": "provider", "type": "type", "region": "region", "endpoint": "endpoint", "hmac_access_key": "hmac_access_key", "hmac_secret_key": "hmac_secret_key"}'
         responses.add(
             responses.PUT,
@@ -389,10 +359,7 @@ class TestSetInstanceHome:
             "instance_id": instance_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.set_instance_home(**req_copy)
 
@@ -417,9 +384,7 @@ class TestUpdateInstanceHomeCredentials:
         update_instance_home_credentials()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/instance_home"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/instance_home")
         mock_response = '{"instance_id": "instance_id", "provider": "provider", "type": "type", "region": "region", "endpoint": "endpoint", "hmac_access_key": "hmac_access_key", "hmac_secret_key": "hmac_secret_key"}'
         responses.add(
             responses.PATCH,
@@ -435,9 +400,7 @@ class TestUpdateInstanceHomeCredentials:
         hmac_secret_key = "fa********************************************8a"
 
         # Invoke method
-        response = _service.update_instance_home_credentials(
-            instance_id, hmac_access_key, hmac_secret_key, headers={}
-        )
+        response = _service.update_instance_home_credentials(instance_id, hmac_access_key, hmac_secret_key, headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -445,10 +408,7 @@ class TestUpdateInstanceHomeCredentials:
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, "utf-8"))
         assert req_body["hmac_access_key"] == "b9****************************4b"
-        assert (
-            req_body["hmac_secret_key"]
-            == "fa********************************************8a"
-        )
+        assert req_body["hmac_secret_key"] == "fa********************************************8a"
 
     def test_update_instance_home_credentials_all_params_with_retries(self):
         # Enable retries and run test_update_instance_home_credentials_all_params.
@@ -465,9 +425,7 @@ class TestUpdateInstanceHomeCredentials:
         test_update_instance_home_credentials_value_error()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/instance_home"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/instance_home")
         mock_response = '{"instance_id": "instance_id", "provider": "provider", "type": "type", "region": "region", "endpoint": "endpoint", "hmac_access_key": "hmac_access_key", "hmac_secret_key": "hmac_secret_key"}'
         responses.add(
             responses.PATCH,
@@ -489,10 +447,7 @@ class TestUpdateInstanceHomeCredentials:
             "hmac_secret_key": hmac_secret_key,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.update_instance_home_credentials(**req_copy)
 
@@ -517,9 +472,7 @@ class TestGetInstanceDefaultConfigs:
         get_instance_default_configs()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_configs"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_configs")
         mock_response = '{"mapKey": "inner"}'
         responses.add(
             responses.GET,
@@ -554,9 +507,7 @@ class TestGetInstanceDefaultConfigs:
         test_get_instance_default_configs_value_error()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_configs"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_configs")
         mock_response = '{"mapKey": "inner"}'
         responses.add(
             responses.GET,
@@ -574,10 +525,7 @@ class TestGetInstanceDefaultConfigs:
             "instance_id": instance_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_instance_default_configs(**req_copy)
 
@@ -602,9 +550,7 @@ class TestReplaceInstanceDefaultConfigs:
         replace_instance_default_configs()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_configs"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_configs")
         mock_response = '{"mapKey": "inner"}'
         responses.add(
             responses.PUT,
@@ -619,9 +565,7 @@ class TestReplaceInstanceDefaultConfigs:
         body = {"key1": "testString"}
 
         # Invoke method
-        response = _service.replace_instance_default_configs(
-            instance_id, body, headers={}
-        )
+        response = _service.replace_instance_default_configs(instance_id, body, headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -645,9 +589,7 @@ class TestReplaceInstanceDefaultConfigs:
         test_replace_instance_default_configs_value_error()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_configs"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_configs")
         mock_response = '{"mapKey": "inner"}'
         responses.add(
             responses.PUT,
@@ -667,10 +609,7 @@ class TestReplaceInstanceDefaultConfigs:
             "body": body,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.replace_instance_default_configs(**req_copy)
 
@@ -695,9 +634,7 @@ class TestUpdateInstanceDefaultConfigs:
         update_instance_default_configs()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_configs"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_configs")
         mock_response = '{"mapKey": "inner"}'
         responses.add(
             responses.PATCH,
@@ -712,9 +649,7 @@ class TestUpdateInstanceDefaultConfigs:
         body = {"key1": "testString"}
 
         # Invoke method
-        response = _service.update_instance_default_configs(
-            instance_id, body, headers={}
-        )
+        response = _service.update_instance_default_configs(instance_id, body, headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -738,9 +673,7 @@ class TestUpdateInstanceDefaultConfigs:
         test_update_instance_default_configs_value_error()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_configs"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_configs")
         mock_response = '{"mapKey": "inner"}'
         responses.add(
             responses.PATCH,
@@ -760,10 +693,7 @@ class TestUpdateInstanceDefaultConfigs:
             "body": body,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.update_instance_default_configs(**req_copy)
 
@@ -788,9 +718,7 @@ class TestGetInstanceDefaultRuntime:
         get_instance_default_runtime()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_runtime"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_runtime")
         mock_response = '{"spark_version": "3.1"}'
         responses.add(
             responses.GET,
@@ -825,9 +753,7 @@ class TestGetInstanceDefaultRuntime:
         test_get_instance_default_runtime_value_error()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_runtime"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_runtime")
         mock_response = '{"spark_version": "3.1"}'
         responses.add(
             responses.GET,
@@ -845,10 +771,7 @@ class TestGetInstanceDefaultRuntime:
             "instance_id": instance_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_instance_default_runtime(**req_copy)
 
@@ -873,9 +796,7 @@ class TestReplaceInstanceDefaultRuntime:
         replace_instance_default_runtime()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_runtime"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_runtime")
         mock_response = '{"spark_version": "3.1"}'
         responses.add(
             responses.PUT,
@@ -890,9 +811,7 @@ class TestReplaceInstanceDefaultRuntime:
         spark_version = "3.1"
 
         # Invoke method
-        response = _service.replace_instance_default_runtime(
-            instance_id, spark_version=spark_version, headers={}
-        )
+        response = _service.replace_instance_default_runtime(instance_id, spark_version=spark_version, headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -916,9 +835,7 @@ class TestReplaceInstanceDefaultRuntime:
         test_replace_instance_default_runtime_value_error()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_runtime"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_runtime")
         mock_response = '{"spark_version": "3.1"}'
         responses.add(
             responses.PUT,
@@ -937,10 +854,7 @@ class TestReplaceInstanceDefaultRuntime:
             "instance_id": instance_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.replace_instance_default_runtime(**req_copy)
 
@@ -965,9 +879,7 @@ class TestCreateApplication:
         create_application()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications")
         mock_response = '{"id": "id", "state": "finished"}'
         responses.add(
             responses.POST,
@@ -987,17 +899,13 @@ class TestCreateApplication:
             "application"
         ] = "/opt/ibm/spark/examples/src/main/python/wordcount.py"
         application_request_application_details_model["runtime"] = runtime_model
-        application_request_application_details_model[
-            "jars"
-        ] = "cos://cloud-object-storage/jars/tests.jar"
+        application_request_application_details_model["jars"] = "cos://cloud-object-storage/jars/tests.jar"
         application_request_application_details_model["packages"] = "testString"
         application_request_application_details_model["repositories"] = "testString"
         application_request_application_details_model["files"] = "testString"
         application_request_application_details_model["archives"] = "testString"
         application_request_application_details_model["name"] = "spark-app"
-        application_request_application_details_model[
-            "class"
-        ] = "com.company.path.ClassName"
+        application_request_application_details_model["class"] = "com.company.path.ClassName"
         application_request_application_details_model["arguments"] = [
             "/opt/ibm/spark/examples/src/main/resources/people.txt"
         ]
@@ -1009,19 +917,14 @@ class TestCreateApplication:
         application_details = application_request_application_details_model
 
         # Invoke method
-        response = _service.create_application(
-            instance_id, application_details=application_details, headers={}
-        )
+        response = _service.create_application(instance_id, application_details=application_details, headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 202
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, "utf-8"))
-        assert (
-            req_body["application_details"]
-            == application_request_application_details_model
-        )
+        assert req_body["application_details"] == application_request_application_details_model
 
     def test_create_application_all_params_with_retries(self):
         # Enable retries and run test_create_application_all_params.
@@ -1038,9 +941,7 @@ class TestCreateApplication:
         test_create_application_value_error()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications")
         mock_response = '{"id": "id", "state": "finished"}'
         responses.add(
             responses.POST,
@@ -1060,17 +961,13 @@ class TestCreateApplication:
             "application"
         ] = "/opt/ibm/spark/examples/src/main/python/wordcount.py"
         application_request_application_details_model["runtime"] = runtime_model
-        application_request_application_details_model[
-            "jars"
-        ] = "cos://cloud-object-storage/jars/tests.jar"
+        application_request_application_details_model["jars"] = "cos://cloud-object-storage/jars/tests.jar"
         application_request_application_details_model["packages"] = "testString"
         application_request_application_details_model["repositories"] = "testString"
         application_request_application_details_model["files"] = "testString"
         application_request_application_details_model["archives"] = "testString"
         application_request_application_details_model["name"] = "spark-app"
-        application_request_application_details_model[
-            "class"
-        ] = "com.company.path.ClassName"
+        application_request_application_details_model["class"] = "com.company.path.ClassName"
         application_request_application_details_model["arguments"] = [
             "/opt/ibm/spark/examples/src/main/resources/people.txt"
         ]
@@ -1086,10 +983,7 @@ class TestCreateApplication:
             "instance_id": instance_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_application(**req_copy)
 
@@ -1114,9 +1008,7 @@ class TestListApplications:
         list_applications()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications")
         mock_response = '{"applications": [{"id": "id", "href": "href", "runtime": {"spark_version": "3.1"}, "spark_application_id": "spark_application_id", "spark_application_name": "spark_application_name", "state": "finished", "spark_ui": "spark_ui", "submission_time": "2021-01-30T08:30:00.000Z", "start_time": "2021-01-30T08:30:00.000Z", "end_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z", "auto_termination_time": "2021-01-30T08:30:00.000Z"}]}'
         responses.add(
             responses.GET,
@@ -1156,9 +1048,7 @@ class TestListApplications:
         test_list_applications_required_params()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications")
         mock_response = '{"applications": [{"id": "id", "href": "href", "runtime": {"spark_version": "3.1"}, "spark_application_id": "spark_application_id", "spark_application_name": "spark_application_name", "state": "finished", "spark_ui": "spark_ui", "submission_time": "2021-01-30T08:30:00.000Z", "start_time": "2021-01-30T08:30:00.000Z", "end_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z", "auto_termination_time": "2021-01-30T08:30:00.000Z"}]}'
         responses.add(
             responses.GET,
@@ -1193,9 +1083,7 @@ class TestListApplications:
         test_list_applications_value_error()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications")
         mock_response = '{"applications": [{"id": "id", "href": "href", "runtime": {"spark_version": "3.1"}, "spark_application_id": "spark_application_id", "spark_application_name": "spark_application_name", "state": "finished", "spark_ui": "spark_ui", "submission_time": "2021-01-30T08:30:00.000Z", "start_time": "2021-01-30T08:30:00.000Z", "end_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z", "auto_termination_time": "2021-01-30T08:30:00.000Z"}]}'
         responses.add(
             responses.GET,
@@ -1213,10 +1101,7 @@ class TestListApplications:
             "instance_id": instance_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_applications(**req_copy)
 
@@ -1301,10 +1186,7 @@ class TestGetApplication:
             "application_id": application_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_application(**req_copy)
 
@@ -1375,10 +1257,7 @@ class TestDeleteApplication:
             "application_id": application_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_application(**req_copy)
 
@@ -1420,9 +1299,7 @@ class TestGetApplicationState:
         application_id = "ff48cc19-0e7e-4627-aac6-0b4ad080397b"
 
         # Invoke method
-        response = _service.get_application_state(
-            instance_id, application_id, headers={}
-        )
+        response = _service.get_application_state(instance_id, application_id, headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -1465,10 +1342,7 @@ class TestGetApplicationState:
             "application_id": application_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_application_state(**req_copy)
 
@@ -1493,9 +1367,7 @@ class TestGetCurrentResourceConsumption:
         get_current_resource_consumption()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/current_resource_consumption"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/current_resource_consumption")
         mock_response = '{"cores": "cores", "memory": "memory"}'
         responses.add(
             responses.GET,
@@ -1530,9 +1402,7 @@ class TestGetCurrentResourceConsumption:
         test_get_current_resource_consumption_value_error()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/current_resource_consumption"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/current_resource_consumption")
         mock_response = '{"cores": "cores", "memory": "memory"}'
         responses.add(
             responses.GET,
@@ -1550,10 +1420,7 @@ class TestGetCurrentResourceConsumption:
             "instance_id": instance_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_current_resource_consumption(**req_copy)
 
@@ -1578,9 +1445,7 @@ class TestGetResourceConsumptionLimits:
         get_resource_consumption_limits()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/resource_consumption_limits"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/resource_consumption_limits")
         mock_response = '{"max_cores": "max_cores", "max_memory": "max_memory"}'
         responses.add(
             responses.GET,
@@ -1615,9 +1480,7 @@ class TestGetResourceConsumptionLimits:
         test_get_resource_consumption_limits_value_error()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/resource_consumption_limits"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/resource_consumption_limits")
         mock_response = '{"max_cores": "max_cores", "max_memory": "max_memory"}'
         responses.add(
             responses.GET,
@@ -1635,10 +1498,7 @@ class TestGetResourceConsumptionLimits:
             "instance_id": instance_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_resource_consumption_limits(**req_copy)
 
@@ -1663,10 +1523,10 @@ class TestReplaceLogForwardingConfig:
         replace_log_forwarding_config()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/log_forwarding_config"
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/log_forwarding_config")
+        mock_response = (
+            '{"sources": ["sources"], "tags": ["tags"], "log_server": {"type": "ibm-log-analysis"}, "enabled": true}'
         )
-        mock_response = '{"sources": ["sources"], "tags": ["tags"], "log_server": {"type": "ibm-log-analysis"}, "enabled": true}'
         responses.add(
             responses.PUT,
             url,
@@ -1710,10 +1570,10 @@ class TestReplaceLogForwardingConfig:
         test_replace_log_forwarding_config_value_error()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/log_forwarding_config"
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/log_forwarding_config")
+        mock_response = (
+            '{"sources": ["sources"], "tags": ["tags"], "log_server": {"type": "ibm-log-analysis"}, "enabled": true}'
         )
-        mock_response = '{"sources": ["sources"], "tags": ["tags"], "log_server": {"type": "ibm-log-analysis"}, "enabled": true}'
         responses.add(
             responses.PUT,
             url,
@@ -1733,10 +1593,7 @@ class TestReplaceLogForwardingConfig:
             "instance_id": instance_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.replace_log_forwarding_config(**req_copy)
 
@@ -1761,10 +1618,10 @@ class TestGetLogForwardingConfig:
         get_log_forwarding_config()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/log_forwarding_config"
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/log_forwarding_config")
+        mock_response = (
+            '{"sources": ["sources"], "tags": ["tags"], "log_server": {"type": "ibm-log-analysis"}, "enabled": true}'
         )
-        mock_response = '{"sources": ["sources"], "tags": ["tags"], "log_server": {"type": "ibm-log-analysis"}, "enabled": true}'
         responses.add(
             responses.GET,
             url,
@@ -1798,10 +1655,10 @@ class TestGetLogForwardingConfig:
         test_get_log_forwarding_config_value_error()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/log_forwarding_config"
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/log_forwarding_config")
+        mock_response = (
+            '{"sources": ["sources"], "tags": ["tags"], "log_server": {"type": "ibm-log-analysis"}, "enabled": true}'
         )
-        mock_response = '{"sources": ["sources"], "tags": ["tags"], "log_server": {"type": "ibm-log-analysis"}, "enabled": true}'
         responses.add(
             responses.GET,
             url,
@@ -1818,10 +1675,7 @@ class TestGetLogForwardingConfig:
             "instance_id": instance_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_log_forwarding_config(**req_copy)
 
@@ -1846,9 +1700,7 @@ class TestConfigurePlatformLogging:
         configure_platform_logging()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/logging"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/logging")
         mock_response = '{"components": ["components"], "log_server": {"type": "ibm-log-analysis"}, "enable": true}'
         responses.add(
             responses.PUT,
@@ -1863,9 +1715,7 @@ class TestConfigurePlatformLogging:
         enable = True
 
         # Invoke method
-        response = _service.configure_platform_logging(
-            instance_guid, enable=enable, headers={}
-        )
+        response = _service.configure_platform_logging(instance_guid, enable=enable, headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -1889,9 +1739,7 @@ class TestConfigurePlatformLogging:
         test_configure_platform_logging_value_error()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/logging"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/logging")
         mock_response = '{"components": ["components"], "log_server": {"type": "ibm-log-analysis"}, "enable": true}'
         responses.add(
             responses.PUT,
@@ -1910,10 +1758,7 @@ class TestConfigurePlatformLogging:
             "instance_guid": instance_guid,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.configure_platform_logging(**req_copy)
 
@@ -1938,9 +1783,7 @@ class TestGetLoggingConfiguration:
         get_logging_configuration()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/logging"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/logging")
         mock_response = '{"components": ["components"], "log_server": {"type": "ibm-log-analysis"}, "enable": true}'
         responses.add(
             responses.GET,
@@ -1975,9 +1818,7 @@ class TestGetLoggingConfiguration:
         test_get_logging_configuration_value_error()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/logging"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/logging")
         mock_response = '{"components": ["components"], "log_server": {"type": "ibm-log-analysis"}, "enable": true}'
         responses.add(
             responses.GET,
@@ -1995,10 +1836,7 @@ class TestGetLoggingConfiguration:
             "instance_guid": instance_guid,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_logging_configuration(**req_copy)
 
@@ -2023,9 +1861,7 @@ class TestStartSparkHistoryServer:
         start_spark_history_server()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_history_server"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_history_server")
         mock_response = '{"state": "started", "cores": "1", "memory": "4G", "start_time": "2022-12-02T08:30:00.000Z", "stop_time": "2022-12-02T10:30:00.000Z", "auto_termination_time": "2022-12-05T08:30:00.000Z"}'
         responses.add(
             responses.POST,
@@ -2060,9 +1896,7 @@ class TestStartSparkHistoryServer:
         test_start_spark_history_server_value_error()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_history_server"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_history_server")
         mock_response = '{"state": "started", "cores": "1", "memory": "4G", "start_time": "2022-12-02T08:30:00.000Z", "stop_time": "2022-12-02T10:30:00.000Z", "auto_termination_time": "2022-12-05T08:30:00.000Z"}'
         responses.add(
             responses.POST,
@@ -2080,10 +1914,7 @@ class TestStartSparkHistoryServer:
             "instance_id": instance_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.start_spark_history_server(**req_copy)
 
@@ -2108,9 +1939,7 @@ class TestGetSparkHistoryServer:
         get_spark_history_server()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_history_server"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_history_server")
         mock_response = '{"state": "started", "cores": "1", "memory": "4G", "start_time": "2022-12-02T08:30:00.000Z", "stop_time": "2022-12-02T10:30:00.000Z", "auto_termination_time": "2022-12-05T08:30:00.000Z"}'
         responses.add(
             responses.GET,
@@ -2145,9 +1974,7 @@ class TestGetSparkHistoryServer:
         test_get_spark_history_server_value_error()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_history_server"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_history_server")
         mock_response = '{"state": "started", "cores": "1", "memory": "4G", "start_time": "2022-12-02T08:30:00.000Z", "stop_time": "2022-12-02T10:30:00.000Z", "auto_termination_time": "2022-12-05T08:30:00.000Z"}'
         responses.add(
             responses.GET,
@@ -2165,10 +1992,7 @@ class TestGetSparkHistoryServer:
             "instance_id": instance_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_spark_history_server(**req_copy)
 
@@ -2193,9 +2017,7 @@ class TestStopSparkHistoryServer:
         stop_spark_history_server()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_history_server"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_history_server")
         responses.add(responses.DELETE, url, status=204)
 
         # Set up parameter values
@@ -2223,9 +2045,7 @@ class TestStopSparkHistoryServer:
         test_stop_spark_history_server_value_error()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_history_server"
-        )
+        url = preprocess_url("/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_history_server")
         responses.add(responses.DELETE, url, status=204)
 
         # Set up parameter values
@@ -2236,10 +2056,7 @@ class TestStopSparkHistoryServer:
             "instance_id": instance_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.stop_spark_history_server(**req_copy)
 
@@ -2343,18 +2160,12 @@ class TestModel_ApplicationCollection:
         application_collection_model_json["applications"] = [application_model]
 
         # Construct a model instance of ApplicationCollection by calling from_dict on the json representation
-        application_collection_model = ApplicationCollection.from_dict(
-            application_collection_model_json
-        )
+        application_collection_model = ApplicationCollection.from_dict(application_collection_model_json)
         assert application_collection_model != False
 
         # Construct a model instance of ApplicationCollection by calling from_dict on the json representation
-        application_collection_model_dict = ApplicationCollection.from_dict(
-            application_collection_model_json
-        ).__dict__
-        application_collection_model2 = ApplicationCollection(
-            **application_collection_model_dict
-        )
+        application_collection_model_dict = ApplicationCollection.from_dict(application_collection_model_json).__dict__
+        application_collection_model2 = ApplicationCollection(**application_collection_model_dict)
 
         # Verify the model instances are equivalent
         assert application_collection_model == application_collection_model2
@@ -2381,13 +2192,9 @@ class TestModel_ApplicationDetails:
 
         # Construct a json representation of a ApplicationDetails model
         application_details_model_json = {}
-        application_details_model_json[
-            "application"
-        ] = "cos://bucket_name.my_cos/my_spark_app.py"
+        application_details_model_json["application"] = "cos://bucket_name.my_cos/my_spark_app.py"
         application_details_model_json["runtime"] = runtime_model
-        application_details_model_json[
-            "jars"
-        ] = "cos://cloud-object-storage/jars/tests.jar"
+        application_details_model_json["jars"] = "cos://cloud-object-storage/jars/tests.jar"
         application_details_model_json["packages"] = "testString"
         application_details_model_json["repositories"] = "testString"
         application_details_model_json["files"] = "testString"
@@ -2399,18 +2206,12 @@ class TestModel_ApplicationDetails:
         application_details_model_json["env"] = {"key1": "testString"}
 
         # Construct a model instance of ApplicationDetails by calling from_dict on the json representation
-        application_details_model = ApplicationDetails.from_dict(
-            application_details_model_json
-        )
+        application_details_model = ApplicationDetails.from_dict(application_details_model_json)
         assert application_details_model != False
 
         # Construct a model instance of ApplicationDetails by calling from_dict on the json representation
-        application_details_model_dict = ApplicationDetails.from_dict(
-            application_details_model_json
-        ).__dict__
-        application_details_model2 = ApplicationDetails(
-            **application_details_model_dict
-        )
+        application_details_model_dict = ApplicationDetails.from_dict(application_details_model_json).__dict__
+        application_details_model2 = ApplicationDetails(**application_details_model_dict)
 
         # Verify the model instances are equivalent
         assert application_details_model == application_details_model2
@@ -2436,9 +2237,7 @@ class TestModel_ApplicationGetResponse:
         runtime_model["spark_version"] = "3.1"
 
         application_details_model = {}  # ApplicationDetails
-        application_details_model[
-            "application"
-        ] = "cos://bucket_name.my_cos/my_spark_app.py"
+        application_details_model["application"] = "cos://bucket_name.my_cos/my_spark_app.py"
         application_details_model["runtime"] = runtime_model
         application_details_model["jars"] = "cos://cloud-object-storage/jars/tests.jar"
         application_details_model["packages"] = "testString"
@@ -2451,58 +2250,42 @@ class TestModel_ApplicationGetResponse:
         application_details_model["conf"] = {"key1": "testString"}
         application_details_model["env"] = {"key1": "testString"}
 
-        application_get_response_state_details_item_model = (
-            {}
-        )  # ApplicationGetResponseStateDetailsItem
+        application_get_response_state_details_item_model = {}  # ApplicationGetResponseStateDetailsItem
         application_get_response_state_details_item_model["type"] = "server_error"
         application_get_response_state_details_item_model["code"] = "server_error"
         application_get_response_state_details_item_model["message"] = "testString"
 
         # Construct a json representation of a ApplicationGetResponse model
         application_get_response_model_json = {}
-        application_get_response_model_json[
-            "application_details"
-        ] = application_details_model
-        application_get_response_model_json[
-            "id"
-        ] = "2b83d31c-397b-48ad-ad76-b83347c982db"
+        application_get_response_model_json["application_details"] = application_details_model
+        application_get_response_model_json["id"] = "2b83d31c-397b-48ad-ad76-b83347c982db"
         application_get_response_model_json["spark_application_id"] = "testString"
         application_get_response_model_json["spark_application_name"] = "testString"
         application_get_response_model_json["state"] = "finished"
         application_get_response_model_json["spark_ui"] = "testString"
-        application_get_response_model_json["state_details"] = [
-            application_get_response_state_details_item_model
-        ]
+        application_get_response_model_json["state_details"] = [application_get_response_state_details_item_model]
         application_get_response_model_json["submission_time"] = "2021-01-30T08:30:00Z"
         application_get_response_model_json["start_time"] = "2021-01-30T08:30:00Z"
         application_get_response_model_json["end_time"] = "2021-01-30T08:30:00Z"
         application_get_response_model_json["finish_time"] = "2021-01-30T08:30:00Z"
-        application_get_response_model_json[
-            "auto_termination_time"
-        ] = "2021-01-30T08:30:00Z"
+        application_get_response_model_json["auto_termination_time"] = "2021-01-30T08:30:00Z"
 
         # Construct a model instance of ApplicationGetResponse by calling from_dict on the json representation
-        application_get_response_model = ApplicationGetResponse.from_dict(
-            application_get_response_model_json
-        )
+        application_get_response_model = ApplicationGetResponse.from_dict(application_get_response_model_json)
         assert application_get_response_model != False
 
         # Construct a model instance of ApplicationGetResponse by calling from_dict on the json representation
         application_get_response_model_dict = ApplicationGetResponse.from_dict(
             application_get_response_model_json
         ).__dict__
-        application_get_response_model2 = ApplicationGetResponse(
-            **application_get_response_model_dict
-        )
+        application_get_response_model2 = ApplicationGetResponse(**application_get_response_model_dict)
 
         # Verify the model instances are equivalent
         assert application_get_response_model == application_get_response_model2
 
         # Convert model instance back to dict and verify no loss of data
         application_get_response_model_json2 = application_get_response_model.to_dict()
-        assert (
-            application_get_response_model_json2 == application_get_response_model_json
-        )
+        assert application_get_response_model_json2 == application_get_response_model_json
 
 
 class TestModel_ApplicationGetResponseStateDetailsItem:
@@ -2522,30 +2305,21 @@ class TestModel_ApplicationGetResponseStateDetailsItem:
         application_get_response_state_details_item_model_json["message"] = "testString"
 
         # Construct a model instance of ApplicationGetResponseStateDetailsItem by calling from_dict on the json representation
-        application_get_response_state_details_item_model = (
-            ApplicationGetResponseStateDetailsItem.from_dict(
-                application_get_response_state_details_item_model_json
-            )
+        application_get_response_state_details_item_model = ApplicationGetResponseStateDetailsItem.from_dict(
+            application_get_response_state_details_item_model_json
         )
         assert application_get_response_state_details_item_model != False
 
         # Construct a model instance of ApplicationGetResponseStateDetailsItem by calling from_dict on the json representation
-        application_get_response_state_details_item_model_dict = (
-            ApplicationGetResponseStateDetailsItem.from_dict(
-                application_get_response_state_details_item_model_json
-            ).__dict__
-        )
-        application_get_response_state_details_item_model2 = (
-            ApplicationGetResponseStateDetailsItem(
-                **application_get_response_state_details_item_model_dict
-            )
+        application_get_response_state_details_item_model_dict = ApplicationGetResponseStateDetailsItem.from_dict(
+            application_get_response_state_details_item_model_json
+        ).__dict__
+        application_get_response_state_details_item_model2 = ApplicationGetResponseStateDetailsItem(
+            **application_get_response_state_details_item_model_dict
         )
 
         # Verify the model instances are equivalent
-        assert (
-            application_get_response_state_details_item_model
-            == application_get_response_state_details_item_model2
-        )
+        assert application_get_response_state_details_item_model == application_get_response_state_details_item_model2
 
         # Convert model instance back to dict and verify no loss of data
         application_get_response_state_details_item_model_json2 = (
@@ -2573,12 +2347,8 @@ class TestModel_ApplicationGetStateResponse:
         application_get_state_response_model_json["state"] = "finished"
         application_get_state_response_model_json["start_time"] = "2021-01-30T08:30:00Z"
         application_get_state_response_model_json["end_time"] = "2021-01-30T08:30:00Z"
-        application_get_state_response_model_json[
-            "finish_time"
-        ] = "2021-01-30T08:30:00Z"
-        application_get_state_response_model_json[
-            "auto_termination_time"
-        ] = "2021-01-30T08:30:00Z"
+        application_get_state_response_model_json["finish_time"] = "2021-01-30T08:30:00Z"
+        application_get_state_response_model_json["auto_termination_time"] = "2021-01-30T08:30:00Z"
 
         # Construct a model instance of ApplicationGetStateResponse by calling from_dict on the json representation
         application_get_state_response_model = ApplicationGetStateResponse.from_dict(
@@ -2587,29 +2357,17 @@ class TestModel_ApplicationGetStateResponse:
         assert application_get_state_response_model != False
 
         # Construct a model instance of ApplicationGetStateResponse by calling from_dict on the json representation
-        application_get_state_response_model_dict = (
-            ApplicationGetStateResponse.from_dict(
-                application_get_state_response_model_json
-            ).__dict__
-        )
-        application_get_state_response_model2 = ApplicationGetStateResponse(
-            **application_get_state_response_model_dict
-        )
+        application_get_state_response_model_dict = ApplicationGetStateResponse.from_dict(
+            application_get_state_response_model_json
+        ).__dict__
+        application_get_state_response_model2 = ApplicationGetStateResponse(**application_get_state_response_model_dict)
 
         # Verify the model instances are equivalent
-        assert (
-            application_get_state_response_model
-            == application_get_state_response_model2
-        )
+        assert application_get_state_response_model == application_get_state_response_model2
 
         # Convert model instance back to dict and verify no loss of data
-        application_get_state_response_model_json2 = (
-            application_get_state_response_model.to_dict()
-        )
-        assert (
-            application_get_state_response_model_json2
-            == application_get_state_response_model_json
-        )
+        application_get_state_response_model_json2 = application_get_state_response_model.to_dict()
+        assert application_get_state_response_model_json2 == application_get_state_response_model_json
 
 
 class TestModel_ApplicationRequestApplicationDetails:
@@ -2629,67 +2387,39 @@ class TestModel_ApplicationRequestApplicationDetails:
 
         # Construct a json representation of a ApplicationRequestApplicationDetails model
         application_request_application_details_model_json = {}
-        application_request_application_details_model_json[
-            "application"
-        ] = "cos://bucket_name.my_cos/my_spark_app.py"
+        application_request_application_details_model_json["application"] = "cos://bucket_name.my_cos/my_spark_app.py"
         application_request_application_details_model_json["runtime"] = runtime_model
-        application_request_application_details_model_json[
-            "jars"
-        ] = "cos://cloud-object-storage/jars/tests.jar"
+        application_request_application_details_model_json["jars"] = "cos://cloud-object-storage/jars/tests.jar"
         application_request_application_details_model_json["packages"] = "testString"
-        application_request_application_details_model_json[
-            "repositories"
-        ] = "testString"
+        application_request_application_details_model_json["repositories"] = "testString"
         application_request_application_details_model_json["files"] = "testString"
         application_request_application_details_model_json["archives"] = "testString"
         application_request_application_details_model_json["name"] = "spark-app"
-        application_request_application_details_model_json[
-            "class"
-        ] = "com.company.path.ClassName"
-        application_request_application_details_model_json["arguments"] = [
-            "[arg1, arg2, arg3]"
-        ]
-        application_request_application_details_model_json["conf"] = {
-            "key1": "testString"
-        }
-        application_request_application_details_model_json["env"] = {
-            "key1": "testString"
-        }
+        application_request_application_details_model_json["class"] = "com.company.path.ClassName"
+        application_request_application_details_model_json["arguments"] = ["[arg1, arg2, arg3]"]
+        application_request_application_details_model_json["conf"] = {"key1": "testString"}
+        application_request_application_details_model_json["env"] = {"key1": "testString"}
 
         # Construct a model instance of ApplicationRequestApplicationDetails by calling from_dict on the json representation
-        application_request_application_details_model = (
-            ApplicationRequestApplicationDetails.from_dict(
-                application_request_application_details_model_json
-            )
+        application_request_application_details_model = ApplicationRequestApplicationDetails.from_dict(
+            application_request_application_details_model_json
         )
         assert application_request_application_details_model != False
 
         # Construct a model instance of ApplicationRequestApplicationDetails by calling from_dict on the json representation
-        application_request_application_details_model_dict = (
-            ApplicationRequestApplicationDetails.from_dict(
-                application_request_application_details_model_json
-            ).__dict__
-        )
-        application_request_application_details_model2 = (
-            ApplicationRequestApplicationDetails(
-                **application_request_application_details_model_dict
-            )
+        application_request_application_details_model_dict = ApplicationRequestApplicationDetails.from_dict(
+            application_request_application_details_model_json
+        ).__dict__
+        application_request_application_details_model2 = ApplicationRequestApplicationDetails(
+            **application_request_application_details_model_dict
         )
 
         # Verify the model instances are equivalent
-        assert (
-            application_request_application_details_model
-            == application_request_application_details_model2
-        )
+        assert application_request_application_details_model == application_request_application_details_model2
 
         # Convert model instance back to dict and verify no loss of data
-        application_request_application_details_model_json2 = (
-            application_request_application_details_model.to_dict()
-        )
-        assert (
-            application_request_application_details_model_json2
-            == application_request_application_details_model_json
-        )
+        application_request_application_details_model_json2 = application_request_application_details_model.to_dict()
+        assert application_request_application_details_model_json2 == application_request_application_details_model_json
 
 
 class TestModel_ApplicationResponse:
@@ -2708,18 +2438,12 @@ class TestModel_ApplicationResponse:
         application_response_model_json["state"] = "finished"
 
         # Construct a model instance of ApplicationResponse by calling from_dict on the json representation
-        application_response_model = ApplicationResponse.from_dict(
-            application_response_model_json
-        )
+        application_response_model = ApplicationResponse.from_dict(application_response_model_json)
         assert application_response_model != False
 
         # Construct a model instance of ApplicationResponse by calling from_dict on the json representation
-        application_response_model_dict = ApplicationResponse.from_dict(
-            application_response_model_json
-        ).__dict__
-        application_response_model2 = ApplicationResponse(
-            **application_response_model_dict
-        )
+        application_response_model_dict = ApplicationResponse.from_dict(application_response_model_json).__dict__
+        application_response_model2 = ApplicationResponse(**application_response_model_dict)
 
         # Verify the model instances are equivalent
         assert application_response_model == application_response_model2
@@ -2745,39 +2469,25 @@ class TestModel_CurrentResourceConsumptionResponse:
         current_resource_consumption_response_model_json["memory"] = "testString"
 
         # Construct a model instance of CurrentResourceConsumptionResponse by calling from_dict on the json representation
-        current_resource_consumption_response_model = (
-            CurrentResourceConsumptionResponse.from_dict(
-                current_resource_consumption_response_model_json
-            )
+        current_resource_consumption_response_model = CurrentResourceConsumptionResponse.from_dict(
+            current_resource_consumption_response_model_json
         )
         assert current_resource_consumption_response_model != False
 
         # Construct a model instance of CurrentResourceConsumptionResponse by calling from_dict on the json representation
-        current_resource_consumption_response_model_dict = (
-            CurrentResourceConsumptionResponse.from_dict(
-                current_resource_consumption_response_model_json
-            ).__dict__
-        )
-        current_resource_consumption_response_model2 = (
-            CurrentResourceConsumptionResponse(
-                **current_resource_consumption_response_model_dict
-            )
+        current_resource_consumption_response_model_dict = CurrentResourceConsumptionResponse.from_dict(
+            current_resource_consumption_response_model_json
+        ).__dict__
+        current_resource_consumption_response_model2 = CurrentResourceConsumptionResponse(
+            **current_resource_consumption_response_model_dict
         )
 
         # Verify the model instances are equivalent
-        assert (
-            current_resource_consumption_response_model
-            == current_resource_consumption_response_model2
-        )
+        assert current_resource_consumption_response_model == current_resource_consumption_response_model2
 
         # Convert model instance back to dict and verify no loss of data
-        current_resource_consumption_response_model_json2 = (
-            current_resource_consumption_response_model.to_dict()
-        )
-        assert (
-            current_resource_consumption_response_model_json2
-            == current_resource_consumption_response_model_json
-        )
+        current_resource_consumption_response_model_json2 = current_resource_consumption_response_model.to_dict()
+        assert current_resource_consumption_response_model_json2 == current_resource_consumption_response_model_json
 
 
 class TestModel_Instance:
@@ -2849,18 +2559,14 @@ class TestModel_InstanceDefaultConfig:
         instance_default_config_model_json["key"] = "testString"
 
         # Construct a model instance of InstanceDefaultConfig by calling from_dict on the json representation
-        instance_default_config_model = InstanceDefaultConfig.from_dict(
-            instance_default_config_model_json
-        )
+        instance_default_config_model = InstanceDefaultConfig.from_dict(instance_default_config_model_json)
         assert instance_default_config_model != False
 
         # Construct a model instance of InstanceDefaultConfig by calling from_dict on the json representation
         instance_default_config_model_dict = InstanceDefaultConfig.from_dict(
             instance_default_config_model_json
         ).__dict__
-        instance_default_config_model2 = InstanceDefaultConfig(
-            **instance_default_config_model_dict
-        )
+        instance_default_config_model2 = InstanceDefaultConfig(**instance_default_config_model_dict)
 
         # Verify the model instances are equivalent
         assert instance_default_config_model == instance_default_config_model2
@@ -2886,30 +2592,21 @@ class TestModel_InstanceGetStateResponse:
         instance_get_state_response_model_json["state"] = "creation_accepted"
 
         # Construct a model instance of InstanceGetStateResponse by calling from_dict on the json representation
-        instance_get_state_response_model = InstanceGetStateResponse.from_dict(
-            instance_get_state_response_model_json
-        )
+        instance_get_state_response_model = InstanceGetStateResponse.from_dict(instance_get_state_response_model_json)
         assert instance_get_state_response_model != False
 
         # Construct a model instance of InstanceGetStateResponse by calling from_dict on the json representation
         instance_get_state_response_model_dict = InstanceGetStateResponse.from_dict(
             instance_get_state_response_model_json
         ).__dict__
-        instance_get_state_response_model2 = InstanceGetStateResponse(
-            **instance_get_state_response_model_dict
-        )
+        instance_get_state_response_model2 = InstanceGetStateResponse(**instance_get_state_response_model_dict)
 
         # Verify the model instances are equivalent
         assert instance_get_state_response_model == instance_get_state_response_model2
 
         # Convert model instance back to dict and verify no loss of data
-        instance_get_state_response_model_json2 = (
-            instance_get_state_response_model.to_dict()
-        )
-        assert (
-            instance_get_state_response_model_json2
-            == instance_get_state_response_model_json
-        )
+        instance_get_state_response_model_json2 = instance_get_state_response_model.to_dict()
+        assert instance_get_state_response_model_json2 == instance_get_state_response_model_json
 
 
 class TestModel_InstanceHome:
@@ -2938,9 +2635,7 @@ class TestModel_InstanceHome:
         assert instance_home_model != False
 
         # Construct a model instance of InstanceHome by calling from_dict on the json representation
-        instance_home_model_dict = InstanceHome.from_dict(
-            instance_home_model_json
-        ).__dict__
+        instance_home_model_dict = InstanceHome.from_dict(instance_home_model_json).__dict__
         instance_home_model2 = InstanceHome(**instance_home_model_dict)
 
         # Verify the model instances are equivalent
@@ -2972,18 +2667,12 @@ class TestModel_InstanceHomeResponse:
         instance_home_response_model_json["hmac_secret_key"] = "testString"
 
         # Construct a model instance of InstanceHomeResponse by calling from_dict on the json representation
-        instance_home_response_model = InstanceHomeResponse.from_dict(
-            instance_home_response_model_json
-        )
+        instance_home_response_model = InstanceHomeResponse.from_dict(instance_home_response_model_json)
         assert instance_home_response_model != False
 
         # Construct a model instance of InstanceHomeResponse by calling from_dict on the json representation
-        instance_home_response_model_dict = InstanceHomeResponse.from_dict(
-            instance_home_response_model_json
-        ).__dict__
-        instance_home_response_model2 = InstanceHomeResponse(
-            **instance_home_response_model_dict
-        )
+        instance_home_response_model_dict = InstanceHomeResponse.from_dict(instance_home_response_model_json).__dict__
+        instance_home_response_model2 = InstanceHomeResponse(**instance_home_response_model_dict)
 
         # Verify the model instances are equivalent
         assert instance_home_response_model == instance_home_response_model2
@@ -3005,9 +2694,7 @@ class TestModel_LogForwardingConfigResponse:
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        log_forwarding_config_response_log_server_model = (
-            {}
-        )  # LogForwardingConfigResponseLogServer
+        log_forwarding_config_response_log_server_model = {}  # LogForwardingConfigResponseLogServer
         log_forwarding_config_response_log_server_model["type"] = "ibm-log-analysis"
 
         # Construct a json representation of a LogForwardingConfigResponse model
@@ -3017,9 +2704,7 @@ class TestModel_LogForwardingConfigResponse:
             "spark-executor",
         ]
         log_forwarding_config_response_model_json["tags"] = ["prod", "us-south"]
-        log_forwarding_config_response_model_json[
-            "log_server"
-        ] = log_forwarding_config_response_log_server_model
+        log_forwarding_config_response_model_json["log_server"] = log_forwarding_config_response_log_server_model
         log_forwarding_config_response_model_json["enabled"] = True
 
         # Construct a model instance of LogForwardingConfigResponse by calling from_dict on the json representation
@@ -3029,29 +2714,17 @@ class TestModel_LogForwardingConfigResponse:
         assert log_forwarding_config_response_model != False
 
         # Construct a model instance of LogForwardingConfigResponse by calling from_dict on the json representation
-        log_forwarding_config_response_model_dict = (
-            LogForwardingConfigResponse.from_dict(
-                log_forwarding_config_response_model_json
-            ).__dict__
-        )
-        log_forwarding_config_response_model2 = LogForwardingConfigResponse(
-            **log_forwarding_config_response_model_dict
-        )
+        log_forwarding_config_response_model_dict = LogForwardingConfigResponse.from_dict(
+            log_forwarding_config_response_model_json
+        ).__dict__
+        log_forwarding_config_response_model2 = LogForwardingConfigResponse(**log_forwarding_config_response_model_dict)
 
         # Verify the model instances are equivalent
-        assert (
-            log_forwarding_config_response_model
-            == log_forwarding_config_response_model2
-        )
+        assert log_forwarding_config_response_model == log_forwarding_config_response_model2
 
         # Convert model instance back to dict and verify no loss of data
-        log_forwarding_config_response_model_json2 = (
-            log_forwarding_config_response_model.to_dict()
-        )
-        assert (
-            log_forwarding_config_response_model_json2
-            == log_forwarding_config_response_model_json
-        )
+        log_forwarding_config_response_model_json2 = log_forwarding_config_response_model.to_dict()
+        assert log_forwarding_config_response_model_json2 == log_forwarding_config_response_model_json
 
 
 class TestModel_LogForwardingConfigResponseLogServer:
@@ -3066,35 +2739,24 @@ class TestModel_LogForwardingConfigResponseLogServer:
 
         # Construct a json representation of a LogForwardingConfigResponseLogServer model
         log_forwarding_config_response_log_server_model_json = {}
-        log_forwarding_config_response_log_server_model_json[
-            "type"
-        ] = "ibm-log-analysis"
+        log_forwarding_config_response_log_server_model_json["type"] = "ibm-log-analysis"
 
         # Construct a model instance of LogForwardingConfigResponseLogServer by calling from_dict on the json representation
-        log_forwarding_config_response_log_server_model = (
-            LogForwardingConfigResponseLogServer.from_dict(
-                log_forwarding_config_response_log_server_model_json
-            )
+        log_forwarding_config_response_log_server_model = LogForwardingConfigResponseLogServer.from_dict(
+            log_forwarding_config_response_log_server_model_json
         )
         assert log_forwarding_config_response_log_server_model != False
 
         # Construct a model instance of LogForwardingConfigResponseLogServer by calling from_dict on the json representation
-        log_forwarding_config_response_log_server_model_dict = (
-            LogForwardingConfigResponseLogServer.from_dict(
-                log_forwarding_config_response_log_server_model_json
-            ).__dict__
-        )
-        log_forwarding_config_response_log_server_model2 = (
-            LogForwardingConfigResponseLogServer(
-                **log_forwarding_config_response_log_server_model_dict
-            )
+        log_forwarding_config_response_log_server_model_dict = LogForwardingConfigResponseLogServer.from_dict(
+            log_forwarding_config_response_log_server_model_json
+        ).__dict__
+        log_forwarding_config_response_log_server_model2 = LogForwardingConfigResponseLogServer(
+            **log_forwarding_config_response_log_server_model_dict
         )
 
         # Verify the model instances are equivalent
-        assert (
-            log_forwarding_config_response_log_server_model
-            == log_forwarding_config_response_log_server_model2
-        )
+        assert log_forwarding_config_response_log_server_model == log_forwarding_config_response_log_server_model2
 
         # Convert model instance back to dict and verify no loss of data
         log_forwarding_config_response_log_server_model_json2 = (
@@ -3118,9 +2780,7 @@ class TestModel_LoggingConfigurationResponse:
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        logging_configuration_response_log_server_model = (
-            {}
-        )  # LoggingConfigurationResponseLogServer
+        logging_configuration_response_log_server_model = {}  # LoggingConfigurationResponseLogServer
         logging_configuration_response_log_server_model["type"] = "ibm-log-analysis"
 
         # Construct a json representation of a LoggingConfigurationResponse model
@@ -3129,9 +2789,7 @@ class TestModel_LoggingConfigurationResponse:
             "spark-driver",
             "spark-executor",
         ]
-        logging_configuration_response_model_json[
-            "log_server"
-        ] = logging_configuration_response_log_server_model
+        logging_configuration_response_model_json["log_server"] = logging_configuration_response_log_server_model
         logging_configuration_response_model_json["enable"] = True
 
         # Construct a model instance of LoggingConfigurationResponse by calling from_dict on the json representation
@@ -3141,29 +2799,19 @@ class TestModel_LoggingConfigurationResponse:
         assert logging_configuration_response_model != False
 
         # Construct a model instance of LoggingConfigurationResponse by calling from_dict on the json representation
-        logging_configuration_response_model_dict = (
-            LoggingConfigurationResponse.from_dict(
-                logging_configuration_response_model_json
-            ).__dict__
-        )
+        logging_configuration_response_model_dict = LoggingConfigurationResponse.from_dict(
+            logging_configuration_response_model_json
+        ).__dict__
         logging_configuration_response_model2 = LoggingConfigurationResponse(
             **logging_configuration_response_model_dict
         )
 
         # Verify the model instances are equivalent
-        assert (
-            logging_configuration_response_model
-            == logging_configuration_response_model2
-        )
+        assert logging_configuration_response_model == logging_configuration_response_model2
 
         # Convert model instance back to dict and verify no loss of data
-        logging_configuration_response_model_json2 = (
-            logging_configuration_response_model.to_dict()
-        )
-        assert (
-            logging_configuration_response_model_json2
-            == logging_configuration_response_model_json
-        )
+        logging_configuration_response_model_json2 = logging_configuration_response_model.to_dict()
+        assert logging_configuration_response_model_json2 == logging_configuration_response_model_json
 
 
 class TestModel_LoggingConfigurationResponseLogServer:
@@ -3178,35 +2826,24 @@ class TestModel_LoggingConfigurationResponseLogServer:
 
         # Construct a json representation of a LoggingConfigurationResponseLogServer model
         logging_configuration_response_log_server_model_json = {}
-        logging_configuration_response_log_server_model_json[
-            "type"
-        ] = "ibm-log-analysis"
+        logging_configuration_response_log_server_model_json["type"] = "ibm-log-analysis"
 
         # Construct a model instance of LoggingConfigurationResponseLogServer by calling from_dict on the json representation
-        logging_configuration_response_log_server_model = (
-            LoggingConfigurationResponseLogServer.from_dict(
-                logging_configuration_response_log_server_model_json
-            )
+        logging_configuration_response_log_server_model = LoggingConfigurationResponseLogServer.from_dict(
+            logging_configuration_response_log_server_model_json
         )
         assert logging_configuration_response_log_server_model != False
 
         # Construct a model instance of LoggingConfigurationResponseLogServer by calling from_dict on the json representation
-        logging_configuration_response_log_server_model_dict = (
-            LoggingConfigurationResponseLogServer.from_dict(
-                logging_configuration_response_log_server_model_json
-            ).__dict__
-        )
-        logging_configuration_response_log_server_model2 = (
-            LoggingConfigurationResponseLogServer(
-                **logging_configuration_response_log_server_model_dict
-            )
+        logging_configuration_response_log_server_model_dict = LoggingConfigurationResponseLogServer.from_dict(
+            logging_configuration_response_log_server_model_json
+        ).__dict__
+        logging_configuration_response_log_server_model2 = LoggingConfigurationResponseLogServer(
+            **logging_configuration_response_log_server_model_dict
         )
 
         # Verify the model instances are equivalent
-        assert (
-            logging_configuration_response_log_server_model
-            == logging_configuration_response_log_server_model2
-        )
+        assert logging_configuration_response_log_server_model == logging_configuration_response_log_server_model2
 
         # Convert model instance back to dict and verify no loss of data
         logging_configuration_response_log_server_model_json2 = (
@@ -3234,37 +2871,25 @@ class TestModel_ResourceConsumptionLimitsResponse:
         resource_consumption_limits_response_model_json["max_memory"] = "testString"
 
         # Construct a model instance of ResourceConsumptionLimitsResponse by calling from_dict on the json representation
-        resource_consumption_limits_response_model = (
-            ResourceConsumptionLimitsResponse.from_dict(
-                resource_consumption_limits_response_model_json
-            )
+        resource_consumption_limits_response_model = ResourceConsumptionLimitsResponse.from_dict(
+            resource_consumption_limits_response_model_json
         )
         assert resource_consumption_limits_response_model != False
 
         # Construct a model instance of ResourceConsumptionLimitsResponse by calling from_dict on the json representation
-        resource_consumption_limits_response_model_dict = (
-            ResourceConsumptionLimitsResponse.from_dict(
-                resource_consumption_limits_response_model_json
-            ).__dict__
-        )
+        resource_consumption_limits_response_model_dict = ResourceConsumptionLimitsResponse.from_dict(
+            resource_consumption_limits_response_model_json
+        ).__dict__
         resource_consumption_limits_response_model2 = ResourceConsumptionLimitsResponse(
             **resource_consumption_limits_response_model_dict
         )
 
         # Verify the model instances are equivalent
-        assert (
-            resource_consumption_limits_response_model
-            == resource_consumption_limits_response_model2
-        )
+        assert resource_consumption_limits_response_model == resource_consumption_limits_response_model2
 
         # Convert model instance back to dict and verify no loss of data
-        resource_consumption_limits_response_model_json2 = (
-            resource_consumption_limits_response_model.to_dict()
-        )
-        assert (
-            resource_consumption_limits_response_model_json2
-            == resource_consumption_limits_response_model_json
-        )
+        resource_consumption_limits_response_model_json2 = resource_consumption_limits_response_model.to_dict()
+        assert resource_consumption_limits_response_model_json2 == resource_consumption_limits_response_model_json
 
 
 class TestModel_Runtime:
@@ -3314,9 +2939,7 @@ class TestModel_SparkHistoryServerResponse:
         spark_history_server_response_model_json["memory"] = "4G"
         spark_history_server_response_model_json["start_time"] = "2022-12-02T08:30:00Z"
         spark_history_server_response_model_json["stop_time"] = "2022-12-02T10:30:00Z"
-        spark_history_server_response_model_json[
-            "auto_termination_time"
-        ] = "2022-12-05T08:30:00Z"
+        spark_history_server_response_model_json["auto_termination_time"] = "2022-12-05T08:30:00Z"
 
         # Construct a model instance of SparkHistoryServerResponse by calling from_dict on the json representation
         spark_history_server_response_model = SparkHistoryServerResponse.from_dict(
@@ -3328,23 +2951,14 @@ class TestModel_SparkHistoryServerResponse:
         spark_history_server_response_model_dict = SparkHistoryServerResponse.from_dict(
             spark_history_server_response_model_json
         ).__dict__
-        spark_history_server_response_model2 = SparkHistoryServerResponse(
-            **spark_history_server_response_model_dict
-        )
+        spark_history_server_response_model2 = SparkHistoryServerResponse(**spark_history_server_response_model_dict)
 
         # Verify the model instances are equivalent
-        assert (
-            spark_history_server_response_model == spark_history_server_response_model2
-        )
+        assert spark_history_server_response_model == spark_history_server_response_model2
 
         # Convert model instance back to dict and verify no loss of data
-        spark_history_server_response_model_json2 = (
-            spark_history_server_response_model.to_dict()
-        )
-        assert (
-            spark_history_server_response_model_json2
-            == spark_history_server_response_model_json
-        )
+        spark_history_server_response_model_json2 = spark_history_server_response_model.to_dict()
+        assert spark_history_server_response_model_json2 == spark_history_server_response_model_json
 
 
 # endregion

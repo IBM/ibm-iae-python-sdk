@@ -191,10 +191,7 @@ class TestGetAnalyticsEngineById:
             "instance_guid": instance_guid,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_analytics_engine_by_id(**req_copy)
 
@@ -272,10 +269,7 @@ class TestGetAnalyticsEngineStateById:
             "instance_guid": instance_guid,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_analytics_engine_state_by_id(**req_copy)
 
@@ -320,9 +314,7 @@ class TestCreateCustomizationRequest:
         analytics_engine_custom_action_model = {}
         analytics_engine_custom_action_model["name"] = "testString"
         analytics_engine_custom_action_model["type"] = "bootstrap"
-        analytics_engine_custom_action_model[
-            "script"
-        ] = analytics_engine_custom_action_script_model
+        analytics_engine_custom_action_model["script"] = analytics_engine_custom_action_script_model
         analytics_engine_custom_action_model["script_params"] = ["testString"]
 
         # Set up parameter values
@@ -331,9 +323,7 @@ class TestCreateCustomizationRequest:
         custom_actions = [analytics_engine_custom_action_model]
 
         # Invoke method
-        response = _service.create_customization_request(
-            instance_guid, target, custom_actions, headers={}
-        )
+        response = _service.create_customization_request(instance_guid, target, custom_actions, headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -378,9 +368,7 @@ class TestCreateCustomizationRequest:
         analytics_engine_custom_action_model = {}
         analytics_engine_custom_action_model["name"] = "testString"
         analytics_engine_custom_action_model["type"] = "bootstrap"
-        analytics_engine_custom_action_model[
-            "script"
-        ] = analytics_engine_custom_action_script_model
+        analytics_engine_custom_action_model["script"] = analytics_engine_custom_action_script_model
         analytics_engine_custom_action_model["script_params"] = ["testString"]
 
         # Set up parameter values
@@ -395,10 +383,7 @@ class TestCreateCustomizationRequest:
             "custom_actions": custom_actions,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_customization_request(**req_copy)
 
@@ -476,10 +461,7 @@ class TestGetAllCustomizationRequests:
             "instance_guid": instance_guid,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_all_customization_requests(**req_copy)
 
@@ -504,9 +486,7 @@ class TestGetCustomizationRequestById:
         get_customization_request_by_id()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v2/analytics_engines/testString/customization_requests/testString"
-        )
+        url = preprocess_url("/v2/analytics_engines/testString/customization_requests/testString")
         mock_response = '{"id": "id", "run_status": "run_status", "run_details": {"overall_status": "overall_status", "details": [{"node_name": "node_name", "node_type": "node_type", "start_time": "start_time", "end_time": "end_time", "time_taken": "time_taken", "status": "status", "log_file": "log_file"}]}}'
         responses.add(
             responses.GET,
@@ -521,9 +501,7 @@ class TestGetCustomizationRequestById:
         request_id = "testString"
 
         # Invoke method
-        response = _service.get_customization_request_by_id(
-            instance_guid, request_id, headers={}
-        )
+        response = _service.get_customization_request_by_id(instance_guid, request_id, headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -544,9 +522,7 @@ class TestGetCustomizationRequestById:
         test_get_customization_request_by_id_value_error()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v2/analytics_engines/testString/customization_requests/testString"
-        )
+        url = preprocess_url("/v2/analytics_engines/testString/customization_requests/testString")
         mock_response = '{"id": "id", "run_status": "run_status", "run_details": {"overall_status": "overall_status", "details": [{"node_name": "node_name", "node_type": "node_type", "start_time": "start_time", "end_time": "end_time", "time_taken": "time_taken", "status": "status", "log_file": "log_file"}]}}'
         responses.add(
             responses.GET,
@@ -566,10 +542,7 @@ class TestGetCustomizationRequestById:
             "request_id": request_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_customization_request_by_id(**req_copy)
 
@@ -661,10 +634,7 @@ class TestResizeCluster:
             "body": body,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.resize_cluster(**req_copy)
 
@@ -690,9 +660,7 @@ class TestResetClusterPassword:
         """
         # Set up mock
         url = preprocess_url("/v2/analytics_engines/testString/reset_password")
-        mock_response = (
-            '{"id": "id", "user_credentials": {"user": "user", "password": "password"}}'
-        )
+        mock_response = '{"id": "id", "user_credentials": {"user": "user", "password": "password"}}'
         responses.add(
             responses.POST,
             url,
@@ -727,9 +695,7 @@ class TestResetClusterPassword:
         """
         # Set up mock
         url = preprocess_url("/v2/analytics_engines/testString/reset_password")
-        mock_response = (
-            '{"id": "id", "user_credentials": {"user": "user", "password": "password"}}'
-        )
+        mock_response = '{"id": "id", "user_credentials": {"user": "user", "password": "password"}}'
         responses.add(
             responses.POST,
             url,
@@ -746,10 +712,7 @@ class TestResetClusterPassword:
             "instance_guid": instance_guid,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.reset_cluster_password(**req_copy)
 
@@ -796,9 +759,7 @@ class TestConfigureLogging:
         log_server = analytics_engine_logging_server_model
 
         # Invoke method
-        response = _service.configure_logging(
-            instance_guid, log_specs, log_server, headers={}
-        )
+        response = _service.configure_logging(instance_guid, log_specs, log_server, headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -851,10 +812,7 @@ class TestConfigureLogging:
             "log_server": log_server,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.configure_logging(**req_copy)
 
@@ -932,10 +890,7 @@ class TestGetLoggingConfig:
             "instance_guid": instance_guid,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_logging_config(**req_copy)
 
@@ -999,10 +954,7 @@ class TestDeleteLoggingConfig:
             "instance_guid": instance_guid,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_logging_config(**req_copy)
 
@@ -1027,9 +979,7 @@ class TestUpdatePrivateEndpointWhitelist:
         update_private_endpoint_whitelist()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v2/analytics_engines/testString/private_endpoint_whitelist"
-        )
+        url = preprocess_url("/v2/analytics_engines/testString/private_endpoint_whitelist")
         mock_response = '{"private_endpoint_whitelist": ["private_endpoint_whitelist"]}'
         responses.add(
             responses.PATCH,
@@ -1045,9 +995,7 @@ class TestUpdatePrivateEndpointWhitelist:
         action = "add"
 
         # Invoke method
-        response = _service.update_private_endpoint_whitelist(
-            instance_guid, ip_ranges, action, headers={}
-        )
+        response = _service.update_private_endpoint_whitelist(instance_guid, ip_ranges, action, headers={})
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -1072,9 +1020,7 @@ class TestUpdatePrivateEndpointWhitelist:
         test_update_private_endpoint_whitelist_value_error()
         """
         # Set up mock
-        url = preprocess_url(
-            "/v2/analytics_engines/testString/private_endpoint_whitelist"
-        )
+        url = preprocess_url("/v2/analytics_engines/testString/private_endpoint_whitelist")
         mock_response = '{"private_endpoint_whitelist": ["private_endpoint_whitelist"]}'
         responses.add(
             responses.PATCH,
@@ -1096,10 +1042,7 @@ class TestUpdatePrivateEndpointWhitelist:
             "action": action,
         }
         for param in req_param_dict.keys():
-            req_copy = {
-                key: val if key is not param else None
-                for (key, val) in req_param_dict.items()
-            }
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.update_private_endpoint_whitelist(**req_copy)
 
@@ -1142,9 +1085,7 @@ class TestModel_AnalyticsEngine:
         analytics_engine_cluster_node_model["state"] = "testString"
         analytics_engine_cluster_node_model["public_ip"] = "testString"
         analytics_engine_cluster_node_model["private_ip"] = "testString"
-        analytics_engine_cluster_node_model[
-            "state_change_time"
-        ] = "2019-01-01T12:00:00Z"
+        analytics_engine_cluster_node_model["state_change_time"] = "2019-01-01T12:00:00Z"
         analytics_engine_cluster_node_model["commission_time"] = "2019-01-01T12:00:00Z"
 
         analytics_engine_user_credentials_model = {}  # AnalyticsEngineUserCredentials
@@ -1178,9 +1119,7 @@ class TestModel_AnalyticsEngine:
         analytics_engine_model_json["state_change_time"] = "2019-01-01T12:00:00Z"
         analytics_engine_model_json["state"] = "testString"
         analytics_engine_model_json["nodes"] = [analytics_engine_cluster_node_model]
-        analytics_engine_model_json[
-            "user_credentials"
-        ] = analytics_engine_user_credentials_model
+        analytics_engine_model_json["user_credentials"] = analytics_engine_user_credentials_model
         analytics_engine_model_json["service_endpoints"] = service_endpoints_model
         analytics_engine_model_json["service_endpoints_ip"] = service_endpoints_model
         analytics_engine_model_json["private_endpoint_whitelist"] = ["testString"]
@@ -1190,9 +1129,7 @@ class TestModel_AnalyticsEngine:
         assert analytics_engine_model != False
 
         # Construct a model instance of AnalyticsEngine by calling from_dict on the json representation
-        analytics_engine_model_dict = AnalyticsEngine.from_dict(
-            analytics_engine_model_json
-        ).__dict__
+        analytics_engine_model_dict = AnalyticsEngine.from_dict(analytics_engine_model_json).__dict__
         analytics_engine_model2 = AnalyticsEngine(**analytics_engine_model_dict)
 
         # Verify the model instances are equivalent
@@ -1221,12 +1158,8 @@ class TestModel_AnalyticsEngineClusterNode:
         analytics_engine_cluster_node_model_json["state"] = "testString"
         analytics_engine_cluster_node_model_json["public_ip"] = "testString"
         analytics_engine_cluster_node_model_json["private_ip"] = "testString"
-        analytics_engine_cluster_node_model_json[
-            "state_change_time"
-        ] = "2019-01-01T12:00:00Z"
-        analytics_engine_cluster_node_model_json[
-            "commission_time"
-        ] = "2019-01-01T12:00:00Z"
+        analytics_engine_cluster_node_model_json["state_change_time"] = "2019-01-01T12:00:00Z"
+        analytics_engine_cluster_node_model_json["commission_time"] = "2019-01-01T12:00:00Z"
 
         # Construct a model instance of AnalyticsEngineClusterNode by calling from_dict on the json representation
         analytics_engine_cluster_node_model = AnalyticsEngineClusterNode.from_dict(
@@ -1238,23 +1171,14 @@ class TestModel_AnalyticsEngineClusterNode:
         analytics_engine_cluster_node_model_dict = AnalyticsEngineClusterNode.from_dict(
             analytics_engine_cluster_node_model_json
         ).__dict__
-        analytics_engine_cluster_node_model2 = AnalyticsEngineClusterNode(
-            **analytics_engine_cluster_node_model_dict
-        )
+        analytics_engine_cluster_node_model2 = AnalyticsEngineClusterNode(**analytics_engine_cluster_node_model_dict)
 
         # Verify the model instances are equivalent
-        assert (
-            analytics_engine_cluster_node_model == analytics_engine_cluster_node_model2
-        )
+        assert analytics_engine_cluster_node_model == analytics_engine_cluster_node_model2
 
         # Convert model instance back to dict and verify no loss of data
-        analytics_engine_cluster_node_model_json2 = (
-            analytics_engine_cluster_node_model.to_dict()
-        )
-        assert (
-            analytics_engine_cluster_node_model_json2
-            == analytics_engine_cluster_node_model_json
-        )
+        analytics_engine_cluster_node_model_json2 = analytics_engine_cluster_node_model.to_dict()
+        assert analytics_engine_cluster_node_model_json2 == analytics_engine_cluster_node_model_json
 
 
 class TestModel_AnalyticsEngineCreateCustomizationResponse:
@@ -1272,10 +1196,8 @@ class TestModel_AnalyticsEngineCreateCustomizationResponse:
         analytics_engine_create_customization_response_model_json["request_id"] = 38
 
         # Construct a model instance of AnalyticsEngineCreateCustomizationResponse by calling from_dict on the json representation
-        analytics_engine_create_customization_response_model = (
-            AnalyticsEngineCreateCustomizationResponse.from_dict(
-                analytics_engine_create_customization_response_model_json
-            )
+        analytics_engine_create_customization_response_model = AnalyticsEngineCreateCustomizationResponse.from_dict(
+            analytics_engine_create_customization_response_model_json
         )
         assert analytics_engine_create_customization_response_model != False
 
@@ -1285,10 +1207,8 @@ class TestModel_AnalyticsEngineCreateCustomizationResponse:
                 analytics_engine_create_customization_response_model_json
             ).__dict__
         )
-        analytics_engine_create_customization_response_model2 = (
-            AnalyticsEngineCreateCustomizationResponse(
-                **analytics_engine_create_customization_response_model_dict
-            )
+        analytics_engine_create_customization_response_model2 = AnalyticsEngineCreateCustomizationResponse(
+            **analytics_engine_create_customization_response_model_dict
         )
 
         # Verify the model instances are equivalent
@@ -1319,9 +1239,7 @@ class TestModel_AnalyticsEngineCustomAction:
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        analytics_engine_custom_action_script_model = (
-            {}
-        )  # AnalyticsEngineCustomActionScript
+        analytics_engine_custom_action_script_model = {}  # AnalyticsEngineCustomActionScript
         analytics_engine_custom_action_script_model["source_type"] = "http"
         analytics_engine_custom_action_script_model["script_path"] = "testString"
         analytics_engine_custom_action_script_model["source_props"] = {"foo": "bar"}
@@ -1330,9 +1248,7 @@ class TestModel_AnalyticsEngineCustomAction:
         analytics_engine_custom_action_model_json = {}
         analytics_engine_custom_action_model_json["name"] = "testString"
         analytics_engine_custom_action_model_json["type"] = "bootstrap"
-        analytics_engine_custom_action_model_json[
-            "script"
-        ] = analytics_engine_custom_action_script_model
+        analytics_engine_custom_action_model_json["script"] = analytics_engine_custom_action_script_model
         analytics_engine_custom_action_model_json["script_params"] = ["testString"]
 
         # Construct a model instance of AnalyticsEngineCustomAction by calling from_dict on the json representation
@@ -1342,29 +1258,17 @@ class TestModel_AnalyticsEngineCustomAction:
         assert analytics_engine_custom_action_model != False
 
         # Construct a model instance of AnalyticsEngineCustomAction by calling from_dict on the json representation
-        analytics_engine_custom_action_model_dict = (
-            AnalyticsEngineCustomAction.from_dict(
-                analytics_engine_custom_action_model_json
-            ).__dict__
-        )
-        analytics_engine_custom_action_model2 = AnalyticsEngineCustomAction(
-            **analytics_engine_custom_action_model_dict
-        )
+        analytics_engine_custom_action_model_dict = AnalyticsEngineCustomAction.from_dict(
+            analytics_engine_custom_action_model_json
+        ).__dict__
+        analytics_engine_custom_action_model2 = AnalyticsEngineCustomAction(**analytics_engine_custom_action_model_dict)
 
         # Verify the model instances are equivalent
-        assert (
-            analytics_engine_custom_action_model
-            == analytics_engine_custom_action_model2
-        )
+        assert analytics_engine_custom_action_model == analytics_engine_custom_action_model2
 
         # Convert model instance back to dict and verify no loss of data
-        analytics_engine_custom_action_model_json2 = (
-            analytics_engine_custom_action_model.to_dict()
-        )
-        assert (
-            analytics_engine_custom_action_model_json2
-            == analytics_engine_custom_action_model_json
-        )
+        analytics_engine_custom_action_model_json2 = analytics_engine_custom_action_model.to_dict()
+        assert analytics_engine_custom_action_model_json2 == analytics_engine_custom_action_model_json
 
 
 class TestModel_AnalyticsEngineCustomActionScript:
@@ -1381,44 +1285,28 @@ class TestModel_AnalyticsEngineCustomActionScript:
         analytics_engine_custom_action_script_model_json = {}
         analytics_engine_custom_action_script_model_json["source_type"] = "http"
         analytics_engine_custom_action_script_model_json["script_path"] = "testString"
-        analytics_engine_custom_action_script_model_json["source_props"] = {
-            "foo": "bar"
-        }
+        analytics_engine_custom_action_script_model_json["source_props"] = {"foo": "bar"}
 
         # Construct a model instance of AnalyticsEngineCustomActionScript by calling from_dict on the json representation
-        analytics_engine_custom_action_script_model = (
-            AnalyticsEngineCustomActionScript.from_dict(
-                analytics_engine_custom_action_script_model_json
-            )
+        analytics_engine_custom_action_script_model = AnalyticsEngineCustomActionScript.from_dict(
+            analytics_engine_custom_action_script_model_json
         )
         assert analytics_engine_custom_action_script_model != False
 
         # Construct a model instance of AnalyticsEngineCustomActionScript by calling from_dict on the json representation
-        analytics_engine_custom_action_script_model_dict = (
-            AnalyticsEngineCustomActionScript.from_dict(
-                analytics_engine_custom_action_script_model_json
-            ).__dict__
-        )
-        analytics_engine_custom_action_script_model2 = (
-            AnalyticsEngineCustomActionScript(
-                **analytics_engine_custom_action_script_model_dict
-            )
+        analytics_engine_custom_action_script_model_dict = AnalyticsEngineCustomActionScript.from_dict(
+            analytics_engine_custom_action_script_model_json
+        ).__dict__
+        analytics_engine_custom_action_script_model2 = AnalyticsEngineCustomActionScript(
+            **analytics_engine_custom_action_script_model_dict
         )
 
         # Verify the model instances are equivalent
-        assert (
-            analytics_engine_custom_action_script_model
-            == analytics_engine_custom_action_script_model2
-        )
+        assert analytics_engine_custom_action_script_model == analytics_engine_custom_action_script_model2
 
         # Convert model instance back to dict and verify no loss of data
-        analytics_engine_custom_action_script_model_json2 = (
-            analytics_engine_custom_action_script_model.to_dict()
-        )
-        assert (
-            analytics_engine_custom_action_script_model_json2
-            == analytics_engine_custom_action_script_model_json
-        )
+        analytics_engine_custom_action_script_model_json2 = analytics_engine_custom_action_script_model.to_dict()
+        assert analytics_engine_custom_action_script_model_json2 == analytics_engine_custom_action_script_model_json
 
 
 class TestModel_AnalyticsEngineCustomizationRequestCollectionItem:
@@ -1433,9 +1321,7 @@ class TestModel_AnalyticsEngineCustomizationRequestCollectionItem:
 
         # Construct a json representation of a AnalyticsEngineCustomizationRequestCollectionItem model
         analytics_engine_customization_request_collection_item_model_json = {}
-        analytics_engine_customization_request_collection_item_model_json[
-            "id"
-        ] = "testString"
+        analytics_engine_customization_request_collection_item_model_json["id"] = "testString"
 
         # Construct a model instance of AnalyticsEngineCustomizationRequestCollectionItem by calling from_dict on the json representation
         analytics_engine_customization_request_collection_item_model = (
@@ -1488,34 +1374,18 @@ class TestModel_AnalyticsEngineCustomizationRunDetails:
         analytics_engine_node_level_customization_run_details_model = (
             {}
         )  # AnalyticsEngineNodeLevelCustomizationRunDetails
-        analytics_engine_node_level_customization_run_details_model[
-            "node_name"
-        ] = "testString"
-        analytics_engine_node_level_customization_run_details_model[
-            "node_type"
-        ] = "testString"
-        analytics_engine_node_level_customization_run_details_model[
-            "start_time"
-        ] = "testString"
-        analytics_engine_node_level_customization_run_details_model[
-            "end_time"
-        ] = "testString"
-        analytics_engine_node_level_customization_run_details_model[
-            "time_taken"
-        ] = "testString"
-        analytics_engine_node_level_customization_run_details_model[
-            "status"
-        ] = "testString"
-        analytics_engine_node_level_customization_run_details_model[
-            "log_file"
-        ] = "testString"
+        analytics_engine_node_level_customization_run_details_model["node_name"] = "testString"
+        analytics_engine_node_level_customization_run_details_model["node_type"] = "testString"
+        analytics_engine_node_level_customization_run_details_model["start_time"] = "testString"
+        analytics_engine_node_level_customization_run_details_model["end_time"] = "testString"
+        analytics_engine_node_level_customization_run_details_model["time_taken"] = "testString"
+        analytics_engine_node_level_customization_run_details_model["status"] = "testString"
+        analytics_engine_node_level_customization_run_details_model["log_file"] = "testString"
 
         analytics_engine_customization_run_details_run_details_model = (
             {}
         )  # AnalyticsEngineCustomizationRunDetailsRunDetails
-        analytics_engine_customization_run_details_run_details_model[
-            "overall_status"
-        ] = "testString"
+        analytics_engine_customization_run_details_run_details_model["overall_status"] = "testString"
         analytics_engine_customization_run_details_run_details_model["details"] = [
             analytics_engine_node_level_customization_run_details_model
         ]
@@ -1523,38 +1393,27 @@ class TestModel_AnalyticsEngineCustomizationRunDetails:
         # Construct a json representation of a AnalyticsEngineCustomizationRunDetails model
         analytics_engine_customization_run_details_model_json = {}
         analytics_engine_customization_run_details_model_json["id"] = "testString"
-        analytics_engine_customization_run_details_model_json[
-            "run_status"
-        ] = "testString"
+        analytics_engine_customization_run_details_model_json["run_status"] = "testString"
         analytics_engine_customization_run_details_model_json[
             "run_details"
         ] = analytics_engine_customization_run_details_run_details_model
 
         # Construct a model instance of AnalyticsEngineCustomizationRunDetails by calling from_dict on the json representation
-        analytics_engine_customization_run_details_model = (
-            AnalyticsEngineCustomizationRunDetails.from_dict(
-                analytics_engine_customization_run_details_model_json
-            )
+        analytics_engine_customization_run_details_model = AnalyticsEngineCustomizationRunDetails.from_dict(
+            analytics_engine_customization_run_details_model_json
         )
         assert analytics_engine_customization_run_details_model != False
 
         # Construct a model instance of AnalyticsEngineCustomizationRunDetails by calling from_dict on the json representation
-        analytics_engine_customization_run_details_model_dict = (
-            AnalyticsEngineCustomizationRunDetails.from_dict(
-                analytics_engine_customization_run_details_model_json
-            ).__dict__
-        )
-        analytics_engine_customization_run_details_model2 = (
-            AnalyticsEngineCustomizationRunDetails(
-                **analytics_engine_customization_run_details_model_dict
-            )
+        analytics_engine_customization_run_details_model_dict = AnalyticsEngineCustomizationRunDetails.from_dict(
+            analytics_engine_customization_run_details_model_json
+        ).__dict__
+        analytics_engine_customization_run_details_model2 = AnalyticsEngineCustomizationRunDetails(
+            **analytics_engine_customization_run_details_model_dict
         )
 
         # Verify the model instances are equivalent
-        assert (
-            analytics_engine_customization_run_details_model
-            == analytics_engine_customization_run_details_model2
-        )
+        assert analytics_engine_customization_run_details_model == analytics_engine_customization_run_details_model2
 
         # Convert model instance back to dict and verify no loss of data
         analytics_engine_customization_run_details_model_json2 = (
@@ -1581,33 +1440,17 @@ class TestModel_AnalyticsEngineCustomizationRunDetailsRunDetails:
         analytics_engine_node_level_customization_run_details_model = (
             {}
         )  # AnalyticsEngineNodeLevelCustomizationRunDetails
-        analytics_engine_node_level_customization_run_details_model[
-            "node_name"
-        ] = "testString"
-        analytics_engine_node_level_customization_run_details_model[
-            "node_type"
-        ] = "testString"
-        analytics_engine_node_level_customization_run_details_model[
-            "start_time"
-        ] = "testString"
-        analytics_engine_node_level_customization_run_details_model[
-            "end_time"
-        ] = "testString"
-        analytics_engine_node_level_customization_run_details_model[
-            "time_taken"
-        ] = "testString"
-        analytics_engine_node_level_customization_run_details_model[
-            "status"
-        ] = "testString"
-        analytics_engine_node_level_customization_run_details_model[
-            "log_file"
-        ] = "testString"
+        analytics_engine_node_level_customization_run_details_model["node_name"] = "testString"
+        analytics_engine_node_level_customization_run_details_model["node_type"] = "testString"
+        analytics_engine_node_level_customization_run_details_model["start_time"] = "testString"
+        analytics_engine_node_level_customization_run_details_model["end_time"] = "testString"
+        analytics_engine_node_level_customization_run_details_model["time_taken"] = "testString"
+        analytics_engine_node_level_customization_run_details_model["status"] = "testString"
+        analytics_engine_node_level_customization_run_details_model["log_file"] = "testString"
 
         # Construct a json representation of a AnalyticsEngineCustomizationRunDetailsRunDetails model
         analytics_engine_customization_run_details_run_details_model_json = {}
-        analytics_engine_customization_run_details_run_details_model_json[
-            "overall_status"
-        ] = "testString"
+        analytics_engine_customization_run_details_run_details_model_json["overall_status"] = "testString"
         analytics_engine_customization_run_details_run_details_model_json["details"] = [
             analytics_engine_node_level_customization_run_details_model
         ]
@@ -1671,9 +1514,7 @@ class TestModel_AnalyticsEngineLoggingConfigDetails:
         analytics_engine_logging_server_model["log_host"] = "testString"
         analytics_engine_logging_server_model["owner"] = "testString"
 
-        analytics_engine_logging_config_status_model = (
-            {}
-        )  # AnalyticsEngineLoggingConfigStatus
+        analytics_engine_logging_config_status_model = {}  # AnalyticsEngineLoggingConfigStatus
         analytics_engine_logging_config_status_model["node_type"] = "management"
         analytics_engine_logging_config_status_model["node_id"] = "testString"
         analytics_engine_logging_config_status_model["action"] = "testString"
@@ -1681,50 +1522,32 @@ class TestModel_AnalyticsEngineLoggingConfigDetails:
 
         # Construct a json representation of a AnalyticsEngineLoggingConfigDetails model
         analytics_engine_logging_config_details_model_json = {}
-        analytics_engine_logging_config_details_model_json["log_specs"] = [
-            analytics_engine_logging_node_spec_model
-        ]
-        analytics_engine_logging_config_details_model_json[
-            "log_server"
-        ] = analytics_engine_logging_server_model
+        analytics_engine_logging_config_details_model_json["log_specs"] = [analytics_engine_logging_node_spec_model]
+        analytics_engine_logging_config_details_model_json["log_server"] = analytics_engine_logging_server_model
         analytics_engine_logging_config_details_model_json["log_config_status"] = [
             analytics_engine_logging_config_status_model
         ]
 
         # Construct a model instance of AnalyticsEngineLoggingConfigDetails by calling from_dict on the json representation
-        analytics_engine_logging_config_details_model = (
-            AnalyticsEngineLoggingConfigDetails.from_dict(
-                analytics_engine_logging_config_details_model_json
-            )
+        analytics_engine_logging_config_details_model = AnalyticsEngineLoggingConfigDetails.from_dict(
+            analytics_engine_logging_config_details_model_json
         )
         assert analytics_engine_logging_config_details_model != False
 
         # Construct a model instance of AnalyticsEngineLoggingConfigDetails by calling from_dict on the json representation
-        analytics_engine_logging_config_details_model_dict = (
-            AnalyticsEngineLoggingConfigDetails.from_dict(
-                analytics_engine_logging_config_details_model_json
-            ).__dict__
-        )
-        analytics_engine_logging_config_details_model2 = (
-            AnalyticsEngineLoggingConfigDetails(
-                **analytics_engine_logging_config_details_model_dict
-            )
+        analytics_engine_logging_config_details_model_dict = AnalyticsEngineLoggingConfigDetails.from_dict(
+            analytics_engine_logging_config_details_model_json
+        ).__dict__
+        analytics_engine_logging_config_details_model2 = AnalyticsEngineLoggingConfigDetails(
+            **analytics_engine_logging_config_details_model_dict
         )
 
         # Verify the model instances are equivalent
-        assert (
-            analytics_engine_logging_config_details_model
-            == analytics_engine_logging_config_details_model2
-        )
+        assert analytics_engine_logging_config_details_model == analytics_engine_logging_config_details_model2
 
         # Convert model instance back to dict and verify no loss of data
-        analytics_engine_logging_config_details_model_json2 = (
-            analytics_engine_logging_config_details_model.to_dict()
-        )
-        assert (
-            analytics_engine_logging_config_details_model_json2
-            == analytics_engine_logging_config_details_model_json
-        )
+        analytics_engine_logging_config_details_model_json2 = analytics_engine_logging_config_details_model.to_dict()
+        assert analytics_engine_logging_config_details_model_json2 == analytics_engine_logging_config_details_model_json
 
 
 class TestModel_AnalyticsEngineLoggingConfigStatus:
@@ -1745,39 +1568,25 @@ class TestModel_AnalyticsEngineLoggingConfigStatus:
         analytics_engine_logging_config_status_model_json["status"] = "testString"
 
         # Construct a model instance of AnalyticsEngineLoggingConfigStatus by calling from_dict on the json representation
-        analytics_engine_logging_config_status_model = (
-            AnalyticsEngineLoggingConfigStatus.from_dict(
-                analytics_engine_logging_config_status_model_json
-            )
+        analytics_engine_logging_config_status_model = AnalyticsEngineLoggingConfigStatus.from_dict(
+            analytics_engine_logging_config_status_model_json
         )
         assert analytics_engine_logging_config_status_model != False
 
         # Construct a model instance of AnalyticsEngineLoggingConfigStatus by calling from_dict on the json representation
-        analytics_engine_logging_config_status_model_dict = (
-            AnalyticsEngineLoggingConfigStatus.from_dict(
-                analytics_engine_logging_config_status_model_json
-            ).__dict__
-        )
-        analytics_engine_logging_config_status_model2 = (
-            AnalyticsEngineLoggingConfigStatus(
-                **analytics_engine_logging_config_status_model_dict
-            )
+        analytics_engine_logging_config_status_model_dict = AnalyticsEngineLoggingConfigStatus.from_dict(
+            analytics_engine_logging_config_status_model_json
+        ).__dict__
+        analytics_engine_logging_config_status_model2 = AnalyticsEngineLoggingConfigStatus(
+            **analytics_engine_logging_config_status_model_dict
         )
 
         # Verify the model instances are equivalent
-        assert (
-            analytics_engine_logging_config_status_model
-            == analytics_engine_logging_config_status_model2
-        )
+        assert analytics_engine_logging_config_status_model == analytics_engine_logging_config_status_model2
 
         # Convert model instance back to dict and verify no loss of data
-        analytics_engine_logging_config_status_model_json2 = (
-            analytics_engine_logging_config_status_model.to_dict()
-        )
-        assert (
-            analytics_engine_logging_config_status_model_json2
-            == analytics_engine_logging_config_status_model_json
-        )
+        analytics_engine_logging_config_status_model_json2 = analytics_engine_logging_config_status_model.to_dict()
+        assert analytics_engine_logging_config_status_model_json2 == analytics_engine_logging_config_status_model_json
 
 
 class TestModel_AnalyticsEngineLoggingNodeSpec:
@@ -1796,37 +1605,25 @@ class TestModel_AnalyticsEngineLoggingNodeSpec:
         analytics_engine_logging_node_spec_model_json["components"] = ["ambari-server"]
 
         # Construct a model instance of AnalyticsEngineLoggingNodeSpec by calling from_dict on the json representation
-        analytics_engine_logging_node_spec_model = (
-            AnalyticsEngineLoggingNodeSpec.from_dict(
-                analytics_engine_logging_node_spec_model_json
-            )
+        analytics_engine_logging_node_spec_model = AnalyticsEngineLoggingNodeSpec.from_dict(
+            analytics_engine_logging_node_spec_model_json
         )
         assert analytics_engine_logging_node_spec_model != False
 
         # Construct a model instance of AnalyticsEngineLoggingNodeSpec by calling from_dict on the json representation
-        analytics_engine_logging_node_spec_model_dict = (
-            AnalyticsEngineLoggingNodeSpec.from_dict(
-                analytics_engine_logging_node_spec_model_json
-            ).__dict__
-        )
+        analytics_engine_logging_node_spec_model_dict = AnalyticsEngineLoggingNodeSpec.from_dict(
+            analytics_engine_logging_node_spec_model_json
+        ).__dict__
         analytics_engine_logging_node_spec_model2 = AnalyticsEngineLoggingNodeSpec(
             **analytics_engine_logging_node_spec_model_dict
         )
 
         # Verify the model instances are equivalent
-        assert (
-            analytics_engine_logging_node_spec_model
-            == analytics_engine_logging_node_spec_model2
-        )
+        assert analytics_engine_logging_node_spec_model == analytics_engine_logging_node_spec_model2
 
         # Convert model instance back to dict and verify no loss of data
-        analytics_engine_logging_node_spec_model_json2 = (
-            analytics_engine_logging_node_spec_model.to_dict()
-        )
-        assert (
-            analytics_engine_logging_node_spec_model_json2
-            == analytics_engine_logging_node_spec_model_json
-        )
+        analytics_engine_logging_node_spec_model_json2 = analytics_engine_logging_node_spec_model.to_dict()
+        assert analytics_engine_logging_node_spec_model_json2 == analytics_engine_logging_node_spec_model_json
 
 
 class TestModel_AnalyticsEngineLoggingServer:
@@ -1854,29 +1651,19 @@ class TestModel_AnalyticsEngineLoggingServer:
         assert analytics_engine_logging_server_model != False
 
         # Construct a model instance of AnalyticsEngineLoggingServer by calling from_dict on the json representation
-        analytics_engine_logging_server_model_dict = (
-            AnalyticsEngineLoggingServer.from_dict(
-                analytics_engine_logging_server_model_json
-            ).__dict__
-        )
+        analytics_engine_logging_server_model_dict = AnalyticsEngineLoggingServer.from_dict(
+            analytics_engine_logging_server_model_json
+        ).__dict__
         analytics_engine_logging_server_model2 = AnalyticsEngineLoggingServer(
             **analytics_engine_logging_server_model_dict
         )
 
         # Verify the model instances are equivalent
-        assert (
-            analytics_engine_logging_server_model
-            == analytics_engine_logging_server_model2
-        )
+        assert analytics_engine_logging_server_model == analytics_engine_logging_server_model2
 
         # Convert model instance back to dict and verify no loss of data
-        analytics_engine_logging_server_model_json2 = (
-            analytics_engine_logging_server_model.to_dict()
-        )
-        assert (
-            analytics_engine_logging_server_model_json2
-            == analytics_engine_logging_server_model_json
-        )
+        analytics_engine_logging_server_model_json2 = analytics_engine_logging_server_model.to_dict()
+        assert analytics_engine_logging_server_model_json2 == analytics_engine_logging_server_model_json
 
 
 class TestModel_AnalyticsEngineNodeLevelCustomizationRunDetails:
@@ -1891,27 +1678,13 @@ class TestModel_AnalyticsEngineNodeLevelCustomizationRunDetails:
 
         # Construct a json representation of a AnalyticsEngineNodeLevelCustomizationRunDetails model
         analytics_engine_node_level_customization_run_details_model_json = {}
-        analytics_engine_node_level_customization_run_details_model_json[
-            "node_name"
-        ] = "testString"
-        analytics_engine_node_level_customization_run_details_model_json[
-            "node_type"
-        ] = "testString"
-        analytics_engine_node_level_customization_run_details_model_json[
-            "start_time"
-        ] = "testString"
-        analytics_engine_node_level_customization_run_details_model_json[
-            "end_time"
-        ] = "testString"
-        analytics_engine_node_level_customization_run_details_model_json[
-            "time_taken"
-        ] = "testString"
-        analytics_engine_node_level_customization_run_details_model_json[
-            "status"
-        ] = "testString"
-        analytics_engine_node_level_customization_run_details_model_json[
-            "log_file"
-        ] = "testString"
+        analytics_engine_node_level_customization_run_details_model_json["node_name"] = "testString"
+        analytics_engine_node_level_customization_run_details_model_json["node_type"] = "testString"
+        analytics_engine_node_level_customization_run_details_model_json["start_time"] = "testString"
+        analytics_engine_node_level_customization_run_details_model_json["end_time"] = "testString"
+        analytics_engine_node_level_customization_run_details_model_json["time_taken"] = "testString"
+        analytics_engine_node_level_customization_run_details_model_json["status"] = "testString"
+        analytics_engine_node_level_customization_run_details_model_json["log_file"] = "testString"
 
         # Construct a model instance of AnalyticsEngineNodeLevelCustomizationRunDetails by calling from_dict on the json representation
         analytics_engine_node_level_customization_run_details_model = (
@@ -1927,10 +1700,8 @@ class TestModel_AnalyticsEngineNodeLevelCustomizationRunDetails:
                 analytics_engine_node_level_customization_run_details_model_json
             ).__dict__
         )
-        analytics_engine_node_level_customization_run_details_model2 = (
-            AnalyticsEngineNodeLevelCustomizationRunDetails(
-                **analytics_engine_node_level_customization_run_details_model_dict
-            )
+        analytics_engine_node_level_customization_run_details_model2 = AnalyticsEngineNodeLevelCustomizationRunDetails(
+            **analytics_engine_node_level_customization_run_details_model_dict
         )
 
         # Verify the model instances are equivalent
@@ -1964,12 +1735,8 @@ class TestModel_AnalyticsEngineResetClusterPasswordResponse:
         analytics_engine_reset_cluster_password_response_user_credentials_model = (
             {}
         )  # AnalyticsEngineResetClusterPasswordResponseUserCredentials
-        analytics_engine_reset_cluster_password_response_user_credentials_model[
-            "user"
-        ] = "testString"
-        analytics_engine_reset_cluster_password_response_user_credentials_model[
-            "password"
-        ] = "testString"
+        analytics_engine_reset_cluster_password_response_user_credentials_model["user"] = "testString"
+        analytics_engine_reset_cluster_password_response_user_credentials_model["password"] = "testString"
 
         # Construct a json representation of a AnalyticsEngineResetClusterPasswordResponse model
         analytics_engine_reset_cluster_password_response_model_json = {}
@@ -1979,10 +1746,8 @@ class TestModel_AnalyticsEngineResetClusterPasswordResponse:
         ] = analytics_engine_reset_cluster_password_response_user_credentials_model
 
         # Construct a model instance of AnalyticsEngineResetClusterPasswordResponse by calling from_dict on the json representation
-        analytics_engine_reset_cluster_password_response_model = (
-            AnalyticsEngineResetClusterPasswordResponse.from_dict(
-                analytics_engine_reset_cluster_password_response_model_json
-            )
+        analytics_engine_reset_cluster_password_response_model = AnalyticsEngineResetClusterPasswordResponse.from_dict(
+            analytics_engine_reset_cluster_password_response_model_json
         )
         assert analytics_engine_reset_cluster_password_response_model != False
 
@@ -1992,10 +1757,8 @@ class TestModel_AnalyticsEngineResetClusterPasswordResponse:
                 analytics_engine_reset_cluster_password_response_model_json
             ).__dict__
         )
-        analytics_engine_reset_cluster_password_response_model2 = (
-            AnalyticsEngineResetClusterPasswordResponse(
-                **analytics_engine_reset_cluster_password_response_model_dict
-            )
+        analytics_engine_reset_cluster_password_response_model2 = AnalyticsEngineResetClusterPasswordResponse(
+            **analytics_engine_reset_cluster_password_response_model_dict
         )
 
         # Verify the model instances are equivalent
@@ -2027,31 +1790,28 @@ class TestModel_AnalyticsEngineResetClusterPasswordResponseUserCredentials:
         """
 
         # Construct a json representation of a AnalyticsEngineResetClusterPasswordResponseUserCredentials model
-        analytics_engine_reset_cluster_password_response_user_credentials_model_json = (
-            {}
-        )
-        analytics_engine_reset_cluster_password_response_user_credentials_model_json[
-            "user"
-        ] = "testString"
-        analytics_engine_reset_cluster_password_response_user_credentials_model_json[
-            "password"
-        ] = "testString"
+        analytics_engine_reset_cluster_password_response_user_credentials_model_json = {}
+        analytics_engine_reset_cluster_password_response_user_credentials_model_json["user"] = "testString"
+        analytics_engine_reset_cluster_password_response_user_credentials_model_json["password"] = "testString"
 
         # Construct a model instance of AnalyticsEngineResetClusterPasswordResponseUserCredentials by calling from_dict on the json representation
-        analytics_engine_reset_cluster_password_response_user_credentials_model = AnalyticsEngineResetClusterPasswordResponseUserCredentials.from_dict(
-            analytics_engine_reset_cluster_password_response_user_credentials_model_json
+        analytics_engine_reset_cluster_password_response_user_credentials_model = (
+            AnalyticsEngineResetClusterPasswordResponseUserCredentials.from_dict(
+                analytics_engine_reset_cluster_password_response_user_credentials_model_json
+            )
         )
-        assert (
-            analytics_engine_reset_cluster_password_response_user_credentials_model
-            != False
-        )
+        assert analytics_engine_reset_cluster_password_response_user_credentials_model != False
 
         # Construct a model instance of AnalyticsEngineResetClusterPasswordResponseUserCredentials by calling from_dict on the json representation
-        analytics_engine_reset_cluster_password_response_user_credentials_model_dict = AnalyticsEngineResetClusterPasswordResponseUserCredentials.from_dict(
-            analytics_engine_reset_cluster_password_response_user_credentials_model_json
-        ).__dict__
-        analytics_engine_reset_cluster_password_response_user_credentials_model2 = AnalyticsEngineResetClusterPasswordResponseUserCredentials(
-            **analytics_engine_reset_cluster_password_response_user_credentials_model_dict
+        analytics_engine_reset_cluster_password_response_user_credentials_model_dict = (
+            AnalyticsEngineResetClusterPasswordResponseUserCredentials.from_dict(
+                analytics_engine_reset_cluster_password_response_user_credentials_model_json
+            ).__dict__
+        )
+        analytics_engine_reset_cluster_password_response_user_credentials_model2 = (
+            AnalyticsEngineResetClusterPasswordResponseUserCredentials(
+                **analytics_engine_reset_cluster_password_response_user_credentials_model_dict
+            )
         )
 
         # Verify the model instances are equivalent
@@ -2085,38 +1845,26 @@ class TestModel_AnalyticsEngineResizeClusterResponse:
         analytics_engine_resize_cluster_response_model_json["request_id"] = "testString"
 
         # Construct a model instance of AnalyticsEngineResizeClusterResponse by calling from_dict on the json representation
-        analytics_engine_resize_cluster_response_model = (
-            AnalyticsEngineResizeClusterResponse.from_dict(
-                analytics_engine_resize_cluster_response_model_json
-            )
+        analytics_engine_resize_cluster_response_model = AnalyticsEngineResizeClusterResponse.from_dict(
+            analytics_engine_resize_cluster_response_model_json
         )
         assert analytics_engine_resize_cluster_response_model != False
 
         # Construct a model instance of AnalyticsEngineResizeClusterResponse by calling from_dict on the json representation
-        analytics_engine_resize_cluster_response_model_dict = (
-            AnalyticsEngineResizeClusterResponse.from_dict(
-                analytics_engine_resize_cluster_response_model_json
-            ).__dict__
-        )
-        analytics_engine_resize_cluster_response_model2 = (
-            AnalyticsEngineResizeClusterResponse(
-                **analytics_engine_resize_cluster_response_model_dict
-            )
+        analytics_engine_resize_cluster_response_model_dict = AnalyticsEngineResizeClusterResponse.from_dict(
+            analytics_engine_resize_cluster_response_model_json
+        ).__dict__
+        analytics_engine_resize_cluster_response_model2 = AnalyticsEngineResizeClusterResponse(
+            **analytics_engine_resize_cluster_response_model_dict
         )
 
         # Verify the model instances are equivalent
-        assert (
-            analytics_engine_resize_cluster_response_model
-            == analytics_engine_resize_cluster_response_model2
-        )
+        assert analytics_engine_resize_cluster_response_model == analytics_engine_resize_cluster_response_model2
 
         # Convert model instance back to dict and verify no loss of data
-        analytics_engine_resize_cluster_response_model_json2 = (
-            analytics_engine_resize_cluster_response_model.to_dict()
-        )
+        analytics_engine_resize_cluster_response_model_json2 = analytics_engine_resize_cluster_response_model.to_dict()
         assert (
-            analytics_engine_resize_cluster_response_model_json2
-            == analytics_engine_resize_cluster_response_model_json
+            analytics_engine_resize_cluster_response_model_json2 == analytics_engine_resize_cluster_response_model_json
         )
 
 
@@ -2135,18 +1883,12 @@ class TestModel_AnalyticsEngineState:
         analytics_engine_state_model_json["state"] = "testString"
 
         # Construct a model instance of AnalyticsEngineState by calling from_dict on the json representation
-        analytics_engine_state_model = AnalyticsEngineState.from_dict(
-            analytics_engine_state_model_json
-        )
+        analytics_engine_state_model = AnalyticsEngineState.from_dict(analytics_engine_state_model_json)
         assert analytics_engine_state_model != False
 
         # Construct a model instance of AnalyticsEngineState by calling from_dict on the json representation
-        analytics_engine_state_model_dict = AnalyticsEngineState.from_dict(
-            analytics_engine_state_model_json
-        ).__dict__
-        analytics_engine_state_model2 = AnalyticsEngineState(
-            **analytics_engine_state_model_dict
-        )
+        analytics_engine_state_model_dict = AnalyticsEngineState.from_dict(analytics_engine_state_model_json).__dict__
+        analytics_engine_state_model2 = AnalyticsEngineState(**analytics_engine_state_model_dict)
 
         # Verify the model instances are equivalent
         assert analytics_engine_state_model == analytics_engine_state_model2
@@ -2171,37 +1913,25 @@ class TestModel_AnalyticsEngineUserCredentials:
         analytics_engine_user_credentials_model_json["user"] = "testString"
 
         # Construct a model instance of AnalyticsEngineUserCredentials by calling from_dict on the json representation
-        analytics_engine_user_credentials_model = (
-            AnalyticsEngineUserCredentials.from_dict(
-                analytics_engine_user_credentials_model_json
-            )
+        analytics_engine_user_credentials_model = AnalyticsEngineUserCredentials.from_dict(
+            analytics_engine_user_credentials_model_json
         )
         assert analytics_engine_user_credentials_model != False
 
         # Construct a model instance of AnalyticsEngineUserCredentials by calling from_dict on the json representation
-        analytics_engine_user_credentials_model_dict = (
-            AnalyticsEngineUserCredentials.from_dict(
-                analytics_engine_user_credentials_model_json
-            ).__dict__
-        )
+        analytics_engine_user_credentials_model_dict = AnalyticsEngineUserCredentials.from_dict(
+            analytics_engine_user_credentials_model_json
+        ).__dict__
         analytics_engine_user_credentials_model2 = AnalyticsEngineUserCredentials(
             **analytics_engine_user_credentials_model_dict
         )
 
         # Verify the model instances are equivalent
-        assert (
-            analytics_engine_user_credentials_model
-            == analytics_engine_user_credentials_model2
-        )
+        assert analytics_engine_user_credentials_model == analytics_engine_user_credentials_model2
 
         # Convert model instance back to dict and verify no loss of data
-        analytics_engine_user_credentials_model_json2 = (
-            analytics_engine_user_credentials_model.to_dict()
-        )
-        assert (
-            analytics_engine_user_credentials_model_json2
-            == analytics_engine_user_credentials_model_json
-        )
+        analytics_engine_user_credentials_model_json2 = analytics_engine_user_credentials_model.to_dict()
+        assert analytics_engine_user_credentials_model_json2 == analytics_engine_user_credentials_model_json
 
 
 class TestModel_AnalyticsEngineWhitelistResponse:
@@ -2216,42 +1946,28 @@ class TestModel_AnalyticsEngineWhitelistResponse:
 
         # Construct a json representation of a AnalyticsEngineWhitelistResponse model
         analytics_engine_whitelist_response_model_json = {}
-        analytics_engine_whitelist_response_model_json["private_endpoint_whitelist"] = [
-            "testString"
-        ]
+        analytics_engine_whitelist_response_model_json["private_endpoint_whitelist"] = ["testString"]
 
         # Construct a model instance of AnalyticsEngineWhitelistResponse by calling from_dict on the json representation
-        analytics_engine_whitelist_response_model = (
-            AnalyticsEngineWhitelistResponse.from_dict(
-                analytics_engine_whitelist_response_model_json
-            )
+        analytics_engine_whitelist_response_model = AnalyticsEngineWhitelistResponse.from_dict(
+            analytics_engine_whitelist_response_model_json
         )
         assert analytics_engine_whitelist_response_model != False
 
         # Construct a model instance of AnalyticsEngineWhitelistResponse by calling from_dict on the json representation
-        analytics_engine_whitelist_response_model_dict = (
-            AnalyticsEngineWhitelistResponse.from_dict(
-                analytics_engine_whitelist_response_model_json
-            ).__dict__
-        )
+        analytics_engine_whitelist_response_model_dict = AnalyticsEngineWhitelistResponse.from_dict(
+            analytics_engine_whitelist_response_model_json
+        ).__dict__
         analytics_engine_whitelist_response_model2 = AnalyticsEngineWhitelistResponse(
             **analytics_engine_whitelist_response_model_dict
         )
 
         # Verify the model instances are equivalent
-        assert (
-            analytics_engine_whitelist_response_model
-            == analytics_engine_whitelist_response_model2
-        )
+        assert analytics_engine_whitelist_response_model == analytics_engine_whitelist_response_model2
 
         # Convert model instance back to dict and verify no loss of data
-        analytics_engine_whitelist_response_model_json2 = (
-            analytics_engine_whitelist_response_model.to_dict()
-        )
-        assert (
-            analytics_engine_whitelist_response_model_json2
-            == analytics_engine_whitelist_response_model_json
-        )
+        analytics_engine_whitelist_response_model_json2 = analytics_engine_whitelist_response_model.to_dict()
+        assert analytics_engine_whitelist_response_model_json2 == analytics_engine_whitelist_response_model_json
 
 
 class TestModel_ServiceEndpoints:
@@ -2279,15 +1995,11 @@ class TestModel_ServiceEndpoints:
         service_endpoints_model_json["spark_sql"] = "testString"
 
         # Construct a model instance of ServiceEndpoints by calling from_dict on the json representation
-        service_endpoints_model = ServiceEndpoints.from_dict(
-            service_endpoints_model_json
-        )
+        service_endpoints_model = ServiceEndpoints.from_dict(service_endpoints_model_json)
         assert service_endpoints_model != False
 
         # Construct a model instance of ServiceEndpoints by calling from_dict on the json representation
-        service_endpoints_model_dict = ServiceEndpoints.from_dict(
-            service_endpoints_model_json
-        ).__dict__
+        service_endpoints_model_dict = ServiceEndpoints.from_dict(service_endpoints_model_json).__dict__
         service_endpoints_model2 = ServiceEndpoints(**service_endpoints_model_dict)
 
         # Verify the model instances are equivalent
@@ -2311,28 +2023,29 @@ class TestModel_ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRe
         """
 
         # Construct a json representation of a ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest model
-        resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model_json = (
-            {}
-        )
+        resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model_json = {}
         resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model_json[
             "compute_nodes_count"
         ] = 38
 
         # Construct a model instance of ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest by calling from_dict on the json representation
-        resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model = ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest.from_dict(
-            resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model_json
+        resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model = (
+            ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest.from_dict(
+                resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model_json
+            )
         )
-        assert (
-            resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model
-            != False
-        )
+        assert resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model != False
 
         # Construct a model instance of ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest by calling from_dict on the json representation
-        resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model_dict = ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest.from_dict(
-            resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model_json
-        ).__dict__
-        resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model2 = ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest(
-            **resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model_dict
+        resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model_dict = (
+            ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest.from_dict(
+                resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model_json
+            ).__dict__
+        )
+        resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model2 = (
+            ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest(
+                **resize_cluster_request_analytics_engine_resize_cluster_by_compute_nodes_request_model_dict
+            )
         )
 
         # Verify the model instances are equivalent
@@ -2364,28 +2077,27 @@ class TestModel_ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesReque
         """
 
         # Construct a json representation of a ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest model
-        resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model_json = (
-            {}
-        )
-        resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model_json[
-            "task_nodes_count"
-        ] = 38
+        resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model_json = {}
+        resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model_json["task_nodes_count"] = 38
 
         # Construct a model instance of ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest by calling from_dict on the json representation
-        resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model = ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest.from_dict(
-            resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model_json
+        resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model = (
+            ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest.from_dict(
+                resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model_json
+            )
         )
-        assert (
-            resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model
-            != False
-        )
+        assert resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model != False
 
         # Construct a model instance of ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest by calling from_dict on the json representation
-        resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model_dict = ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest.from_dict(
-            resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model_json
-        ).__dict__
-        resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model2 = ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest(
-            **resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model_dict
+        resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model_dict = (
+            ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest.from_dict(
+                resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model_json
+            ).__dict__
+        )
+        resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model2 = (
+            ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest(
+                **resize_cluster_request_analytics_engine_resize_cluster_by_task_nodes_request_model_dict
+            )
         )
 
         # Verify the model instances are equivalent

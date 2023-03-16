@@ -95,9 +95,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/main/README.md
                about initializing the authenticator of your choice.
         """
-        BaseService.__init__(
-            self, service_url=self.DEFAULT_SERVICE_URL, authenticator=authenticator
-        )
+        BaseService.__init__(self, service_url=self.DEFAULT_SERVICE_URL, authenticator=authenticator)
 
     #########################
     # Analytics Engines V3
@@ -248,12 +246,8 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = "/v3/analytics_engines/{instance_id}/instance_home".format(
-            **path_param_dict
-        )
-        request = self.prepare_request(
-            method="PUT", url=url, headers=headers, data=data
-        )
+        url = "/v3/analytics_engines/{instance_id}/instance_home".format(**path_param_dict)
+        request = self.prepare_request(method="PUT", url=url, headers=headers, data=data)
 
         response = self.send(request, **kwargs)
         return response
@@ -309,19 +303,13 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = "/v3/analytics_engines/{instance_id}/instance_home".format(
-            **path_param_dict
-        )
-        request = self.prepare_request(
-            method="PATCH", url=url, headers=headers, data=data
-        )
+        url = "/v3/analytics_engines/{instance_id}/instance_home".format(**path_param_dict)
+        request = self.prepare_request(method="PATCH", url=url, headers=headers, data=data)
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_instance_default_configs(
-        self, instance_id: str, **kwargs
-    ) -> DetailedResponse:
+    def get_instance_default_configs(self, instance_id: str, **kwargs) -> DetailedResponse:
         """
         Get instance default Spark configurations.
 
@@ -352,17 +340,13 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = "/v3/analytics_engines/{instance_id}/default_configs".format(
-            **path_param_dict
-        )
+        url = "/v3/analytics_engines/{instance_id}/default_configs".format(**path_param_dict)
         request = self.prepare_request(method="GET", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-    def replace_instance_default_configs(
-        self, instance_id: str, body: dict, **kwargs
-    ) -> DetailedResponse:
+    def replace_instance_default_configs(self, instance_id: str, body: dict, **kwargs) -> DetailedResponse:
         """
         Replace instance default Spark configurations.
 
@@ -400,19 +384,13 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = "/v3/analytics_engines/{instance_id}/default_configs".format(
-            **path_param_dict
-        )
-        request = self.prepare_request(
-            method="PUT", url=url, headers=headers, data=data
-        )
+        url = "/v3/analytics_engines/{instance_id}/default_configs".format(**path_param_dict)
+        request = self.prepare_request(method="PUT", url=url, headers=headers, data=data)
 
         response = self.send(request, **kwargs)
         return response
 
-    def update_instance_default_configs(
-        self, instance_id: str, body: dict, **kwargs
-    ) -> DetailedResponse:
+    def update_instance_default_configs(self, instance_id: str, body: dict, **kwargs) -> DetailedResponse:
         """
         Update instance default Spark configurations.
 
@@ -451,19 +429,13 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = "/v3/analytics_engines/{instance_id}/default_configs".format(
-            **path_param_dict
-        )
-        request = self.prepare_request(
-            method="PATCH", url=url, headers=headers, data=data
-        )
+        url = "/v3/analytics_engines/{instance_id}/default_configs".format(**path_param_dict)
+        request = self.prepare_request(method="PATCH", url=url, headers=headers, data=data)
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_instance_default_runtime(
-        self, instance_id: str, **kwargs
-    ) -> DetailedResponse:
+    def get_instance_default_runtime(self, instance_id: str, **kwargs) -> DetailedResponse:
         """
         Get instance default runtime.
 
@@ -494,9 +466,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = "/v3/analytics_engines/{instance_id}/default_runtime".format(
-            **path_param_dict
-        )
+        url = "/v3/analytics_engines/{instance_id}/default_runtime".format(**path_param_dict)
         request = self.prepare_request(method="GET", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
@@ -544,22 +514,14 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = "/v3/analytics_engines/{instance_id}/default_runtime".format(
-            **path_param_dict
-        )
-        request = self.prepare_request(
-            method="PUT", url=url, headers=headers, data=data
-        )
+        url = "/v3/analytics_engines/{instance_id}/default_runtime".format(**path_param_dict)
+        request = self.prepare_request(method="PUT", url=url, headers=headers, data=data)
 
         response = self.send(request, **kwargs)
         return response
 
     def create_application(
-        self,
-        instance_id: str,
-        *,
-        application_details: "ApplicationRequestApplicationDetails" = None,
-        **kwargs
+        self, instance_id: str, *, application_details: "ApplicationRequestApplicationDetails" = None, **kwargs
     ) -> DetailedResponse:
         """
         Deploy a Spark application.
@@ -602,19 +564,13 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = "/v3/analytics_engines/{instance_id}/spark_applications".format(
-            **path_param_dict
-        )
-        request = self.prepare_request(
-            method="POST", url=url, headers=headers, data=data
-        )
+        url = "/v3/analytics_engines/{instance_id}/spark_applications".format(**path_param_dict)
+        request = self.prepare_request(method="POST", url=url, headers=headers, data=data)
 
         response = self.send(request, **kwargs)
         return response
 
-    def list_applications(
-        self, instance_id: str, *, state: List[str] = None, **kwargs
-    ) -> DetailedResponse:
+    def list_applications(self, instance_id: str, *, state: List[str] = None, **kwargs) -> DetailedResponse:
         """
         List all Spark applications.
 
@@ -652,19 +608,13 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = "/v3/analytics_engines/{instance_id}/spark_applications".format(
-            **path_param_dict
-        )
-        request = self.prepare_request(
-            method="GET", url=url, headers=headers, params=params
-        )
+        url = "/v3/analytics_engines/{instance_id}/spark_applications".format(**path_param_dict)
+        request = self.prepare_request(method="GET", url=url, headers=headers, params=params)
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_application(
-        self, instance_id: str, application_id: str, **kwargs
-    ) -> DetailedResponse:
+    def get_application(self, instance_id: str, application_id: str, **kwargs) -> DetailedResponse:
         """
         Retrieve the details of a given Spark application.
 
@@ -699,17 +649,13 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_keys = ["instance_id", "application_id"]
         path_param_values = self.encode_path_vars(instance_id, application_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = "/v3/analytics_engines/{instance_id}/spark_applications/{application_id}".format(
-            **path_param_dict
-        )
+        url = "/v3/analytics_engines/{instance_id}/spark_applications/{application_id}".format(**path_param_dict)
         request = self.prepare_request(method="GET", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-    def delete_application(
-        self, instance_id: str, application_id: str, **kwargs
-    ) -> DetailedResponse:
+    def delete_application(self, instance_id: str, application_id: str, **kwargs) -> DetailedResponse:
         """
         Stop application.
 
@@ -745,17 +691,13 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_keys = ["instance_id", "application_id"]
         path_param_values = self.encode_path_vars(instance_id, application_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = "/v3/analytics_engines/{instance_id}/spark_applications/{application_id}".format(
-            **path_param_dict
-        )
+        url = "/v3/analytics_engines/{instance_id}/spark_applications/{application_id}".format(**path_param_dict)
         request = self.prepare_request(method="DELETE", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_application_state(
-        self, instance_id: str, application_id: str, **kwargs
-    ) -> DetailedResponse:
+    def get_application_state(self, instance_id: str, application_id: str, **kwargs) -> DetailedResponse:
         """
         Get the status of the application.
 
@@ -790,17 +732,13 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_keys = ["instance_id", "application_id"]
         path_param_values = self.encode_path_vars(instance_id, application_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = "/v3/analytics_engines/{instance_id}/spark_applications/{application_id}/state".format(
-            **path_param_dict
-        )
+        url = "/v3/analytics_engines/{instance_id}/spark_applications/{application_id}/state".format(**path_param_dict)
         request = self.prepare_request(method="GET", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_current_resource_consumption(
-        self, instance_id: str, **kwargs
-    ) -> DetailedResponse:
+    def get_current_resource_consumption(self, instance_id: str, **kwargs) -> DetailedResponse:
         """
         Get current resource consumption.
 
@@ -836,17 +774,13 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = "/v3/analytics_engines/{instance_id}/current_resource_consumption".format(
-            **path_param_dict
-        )
+        url = "/v3/analytics_engines/{instance_id}/current_resource_consumption".format(**path_param_dict)
         request = self.prepare_request(method="GET", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_resource_consumption_limits(
-        self, instance_id: str, **kwargs
-    ) -> DetailedResponse:
+    def get_resource_consumption_limits(self, instance_id: str, **kwargs) -> DetailedResponse:
         """
         Get resource consumption limits.
 
@@ -877,22 +811,14 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = "/v3/analytics_engines/{instance_id}/resource_consumption_limits".format(
-            **path_param_dict
-        )
+        url = "/v3/analytics_engines/{instance_id}/resource_consumption_limits".format(**path_param_dict)
         request = self.prepare_request(method="GET", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
     def replace_log_forwarding_config(
-        self,
-        instance_id: str,
-        *,
-        enabled: bool = None,
-        sources: List[str] = None,
-        tags: List[str] = None,
-        **kwargs
+        self, instance_id: str, *, enabled: bool = None, sources: List[str] = None, tags: List[str] = None, **kwargs
     ) -> DetailedResponse:
         """
         Replace log forwarding configuration.
@@ -939,12 +865,8 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = "/v3/analytics_engines/{instance_id}/log_forwarding_config".format(
-            **path_param_dict
-        )
-        request = self.prepare_request(
-            method="PUT", url=url, headers=headers, data=data
-        )
+        url = "/v3/analytics_engines/{instance_id}/log_forwarding_config".format(**path_param_dict)
+        request = self.prepare_request(method="PUT", url=url, headers=headers, data=data)
 
         response = self.send(request, **kwargs)
         return response
@@ -979,17 +901,13 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = "/v3/analytics_engines/{instance_id}/log_forwarding_config".format(
-            **path_param_dict
-        )
+        url = "/v3/analytics_engines/{instance_id}/log_forwarding_config".format(**path_param_dict)
         request = self.prepare_request(method="GET", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-    def configure_platform_logging(
-        self, instance_guid: str, *, enable: bool = None, **kwargs
-    ) -> DetailedResponse:
+    def configure_platform_logging(self, instance_guid: str, *, enable: bool = None, **kwargs) -> DetailedResponse:
         """
         Enable or disable log forwarding.
 
@@ -1007,9 +925,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         Deprecated: this method is deprecated and may be removed in a future release.
         """
 
-        logging.warning(
-            "A deprecated operation has been invoked: configure_platform_logging"
-        )
+        logging.warning("A deprecated operation has been invoked: configure_platform_logging")
 
         if not instance_guid:
             raise ValueError("instance_guid must be provided")
@@ -1037,16 +953,12 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_values = self.encode_path_vars(instance_guid)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = "/v3/analytics_engines/{instance_guid}/logging".format(**path_param_dict)
-        request = self.prepare_request(
-            method="PUT", url=url, headers=headers, data=data
-        )
+        request = self.prepare_request(method="PUT", url=url, headers=headers, data=data)
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_logging_configuration(
-        self, instance_guid: str, **kwargs
-    ) -> DetailedResponse:
+    def get_logging_configuration(self, instance_guid: str, **kwargs) -> DetailedResponse:
         """
         Retrieve the logging configuration for a given instance id.
 
@@ -1062,9 +974,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         Deprecated: this method is deprecated and may be removed in a future release.
         """
 
-        logging.warning(
-            "A deprecated operation has been invoked: get_logging_configuration"
-        )
+        logging.warning("A deprecated operation has been invoked: get_logging_configuration")
 
         if not instance_guid:
             raise ValueError("instance_guid must be provided")
@@ -1090,9 +1000,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         response = self.send(request, **kwargs)
         return response
 
-    def start_spark_history_server(
-        self, instance_id: str, **kwargs
-    ) -> DetailedResponse:
+    def start_spark_history_server(self, instance_id: str, **kwargs) -> DetailedResponse:
         """
         Start Spark history server.
 
@@ -1123,9 +1031,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = "/v3/analytics_engines/{instance_id}/spark_history_server".format(
-            **path_param_dict
-        )
+        url = "/v3/analytics_engines/{instance_id}/spark_history_server".format(**path_param_dict)
         request = self.prepare_request(method="POST", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
@@ -1163,9 +1069,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = "/v3/analytics_engines/{instance_id}/spark_history_server".format(
-            **path_param_dict
-        )
+        url = "/v3/analytics_engines/{instance_id}/spark_history_server".format(**path_param_dict)
         request = self.prepare_request(method="GET", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
@@ -1201,9 +1105,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = "/v3/analytics_engines/{instance_id}/spark_history_server".format(
-            **path_param_dict
-        )
+        url = "/v3/analytics_engines/{instance_id}/spark_history_server".format(**path_param_dict)
         request = self.prepare_request(method="DELETE", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
@@ -1342,9 +1244,7 @@ class Application:
         if "finish_time" in _dict:
             args["finish_time"] = string_to_datetime(_dict.get("finish_time"))
         if "auto_termination_time" in _dict:
-            args["auto_termination_time"] = string_to_datetime(
-                _dict.get("auto_termination_time")
-            )
+            args["auto_termination_time"] = string_to_datetime(_dict.get("auto_termination_time"))
         return cls(**args)
 
     @classmethod
@@ -1364,15 +1264,9 @@ class Application:
                 _dict["runtime"] = self.runtime
             else:
                 _dict["runtime"] = self.runtime.to_dict()
-        if (
-            hasattr(self, "spark_application_id")
-            and self.spark_application_id is not None
-        ):
+        if hasattr(self, "spark_application_id") and self.spark_application_id is not None:
             _dict["spark_application_id"] = self.spark_application_id
-        if (
-            hasattr(self, "spark_application_name")
-            and self.spark_application_name is not None
-        ):
+        if hasattr(self, "spark_application_name") and self.spark_application_name is not None:
             _dict["spark_application_name"] = self.spark_application_name
         if hasattr(self, "state") and self.state is not None:
             _dict["state"] = self.state
@@ -1386,13 +1280,8 @@ class Application:
             _dict["end_time"] = datetime_to_string(self.end_time)
         if hasattr(self, "finish_time") and self.finish_time is not None:
             _dict["finish_time"] = datetime_to_string(self.finish_time)
-        if (
-            hasattr(self, "auto_termination_time")
-            and self.auto_termination_time is not None
-        ):
-            _dict["auto_termination_time"] = datetime_to_string(
-                self.auto_termination_time
-            )
+        if hasattr(self, "auto_termination_time") and self.auto_termination_time is not None:
+            _dict["auto_termination_time"] = datetime_to_string(self.auto_termination_time)
         return _dict
 
     def _to_dict(self):
@@ -1447,9 +1336,7 @@ class ApplicationCollection:
         """Initialize a ApplicationCollection object from a json dictionary."""
         args = {}
         if "applications" in _dict:
-            args["applications"] = [
-                Application.from_dict(v) for v in _dict.get("applications")
-            ]
+            args["applications"] = [Application.from_dict(v) for v in _dict.get("applications")]
         return cls(**args)
 
     @classmethod
@@ -1744,9 +1631,7 @@ class ApplicationGetResponse:
         """Initialize a ApplicationGetResponse object from a json dictionary."""
         args = {}
         if "application_details" in _dict:
-            args["application_details"] = ApplicationDetails.from_dict(
-                _dict.get("application_details")
-            )
+            args["application_details"] = ApplicationDetails.from_dict(_dict.get("application_details"))
         if "id" in _dict:
             args["id"] = _dict.get("id")
         if "spark_application_id" in _dict:
@@ -1759,8 +1644,7 @@ class ApplicationGetResponse:
             args["spark_ui"] = _dict.get("spark_ui")
         if "state_details" in _dict:
             args["state_details"] = [
-                ApplicationGetResponseStateDetailsItem.from_dict(v)
-                for v in _dict.get("state_details")
+                ApplicationGetResponseStateDetailsItem.from_dict(v) for v in _dict.get("state_details")
             ]
         if "submission_time" in _dict:
             args["submission_time"] = string_to_datetime(_dict.get("submission_time"))
@@ -1771,9 +1655,7 @@ class ApplicationGetResponse:
         if "finish_time" in _dict:
             args["finish_time"] = string_to_datetime(_dict.get("finish_time"))
         if "auto_termination_time" in _dict:
-            args["auto_termination_time"] = string_to_datetime(
-                _dict.get("auto_termination_time")
-            )
+            args["auto_termination_time"] = string_to_datetime(_dict.get("auto_termination_time"))
         return cls(**args)
 
     @classmethod
@@ -1784,25 +1666,16 @@ class ApplicationGetResponse:
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if (
-            hasattr(self, "application_details")
-            and self.application_details is not None
-        ):
+        if hasattr(self, "application_details") and self.application_details is not None:
             if isinstance(self.application_details, dict):
                 _dict["application_details"] = self.application_details
             else:
                 _dict["application_details"] = self.application_details.to_dict()
         if hasattr(self, "id") and self.id is not None:
             _dict["id"] = self.id
-        if (
-            hasattr(self, "spark_application_id")
-            and self.spark_application_id is not None
-        ):
+        if hasattr(self, "spark_application_id") and self.spark_application_id is not None:
             _dict["spark_application_id"] = self.spark_application_id
-        if (
-            hasattr(self, "spark_application_name")
-            and self.spark_application_name is not None
-        ):
+        if hasattr(self, "spark_application_name") and self.spark_application_name is not None:
             _dict["spark_application_name"] = self.spark_application_name
         if hasattr(self, "state") and self.state is not None:
             _dict["state"] = self.state
@@ -1824,13 +1697,8 @@ class ApplicationGetResponse:
             _dict["end_time"] = datetime_to_string(self.end_time)
         if hasattr(self, "finish_time") and self.finish_time is not None:
             _dict["finish_time"] = datetime_to_string(self.finish_time)
-        if (
-            hasattr(self, "auto_termination_time")
-            and self.auto_termination_time is not None
-        ):
-            _dict["auto_termination_time"] = datetime_to_string(
-                self.auto_termination_time
-            )
+        if hasattr(self, "auto_termination_time") and self.auto_termination_time is not None:
+            _dict["auto_termination_time"] = datetime_to_string(self.auto_termination_time)
         return _dict
 
     def _to_dict(self):
@@ -1875,9 +1743,7 @@ class ApplicationGetResponseStateDetailsItem:
           information on the current application state.
     """
 
-    def __init__(
-        self, *, type: str = None, code: str = None, message: str = None
-    ) -> None:
+    def __init__(self, *, type: str = None, code: str = None, message: str = None) -> None:
         """
         Initialize a ApplicationGetResponseStateDetailsItem object.
 
@@ -2007,9 +1873,7 @@ class ApplicationGetStateResponse:
         if "finish_time" in _dict:
             args["finish_time"] = string_to_datetime(_dict.get("finish_time"))
         if "auto_termination_time" in _dict:
-            args["auto_termination_time"] = string_to_datetime(
-                _dict.get("auto_termination_time")
-            )
+            args["auto_termination_time"] = string_to_datetime(_dict.get("auto_termination_time"))
         return cls(**args)
 
     @classmethod
@@ -2030,13 +1894,8 @@ class ApplicationGetStateResponse:
             _dict["end_time"] = datetime_to_string(self.end_time)
         if hasattr(self, "finish_time") and self.finish_time is not None:
             _dict["finish_time"] = datetime_to_string(self.finish_time)
-        if (
-            hasattr(self, "auto_termination_time")
-            and self.auto_termination_time is not None
-        ):
-            _dict["auto_termination_time"] = datetime_to_string(
-                self.auto_termination_time
-            )
+        if hasattr(self, "auto_termination_time") and self.auto_termination_time is not None:
+            _dict["auto_termination_time"] = datetime_to_string(self.auto_termination_time)
         return _dict
 
     def _to_dict(self):
@@ -2436,17 +2295,13 @@ class Instance:
         if "state" in _dict:
             args["state"] = _dict.get("state")
         if "state_change_time" in _dict:
-            args["state_change_time"] = string_to_datetime(
-                _dict.get("state_change_time")
-            )
+            args["state_change_time"] = string_to_datetime(_dict.get("state_change_time"))
         if "default_runtime" in _dict:
             args["default_runtime"] = Runtime.from_dict(_dict.get("default_runtime"))
         if "instance_home" in _dict:
             args["instance_home"] = InstanceHome.from_dict(_dict.get("instance_home"))
         if "default_config" in _dict:
-            args["default_config"] = InstanceDefaultConfig.from_dict(
-                _dict.get("default_config")
-            )
+            args["default_config"] = InstanceDefaultConfig.from_dict(_dict.get("default_config"))
         return cls(**args)
 
     @classmethod
@@ -2928,9 +2783,7 @@ class LogForwardingConfigResponse:
         if "tags" in _dict:
             args["tags"] = _dict.get("tags")
         if "log_server" in _dict:
-            args["log_server"] = LogForwardingConfigResponseLogServer.from_dict(
-                _dict.get("log_server")
-            )
+            args["log_server"] = LogForwardingConfigResponseLogServer.from_dict(_dict.get("log_server"))
         if "enabled" in _dict:
             args["enabled"] = _dict.get("enabled")
         return cls(**args)
@@ -3065,9 +2918,7 @@ class LoggingConfigurationResponse:
         if "components" in _dict:
             args["components"] = _dict.get("components")
         if "log_server" in _dict:
-            args["log_server"] = LoggingConfigurationResponseLogServer.from_dict(
-                _dict.get("log_server")
-            )
+            args["log_server"] = LoggingConfigurationResponseLogServer.from_dict(_dict.get("log_server"))
         if "enable" in _dict:
             args["enable"] = _dict.get("enable")
         return cls(**args)
@@ -3347,9 +3198,7 @@ class SparkHistoryServerResponse:
         if "stop_time" in _dict:
             args["stop_time"] = string_to_datetime(_dict.get("stop_time"))
         if "auto_termination_time" in _dict:
-            args["auto_termination_time"] = string_to_datetime(
-                _dict.get("auto_termination_time")
-            )
+            args["auto_termination_time"] = string_to_datetime(_dict.get("auto_termination_time"))
         return cls(**args)
 
     @classmethod
@@ -3370,13 +3219,8 @@ class SparkHistoryServerResponse:
             _dict["start_time"] = datetime_to_string(self.start_time)
         if hasattr(self, "stop_time") and self.stop_time is not None:
             _dict["stop_time"] = datetime_to_string(self.stop_time)
-        if (
-            hasattr(self, "auto_termination_time")
-            and self.auto_termination_time is not None
-        ):
-            _dict["auto_termination_time"] = datetime_to_string(
-                self.auto_termination_time
-            )
+        if hasattr(self, "auto_termination_time") and self.auto_termination_time is not None:
+            _dict["auto_termination_time"] = datetime_to_string(self.auto_termination_time)
         return _dict
 
     def _to_dict(self):

@@ -149,12 +149,10 @@ class TestIbmAnalyticsEngineApiV3Examples:
             print("\nupdate_instance_home_credentials() result:")
             # begin-update_instance_home_credentials
 
-            response = (
-                ibm_analytics_engine_api_service.update_instance_home_credentials(
-                    instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
-                    hmac_access_key="b9****************************4b",
-                    hmac_secret_key="fa********************************************8a",
-                )
+            response = ibm_analytics_engine_api_service.update_instance_home_credentials(
+                instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
+                hmac_access_key="b9****************************4b",
+                hmac_secret_key="fa********************************************8a",
             )
             instance_home_response = response.get_result()
 
@@ -195,14 +193,12 @@ class TestIbmAnalyticsEngineApiV3Examples:
             print("\nreplace_instance_default_configs() result:")
             # begin-replace_instance_default_configs
 
-            response = (
-                ibm_analytics_engine_api_service.replace_instance_default_configs(
-                    instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
-                    body={
-                        "spark.driver.memory": "8G",
-                        "spark.driver.cores": "2",
-                    },
-                )
+            response = ibm_analytics_engine_api_service.replace_instance_default_configs(
+                instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
+                body={
+                    "spark.driver.memory": "8G",
+                    "spark.driver.cores": "2",
+                },
             )
             instance_default_configs = response.get_result()
 
@@ -268,11 +264,9 @@ class TestIbmAnalyticsEngineApiV3Examples:
             print("\nreplace_instance_default_runtime() result:")
             # begin-replace_instance_default_runtime
 
-            response = (
-                ibm_analytics_engine_api_service.replace_instance_default_runtime(
-                    instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
-                    spark_version="3.3",
-                )
+            response = ibm_analytics_engine_api_service.replace_instance_default_runtime(
+                instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
+                spark_version="3.3",
             )
             runtime = response.get_result()
 
@@ -389,10 +383,8 @@ class TestIbmAnalyticsEngineApiV3Examples:
             print("\nget_current_resource_consumption() result:")
             # begin-get_current_resource_consumption
 
-            response = (
-                ibm_analytics_engine_api_service.get_current_resource_consumption(
-                    instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
-                )
+            response = ibm_analytics_engine_api_service.get_current_resource_consumption(
+                instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
             )
             current_resource_consumption_response = response.get_result()
 

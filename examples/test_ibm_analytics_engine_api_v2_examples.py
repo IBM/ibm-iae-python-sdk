@@ -103,11 +103,9 @@ class TestIbmAnalyticsEngineApiV2Examples:
             print("\nget_analytics_engine_by_id() result:")
             # begin-getAnalyticsEngineById
 
-            analytics_engine = (
-                ibm_analytics_engine_api_service.get_analytics_engine_by_id(
-                    instance_guid="testString"
-                ).get_result()
-            )
+            analytics_engine = ibm_analytics_engine_api_service.get_analytics_engine_by_id(
+                instance_guid="testString"
+            ).get_result()
 
             print(json.dumps(analytics_engine, indent=2))
 
@@ -125,11 +123,9 @@ class TestIbmAnalyticsEngineApiV2Examples:
             print("\nget_analytics_engine_state_by_id() result:")
             # begin-getAnalyticsEngineStateById
 
-            analytics_engine_state = (
-                ibm_analytics_engine_api_service.get_analytics_engine_state_by_id(
-                    instance_guid="testString"
-                ).get_result()
-            )
+            analytics_engine_state = ibm_analytics_engine_api_service.get_analytics_engine_state_by_id(
+                instance_guid="testString"
+            ).get_result()
 
             print(json.dumps(analytics_engine_state, indent=2))
 
@@ -176,9 +172,7 @@ class TestIbmAnalyticsEngineApiV2Examples:
             # begin-getAllCustomizationRequests
 
             list_analytics_engine_customization_request_collection_item = (
-                ibm_analytics_engine_api_service.get_all_customization_requests(
-                    instance_guid="testString"
-                ).get_result()
+                ibm_analytics_engine_api_service.get_all_customization_requests(instance_guid="testString").get_result()
             )
 
             print(
@@ -226,11 +220,9 @@ class TestIbmAnalyticsEngineApiV2Examples:
 
             resize_cluster_request_model = {}
 
-            analytics_engine_resize_cluster_response = (
-                ibm_analytics_engine_api_service.resize_cluster(
-                    instance_guid="testString", body=resize_cluster_request_model
-                ).get_result()
-            )
+            analytics_engine_resize_cluster_response = ibm_analytics_engine_api_service.resize_cluster(
+                instance_guid="testString", body=resize_cluster_request_model
+            ).get_result()
 
             print(json.dumps(analytics_engine_resize_cluster_response, indent=2))
 
@@ -248,15 +240,11 @@ class TestIbmAnalyticsEngineApiV2Examples:
             print("\nreset_cluster_password() result:")
             # begin-resetClusterPassword
 
-            analytics_engine_reset_cluster_password_response = (
-                ibm_analytics_engine_api_service.reset_cluster_password(
-                    instance_guid="testString"
-                ).get_result()
-            )
+            analytics_engine_reset_cluster_password_response = ibm_analytics_engine_api_service.reset_cluster_password(
+                instance_guid="testString"
+            ).get_result()
 
-            print(
-                json.dumps(analytics_engine_reset_cluster_password_response, indent=2)
-            )
+            print(json.dumps(analytics_engine_reset_cluster_password_response, indent=2))
 
             # end-resetClusterPassword
 
@@ -307,11 +295,9 @@ class TestIbmAnalyticsEngineApiV2Examples:
             print("\nget_logging_config() result:")
             # begin-getLoggingConfig
 
-            analytics_engine_logging_config_details = (
-                ibm_analytics_engine_api_service.get_logging_config(
-                    instance_guid="testString"
-                ).get_result()
-            )
+            analytics_engine_logging_config_details = ibm_analytics_engine_api_service.get_logging_config(
+                instance_guid="testString"
+            ).get_result()
 
             print(json.dumps(analytics_engine_logging_config_details, indent=2))
 
@@ -329,11 +315,9 @@ class TestIbmAnalyticsEngineApiV2Examples:
             print("\nupdate_private_endpoint_whitelist() result:")
             # begin-updatePrivateEndpointWhitelist
 
-            analytics_engine_whitelist_response = (
-                ibm_analytics_engine_api_service.update_private_endpoint_whitelist(
-                    instance_guid="testString", ip_ranges=["testString"], action="add"
-                ).get_result()
-            )
+            analytics_engine_whitelist_response = ibm_analytics_engine_api_service.update_private_endpoint_whitelist(
+                instance_guid="testString", ip_ranges=["testString"], action="add"
+            ).get_result()
 
             print(json.dumps(analytics_engine_whitelist_response, indent=2))
 
@@ -350,9 +334,7 @@ class TestIbmAnalyticsEngineApiV2Examples:
         try:
             # begin-deleteLoggingConfig
 
-            response = ibm_analytics_engine_api_service.delete_logging_config(
-                instance_guid="testString"
-            )
+            response = ibm_analytics_engine_api_service.delete_logging_config(instance_guid="testString")
 
             # end-deleteLoggingConfig
             print(

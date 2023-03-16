@@ -75,9 +75,7 @@ class IbmAnalyticsEngineApiV2(BaseService):
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
         """
-        BaseService.__init__(
-            self, service_url=self.DEFAULT_SERVICE_URL, authenticator=authenticator
-        )
+        BaseService.__init__(self, service_url=self.DEFAULT_SERVICE_URL, authenticator=authenticator)
 
     #########################
     # Analytics Engines V2
@@ -113,9 +111,7 @@ class IbmAnalyticsEngineApiV2(BaseService):
         response = self.send(request, **kwargs)
         return response
 
-    def get_analytics_engine_by_id(
-        self, instance_guid: str, **kwargs
-    ) -> DetailedResponse:
+    def get_analytics_engine_by_id(self, instance_guid: str, **kwargs) -> DetailedResponse:
         """
         Get details of Analytics Engine.
 
@@ -155,9 +151,7 @@ class IbmAnalyticsEngineApiV2(BaseService):
         response = self.send(request, **kwargs)
         return response
 
-    def get_analytics_engine_state_by_id(
-        self, instance_guid: str, **kwargs
-    ) -> DetailedResponse:
+    def get_analytics_engine_state_by_id(self, instance_guid: str, **kwargs) -> DetailedResponse:
         """
         Get state of Analytics Engine.
 
@@ -200,11 +194,7 @@ class IbmAnalyticsEngineApiV2(BaseService):
         return response
 
     def create_customization_request(
-        self,
-        instance_guid: str,
-        target: str,
-        custom_actions: List["AnalyticsEngineCustomAction"],
-        **kwargs
+        self, instance_guid: str, target: str, custom_actions: List["AnalyticsEngineCustomAction"], **kwargs
     ) -> DetailedResponse:
         """
         Create an adhoc customization request.
@@ -249,19 +239,13 @@ class IbmAnalyticsEngineApiV2(BaseService):
         path_param_keys = ["instance_guid"]
         path_param_values = self.encode_path_vars(instance_guid)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = "/v2/analytics_engines/{instance_guid}/customization_requests".format(
-            **path_param_dict
-        )
-        request = self.prepare_request(
-            method="POST", url=url, headers=headers, data=data
-        )
+        url = "/v2/analytics_engines/{instance_guid}/customization_requests".format(**path_param_dict)
+        request = self.prepare_request(method="POST", url=url, headers=headers, data=data)
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_all_customization_requests(
-        self, instance_guid: str, **kwargs
-    ) -> DetailedResponse:
+    def get_all_customization_requests(self, instance_guid: str, **kwargs) -> DetailedResponse:
         """
         Get all customization requests run on an Analytics Engine cluster.
 
@@ -291,17 +275,13 @@ class IbmAnalyticsEngineApiV2(BaseService):
         path_param_keys = ["instance_guid"]
         path_param_values = self.encode_path_vars(instance_guid)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = "/v2/analytics_engines/{instance_guid}/customization_requests".format(
-            **path_param_dict
-        )
+        url = "/v2/analytics_engines/{instance_guid}/customization_requests".format(**path_param_dict)
         request = self.prepare_request(method="GET", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-    def get_customization_request_by_id(
-        self, instance_guid: str, request_id: str, **kwargs
-    ) -> DetailedResponse:
+    def get_customization_request_by_id(self, instance_guid: str, request_id: str, **kwargs) -> DetailedResponse:
         """
         Retrieve details of specified customization request ID.
 
@@ -334,17 +314,13 @@ class IbmAnalyticsEngineApiV2(BaseService):
         path_param_keys = ["instance_guid", "request_id"]
         path_param_values = self.encode_path_vars(instance_guid, request_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = "/v2/analytics_engines/{instance_guid}/customization_requests/{request_id}".format(
-            **path_param_dict
-        )
+        url = "/v2/analytics_engines/{instance_guid}/customization_requests/{request_id}".format(**path_param_dict)
         request = self.prepare_request(method="GET", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-    def resize_cluster(
-        self, instance_guid: str, body: "ResizeClusterRequest", **kwargs
-    ) -> DetailedResponse:
+    def resize_cluster(self, instance_guid: str, body: "ResizeClusterRequest", **kwargs) -> DetailedResponse:
         """
         Resize the cluster.
 
@@ -394,9 +370,7 @@ class IbmAnalyticsEngineApiV2(BaseService):
         path_param_values = self.encode_path_vars(instance_guid)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = "/v2/analytics_engines/{instance_guid}/resize".format(**path_param_dict)
-        request = self.prepare_request(
-            method="POST", url=url, headers=headers, data=data
-        )
+        request = self.prepare_request(method="POST", url=url, headers=headers, data=data)
 
         response = self.send(request, **kwargs)
         return response
@@ -432,9 +406,7 @@ class IbmAnalyticsEngineApiV2(BaseService):
         path_param_keys = ["instance_guid"]
         path_param_values = self.encode_path_vars(instance_guid)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = "/v2/analytics_engines/{instance_guid}/reset_password".format(
-            **path_param_dict
-        )
+        url = "/v2/analytics_engines/{instance_guid}/reset_password".format(**path_param_dict)
         request = self.prepare_request(method="POST", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
@@ -492,12 +464,8 @@ class IbmAnalyticsEngineApiV2(BaseService):
         path_param_keys = ["instance_guid"]
         path_param_values = self.encode_path_vars(instance_guid)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = "/v2/analytics_engines/{instance_guid}/log_config".format(
-            **path_param_dict
-        )
-        request = self.prepare_request(
-            method="PUT", url=url, headers=headers, data=data
-        )
+        url = "/v2/analytics_engines/{instance_guid}/log_config".format(**path_param_dict)
+        request = self.prepare_request(method="PUT", url=url, headers=headers, data=data)
 
         response = self.send(request, **kwargs)
         return response
@@ -531,9 +499,7 @@ class IbmAnalyticsEngineApiV2(BaseService):
         path_param_keys = ["instance_guid"]
         path_param_values = self.encode_path_vars(instance_guid)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = "/v2/analytics_engines/{instance_guid}/log_config".format(
-            **path_param_dict
-        )
+        url = "/v2/analytics_engines/{instance_guid}/log_config".format(**path_param_dict)
         request = self.prepare_request(method="GET", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
@@ -568,9 +534,7 @@ class IbmAnalyticsEngineApiV2(BaseService):
         path_param_keys = ["instance_guid"]
         path_param_values = self.encode_path_vars(instance_guid)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = "/v2/analytics_engines/{instance_guid}/log_config".format(
-            **path_param_dict
-        )
+        url = "/v2/analytics_engines/{instance_guid}/log_config".format(**path_param_dict)
         request = self.prepare_request(method="DELETE", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
@@ -620,12 +584,8 @@ class IbmAnalyticsEngineApiV2(BaseService):
         path_param_keys = ["instance_guid"]
         path_param_values = self.encode_path_vars(instance_guid)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = "/v2/analytics_engines/{instance_guid}/private_endpoint_whitelist".format(
-            **path_param_dict
-        )
-        request = self.prepare_request(
-            method="PATCH", url=url, headers=headers, data=data
-        )
+        url = "/v2/analytics_engines/{instance_guid}/private_endpoint_whitelist".format(**path_param_dict)
+        request = self.prepare_request(method="PATCH", url=url, headers=headers, data=data)
 
         response = self.send(request, **kwargs)
         return response
@@ -738,97 +698,61 @@ class AnalyticsEngine:
         if "id" in _dict:
             args["id"] = _dict.get("id")
         else:
-            raise ValueError(
-                "Required property 'id' not present in AnalyticsEngine JSON"
-            )
+            raise ValueError("Required property 'id' not present in AnalyticsEngine JSON")
         if "name" in _dict:
             args["name"] = _dict.get("name")
         else:
-            raise ValueError(
-                "Required property 'name' not present in AnalyticsEngine JSON"
-            )
+            raise ValueError("Required property 'name' not present in AnalyticsEngine JSON")
         if "service_plan" in _dict:
             args["service_plan"] = _dict.get("service_plan")
         else:
-            raise ValueError(
-                "Required property 'service_plan' not present in AnalyticsEngine JSON"
-            )
+            raise ValueError("Required property 'service_plan' not present in AnalyticsEngine JSON")
         if "hardware_size" in _dict:
             args["hardware_size"] = _dict.get("hardware_size")
         else:
-            raise ValueError(
-                "Required property 'hardware_size' not present in AnalyticsEngine JSON"
-            )
+            raise ValueError("Required property 'hardware_size' not present in AnalyticsEngine JSON")
         if "software_package" in _dict:
             args["software_package"] = _dict.get("software_package")
         else:
-            raise ValueError(
-                "Required property 'software_package' not present in AnalyticsEngine JSON"
-            )
+            raise ValueError("Required property 'software_package' not present in AnalyticsEngine JSON")
         if "domain" in _dict:
             args["domain"] = _dict.get("domain")
         else:
-            raise ValueError(
-                "Required property 'domain' not present in AnalyticsEngine JSON"
-            )
+            raise ValueError("Required property 'domain' not present in AnalyticsEngine JSON")
         if "creation_time" in _dict:
             args["creation_time"] = string_to_datetime(_dict.get("creation_time"))
         else:
-            raise ValueError(
-                "Required property 'creation_time' not present in AnalyticsEngine JSON"
-            )
+            raise ValueError("Required property 'creation_time' not present in AnalyticsEngine JSON")
         if "commision_time" in _dict:
             args["commision_time"] = string_to_datetime(_dict.get("commision_time"))
         else:
-            raise ValueError(
-                "Required property 'commision_time' not present in AnalyticsEngine JSON"
-            )
+            raise ValueError("Required property 'commision_time' not present in AnalyticsEngine JSON")
         if "decommision_time" in _dict:
             args["decommision_time"] = string_to_datetime(_dict.get("decommision_time"))
         else:
-            raise ValueError(
-                "Required property 'decommision_time' not present in AnalyticsEngine JSON"
-            )
+            raise ValueError("Required property 'decommision_time' not present in AnalyticsEngine JSON")
         if "deletion_time" in _dict:
             args["deletion_time"] = string_to_datetime(_dict.get("deletion_time"))
         else:
-            raise ValueError(
-                "Required property 'deletion_time' not present in AnalyticsEngine JSON"
-            )
+            raise ValueError("Required property 'deletion_time' not present in AnalyticsEngine JSON")
         if "state_change_time" in _dict:
-            args["state_change_time"] = string_to_datetime(
-                _dict.get("state_change_time")
-            )
+            args["state_change_time"] = string_to_datetime(_dict.get("state_change_time"))
         else:
-            raise ValueError(
-                "Required property 'state_change_time' not present in AnalyticsEngine JSON"
-            )
+            raise ValueError("Required property 'state_change_time' not present in AnalyticsEngine JSON")
         if "state" in _dict:
             args["state"] = _dict.get("state")
         else:
-            raise ValueError(
-                "Required property 'state' not present in AnalyticsEngine JSON"
-            )
+            raise ValueError("Required property 'state' not present in AnalyticsEngine JSON")
         if "nodes" in _dict:
-            args["nodes"] = [
-                AnalyticsEngineClusterNode.from_dict(x) for x in _dict.get("nodes")
-            ]
+            args["nodes"] = [AnalyticsEngineClusterNode.from_dict(x) for x in _dict.get("nodes")]
         if "user_credentials" in _dict:
-            args["user_credentials"] = AnalyticsEngineUserCredentials.from_dict(
-                _dict.get("user_credentials")
-            )
+            args["user_credentials"] = AnalyticsEngineUserCredentials.from_dict(_dict.get("user_credentials"))
         else:
-            raise ValueError(
-                "Required property 'user_credentials' not present in AnalyticsEngine JSON"
-            )
+            raise ValueError("Required property 'user_credentials' not present in AnalyticsEngine JSON")
         if "service_endpoints" in _dict:
-            args["service_endpoints"] = ServiceEndpoints.from_dict(
-                _dict.get("service_endpoints")
-            )
+            args["service_endpoints"] = ServiceEndpoints.from_dict(_dict.get("service_endpoints"))
         if "service_endpoints_ip" in _dict:
-            args["service_endpoints_ip"] = ServiceEndpoints.from_dict(
-                _dict.get("service_endpoints_ip")
-            )
+            args["service_endpoints_ip"] = ServiceEndpoints.from_dict(_dict.get("service_endpoints_ip"))
         if "private_endpoint_whitelist" in _dict:
             args["private_endpoint_whitelist"] = _dict.get("private_endpoint_whitelist")
         return cls(**args)
@@ -871,15 +795,9 @@ class AnalyticsEngine:
             _dict["user_credentials"] = self.user_credentials.to_dict()
         if hasattr(self, "service_endpoints") and self.service_endpoints is not None:
             _dict["service_endpoints"] = self.service_endpoints.to_dict()
-        if (
-            hasattr(self, "service_endpoints_ip")
-            and self.service_endpoints_ip is not None
-        ):
+        if hasattr(self, "service_endpoints_ip") and self.service_endpoints_ip is not None:
             _dict["service_endpoints_ip"] = self.service_endpoints_ip.to_dict()
-        if (
-            hasattr(self, "private_endpoint_whitelist")
-            and self.private_endpoint_whitelist is not None
-        ):
+        if hasattr(self, "private_endpoint_whitelist") and self.private_endpoint_whitelist is not None:
             _dict["private_endpoint_whitelist"] = self.private_endpoint_whitelist
         return _dict
 
@@ -966,9 +884,7 @@ class AnalyticsEngineClusterNode:
         if "private_ip" in _dict:
             args["private_ip"] = _dict.get("private_ip")
         if "state_change_time" in _dict:
-            args["state_change_time"] = string_to_datetime(
-                _dict.get("state_change_time")
-            )
+            args["state_change_time"] = string_to_datetime(_dict.get("state_change_time"))
         if "commission_time" in _dict:
             args["commission_time"] = string_to_datetime(_dict.get("commission_time"))
         return cls(**args)
@@ -1112,15 +1028,11 @@ class AnalyticsEngineCustomAction:
         if "name" in _dict:
             args["name"] = _dict.get("name")
         else:
-            raise ValueError(
-                "Required property 'name' not present in AnalyticsEngineCustomAction JSON"
-            )
+            raise ValueError("Required property 'name' not present in AnalyticsEngineCustomAction JSON")
         if "type" in _dict:
             args["type"] = _dict.get("type")
         if "script" in _dict:
-            args["script"] = AnalyticsEngineCustomActionScript.from_dict(
-                _dict.get("script")
-            )
+            args["script"] = AnalyticsEngineCustomActionScript.from_dict(_dict.get("script"))
         if "script_params" in _dict:
             args["script_params"] = _dict.get("script_params")
         return cls(**args)
@@ -1179,13 +1091,7 @@ class AnalyticsEngineCustomActionScript:
     :attr object source_props: (optional) Customization script properties.
     """
 
-    def __init__(
-        self,
-        *,
-        source_type: str = None,
-        script_path: str = None,
-        source_props: object = None
-    ) -> None:
+    def __init__(self, *, source_type: str = None, script_path: str = None, source_props: object = None) -> None:
         """
         Initialize a AnalyticsEngineCustomActionScript object.
 
@@ -1272,9 +1178,7 @@ class AnalyticsEngineCustomizationRequestCollectionItem:
         self.id = id
 
     @classmethod
-    def from_dict(
-        cls, _dict: Dict
-    ) -> "AnalyticsEngineCustomizationRequestCollectionItem":
+    def from_dict(cls, _dict: Dict) -> "AnalyticsEngineCustomizationRequestCollectionItem":
         """Initialize a AnalyticsEngineCustomizationRequestCollectionItem object from a json dictionary."""
         args = {}
         if "id" in _dict:
@@ -1301,17 +1205,13 @@ class AnalyticsEngineCustomizationRequestCollectionItem:
         """Return a `str` version of this AnalyticsEngineCustomizationRequestCollectionItem object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(
-        self, other: "AnalyticsEngineCustomizationRequestCollectionItem"
-    ) -> bool:
+    def __eq__(self, other: "AnalyticsEngineCustomizationRequestCollectionItem") -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(
-        self, other: "AnalyticsEngineCustomizationRequestCollectionItem"
-    ) -> bool:
+    def __ne__(self, other: "AnalyticsEngineCustomizationRequestCollectionItem") -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1354,11 +1254,7 @@ class AnalyticsEngineCustomizationRunDetails:
         if "run_status" in _dict:
             args["run_status"] = _dict.get("run_status")
         if "run_details" in _dict:
-            args[
-                "run_details"
-            ] = AnalyticsEngineCustomizationRunDetailsRunDetails.from_dict(
-                _dict.get("run_details")
-            )
+            args["run_details"] = AnalyticsEngineCustomizationRunDetailsRunDetails.from_dict(_dict.get("run_details"))
         return cls(**args)
 
     @classmethod
@@ -1406,10 +1302,7 @@ class AnalyticsEngineCustomizationRunDetailsRunDetails:
     """
 
     def __init__(
-        self,
-        *,
-        overall_status: str = None,
-        details: List["AnalyticsEngineNodeLevelCustomizationRunDetails"] = None
+        self, *, overall_status: str = None, details: List["AnalyticsEngineNodeLevelCustomizationRunDetails"] = None
     ) -> None:
         """
         Initialize a AnalyticsEngineCustomizationRunDetailsRunDetails object.
@@ -1422,17 +1315,14 @@ class AnalyticsEngineCustomizationRunDetailsRunDetails:
         self.details = details
 
     @classmethod
-    def from_dict(
-        cls, _dict: Dict
-    ) -> "AnalyticsEngineCustomizationRunDetailsRunDetails":
+    def from_dict(cls, _dict: Dict) -> "AnalyticsEngineCustomizationRunDetailsRunDetails":
         """Initialize a AnalyticsEngineCustomizationRunDetailsRunDetails object from a json dictionary."""
         args = {}
         if "overall_status" in _dict:
             args["overall_status"] = _dict.get("overall_status")
         if "details" in _dict:
             args["details"] = [
-                AnalyticsEngineNodeLevelCustomizationRunDetails.from_dict(x)
-                for x in _dict.get("details")
+                AnalyticsEngineNodeLevelCustomizationRunDetails.from_dict(x) for x in _dict.get("details")
             ]
         return cls(**args)
 
@@ -1505,26 +1395,16 @@ class AnalyticsEngineLoggingConfigDetails:
         """Initialize a AnalyticsEngineLoggingConfigDetails object from a json dictionary."""
         args = {}
         if "log_specs" in _dict:
-            args["log_specs"] = [
-                AnalyticsEngineLoggingNodeSpec.from_dict(x)
-                for x in _dict.get("log_specs")
-            ]
+            args["log_specs"] = [AnalyticsEngineLoggingNodeSpec.from_dict(x) for x in _dict.get("log_specs")]
         else:
-            raise ValueError(
-                "Required property 'log_specs' not present in AnalyticsEngineLoggingConfigDetails JSON"
-            )
+            raise ValueError("Required property 'log_specs' not present in AnalyticsEngineLoggingConfigDetails JSON")
         if "log_server" in _dict:
-            args["log_server"] = AnalyticsEngineLoggingServer.from_dict(
-                _dict.get("log_server")
-            )
+            args["log_server"] = AnalyticsEngineLoggingServer.from_dict(_dict.get("log_server"))
         else:
-            raise ValueError(
-                "Required property 'log_server' not present in AnalyticsEngineLoggingConfigDetails JSON"
-            )
+            raise ValueError("Required property 'log_server' not present in AnalyticsEngineLoggingConfigDetails JSON")
         if "log_config_status" in _dict:
             args["log_config_status"] = [
-                AnalyticsEngineLoggingConfigStatus.from_dict(x)
-                for x in _dict.get("log_config_status")
+                AnalyticsEngineLoggingConfigStatus.from_dict(x) for x in _dict.get("log_config_status")
             ]
         else:
             raise ValueError(
@@ -1598,27 +1478,19 @@ class AnalyticsEngineLoggingConfigStatus:
         if "node_type" in _dict:
             args["node_type"] = _dict.get("node_type")
         else:
-            raise ValueError(
-                "Required property 'node_type' not present in AnalyticsEngineLoggingConfigStatus JSON"
-            )
+            raise ValueError("Required property 'node_type' not present in AnalyticsEngineLoggingConfigStatus JSON")
         if "node_id" in _dict:
             args["node_id"] = _dict.get("node_id")
         else:
-            raise ValueError(
-                "Required property 'node_id' not present in AnalyticsEngineLoggingConfigStatus JSON"
-            )
+            raise ValueError("Required property 'node_id' not present in AnalyticsEngineLoggingConfigStatus JSON")
         if "action" in _dict:
             args["action"] = _dict.get("action")
         else:
-            raise ValueError(
-                "Required property 'action' not present in AnalyticsEngineLoggingConfigStatus JSON"
-            )
+            raise ValueError("Required property 'action' not present in AnalyticsEngineLoggingConfigStatus JSON")
         if "status" in _dict:
             args["status"] = _dict.get("status")
         else:
-            raise ValueError(
-                "Required property 'status' not present in AnalyticsEngineLoggingConfigStatus JSON"
-            )
+            raise ValueError("Required property 'status' not present in AnalyticsEngineLoggingConfigStatus JSON")
         return cls(**args)
 
     @classmethod
@@ -1692,15 +1564,11 @@ class AnalyticsEngineLoggingNodeSpec:
         if "node_type" in _dict:
             args["node_type"] = _dict.get("node_type")
         else:
-            raise ValueError(
-                "Required property 'node_type' not present in AnalyticsEngineLoggingNodeSpec JSON"
-            )
+            raise ValueError("Required property 'node_type' not present in AnalyticsEngineLoggingNodeSpec JSON")
         if "components" in _dict:
             args["components"] = _dict.get("components")
         else:
-            raise ValueError(
-                "Required property 'components' not present in AnalyticsEngineLoggingNodeSpec JSON"
-            )
+            raise ValueError("Required property 'components' not present in AnalyticsEngineLoggingNodeSpec JSON")
         return cls(**args)
 
     @classmethod
@@ -1775,15 +1643,7 @@ class AnalyticsEngineLoggingServer:
     :attr str owner: (optional) Logging server owner.
     """
 
-    def __init__(
-        self,
-        type: str,
-        credential: str,
-        api_host: str,
-        log_host: str,
-        *,
-        owner: str = None
-    ) -> None:
+    def __init__(self, type: str, credential: str, api_host: str, log_host: str, *, owner: str = None) -> None:
         """
         Initialize a AnalyticsEngineLoggingServer object.
 
@@ -1806,27 +1666,19 @@ class AnalyticsEngineLoggingServer:
         if "type" in _dict:
             args["type"] = _dict.get("type")
         else:
-            raise ValueError(
-                "Required property 'type' not present in AnalyticsEngineLoggingServer JSON"
-            )
+            raise ValueError("Required property 'type' not present in AnalyticsEngineLoggingServer JSON")
         if "credential" in _dict:
             args["credential"] = _dict.get("credential")
         else:
-            raise ValueError(
-                "Required property 'credential' not present in AnalyticsEngineLoggingServer JSON"
-            )
+            raise ValueError("Required property 'credential' not present in AnalyticsEngineLoggingServer JSON")
         if "api_host" in _dict:
             args["api_host"] = _dict.get("api_host")
         else:
-            raise ValueError(
-                "Required property 'api_host' not present in AnalyticsEngineLoggingServer JSON"
-            )
+            raise ValueError("Required property 'api_host' not present in AnalyticsEngineLoggingServer JSON")
         if "log_host" in _dict:
             args["log_host"] = _dict.get("log_host")
         else:
-            raise ValueError(
-                "Required property 'log_host' not present in AnalyticsEngineLoggingServer JSON"
-            )
+            raise ValueError("Required property 'log_host' not present in AnalyticsEngineLoggingServer JSON")
         if "owner" in _dict:
             args["owner"] = _dict.get("owner")
         return cls(**args)
@@ -1924,9 +1776,7 @@ class AnalyticsEngineNodeLevelCustomizationRunDetails:
         self.log_file = log_file
 
     @classmethod
-    def from_dict(
-        cls, _dict: Dict
-    ) -> "AnalyticsEngineNodeLevelCustomizationRunDetails":
+    def from_dict(cls, _dict: Dict) -> "AnalyticsEngineNodeLevelCustomizationRunDetails":
         """Initialize a AnalyticsEngineNodeLevelCustomizationRunDetails object from a json dictionary."""
         args = {}
         if "node_name" in _dict:
@@ -1998,10 +1848,7 @@ class AnalyticsEngineResetClusterPasswordResponse:
     """
 
     def __init__(
-        self,
-        *,
-        id: str = None,
-        user_credentials: "AnalyticsEngineResetClusterPasswordResponseUserCredentials" = None
+        self, *, id: str = None, user_credentials: "AnalyticsEngineResetClusterPasswordResponseUserCredentials" = None
     ) -> None:
         """
         Initialize a AnalyticsEngineResetClusterPasswordResponse object.
@@ -2020,9 +1867,7 @@ class AnalyticsEngineResetClusterPasswordResponse:
         if "id" in _dict:
             args["id"] = _dict.get("id")
         if "user_credentials" in _dict:
-            args[
-                "user_credentials"
-            ] = AnalyticsEngineResetClusterPasswordResponseUserCredentials.from_dict(
+            args["user_credentials"] = AnalyticsEngineResetClusterPasswordResponseUserCredentials.from_dict(
                 _dict.get("user_credentials")
             )
         return cls(**args)
@@ -2079,9 +1924,7 @@ class AnalyticsEngineResetClusterPasswordResponseUserCredentials:
         self.password = password
 
     @classmethod
-    def from_dict(
-        cls, _dict: Dict
-    ) -> "AnalyticsEngineResetClusterPasswordResponseUserCredentials":
+    def from_dict(cls, _dict: Dict) -> "AnalyticsEngineResetClusterPasswordResponseUserCredentials":
         """Initialize a AnalyticsEngineResetClusterPasswordResponseUserCredentials object from a json dictionary."""
         args = {}
         if "user" in _dict:
@@ -2112,17 +1955,13 @@ class AnalyticsEngineResetClusterPasswordResponseUserCredentials:
         """Return a `str` version of this AnalyticsEngineResetClusterPasswordResponseUserCredentials object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(
-        self, other: "AnalyticsEngineResetClusterPasswordResponseUserCredentials"
-    ) -> bool:
+    def __eq__(self, other: "AnalyticsEngineResetClusterPasswordResponseUserCredentials") -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(
-        self, other: "AnalyticsEngineResetClusterPasswordResponseUserCredentials"
-    ) -> bool:
+    def __ne__(self, other: "AnalyticsEngineResetClusterPasswordResponseUserCredentials") -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2203,9 +2042,7 @@ class AnalyticsEngineState:
         if "state" in _dict:
             args["state"] = _dict.get("state")
         else:
-            raise ValueError(
-                "Required property 'state' not present in AnalyticsEngineState JSON"
-            )
+            raise ValueError("Required property 'state' not present in AnalyticsEngineState JSON")
         return cls(**args)
 
     @classmethod
@@ -2325,10 +2162,7 @@ class AnalyticsEngineWhitelistResponse:
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if (
-            hasattr(self, "private_endpoint_whitelist")
-            and self.private_endpoint_whitelist is not None
-        ):
+        if hasattr(self, "private_endpoint_whitelist") and self.private_endpoint_whitelist is not None:
             _dict["private_endpoint_whitelist"] = self.private_endpoint_whitelist
         return _dict
 
@@ -2478,19 +2312,13 @@ class ServiceEndpoints:
             _dict["ambari_console"] = self.ambari_console
         if hasattr(self, "livy") and self.livy is not None:
             _dict["livy"] = self.livy
-        if (
-            hasattr(self, "spark_history_server")
-            and self.spark_history_server is not None
-        ):
+        if hasattr(self, "spark_history_server") and self.spark_history_server is not None:
             _dict["spark_history_server"] = self.spark_history_server
         if hasattr(self, "oozie_rest") and self.oozie_rest is not None:
             _dict["oozie_rest"] = self.oozie_rest
         if hasattr(self, "hive_jdbc") and self.hive_jdbc is not None:
             _dict["hive_jdbc"] = self.hive_jdbc
-        if (
-            hasattr(self, "notebook_gateway_websocket")
-            and self.notebook_gateway_websocket is not None
-        ):
+        if hasattr(self, "notebook_gateway_websocket") and self.notebook_gateway_websocket is not None:
             _dict["notebook_gateway_websocket"] = self.notebook_gateway_websocket
         if hasattr(self, "notebook_gateway") and self.notebook_gateway is not None:
             _dict["notebook_gateway"] = self.notebook_gateway
@@ -2521,9 +2349,7 @@ class ServiceEndpoints:
         return not self == other
 
 
-class ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest(
-    ResizeClusterRequest
-):
+class ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest(ResizeClusterRequest):
     """
     Resize cluster request.
 
@@ -2542,9 +2368,7 @@ class ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest(
         self.compute_nodes_count = compute_nodes_count
 
     @classmethod
-    def from_dict(
-        cls, _dict: Dict
-    ) -> "ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest":
+    def from_dict(cls, _dict: Dict) -> "ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest":
         """Initialize a ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest object from a json dictionary."""
         args = {}
         if "compute_nodes_count" in _dict:
@@ -2559,10 +2383,7 @@ class ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest(
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if (
-            hasattr(self, "compute_nodes_count")
-            and self.compute_nodes_count is not None
-        ):
+        if hasattr(self, "compute_nodes_count") and self.compute_nodes_count is not None:
             _dict["compute_nodes_count"] = self.compute_nodes_count
         return _dict
 
@@ -2591,9 +2412,7 @@ class ResizeClusterRequestAnalyticsEngineResizeClusterByComputeNodesRequest(
         return not self == other
 
 
-class ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest(
-    ResizeClusterRequest
-):
+class ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest(ResizeClusterRequest):
     """
     ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest.
 
@@ -2612,9 +2431,7 @@ class ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest(
         self.task_nodes_count = task_nodes_count
 
     @classmethod
-    def from_dict(
-        cls, _dict: Dict
-    ) -> "ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest":
+    def from_dict(cls, _dict: Dict) -> "ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest":
         """Initialize a ResizeClusterRequestAnalyticsEngineResizeClusterByTaskNodesRequest object from a json dictionary."""
         args = {}
         if "task_nodes_count" in _dict:

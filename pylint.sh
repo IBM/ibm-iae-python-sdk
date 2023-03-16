@@ -1,3 +1,3 @@
 #!/bin/bash
 
-pylint -m pylint iaesdk test --exit-zero
+python -m pylint iaesdk test --exit-zero

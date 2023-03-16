@@ -37,20 +37,14 @@ class TestIbmAnalyticsEngineApiV3:
         if os.path.exists(config_file):
             os.environ["IBM_CREDENTIALS_FILE"] = config_file
 
-            cls.ibm_analytics_engine_api_service = (
-                IbmAnalyticsEngineApiV3.new_instance()
-            )
+            cls.ibm_analytics_engine_api_service = IbmAnalyticsEngineApiV3.new_instance()
             assert cls.ibm_analytics_engine_api_service is not None
 
-            cls.config = read_external_sources(
-                IbmAnalyticsEngineApiV3.DEFAULT_SERVICE_NAME
-            )
+            cls.config = read_external_sources(IbmAnalyticsEngineApiV3.DEFAULT_SERVICE_NAME)
             assert cls.config is not None
 
             cls.instance_id = cls.config["INSTANCE_GUID"]
-            cls.instance_id_without_instance_home = cls.config[
-                "INSTANCE_GUID_WO_INSTANCE_HOME"
-            ]
+            cls.instance_id_without_instance_home = cls.config["INSTANCE_GUID_WO_INSTANCE_HOME"]
             cls.hmac_access_key = cls.config["HMAC_ACCESS_KEY"]
             cls.hmac_secret_key = cls.config["HMAC_SECRET_KEY"]
             cls.alternate_hmac_access_key = cls.config["ALTERNATE_HMAC_ACCESS_KEY"]
@@ -104,12 +98,10 @@ class TestIbmAnalyticsEngineApiV3:
 
     @needscredentials
     def test_update_instance_home_credentials(self):
-        response = (
-            self.ibm_analytics_engine_api_service.update_instance_home_credentials(
-                instance_id=self.instance_id,
-                hmac_access_key=self.alternate_hmac_access_key,
-                hmac_secret_key=self.alternate_hmac_secret_key,
-            )
+        response = self.ibm_analytics_engine_api_service.update_instance_home_credentials(
+            instance_id=self.instance_id,
+            hmac_access_key=self.alternate_hmac_access_key,
+            hmac_secret_key=self.alternate_hmac_secret_key,
         )
 
         assert response.get_status_code() == 200
@@ -128,14 +120,12 @@ class TestIbmAnalyticsEngineApiV3:
 
     @needscredentials
     def test_replace_instance_default_configs(self):
-        response = (
-            self.ibm_analytics_engine_api_service.replace_instance_default_configs(
-                instance_id=self.instance_id,
-                body={
-                    "spark.driver.memory": "8G",
-                    "spark.driver.cores": "2",
-                },
-            )
+        response = self.ibm_analytics_engine_api_service.replace_instance_default_configs(
+            instance_id=self.instance_id,
+            body={
+                "spark.driver.memory": "8G",
+                "spark.driver.cores": "2",
+            },
         )
 
         assert response.get_status_code() == 200
@@ -144,14 +134,12 @@ class TestIbmAnalyticsEngineApiV3:
 
     @needscredentials
     def test_update_instance_default_configs(self):
-        response = (
-            self.ibm_analytics_engine_api_service.update_instance_default_configs(
-                instance_id=self.instance_id,
-                body={
-                    "ae.spark.history-server.cores": "1",
-                    "ae.spark.history-server.memory": "4G",
-                },
-            )
+        response = self.ibm_analytics_engine_api_service.update_instance_default_configs(
+            instance_id=self.instance_id,
+            body={
+                "ae.spark.history-server.cores": "1",
+                "ae.spark.history-server.memory": "4G",
+            },
         )
 
         assert response.get_status_code() == 200
@@ -170,11 +158,9 @@ class TestIbmAnalyticsEngineApiV3:
 
     @needscredentials
     def test_replace_instance_default_runtime(self):
-        response = (
-            self.ibm_analytics_engine_api_service.replace_instance_default_runtime(
-                instance_id=self.instance_id,
-                spark_version="3.3",
-            )
+        response = self.ibm_analytics_engine_api_service.replace_instance_default_runtime(
+            instance_id=self.instance_id,
+            spark_version="3.3",
         )
 
         assert response.get_status_code() == 200
@@ -242,10 +228,8 @@ class TestIbmAnalyticsEngineApiV3:
 
     @needscredentials
     def test_get_current_resource_consumption(self):
-        response = (
-            self.ibm_analytics_engine_api_service.get_current_resource_consumption(
-                instance_id=self.instance_id,
-            )
+        response = self.ibm_analytics_engine_api_service.get_current_resource_consumption(
+            instance_id=self.instance_id,
         )
 
         assert response.get_status_code() == 200
@@ -254,10 +238,8 @@ class TestIbmAnalyticsEngineApiV3:
 
     @needscredentials
     def test_get_resource_consumption_limits(self):
-        response = (
-            self.ibm_analytics_engine_api_service.get_resource_consumption_limits(
-                instance_id=self.instance_id,
-            )
+        response = self.ibm_analytics_engine_api_service.get_resource_consumption_limits(
+            instance_id=self.instance_id,
         )
 
         assert response.get_status_code() == 200
