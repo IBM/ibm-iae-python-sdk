@@ -13,7 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from ibm_cloud_sdk_core import IAMTokenManager, DetailedResponse, BaseService, ApiException
+from ibm_cloud_sdk_core import (
+    IAMTokenManager,
+    DetailedResponse,
+    BaseService,
+    ApiException,
+)
 
 from .common import get_sdk_headers
 from .version import __version__
