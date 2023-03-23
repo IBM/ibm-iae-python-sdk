@@ -1,3 +1,15 @@
+# [3.1.0](https://github.com/IBM/ibm-iae-python-sdk/compare/v3.0.0...v3.1.0) (2023-03-23)
+
+
+### Bug Fixes
+
+* fix lint error ([fe78649](https://github.com/IBM/ibm-iae-python-sdk/commit/fe786496c4606a11e205051f29c5b8028c452351))
+
+
+### Features
+
+* add new sdk method to update instance home credentials ([f62af2a](https://github.com/IBM/ibm-iae-python-sdk/commit/f62af2ae5035b612a0c2f2f5528f8da6ea860ff0))
+
 # [3.0.0](https://github.com/IBM/ibm-iae-python-sdk/compare/v2.2.0...v3.0.0) (2023-01-06)
 
 
