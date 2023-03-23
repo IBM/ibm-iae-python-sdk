@@ -14,8 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.54.1-1d9808a7-20220817-143039
- 
+# IBM OpenAPI SDK Code Generator Version: 3.66.0-d6c2d7e0-20230215-221247
+
 """
 Manage serverless Spark instances and run applications.
 
@@ -26,11 +26,17 @@ from datetime import datetime
 from enum import Enum
 from typing import Dict, List
 import json
+import logging
 
 from ibm_cloud_sdk_core import BaseService, DetailedResponse
 from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
 from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
-from ibm_cloud_sdk_core.utils import convert_list, convert_model, datetime_to_string, string_to_datetime
+from ibm_cloud_sdk_core.utils import (
+    convert_list,
+    convert_model,
+    datetime_to_string,
+    string_to_datetime,
+)
 
 from .common import get_sdk_headers
 
@@ -38,29 +44,29 @@ from .common import get_sdk_headers
 # Service
 ##############################################################################
 
+
 class IbmAnalyticsEngineApiV3(BaseService):
     """The IBM Analytics Engine API V3 service."""
 
-    DEFAULT_SERVICE_URL = 'https://api.us-south.ae.cloud.ibm.com'
-    DEFAULT_SERVICE_NAME = 'ibm_analytics_engine_api'
+    DEFAULT_SERVICE_URL = "https://api.us-south.ae.cloud.ibm.com"
+    DEFAULT_SERVICE_NAME = "ibm_analytics_engine_api"
 
     REGIONAL_ENDPOINTS = {
-        'us-south': 'https://api.us-south.ae.cloud.ibm.com',
-        'eu-de': 'https://api.eu-de.ae.cloud.ibm.com',
+        "us-south": "https://api.us-south.ae.cloud.ibm.com",
+        "eu-de": "https://api.eu-de.ae.cloud.ibm.com",
     }
 
     @classmethod
-    def new_instance(cls,
-                     service_name: str = DEFAULT_SERVICE_NAME,
-                    ) -> 'IbmAnalyticsEngineApiV3':
+    def new_instance(
+        cls,
+        service_name: str = DEFAULT_SERVICE_NAME,
+    ) -> "IbmAnalyticsEngineApiV3":
         """
         Return a new client for the IBM Analytics Engine API service using the
                specified parameters and external configuration.
         """
         authenticator = get_authenticator_from_environment(service_name)
-        service = cls(
-            authenticator
-            )
+        service = cls(authenticator)
         service.configure_service(service_name)
         return service
 
@@ -78,9 +84,10 @@ class IbmAnalyticsEngineApiV3(BaseService):
         """
         return cls.REGIONAL_ENDPOINTS.get(region, None)
 
-    def __init__(self,
-                 authenticator: Authenticator = None,
-                ) -> None:
+    def __init__(
+        self,
+        authenticator: Authenticator = None,
+    ) -> None:
         """
         Construct a new client for the IBM Analytics Engine API service.
 
@@ -88,20 +95,13 @@ class IbmAnalyticsEngineApiV3(BaseService):
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/main/README.md
                about initializing the authenticator of your choice.
         """
-        BaseService.__init__(self,
-                             service_url=self.DEFAULT_SERVICE_URL,
-                             authenticator=authenticator)
-
+        BaseService.__init__(self, service_url=self.DEFAULT_SERVICE_URL, authenticator=authenticator)
 
     #########################
     # Analytics Engines V3
     #########################
 
-
-    def get_instance(self,
-        instance_id: str,
-        **kwargs
-    ) -> DetailedResponse:
+    def get_instance(self, instance_id: str, **kwargs) -> DetailedResponse:
         """
         Find Analytics Engine by id.
 
@@ -114,35 +114,31 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `Instance` object
         """
 
-        if instance_id is None:
-            raise ValueError('instance_id must be provided')
+        if not instance_id:
+            raise ValueError("instance_id must be provided")
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='get_instance')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version="V3",
+            operation_id="get_instance",
+        )
         headers.update(sdk_headers)
 
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-            del kwargs['headers']
-        headers['Accept'] = 'application/json'
+        if "headers" in kwargs:
+            headers.update(kwargs.get("headers"))
+            del kwargs["headers"]
+        headers["Accept"] = "application/json"
 
-        path_param_keys = ['instance_id']
+        path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v3/analytics_engines/{instance_id}'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
+        url = "/v3/analytics_engines/{instance_id}".format(**path_param_dict)
+        request = self.prepare_request(method="GET", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def get_instance_state(self,
-        instance_id: str,
-        **kwargs
-    ) -> DetailedResponse:
+    def get_instance_state(self, instance_id: str, **kwargs) -> DetailedResponse:
         """
         Find Analytics Engine state by id.
 
@@ -155,32 +151,32 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `InstanceGetStateResponse` object
         """
 
-        if instance_id is None:
-            raise ValueError('instance_id must be provided')
+        if not instance_id:
+            raise ValueError("instance_id must be provided")
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='get_instance_state')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version="V3",
+            operation_id="get_instance_state",
+        )
         headers.update(sdk_headers)
 
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-            del kwargs['headers']
-        headers['Accept'] = 'application/json'
+        if "headers" in kwargs:
+            headers.update(kwargs.get("headers"))
+            del kwargs["headers"]
+        headers["Accept"] = "application/json"
 
-        path_param_keys = ['instance_id']
+        path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v3/analytics_engines/{instance_id}/state'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
+        url = "/v3/analytics_engines/{instance_id}/state".format(**path_param_dict)
+        request = self.prepare_request(method="GET", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def set_instance_home(self,
+    def set_instance_home(
+        self,
         instance_id: str,
         *,
         new_instance_id: str = None,
@@ -201,8 +197,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         **Note**: You can set 'instance home' again if the instance is in
         'instance_home_creation_failure' state.
 
-        :param str instance_id: The ID of the Analytics Engine instance for which
-               'instance home' is to be set.
+        :param str instance_id: The ID of the Analytics Engine instance.
         :param str new_instance_id: (optional) UUID of the instance home storage
                instance.
         :param str new_provider: (optional) Currently only ibm-cos (IBM Cloud
@@ -220,49 +215,101 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `InstanceHomeResponse` object
         """
 
-        if instance_id is None:
-            raise ValueError('instance_id must be provided')
+        if not instance_id:
+            raise ValueError("instance_id must be provided")
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='set_instance_home')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version="V3",
+            operation_id="set_instance_home",
+        )
         headers.update(sdk_headers)
 
         data = {
-            'instance_id': new_instance_id,
-            'provider': new_provider,
-            'type': new_type,
-            'region': new_region,
-            'endpoint': new_endpoint,
-            'hmac_access_key': new_hmac_access_key,
-            'hmac_secret_key': new_hmac_secret_key
+            "instance_id": new_instance_id,
+            "provider": new_provider,
+            "type": new_type,
+            "region": new_region,
+            "endpoint": new_endpoint,
+            "hmac_access_key": new_hmac_access_key,
+            "hmac_secret_key": new_hmac_secret_key,
         }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
-        headers['content-type'] = 'application/json'
+        headers["content-type"] = "application/json"
 
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-            del kwargs['headers']
-        headers['Accept'] = 'application/json'
+        if "headers" in kwargs:
+            headers.update(kwargs.get("headers"))
+            del kwargs["headers"]
+        headers["Accept"] = "application/json"
 
-        path_param_keys = ['instance_id']
+        path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v3/analytics_engines/{instance_id}/instance_home'.format(**path_param_dict)
-        request = self.prepare_request(method='PUT',
-                                       url=url,
-                                       headers=headers,
-                                       data=data)
+        url = "/v3/analytics_engines/{instance_id}/instance_home".format(**path_param_dict)
+        request = self.prepare_request(method="PUT", url=url, headers=headers, data=data)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def get_instance_default_configs(self,
-        instance_id: str,
-        **kwargs
+    def update_instance_home_credentials(
+        self, instance_id: str, hmac_access_key: str, hmac_secret_key: str, **kwargs
     ) -> DetailedResponse:
+        """
+        Update instance home credentials.
+
+        Update the HMAC credentials used to access the instance home, if the instance home
+        was set earlier. Credentials must have write access to the object storage used as
+        instance home.
+        **Note**: Your running applications and the Spark history server would continue to
+        use the old credentials after updating the HMAC credentials. Before revoking the
+        old credentials, you must either wait for them to finish running or stop them.
+
+        :param str instance_id: The ID of the Analytics Engine instance.
+        :param str hmac_access_key: Cloud Object Storage access key.
+        :param str hmac_secret_key: Cloud Object Storage secret key.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `InstanceHomeResponse` object
+        """
+
+        if not instance_id:
+            raise ValueError("instance_id must be provided")
+        if hmac_access_key is None:
+            raise ValueError("hmac_access_key must be provided")
+        if hmac_secret_key is None:
+            raise ValueError("hmac_secret_key must be provided")
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version="V3",
+            operation_id="update_instance_home_credentials",
+        )
+        headers.update(sdk_headers)
+
+        data = {
+            "hmac_access_key": hmac_access_key,
+            "hmac_secret_key": hmac_secret_key,
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers["content-type"] = "application/json"
+
+        if "headers" in kwargs:
+            headers.update(kwargs.get("headers"))
+            del kwargs["headers"]
+        headers["Accept"] = "application/json"
+
+        path_param_keys = ["instance_id"]
+        path_param_values = self.encode_path_vars(instance_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = "/v3/analytics_engines/{instance_id}/instance_home".format(**path_param_dict)
+        request = self.prepare_request(method="PATCH", url=url, headers=headers, data=data)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def get_instance_default_configs(self, instance_id: str, **kwargs) -> DetailedResponse:
         """
         Get instance default Spark configurations.
 
@@ -275,36 +322,31 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result
         """
 
-        if instance_id is None:
-            raise ValueError('instance_id must be provided')
+        if not instance_id:
+            raise ValueError("instance_id must be provided")
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='get_instance_default_configs')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version="V3",
+            operation_id="get_instance_default_configs",
+        )
         headers.update(sdk_headers)
 
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-            del kwargs['headers']
-        headers['Accept'] = 'application/json'
+        if "headers" in kwargs:
+            headers.update(kwargs.get("headers"))
+            del kwargs["headers"]
+        headers["Accept"] = "application/json"
 
-        path_param_keys = ['instance_id']
+        path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v3/analytics_engines/{instance_id}/default_configs'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
+        url = "/v3/analytics_engines/{instance_id}/default_configs".format(**path_param_dict)
+        request = self.prepare_request(method="GET", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def replace_instance_default_configs(self,
-        instance_id: str,
-        body: dict,
-        **kwargs
-    ) -> DetailedResponse:
+    def replace_instance_default_configs(self, instance_id: str, body: dict, **kwargs) -> DetailedResponse:
         """
         Replace instance default Spark configurations.
 
@@ -319,42 +361,36 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result
         """
 
-        if instance_id is None:
-            raise ValueError('instance_id must be provided')
+        if not instance_id:
+            raise ValueError("instance_id must be provided")
         if body is None:
-            raise ValueError('body must be provided')
+            raise ValueError("body must be provided")
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='replace_instance_default_configs')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version="V3",
+            operation_id="replace_instance_default_configs",
+        )
         headers.update(sdk_headers)
 
         data = json.dumps(body)
-        headers['content-type'] = 'application/json'
+        headers["content-type"] = "application/json"
 
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-            del kwargs['headers']
-        headers['Accept'] = 'application/json'
+        if "headers" in kwargs:
+            headers.update(kwargs.get("headers"))
+            del kwargs["headers"]
+        headers["Accept"] = "application/json"
 
-        path_param_keys = ['instance_id']
+        path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v3/analytics_engines/{instance_id}/default_configs'.format(**path_param_dict)
-        request = self.prepare_request(method='PUT',
-                                       url=url,
-                                       headers=headers,
-                                       data=data)
+        url = "/v3/analytics_engines/{instance_id}/default_configs".format(**path_param_dict)
+        request = self.prepare_request(method="PUT", url=url, headers=headers, data=data)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def update_instance_default_configs(self,
-        instance_id: str,
-        body: dict,
-        **kwargs
-    ) -> DetailedResponse:
+    def update_instance_default_configs(self, instance_id: str, body: dict, **kwargs) -> DetailedResponse:
         """
         Update instance default Spark configurations.
 
@@ -370,41 +406,36 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result
         """
 
-        if instance_id is None:
-            raise ValueError('instance_id must be provided')
+        if not instance_id:
+            raise ValueError("instance_id must be provided")
         if body is None:
-            raise ValueError('body must be provided')
+            raise ValueError("body must be provided")
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='update_instance_default_configs')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version="V3",
+            operation_id="update_instance_default_configs",
+        )
         headers.update(sdk_headers)
 
         data = json.dumps(body)
-        headers['content-type'] = 'application/merge-patch+json'
+        headers["content-type"] = "application/merge-patch+json"
 
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-            del kwargs['headers']
-        headers['Accept'] = 'application/json'
+        if "headers" in kwargs:
+            headers.update(kwargs.get("headers"))
+            del kwargs["headers"]
+        headers["Accept"] = "application/json"
 
-        path_param_keys = ['instance_id']
+        path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v3/analytics_engines/{instance_id}/default_configs'.format(**path_param_dict)
-        request = self.prepare_request(method='PATCH',
-                                       url=url,
-                                       headers=headers,
-                                       data=data)
+        url = "/v3/analytics_engines/{instance_id}/default_configs".format(**path_param_dict)
+        request = self.prepare_request(method="PATCH", url=url, headers=headers, data=data)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def get_instance_default_runtime(self,
-        instance_id: str,
-        **kwargs
-    ) -> DetailedResponse:
+    def get_instance_default_runtime(self, instance_id: str, **kwargs) -> DetailedResponse:
         """
         Get instance default runtime.
 
@@ -417,36 +448,32 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `Runtime` object
         """
 
-        if instance_id is None:
-            raise ValueError('instance_id must be provided')
+        if not instance_id:
+            raise ValueError("instance_id must be provided")
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='get_instance_default_runtime')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version="V3",
+            operation_id="get_instance_default_runtime",
+        )
         headers.update(sdk_headers)
 
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-            del kwargs['headers']
-        headers['Accept'] = 'application/json'
+        if "headers" in kwargs:
+            headers.update(kwargs.get("headers"))
+            del kwargs["headers"]
+        headers["Accept"] = "application/json"
 
-        path_param_keys = ['instance_id']
+        path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v3/analytics_engines/{instance_id}/default_runtime'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
+        url = "/v3/analytics_engines/{instance_id}/default_runtime".format(**path_param_dict)
+        request = self.prepare_request(method="GET", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def replace_instance_default_runtime(self,
-        instance_id: str,
-        *,
-        spark_version: str = None,
-        **kwargs
+    def replace_instance_default_runtime(
+        self, instance_id: str, *, spark_version: str = None, **kwargs
     ) -> DetailedResponse:
         """
         Replace instance default runtime.
@@ -462,44 +489,39 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `Runtime` object
         """
 
-        if instance_id is None:
-            raise ValueError('instance_id must be provided')
+        if not instance_id:
+            raise ValueError("instance_id must be provided")
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='replace_instance_default_runtime')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version="V3",
+            operation_id="replace_instance_default_runtime",
+        )
         headers.update(sdk_headers)
 
         data = {
-            'spark_version': spark_version
+            "spark_version": spark_version,
         }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
-        headers['content-type'] = 'application/json'
+        headers["content-type"] = "application/json"
 
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-            del kwargs['headers']
-        headers['Accept'] = 'application/json'
+        if "headers" in kwargs:
+            headers.update(kwargs.get("headers"))
+            del kwargs["headers"]
+        headers["Accept"] = "application/json"
 
-        path_param_keys = ['instance_id']
+        path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v3/analytics_engines/{instance_id}/default_runtime'.format(**path_param_dict)
-        request = self.prepare_request(method='PUT',
-                                       url=url,
-                                       headers=headers,
-                                       data=data)
+        url = "/v3/analytics_engines/{instance_id}/default_runtime".format(**path_param_dict)
+        request = self.prepare_request(method="PUT", url=url, headers=headers, data=data)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def create_application(self,
-        instance_id: str,
-        *,
-        application_details: 'ApplicationRequestApplicationDetails' = None,
-        **kwargs
+    def create_application(
+        self, instance_id: str, *, application_details: "ApplicationRequestApplicationDetails" = None, **kwargs
     ) -> DetailedResponse:
         """
         Deploy a Spark application.
@@ -515,47 +537,40 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `ApplicationResponse` object
         """
 
-        if instance_id is None:
-            raise ValueError('instance_id must be provided')
+        if not instance_id:
+            raise ValueError("instance_id must be provided")
         if application_details is not None:
             application_details = convert_model(application_details)
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='create_application')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version="V3",
+            operation_id="create_application",
+        )
         headers.update(sdk_headers)
 
         data = {
-            'application_details': application_details
+            "application_details": application_details,
         }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
-        headers['content-type'] = 'application/json'
+        headers["content-type"] = "application/json"
 
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-            del kwargs['headers']
-        headers['Accept'] = 'application/json'
+        if "headers" in kwargs:
+            headers.update(kwargs.get("headers"))
+            del kwargs["headers"]
+        headers["Accept"] = "application/json"
 
-        path_param_keys = ['instance_id']
+        path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v3/analytics_engines/{instance_id}/spark_applications'.format(**path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       data=data)
+        url = "/v3/analytics_engines/{instance_id}/spark_applications".format(**path_param_dict)
+        request = self.prepare_request(method="POST", url=url, headers=headers, data=data)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def list_applications(self,
-        instance_id: str,
-        *,
-        state: List[str] = None,
-        **kwargs
-    ) -> DetailedResponse:
+    def list_applications(self, instance_id: str, *, state: List[str] = None, **kwargs) -> DetailedResponse:
         """
         List all Spark applications.
 
@@ -571,41 +586,35 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `ApplicationCollection` object
         """
 
-        if instance_id is None:
-            raise ValueError('instance_id must be provided')
+        if not instance_id:
+            raise ValueError("instance_id must be provided")
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='list_applications')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version="V3",
+            operation_id="list_applications",
+        )
         headers.update(sdk_headers)
 
         params = {
-            'state': convert_list(state)
+            "state": convert_list(state),
         }
 
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-            del kwargs['headers']
-        headers['Accept'] = 'application/json'
+        if "headers" in kwargs:
+            headers.update(kwargs.get("headers"))
+            del kwargs["headers"]
+        headers["Accept"] = "application/json"
 
-        path_param_keys = ['instance_id']
+        path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v3/analytics_engines/{instance_id}/spark_applications'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        url = "/v3/analytics_engines/{instance_id}/spark_applications".format(**path_param_dict)
+        request = self.prepare_request(method="GET", url=url, headers=headers, params=params)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def get_application(self,
-        instance_id: str,
-        application_id: str,
-        **kwargs
-    ) -> DetailedResponse:
+    def get_application(self, instance_id: str, application_id: str, **kwargs) -> DetailedResponse:
         """
         Retrieve the details of a given Spark application.
 
@@ -620,38 +629,33 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `ApplicationGetResponse` object
         """
 
-        if instance_id is None:
-            raise ValueError('instance_id must be provided')
-        if application_id is None:
-            raise ValueError('application_id must be provided')
+        if not instance_id:
+            raise ValueError("instance_id must be provided")
+        if not application_id:
+            raise ValueError("application_id must be provided")
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='get_application')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version="V3",
+            operation_id="get_application",
+        )
         headers.update(sdk_headers)
 
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-            del kwargs['headers']
-        headers['Accept'] = 'application/json'
+        if "headers" in kwargs:
+            headers.update(kwargs.get("headers"))
+            del kwargs["headers"]
+        headers["Accept"] = "application/json"
 
-        path_param_keys = ['instance_id', 'application_id']
+        path_param_keys = ["instance_id", "application_id"]
         path_param_values = self.encode_path_vars(instance_id, application_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v3/analytics_engines/{instance_id}/spark_applications/{application_id}'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
+        url = "/v3/analytics_engines/{instance_id}/spark_applications/{application_id}".format(**path_param_dict)
+        request = self.prepare_request(method="GET", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def delete_application(self,
-        instance_id: str,
-        application_id: str,
-        **kwargs
-    ) -> DetailedResponse:
+    def delete_application(self, instance_id: str, application_id: str, **kwargs) -> DetailedResponse:
         """
         Stop application.
 
@@ -668,37 +672,32 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse
         """
 
-        if instance_id is None:
-            raise ValueError('instance_id must be provided')
-        if application_id is None:
-            raise ValueError('application_id must be provided')
+        if not instance_id:
+            raise ValueError("instance_id must be provided")
+        if not application_id:
+            raise ValueError("application_id must be provided")
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='delete_application')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version="V3",
+            operation_id="delete_application",
+        )
         headers.update(sdk_headers)
 
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-            del kwargs['headers']
+        if "headers" in kwargs:
+            headers.update(kwargs.get("headers"))
+            del kwargs["headers"]
 
-        path_param_keys = ['instance_id', 'application_id']
+        path_param_keys = ["instance_id", "application_id"]
         path_param_values = self.encode_path_vars(instance_id, application_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v3/analytics_engines/{instance_id}/spark_applications/{application_id}'.format(**path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers)
+        url = "/v3/analytics_engines/{instance_id}/spark_applications/{application_id}".format(**path_param_dict)
+        request = self.prepare_request(method="DELETE", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def get_application_state(self,
-        instance_id: str,
-        application_id: str,
-        **kwargs
-    ) -> DetailedResponse:
+    def get_application_state(self, instance_id: str, application_id: str, **kwargs) -> DetailedResponse:
         """
         Get the status of the application.
 
@@ -713,37 +712,33 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `ApplicationGetStateResponse` object
         """
 
-        if instance_id is None:
-            raise ValueError('instance_id must be provided')
-        if application_id is None:
-            raise ValueError('application_id must be provided')
+        if not instance_id:
+            raise ValueError("instance_id must be provided")
+        if not application_id:
+            raise ValueError("application_id must be provided")
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='get_application_state')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version="V3",
+            operation_id="get_application_state",
+        )
         headers.update(sdk_headers)
 
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-            del kwargs['headers']
-        headers['Accept'] = 'application/json'
+        if "headers" in kwargs:
+            headers.update(kwargs.get("headers"))
+            del kwargs["headers"]
+        headers["Accept"] = "application/json"
 
-        path_param_keys = ['instance_id', 'application_id']
+        path_param_keys = ["instance_id", "application_id"]
         path_param_values = self.encode_path_vars(instance_id, application_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v3/analytics_engines/{instance_id}/spark_applications/{application_id}/state'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
+        url = "/v3/analytics_engines/{instance_id}/spark_applications/{application_id}/state".format(**path_param_dict)
+        request = self.prepare_request(method="GET", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def get_current_resource_consumption(self,
-        instance_id: str,
-        **kwargs
-    ) -> DetailedResponse:
+    def get_current_resource_consumption(self, instance_id: str, **kwargs) -> DetailedResponse:
         """
         Get current resource consumption.
 
@@ -761,35 +756,31 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `CurrentResourceConsumptionResponse` object
         """
 
-        if instance_id is None:
-            raise ValueError('instance_id must be provided')
+        if not instance_id:
+            raise ValueError("instance_id must be provided")
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='get_current_resource_consumption')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version="V3",
+            operation_id="get_current_resource_consumption",
+        )
         headers.update(sdk_headers)
 
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-            del kwargs['headers']
-        headers['Accept'] = 'application/json'
+        if "headers" in kwargs:
+            headers.update(kwargs.get("headers"))
+            del kwargs["headers"]
+        headers["Accept"] = "application/json"
 
-        path_param_keys = ['instance_id']
+        path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v3/analytics_engines/{instance_id}/current_resource_consumption'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
+        url = "/v3/analytics_engines/{instance_id}/current_resource_consumption".format(**path_param_dict)
+        request = self.prepare_request(method="GET", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def get_resource_consumption_limits(self,
-        instance_id: str,
-        **kwargs
-    ) -> DetailedResponse:
+    def get_resource_consumption_limits(self, instance_id: str, **kwargs) -> DetailedResponse:
         """
         Get resource consumption limits.
 
@@ -802,38 +793,32 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `ResourceConsumptionLimitsResponse` object
         """
 
-        if instance_id is None:
-            raise ValueError('instance_id must be provided')
+        if not instance_id:
+            raise ValueError("instance_id must be provided")
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='get_resource_consumption_limits')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version="V3",
+            operation_id="get_resource_consumption_limits",
+        )
         headers.update(sdk_headers)
 
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-            del kwargs['headers']
-        headers['Accept'] = 'application/json'
+        if "headers" in kwargs:
+            headers.update(kwargs.get("headers"))
+            del kwargs["headers"]
+        headers["Accept"] = "application/json"
 
-        path_param_keys = ['instance_id']
+        path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v3/analytics_engines/{instance_id}/resource_consumption_limits'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
+        url = "/v3/analytics_engines/{instance_id}/resource_consumption_limits".format(**path_param_dict)
+        request = self.prepare_request(method="GET", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def replace_log_forwarding_config(self,
-        instance_id: str,
-        *,
-        enabled: bool = None,
-        sources: List[str] = None,
-        tags: List[str] = None,
-        **kwargs
+    def replace_log_forwarding_config(
+        self, instance_id: str, *, enabled: bool = None, sources: List[str] = None, tags: List[str] = None, **kwargs
     ) -> DetailedResponse:
         """
         Replace log forwarding configuration.
@@ -853,45 +838,40 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `LogForwardingConfigResponse` object
         """
 
-        if instance_id is None:
-            raise ValueError('instance_id must be provided')
+        if not instance_id:
+            raise ValueError("instance_id must be provided")
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='replace_log_forwarding_config')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version="V3",
+            operation_id="replace_log_forwarding_config",
+        )
         headers.update(sdk_headers)
 
         data = {
-            'enabled': enabled,
-            'sources': sources,
-            'tags': tags
+            "enabled": enabled,
+            "sources": sources,
+            "tags": tags,
         }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
-        headers['content-type'] = 'application/json'
+        headers["content-type"] = "application/json"
 
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-            del kwargs['headers']
-        headers['Accept'] = 'application/json'
+        if "headers" in kwargs:
+            headers.update(kwargs.get("headers"))
+            del kwargs["headers"]
+        headers["Accept"] = "application/json"
 
-        path_param_keys = ['instance_id']
+        path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v3/analytics_engines/{instance_id}/log_forwarding_config'.format(**path_param_dict)
-        request = self.prepare_request(method='PUT',
-                                       url=url,
-                                       headers=headers,
-                                       data=data)
+        url = "/v3/analytics_engines/{instance_id}/log_forwarding_config".format(**path_param_dict)
+        request = self.prepare_request(method="PUT", url=url, headers=headers, data=data)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def get_log_forwarding_config(self,
-        instance_id: str,
-        **kwargs
-    ) -> DetailedResponse:
+    def get_log_forwarding_config(self, instance_id: str, **kwargs) -> DetailedResponse:
         """
         Get log forwarding configuration.
 
@@ -903,37 +883,31 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `LogForwardingConfigResponse` object
         """
 
-        if instance_id is None:
-            raise ValueError('instance_id must be provided')
+        if not instance_id:
+            raise ValueError("instance_id must be provided")
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='get_log_forwarding_config')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version="V3",
+            operation_id="get_log_forwarding_config",
+        )
         headers.update(sdk_headers)
 
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-            del kwargs['headers']
-        headers['Accept'] = 'application/json'
+        if "headers" in kwargs:
+            headers.update(kwargs.get("headers"))
+            del kwargs["headers"]
+        headers["Accept"] = "application/json"
 
-        path_param_keys = ['instance_id']
+        path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v3/analytics_engines/{instance_id}/log_forwarding_config'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
+        url = "/v3/analytics_engines/{instance_id}/log_forwarding_config".format(**path_param_dict)
+        request = self.prepare_request(method="GET", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def configure_platform_logging(self,
-        instance_guid: str,
-        *,
-        enable: bool = None,
-        **kwargs
-    ) -> DetailedResponse:
+    def configure_platform_logging(self, instance_guid: str, *, enable: bool = None, **kwargs) -> DetailedResponse:
         """
         Enable or disable log forwarding.
 
@@ -947,45 +921,44 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `LoggingConfigurationResponse` object
+
+        Deprecated: this method is deprecated and may be removed in a future release.
         """
 
-        if instance_guid is None:
-            raise ValueError('instance_guid must be provided')
+        logging.warning("A deprecated operation has been invoked: configure_platform_logging")
+
+        if not instance_guid:
+            raise ValueError("instance_guid must be provided")
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='configure_platform_logging')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version="V3",
+            operation_id="configure_platform_logging",
+        )
         headers.update(sdk_headers)
 
         data = {
-            'enable': enable
+            "enable": enable,
         }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
-        headers['content-type'] = 'application/json'
+        headers["content-type"] = "application/json"
 
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-            del kwargs['headers']
-        headers['Accept'] = 'application/json'
+        if "headers" in kwargs:
+            headers.update(kwargs.get("headers"))
+            del kwargs["headers"]
+        headers["Accept"] = "application/json"
 
-        path_param_keys = ['instance_guid']
+        path_param_keys = ["instance_guid"]
         path_param_values = self.encode_path_vars(instance_guid)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v3/analytics_engines/{instance_guid}/logging'.format(**path_param_dict)
-        request = self.prepare_request(method='PUT',
-                                       url=url,
-                                       headers=headers,
-                                       data=data)
+        url = "/v3/analytics_engines/{instance_guid}/logging".format(**path_param_dict)
+        request = self.prepare_request(method="PUT", url=url, headers=headers, data=data)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def get_logging_configuration(self,
-        instance_guid: str,
-        **kwargs
-    ) -> DetailedResponse:
+    def get_logging_configuration(self, instance_guid: str, **kwargs) -> DetailedResponse:
         """
         Retrieve the logging configuration for a given instance id.
 
@@ -997,37 +970,37 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `LoggingConfigurationResponse` object
+
+        Deprecated: this method is deprecated and may be removed in a future release.
         """
 
-        if instance_guid is None:
-            raise ValueError('instance_guid must be provided')
+        logging.warning("A deprecated operation has been invoked: get_logging_configuration")
+
+        if not instance_guid:
+            raise ValueError("instance_guid must be provided")
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='get_logging_configuration')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version="V3",
+            operation_id="get_logging_configuration",
+        )
         headers.update(sdk_headers)
 
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-            del kwargs['headers']
-        headers['Accept'] = 'application/json'
+        if "headers" in kwargs:
+            headers.update(kwargs.get("headers"))
+            del kwargs["headers"]
+        headers["Accept"] = "application/json"
 
-        path_param_keys = ['instance_guid']
+        path_param_keys = ["instance_guid"]
         path_param_values = self.encode_path_vars(instance_guid)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v3/analytics_engines/{instance_guid}/logging'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
+        url = "/v3/analytics_engines/{instance_guid}/logging".format(**path_param_dict)
+        request = self.prepare_request(method="GET", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def start_spark_history_server(self,
-        instance_id: str,
-        **kwargs
-    ) -> DetailedResponse:
+    def start_spark_history_server(self, instance_id: str, **kwargs) -> DetailedResponse:
         """
         Start Spark history server.
 
@@ -1040,35 +1013,31 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `SparkHistoryServerResponse` object
         """
 
-        if instance_id is None:
-            raise ValueError('instance_id must be provided')
+        if not instance_id:
+            raise ValueError("instance_id must be provided")
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='start_spark_history_server')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version="V3",
+            operation_id="start_spark_history_server",
+        )
         headers.update(sdk_headers)
 
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-            del kwargs['headers']
-        headers['Accept'] = 'application/json'
+        if "headers" in kwargs:
+            headers.update(kwargs.get("headers"))
+            del kwargs["headers"]
+        headers["Accept"] = "application/json"
 
-        path_param_keys = ['instance_id']
+        path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v3/analytics_engines/{instance_id}/spark_history_server'.format(**path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers)
+        url = "/v3/analytics_engines/{instance_id}/spark_history_server".format(**path_param_dict)
+        request = self.prepare_request(method="POST", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def get_spark_history_server(self,
-        instance_id: str,
-        **kwargs
-    ) -> DetailedResponse:
+    def get_spark_history_server(self, instance_id: str, **kwargs) -> DetailedResponse:
         """
         Get Spark history server details.
 
@@ -1082,35 +1051,31 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `SparkHistoryServerResponse` object
         """
 
-        if instance_id is None:
-            raise ValueError('instance_id must be provided')
+        if not instance_id:
+            raise ValueError("instance_id must be provided")
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='get_spark_history_server')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version="V3",
+            operation_id="get_spark_history_server",
+        )
         headers.update(sdk_headers)
 
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-            del kwargs['headers']
-        headers['Accept'] = 'application/json'
+        if "headers" in kwargs:
+            headers.update(kwargs.get("headers"))
+            del kwargs["headers"]
+        headers["Accept"] = "application/json"
 
-        path_param_keys = ['instance_id']
+        path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v3/analytics_engines/{instance_id}/spark_history_server'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
+        url = "/v3/analytics_engines/{instance_id}/spark_history_server".format(**path_param_dict)
+        request = self.prepare_request(method="GET", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def stop_spark_history_server(self,
-        instance_id: str,
-        **kwargs
-    ) -> DetailedResponse:
+    def stop_spark_history_server(self, instance_id: str, **kwargs) -> DetailedResponse:
         """
         Stop Spark history server.
 
@@ -1123,25 +1088,25 @@ class IbmAnalyticsEngineApiV3(BaseService):
         :rtype: DetailedResponse
         """
 
-        if instance_id is None:
-            raise ValueError('instance_id must be provided')
+        if not instance_id:
+            raise ValueError("instance_id must be provided")
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='stop_spark_history_server')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version="V3",
+            operation_id="stop_spark_history_server",
+        )
         headers.update(sdk_headers)
 
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-            del kwargs['headers']
+        if "headers" in kwargs:
+            headers.update(kwargs.get("headers"))
+            del kwargs["headers"]
 
-        path_param_keys = ['instance_id']
+        path_param_keys = ["instance_id"]
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v3/analytics_engines/{instance_id}/spark_history_server'.format(**path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers)
+        url = "/v3/analytics_engines/{instance_id}/spark_history_server".format(**path_param_dict)
+        request = self.prepare_request(method="DELETE", url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
@@ -1156,13 +1121,14 @@ class ListApplicationsEnums:
         """
         List of Spark application states that will be used to filter the response.
         """
-        FINISHED = 'finished'
-        RUNNING = 'running'
-        FAILED = 'failed'
-        ACCEPTED = 'accepted'
-        STOPPED = 'stopped'
-        AUTO_TERMINATED = 'auto_terminated'
-        OPS_TERMINATED = 'ops_terminated'
+
+        FINISHED = "finished"
+        RUNNING = "running"
+        FAILED = "failed"
+        ACCEPTED = "accepted"
+        STOPPED = "stopped"
+        AUTO_TERMINATED = "auto_terminated"
+        OPS_TERMINATED = "ops_terminated"
 
 
 ##############################################################################
@@ -1170,7 +1136,7 @@ class ListApplicationsEnums:
 ##############################################################################
 
 
-class Application():
+class Application:
     """
     Details of a Spark application.
 
@@ -1190,26 +1156,28 @@ class Application():
     :attr datetime start_time: (optional) Time when the application was started.
     :attr datetime end_time: (optional) Time when the application run ended in
           success, failure or was stopped.
-    :attr datetime finish_time: (optional) (deprecated) Time when the application
-          was completed.
+    :attr datetime finish_time: (optional) Deprecated: (deprecated) Time when the
+          application was completed.
     :attr datetime auto_termination_time: (optional) Time when the application will
           be automatically stopped by the service.
     """
 
-    def __init__(self,
-                 *,
-                 id: str = None,
-                 href: str = None,
-                 runtime: 'Runtime' = None,
-                 spark_application_id: str = None,
-                 spark_application_name: str = None,
-                 state: str = None,
-                 spark_ui: str = None,
-                 submission_time: datetime = None,
-                 start_time: datetime = None,
-                 end_time: datetime = None,
-                 finish_time: datetime = None,
-                 auto_termination_time: datetime = None) -> None:
+    def __init__(
+        self,
+        *,
+        id: str = None,
+        href: str = None,
+        runtime: "Runtime" = None,
+        spark_application_id: str = None,
+        spark_application_name: str = None,
+        state: str = None,
+        spark_ui: str = None,
+        submission_time: datetime = None,
+        start_time: datetime = None,
+        end_time: datetime = None,
+        finish_time: datetime = None,
+        auto_termination_time: datetime = None
+    ) -> None:
         """
         Initialize a Application object.
 
@@ -1231,8 +1199,8 @@ class Application():
                started.
         :param datetime end_time: (optional) Time when the application run ended in
                success, failure or was stopped.
-        :param datetime finish_time: (optional) (deprecated) Time when the
-               application was completed.
+        :param datetime finish_time: (optional) Deprecated: (deprecated) Time when
+               the application was completed.
         :param datetime auto_termination_time: (optional) Time when the application
                will be automatically stopped by the service.
         """
@@ -1250,33 +1218,33 @@ class Application():
         self.auto_termination_time = auto_termination_time
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'Application':
+    def from_dict(cls, _dict: Dict) -> "Application":
         """Initialize a Application object from a json dictionary."""
         args = {}
-        if 'id' in _dict:
-            args['id'] = _dict.get('id')
-        if 'href' in _dict:
-            args['href'] = _dict.get('href')
-        if 'runtime' in _dict:
-            args['runtime'] = Runtime.from_dict(_dict.get('runtime'))
-        if 'spark_application_id' in _dict:
-            args['spark_application_id'] = _dict.get('spark_application_id')
-        if 'spark_application_name' in _dict:
-            args['spark_application_name'] = _dict.get('spark_application_name')
-        if 'state' in _dict:
-            args['state'] = _dict.get('state')
-        if 'spark_ui' in _dict:
-            args['spark_ui'] = _dict.get('spark_ui')
-        if 'submission_time' in _dict:
-            args['submission_time'] = string_to_datetime(_dict.get('submission_time'))
-        if 'start_time' in _dict:
-            args['start_time'] = string_to_datetime(_dict.get('start_time'))
-        if 'end_time' in _dict:
-            args['end_time'] = string_to_datetime(_dict.get('end_time'))
-        if 'finish_time' in _dict:
-            args['finish_time'] = string_to_datetime(_dict.get('finish_time'))
-        if 'auto_termination_time' in _dict:
-            args['auto_termination_time'] = string_to_datetime(_dict.get('auto_termination_time'))
+        if "id" in _dict:
+            args["id"] = _dict.get("id")
+        if "href" in _dict:
+            args["href"] = _dict.get("href")
+        if "runtime" in _dict:
+            args["runtime"] = Runtime.from_dict(_dict.get("runtime"))
+        if "spark_application_id" in _dict:
+            args["spark_application_id"] = _dict.get("spark_application_id")
+        if "spark_application_name" in _dict:
+            args["spark_application_name"] = _dict.get("spark_application_name")
+        if "state" in _dict:
+            args["state"] = _dict.get("state")
+        if "spark_ui" in _dict:
+            args["spark_ui"] = _dict.get("spark_ui")
+        if "submission_time" in _dict:
+            args["submission_time"] = string_to_datetime(_dict.get("submission_time"))
+        if "start_time" in _dict:
+            args["start_time"] = string_to_datetime(_dict.get("start_time"))
+        if "end_time" in _dict:
+            args["end_time"] = string_to_datetime(_dict.get("end_time"))
+        if "finish_time" in _dict:
+            args["finish_time"] = string_to_datetime(_dict.get("finish_time"))
+        if "auto_termination_time" in _dict:
+            args["auto_termination_time"] = string_to_datetime(_dict.get("auto_termination_time"))
         return cls(**args)
 
     @classmethod
@@ -1287,30 +1255,33 @@ class Application():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'id') and self.id is not None:
-            _dict['id'] = self.id
-        if hasattr(self, 'href') and self.href is not None:
-            _dict['href'] = self.href
-        if hasattr(self, 'runtime') and self.runtime is not None:
-            _dict['runtime'] = self.runtime.to_dict()
-        if hasattr(self, 'spark_application_id') and self.spark_application_id is not None:
-            _dict['spark_application_id'] = self.spark_application_id
-        if hasattr(self, 'spark_application_name') and self.spark_application_name is not None:
-            _dict['spark_application_name'] = self.spark_application_name
-        if hasattr(self, 'state') and self.state is not None:
-            _dict['state'] = self.state
-        if hasattr(self, 'spark_ui') and self.spark_ui is not None:
-            _dict['spark_ui'] = self.spark_ui
-        if hasattr(self, 'submission_time') and self.submission_time is not None:
-            _dict['submission_time'] = datetime_to_string(self.submission_time)
-        if hasattr(self, 'start_time') and self.start_time is not None:
-            _dict['start_time'] = datetime_to_string(self.start_time)
-        if hasattr(self, 'end_time') and self.end_time is not None:
-            _dict['end_time'] = datetime_to_string(self.end_time)
-        if hasattr(self, 'finish_time') and self.finish_time is not None:
-            _dict['finish_time'] = datetime_to_string(self.finish_time)
-        if hasattr(self, 'auto_termination_time') and self.auto_termination_time is not None:
-            _dict['auto_termination_time'] = datetime_to_string(self.auto_termination_time)
+        if hasattr(self, "id") and self.id is not None:
+            _dict["id"] = self.id
+        if hasattr(self, "href") and self.href is not None:
+            _dict["href"] = self.href
+        if hasattr(self, "runtime") and self.runtime is not None:
+            if isinstance(self.runtime, dict):
+                _dict["runtime"] = self.runtime
+            else:
+                _dict["runtime"] = self.runtime.to_dict()
+        if hasattr(self, "spark_application_id") and self.spark_application_id is not None:
+            _dict["spark_application_id"] = self.spark_application_id
+        if hasattr(self, "spark_application_name") and self.spark_application_name is not None:
+            _dict["spark_application_name"] = self.spark_application_name
+        if hasattr(self, "state") and self.state is not None:
+            _dict["state"] = self.state
+        if hasattr(self, "spark_ui") and self.spark_ui is not None:
+            _dict["spark_ui"] = self.spark_ui
+        if hasattr(self, "submission_time") and self.submission_time is not None:
+            _dict["submission_time"] = datetime_to_string(self.submission_time)
+        if hasattr(self, "start_time") and self.start_time is not None:
+            _dict["start_time"] = datetime_to_string(self.start_time)
+        if hasattr(self, "end_time") and self.end_time is not None:
+            _dict["end_time"] = datetime_to_string(self.end_time)
+        if hasattr(self, "finish_time") and self.finish_time is not None:
+            _dict["finish_time"] = datetime_to_string(self.finish_time)
+        if hasattr(self, "auto_termination_time") and self.auto_termination_time is not None:
+            _dict["auto_termination_time"] = datetime_to_string(self.auto_termination_time)
         return _dict
 
     def _to_dict(self):
@@ -1321,13 +1292,13 @@ class Application():
         """Return a `str` version of this Application object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'Application') -> bool:
+    def __eq__(self, other: "Application") -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'Application') -> bool:
+    def __ne__(self, other: "Application") -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1335,25 +1306,24 @@ class Application():
         """
         State of the Spark application.
         """
-        FINISHED = 'finished'
-        RUNNING = 'running'
-        FAILED = 'failed'
-        ACCEPTED = 'accepted'
-        STOPPED = 'stopped'
-        AUTO_TERMINATED = 'auto_terminated'
-        OPS_TERMINATED = 'ops_terminated'
+
+        FINISHED = "finished"
+        RUNNING = "running"
+        FAILED = "failed"
+        ACCEPTED = "accepted"
+        STOPPED = "stopped"
+        AUTO_TERMINATED = "auto_terminated"
+        OPS_TERMINATED = "ops_terminated"
 
 
-class ApplicationCollection():
+class ApplicationCollection:
     """
     An array of application details.
 
     :attr List[Application] applications: (optional) List of applications.
     """
 
-    def __init__(self,
-                 *,
-                 applications: List['Application'] = None) -> None:
+    def __init__(self, *, applications: List["Application"] = None) -> None:
         """
         Initialize a ApplicationCollection object.
 
@@ -1362,11 +1332,11 @@ class ApplicationCollection():
         self.applications = applications
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'ApplicationCollection':
+    def from_dict(cls, _dict: Dict) -> "ApplicationCollection":
         """Initialize a ApplicationCollection object from a json dictionary."""
         args = {}
-        if 'applications' in _dict:
-            args['applications'] = [Application.from_dict(x) for x in _dict.get('applications')]
+        if "applications" in _dict:
+            args["applications"] = [Application.from_dict(v) for v in _dict.get("applications")]
         return cls(**args)
 
     @classmethod
@@ -1377,8 +1347,14 @@ class ApplicationCollection():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'applications') and self.applications is not None:
-            _dict['applications'] = [x.to_dict() for x in self.applications]
+        if hasattr(self, "applications") and self.applications is not None:
+            applications_list = []
+            for v in self.applications:
+                if isinstance(v, dict):
+                    applications_list.append(v)
+                else:
+                    applications_list.append(v.to_dict())
+            _dict["applications"] = applications_list
         return _dict
 
     def _to_dict(self):
@@ -1389,17 +1365,18 @@ class ApplicationCollection():
         """Return a `str` version of this ApplicationCollection object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'ApplicationCollection') -> bool:
+    def __eq__(self, other: "ApplicationCollection") -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'ApplicationCollection') -> bool:
+    def __ne__(self, other: "ApplicationCollection") -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class ApplicationDetails():
+
+class ApplicationDetails:
     """
     Application details.
 
@@ -1426,20 +1403,22 @@ class ApplicationDetails():
           for a list of the supported variables.
     """
 
-    def __init__(self,
-                 *,
-                 application: str = None,
-                 runtime: 'Runtime' = None,
-                 jars: str = None,
-                 packages: str = None,
-                 repositories: str = None,
-                 files: str = None,
-                 archives: str = None,
-                 name: str = None,
-                 class_: str = None,
-                 arguments: List[str] = None,
-                 conf: dict = None,
-                 env: dict = None) -> None:
+    def __init__(
+        self,
+        *,
+        application: str = None,
+        runtime: "Runtime" = None,
+        jars: str = None,
+        packages: str = None,
+        repositories: str = None,
+        files: str = None,
+        archives: str = None,
+        name: str = None,
+        class_: str = None,
+        arguments: List[str] = None,
+        conf: dict = None,
+        env: dict = None
+    ) -> None:
         """
         Initialize a ApplicationDetails object.
 
@@ -1480,33 +1459,33 @@ class ApplicationDetails():
         self.env = env
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'ApplicationDetails':
+    def from_dict(cls, _dict: Dict) -> "ApplicationDetails":
         """Initialize a ApplicationDetails object from a json dictionary."""
         args = {}
-        if 'application' in _dict:
-            args['application'] = _dict.get('application')
-        if 'runtime' in _dict:
-            args['runtime'] = Runtime.from_dict(_dict.get('runtime'))
-        if 'jars' in _dict:
-            args['jars'] = _dict.get('jars')
-        if 'packages' in _dict:
-            args['packages'] = _dict.get('packages')
-        if 'repositories' in _dict:
-            args['repositories'] = _dict.get('repositories')
-        if 'files' in _dict:
-            args['files'] = _dict.get('files')
-        if 'archives' in _dict:
-            args['archives'] = _dict.get('archives')
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        if 'class' in _dict:
-            args['class_'] = _dict.get('class')
-        if 'arguments' in _dict:
-            args['arguments'] = _dict.get('arguments')
-        if 'conf' in _dict:
-            args['conf'] = _dict.get('conf')
-        if 'env' in _dict:
-            args['env'] = _dict.get('env')
+        if "application" in _dict:
+            args["application"] = _dict.get("application")
+        if "runtime" in _dict:
+            args["runtime"] = Runtime.from_dict(_dict.get("runtime"))
+        if "jars" in _dict:
+            args["jars"] = _dict.get("jars")
+        if "packages" in _dict:
+            args["packages"] = _dict.get("packages")
+        if "repositories" in _dict:
+            args["repositories"] = _dict.get("repositories")
+        if "files" in _dict:
+            args["files"] = _dict.get("files")
+        if "archives" in _dict:
+            args["archives"] = _dict.get("archives")
+        if "name" in _dict:
+            args["name"] = _dict.get("name")
+        if "class" in _dict:
+            args["class_"] = _dict.get("class")
+        if "arguments" in _dict:
+            args["arguments"] = _dict.get("arguments")
+        if "conf" in _dict:
+            args["conf"] = _dict.get("conf")
+        if "env" in _dict:
+            args["env"] = _dict.get("env")
         return cls(**args)
 
     @classmethod
@@ -1517,30 +1496,33 @@ class ApplicationDetails():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'application') and self.application is not None:
-            _dict['application'] = self.application
-        if hasattr(self, 'runtime') and self.runtime is not None:
-            _dict['runtime'] = self.runtime.to_dict()
-        if hasattr(self, 'jars') and self.jars is not None:
-            _dict['jars'] = self.jars
-        if hasattr(self, 'packages') and self.packages is not None:
-            _dict['packages'] = self.packages
-        if hasattr(self, 'repositories') and self.repositories is not None:
-            _dict['repositories'] = self.repositories
-        if hasattr(self, 'files') and self.files is not None:
-            _dict['files'] = self.files
-        if hasattr(self, 'archives') and self.archives is not None:
-            _dict['archives'] = self.archives
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        if hasattr(self, 'class_') and self.class_ is not None:
-            _dict['class'] = self.class_
-        if hasattr(self, 'arguments') and self.arguments is not None:
-            _dict['arguments'] = self.arguments
-        if hasattr(self, 'conf') and self.conf is not None:
-            _dict['conf'] = self.conf
-        if hasattr(self, 'env') and self.env is not None:
-            _dict['env'] = self.env
+        if hasattr(self, "application") and self.application is not None:
+            _dict["application"] = self.application
+        if hasattr(self, "runtime") and self.runtime is not None:
+            if isinstance(self.runtime, dict):
+                _dict["runtime"] = self.runtime
+            else:
+                _dict["runtime"] = self.runtime.to_dict()
+        if hasattr(self, "jars") and self.jars is not None:
+            _dict["jars"] = self.jars
+        if hasattr(self, "packages") and self.packages is not None:
+            _dict["packages"] = self.packages
+        if hasattr(self, "repositories") and self.repositories is not None:
+            _dict["repositories"] = self.repositories
+        if hasattr(self, "files") and self.files is not None:
+            _dict["files"] = self.files
+        if hasattr(self, "archives") and self.archives is not None:
+            _dict["archives"] = self.archives
+        if hasattr(self, "name") and self.name is not None:
+            _dict["name"] = self.name
+        if hasattr(self, "class_") and self.class_ is not None:
+            _dict["class"] = self.class_
+        if hasattr(self, "arguments") and self.arguments is not None:
+            _dict["arguments"] = self.arguments
+        if hasattr(self, "conf") and self.conf is not None:
+            _dict["conf"] = self.conf
+        if hasattr(self, "env") and self.env is not None:
+            _dict["env"] = self.env
         return _dict
 
     def _to_dict(self):
@@ -1551,17 +1533,18 @@ class ApplicationDetails():
         """Return a `str` version of this ApplicationDetails object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'ApplicationDetails') -> bool:
+    def __eq__(self, other: "ApplicationDetails") -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'ApplicationDetails') -> bool:
+    def __ne__(self, other: "ApplicationDetails") -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class ApplicationGetResponse():
+
+class ApplicationGetResponse:
     """
     Response of the Application Get API.
 
@@ -1581,26 +1564,28 @@ class ApplicationGetResponse():
           format YYYY-MM-DDTHH:mm:ssZ.
     :attr datetime end_time: (optional) Time when the application ended either in
           success or failure, in the format YYYY-MM-DDTHH:mm:ssZ.
-    :attr datetime finish_time: (optional) (deprecated) Time when the application
-          completed successfully, in the format YYYY-MM-DDTHH:mm:ssZ.
+    :attr datetime finish_time: (optional) Deprecated: (deprecated) Time when the
+          application completed successfully, in the format YYYY-MM-DDTHH:mm:ssZ.
     :attr datetime auto_termination_time: (optional) Time when the application will
           be automatically stopped by the service.
     """
 
-    def __init__(self,
-                 *,
-                 application_details: 'ApplicationDetails' = None,
-                 id: str = None,
-                 spark_application_id: str = None,
-                 spark_application_name: str = None,
-                 state: str = None,
-                 spark_ui: str = None,
-                 state_details: List['ApplicationGetResponseStateDetailsItem'] = None,
-                 submission_time: datetime = None,
-                 start_time: datetime = None,
-                 end_time: datetime = None,
-                 finish_time: datetime = None,
-                 auto_termination_time: datetime = None) -> None:
+    def __init__(
+        self,
+        *,
+        application_details: "ApplicationDetails" = None,
+        id: str = None,
+        spark_application_id: str = None,
+        spark_application_name: str = None,
+        state: str = None,
+        spark_ui: str = None,
+        state_details: List["ApplicationGetResponseStateDetailsItem"] = None,
+        submission_time: datetime = None,
+        start_time: datetime = None,
+        end_time: datetime = None,
+        finish_time: datetime = None,
+        auto_termination_time: datetime = None
+    ) -> None:
         """
         Initialize a ApplicationGetResponse object.
 
@@ -1623,8 +1608,8 @@ class ApplicationGetResponse():
                in the format YYYY-MM-DDTHH:mm:ssZ.
         :param datetime end_time: (optional) Time when the application ended either
                in success or failure, in the format YYYY-MM-DDTHH:mm:ssZ.
-        :param datetime finish_time: (optional) (deprecated) Time when the
-               application completed successfully, in the format YYYY-MM-DDTHH:mm:ssZ.
+        :param datetime finish_time: (optional) Deprecated: (deprecated) Time when
+               the application completed successfully, in the format YYYY-MM-DDTHH:mm:ssZ.
         :param datetime auto_termination_time: (optional) Time when the application
                will be automatically stopped by the service.
         """
@@ -1642,33 +1627,35 @@ class ApplicationGetResponse():
         self.auto_termination_time = auto_termination_time
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'ApplicationGetResponse':
+    def from_dict(cls, _dict: Dict) -> "ApplicationGetResponse":
         """Initialize a ApplicationGetResponse object from a json dictionary."""
         args = {}
-        if 'application_details' in _dict:
-            args['application_details'] = ApplicationDetails.from_dict(_dict.get('application_details'))
-        if 'id' in _dict:
-            args['id'] = _dict.get('id')
-        if 'spark_application_id' in _dict:
-            args['spark_application_id'] = _dict.get('spark_application_id')
-        if 'spark_application_name' in _dict:
-            args['spark_application_name'] = _dict.get('spark_application_name')
-        if 'state' in _dict:
-            args['state'] = _dict.get('state')
-        if 'spark_ui' in _dict:
-            args['spark_ui'] = _dict.get('spark_ui')
-        if 'state_details' in _dict:
-            args['state_details'] = [ApplicationGetResponseStateDetailsItem.from_dict(x) for x in _dict.get('state_details')]
-        if 'submission_time' in _dict:
-            args['submission_time'] = string_to_datetime(_dict.get('submission_time'))
-        if 'start_time' in _dict:
-            args['start_time'] = string_to_datetime(_dict.get('start_time'))
-        if 'end_time' in _dict:
-            args['end_time'] = string_to_datetime(_dict.get('end_time'))
-        if 'finish_time' in _dict:
-            args['finish_time'] = string_to_datetime(_dict.get('finish_time'))
-        if 'auto_termination_time' in _dict:
-            args['auto_termination_time'] = string_to_datetime(_dict.get('auto_termination_time'))
+        if "application_details" in _dict:
+            args["application_details"] = ApplicationDetails.from_dict(_dict.get("application_details"))
+        if "id" in _dict:
+            args["id"] = _dict.get("id")
+        if "spark_application_id" in _dict:
+            args["spark_application_id"] = _dict.get("spark_application_id")
+        if "spark_application_name" in _dict:
+            args["spark_application_name"] = _dict.get("spark_application_name")
+        if "state" in _dict:
+            args["state"] = _dict.get("state")
+        if "spark_ui" in _dict:
+            args["spark_ui"] = _dict.get("spark_ui")
+        if "state_details" in _dict:
+            args["state_details"] = [
+                ApplicationGetResponseStateDetailsItem.from_dict(v) for v in _dict.get("state_details")
+            ]
+        if "submission_time" in _dict:
+            args["submission_time"] = string_to_datetime(_dict.get("submission_time"))
+        if "start_time" in _dict:
+            args["start_time"] = string_to_datetime(_dict.get("start_time"))
+        if "end_time" in _dict:
+            args["end_time"] = string_to_datetime(_dict.get("end_time"))
+        if "finish_time" in _dict:
+            args["finish_time"] = string_to_datetime(_dict.get("finish_time"))
+        if "auto_termination_time" in _dict:
+            args["auto_termination_time"] = string_to_datetime(_dict.get("auto_termination_time"))
         return cls(**args)
 
     @classmethod
@@ -1679,30 +1666,39 @@ class ApplicationGetResponse():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'application_details') and self.application_details is not None:
-            _dict['application_details'] = self.application_details.to_dict()
-        if hasattr(self, 'id') and self.id is not None:
-            _dict['id'] = self.id
-        if hasattr(self, 'spark_application_id') and self.spark_application_id is not None:
-            _dict['spark_application_id'] = self.spark_application_id
-        if hasattr(self, 'spark_application_name') and self.spark_application_name is not None:
-            _dict['spark_application_name'] = self.spark_application_name
-        if hasattr(self, 'state') and self.state is not None:
-            _dict['state'] = self.state
-        if hasattr(self, 'spark_ui') and self.spark_ui is not None:
-            _dict['spark_ui'] = self.spark_ui
-        if hasattr(self, 'state_details') and self.state_details is not None:
-            _dict['state_details'] = [x.to_dict() for x in self.state_details]
-        if hasattr(self, 'submission_time') and self.submission_time is not None:
-            _dict['submission_time'] = datetime_to_string(self.submission_time)
-        if hasattr(self, 'start_time') and self.start_time is not None:
-            _dict['start_time'] = datetime_to_string(self.start_time)
-        if hasattr(self, 'end_time') and self.end_time is not None:
-            _dict['end_time'] = datetime_to_string(self.end_time)
-        if hasattr(self, 'finish_time') and self.finish_time is not None:
-            _dict['finish_time'] = datetime_to_string(self.finish_time)
-        if hasattr(self, 'auto_termination_time') and self.auto_termination_time is not None:
-            _dict['auto_termination_time'] = datetime_to_string(self.auto_termination_time)
+        if hasattr(self, "application_details") and self.application_details is not None:
+            if isinstance(self.application_details, dict):
+                _dict["application_details"] = self.application_details
+            else:
+                _dict["application_details"] = self.application_details.to_dict()
+        if hasattr(self, "id") and self.id is not None:
+            _dict["id"] = self.id
+        if hasattr(self, "spark_application_id") and self.spark_application_id is not None:
+            _dict["spark_application_id"] = self.spark_application_id
+        if hasattr(self, "spark_application_name") and self.spark_application_name is not None:
+            _dict["spark_application_name"] = self.spark_application_name
+        if hasattr(self, "state") and self.state is not None:
+            _dict["state"] = self.state
+        if hasattr(self, "spark_ui") and self.spark_ui is not None:
+            _dict["spark_ui"] = self.spark_ui
+        if hasattr(self, "state_details") and self.state_details is not None:
+            state_details_list = []
+            for v in self.state_details:
+                if isinstance(v, dict):
+                    state_details_list.append(v)
+                else:
+                    state_details_list.append(v.to_dict())
+            _dict["state_details"] = state_details_list
+        if hasattr(self, "submission_time") and self.submission_time is not None:
+            _dict["submission_time"] = datetime_to_string(self.submission_time)
+        if hasattr(self, "start_time") and self.start_time is not None:
+            _dict["start_time"] = datetime_to_string(self.start_time)
+        if hasattr(self, "end_time") and self.end_time is not None:
+            _dict["end_time"] = datetime_to_string(self.end_time)
+        if hasattr(self, "finish_time") and self.finish_time is not None:
+            _dict["finish_time"] = datetime_to_string(self.finish_time)
+        if hasattr(self, "auto_termination_time") and self.auto_termination_time is not None:
+            _dict["auto_termination_time"] = datetime_to_string(self.auto_termination_time)
         return _dict
 
     def _to_dict(self):
@@ -1713,13 +1709,13 @@ class ApplicationGetResponse():
         """Return a `str` version of this ApplicationGetResponse object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'ApplicationGetResponse') -> bool:
+    def __eq__(self, other: "ApplicationGetResponse") -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'ApplicationGetResponse') -> bool:
+    def __ne__(self, other: "ApplicationGetResponse") -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1727,16 +1723,17 @@ class ApplicationGetResponse():
         """
         State of the Spark application.
         """
-        FINISHED = 'finished'
-        RUNNING = 'running'
-        FAILED = 'failed'
-        ACCEPTED = 'accepted'
-        STOPPED = 'stopped'
-        AUTO_TERMINATED = 'auto_terminated'
-        OPS_TERMINATED = 'ops_terminated'
+
+        FINISHED = "finished"
+        RUNNING = "running"
+        FAILED = "failed"
+        ACCEPTED = "accepted"
+        STOPPED = "stopped"
+        AUTO_TERMINATED = "auto_terminated"
+        OPS_TERMINATED = "ops_terminated"
 
 
-class ApplicationGetResponseStateDetailsItem():
+class ApplicationGetResponseStateDetailsItem:
     """
     Additional information message on the current state of the application.
 
@@ -1746,11 +1743,7 @@ class ApplicationGetResponseStateDetailsItem():
           information on the current application state.
     """
 
-    def __init__(self,
-                 *,
-                 type: str = None,
-                 code: str = None,
-                 message: str = None) -> None:
+    def __init__(self, *, type: str = None, code: str = None, message: str = None) -> None:
         """
         Initialize a ApplicationGetResponseStateDetailsItem object.
 
@@ -1764,15 +1757,15 @@ class ApplicationGetResponseStateDetailsItem():
         self.message = message
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'ApplicationGetResponseStateDetailsItem':
+    def from_dict(cls, _dict: Dict) -> "ApplicationGetResponseStateDetailsItem":
         """Initialize a ApplicationGetResponseStateDetailsItem object from a json dictionary."""
         args = {}
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
-        if 'code' in _dict:
-            args['code'] = _dict.get('code')
-        if 'message' in _dict:
-            args['message'] = _dict.get('message')
+        if "type" in _dict:
+            args["type"] = _dict.get("type")
+        if "code" in _dict:
+            args["code"] = _dict.get("code")
+        if "message" in _dict:
+            args["message"] = _dict.get("message")
         return cls(**args)
 
     @classmethod
@@ -1783,12 +1776,12 @@ class ApplicationGetResponseStateDetailsItem():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'type') and self.type is not None:
-            _dict['type'] = self.type
-        if hasattr(self, 'code') and self.code is not None:
-            _dict['code'] = self.code
-        if hasattr(self, 'message') and self.message is not None:
-            _dict['message'] = self.message
+        if hasattr(self, "type") and self.type is not None:
+            _dict["type"] = self.type
+        if hasattr(self, "code") and self.code is not None:
+            _dict["code"] = self.code
+        if hasattr(self, "message") and self.message is not None:
+            _dict["message"] = self.message
         return _dict
 
     def _to_dict(self):
@@ -1799,13 +1792,13 @@ class ApplicationGetResponseStateDetailsItem():
         """Return a `str` version of this ApplicationGetResponseStateDetailsItem object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'ApplicationGetResponseStateDetailsItem') -> bool:
+    def __eq__(self, other: "ApplicationGetResponseStateDetailsItem") -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'ApplicationGetResponseStateDetailsItem') -> bool:
+    def __ne__(self, other: "ApplicationGetResponseStateDetailsItem") -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1813,12 +1806,13 @@ class ApplicationGetResponseStateDetailsItem():
         """
         Type of the message.
         """
-        USER_ERROR = 'user_error'
-        SERVER_ERROR = 'server_error'
-        INFO = 'info'
+
+        USER_ERROR = "user_error"
+        SERVER_ERROR = "server_error"
+        INFO = "info"
 
 
-class ApplicationGetStateResponse():
+class ApplicationGetStateResponse:
     """
     State of a given application.
 
@@ -1827,20 +1821,22 @@ class ApplicationGetStateResponse():
     :attr datetime start_time: (optional) Time when the application was started.
     :attr datetime end_time: (optional) Time when the application run ended in
           success, failure or was stopped.
-    :attr datetime finish_time: (optional) (deprecated) Time when the application
-          was completed.
+    :attr datetime finish_time: (optional) Deprecated: (deprecated) Time when the
+          application was completed.
     :attr datetime auto_termination_time: (optional) Time when the application will
           be automatically stopped by the service.
     """
 
-    def __init__(self,
-                 *,
-                 id: str = None,
-                 state: str = None,
-                 start_time: datetime = None,
-                 end_time: datetime = None,
-                 finish_time: datetime = None,
-                 auto_termination_time: datetime = None) -> None:
+    def __init__(
+        self,
+        *,
+        id: str = None,
+        state: str = None,
+        start_time: datetime = None,
+        end_time: datetime = None,
+        finish_time: datetime = None,
+        auto_termination_time: datetime = None
+    ) -> None:
         """
         Initialize a ApplicationGetStateResponse object.
 
@@ -1850,8 +1846,8 @@ class ApplicationGetStateResponse():
                started.
         :param datetime end_time: (optional) Time when the application run ended in
                success, failure or was stopped.
-        :param datetime finish_time: (optional) (deprecated) Time when the
-               application was completed.
+        :param datetime finish_time: (optional) Deprecated: (deprecated) Time when
+               the application was completed.
         :param datetime auto_termination_time: (optional) Time when the application
                will be automatically stopped by the service.
         """
@@ -1863,21 +1859,21 @@ class ApplicationGetStateResponse():
         self.auto_termination_time = auto_termination_time
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'ApplicationGetStateResponse':
+    def from_dict(cls, _dict: Dict) -> "ApplicationGetStateResponse":
         """Initialize a ApplicationGetStateResponse object from a json dictionary."""
         args = {}
-        if 'id' in _dict:
-            args['id'] = _dict.get('id')
-        if 'state' in _dict:
-            args['state'] = _dict.get('state')
-        if 'start_time' in _dict:
-            args['start_time'] = string_to_datetime(_dict.get('start_time'))
-        if 'end_time' in _dict:
-            args['end_time'] = string_to_datetime(_dict.get('end_time'))
-        if 'finish_time' in _dict:
-            args['finish_time'] = string_to_datetime(_dict.get('finish_time'))
-        if 'auto_termination_time' in _dict:
-            args['auto_termination_time'] = string_to_datetime(_dict.get('auto_termination_time'))
+        if "id" in _dict:
+            args["id"] = _dict.get("id")
+        if "state" in _dict:
+            args["state"] = _dict.get("state")
+        if "start_time" in _dict:
+            args["start_time"] = string_to_datetime(_dict.get("start_time"))
+        if "end_time" in _dict:
+            args["end_time"] = string_to_datetime(_dict.get("end_time"))
+        if "finish_time" in _dict:
+            args["finish_time"] = string_to_datetime(_dict.get("finish_time"))
+        if "auto_termination_time" in _dict:
+            args["auto_termination_time"] = string_to_datetime(_dict.get("auto_termination_time"))
         return cls(**args)
 
     @classmethod
@@ -1888,18 +1884,18 @@ class ApplicationGetStateResponse():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'id') and self.id is not None:
-            _dict['id'] = self.id
-        if hasattr(self, 'state') and self.state is not None:
-            _dict['state'] = self.state
-        if hasattr(self, 'start_time') and self.start_time is not None:
-            _dict['start_time'] = datetime_to_string(self.start_time)
-        if hasattr(self, 'end_time') and self.end_time is not None:
-            _dict['end_time'] = datetime_to_string(self.end_time)
-        if hasattr(self, 'finish_time') and self.finish_time is not None:
-            _dict['finish_time'] = datetime_to_string(self.finish_time)
-        if hasattr(self, 'auto_termination_time') and self.auto_termination_time is not None:
-            _dict['auto_termination_time'] = datetime_to_string(self.auto_termination_time)
+        if hasattr(self, "id") and self.id is not None:
+            _dict["id"] = self.id
+        if hasattr(self, "state") and self.state is not None:
+            _dict["state"] = self.state
+        if hasattr(self, "start_time") and self.start_time is not None:
+            _dict["start_time"] = datetime_to_string(self.start_time)
+        if hasattr(self, "end_time") and self.end_time is not None:
+            _dict["end_time"] = datetime_to_string(self.end_time)
+        if hasattr(self, "finish_time") and self.finish_time is not None:
+            _dict["finish_time"] = datetime_to_string(self.finish_time)
+        if hasattr(self, "auto_termination_time") and self.auto_termination_time is not None:
+            _dict["auto_termination_time"] = datetime_to_string(self.auto_termination_time)
         return _dict
 
     def _to_dict(self):
@@ -1910,13 +1906,13 @@ class ApplicationGetStateResponse():
         """Return a `str` version of this ApplicationGetStateResponse object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'ApplicationGetStateResponse') -> bool:
+    def __eq__(self, other: "ApplicationGetStateResponse") -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'ApplicationGetStateResponse') -> bool:
+    def __ne__(self, other: "ApplicationGetStateResponse") -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1924,16 +1920,17 @@ class ApplicationGetStateResponse():
         """
         State of the Spark application.
         """
-        FINISHED = 'finished'
-        RUNNING = 'running'
-        FAILED = 'failed'
-        ACCEPTED = 'accepted'
-        STOPPED = 'stopped'
-        AUTO_TERMINATED = 'auto_terminated'
-        OPS_TERMINATED = 'ops_terminated'
+
+        FINISHED = "finished"
+        RUNNING = "running"
+        FAILED = "failed"
+        ACCEPTED = "accepted"
+        STOPPED = "stopped"
+        AUTO_TERMINATED = "auto_terminated"
+        OPS_TERMINATED = "ops_terminated"
 
 
-class ApplicationRequestApplicationDetails():
+class ApplicationRequestApplicationDetails:
     """
     Application details.
 
@@ -1960,20 +1957,22 @@ class ApplicationRequestApplicationDetails():
           for a list of the supported variables.
     """
 
-    def __init__(self,
-                 *,
-                 application: str = None,
-                 runtime: 'Runtime' = None,
-                 jars: str = None,
-                 packages: str = None,
-                 repositories: str = None,
-                 files: str = None,
-                 archives: str = None,
-                 name: str = None,
-                 class_: str = None,
-                 arguments: List[str] = None,
-                 conf: dict = None,
-                 env: dict = None) -> None:
+    def __init__(
+        self,
+        *,
+        application: str = None,
+        runtime: "Runtime" = None,
+        jars: str = None,
+        packages: str = None,
+        repositories: str = None,
+        files: str = None,
+        archives: str = None,
+        name: str = None,
+        class_: str = None,
+        arguments: List[str] = None,
+        conf: dict = None,
+        env: dict = None
+    ) -> None:
         """
         Initialize a ApplicationRequestApplicationDetails object.
 
@@ -2014,33 +2013,33 @@ class ApplicationRequestApplicationDetails():
         self.env = env
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'ApplicationRequestApplicationDetails':
+    def from_dict(cls, _dict: Dict) -> "ApplicationRequestApplicationDetails":
         """Initialize a ApplicationRequestApplicationDetails object from a json dictionary."""
         args = {}
-        if 'application' in _dict:
-            args['application'] = _dict.get('application')
-        if 'runtime' in _dict:
-            args['runtime'] = Runtime.from_dict(_dict.get('runtime'))
-        if 'jars' in _dict:
-            args['jars'] = _dict.get('jars')
-        if 'packages' in _dict:
-            args['packages'] = _dict.get('packages')
-        if 'repositories' in _dict:
-            args['repositories'] = _dict.get('repositories')
-        if 'files' in _dict:
-            args['files'] = _dict.get('files')
-        if 'archives' in _dict:
-            args['archives'] = _dict.get('archives')
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        if 'class' in _dict:
-            args['class_'] = _dict.get('class')
-        if 'arguments' in _dict:
-            args['arguments'] = _dict.get('arguments')
-        if 'conf' in _dict:
-            args['conf'] = _dict.get('conf')
-        if 'env' in _dict:
-            args['env'] = _dict.get('env')
+        if "application" in _dict:
+            args["application"] = _dict.get("application")
+        if "runtime" in _dict:
+            args["runtime"] = Runtime.from_dict(_dict.get("runtime"))
+        if "jars" in _dict:
+            args["jars"] = _dict.get("jars")
+        if "packages" in _dict:
+            args["packages"] = _dict.get("packages")
+        if "repositories" in _dict:
+            args["repositories"] = _dict.get("repositories")
+        if "files" in _dict:
+            args["files"] = _dict.get("files")
+        if "archives" in _dict:
+            args["archives"] = _dict.get("archives")
+        if "name" in _dict:
+            args["name"] = _dict.get("name")
+        if "class" in _dict:
+            args["class_"] = _dict.get("class")
+        if "arguments" in _dict:
+            args["arguments"] = _dict.get("arguments")
+        if "conf" in _dict:
+            args["conf"] = _dict.get("conf")
+        if "env" in _dict:
+            args["env"] = _dict.get("env")
         return cls(**args)
 
     @classmethod
@@ -2051,30 +2050,33 @@ class ApplicationRequestApplicationDetails():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'application') and self.application is not None:
-            _dict['application'] = self.application
-        if hasattr(self, 'runtime') and self.runtime is not None:
-            _dict['runtime'] = self.runtime.to_dict()
-        if hasattr(self, 'jars') and self.jars is not None:
-            _dict['jars'] = self.jars
-        if hasattr(self, 'packages') and self.packages is not None:
-            _dict['packages'] = self.packages
-        if hasattr(self, 'repositories') and self.repositories is not None:
-            _dict['repositories'] = self.repositories
-        if hasattr(self, 'files') and self.files is not None:
-            _dict['files'] = self.files
-        if hasattr(self, 'archives') and self.archives is not None:
-            _dict['archives'] = self.archives
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        if hasattr(self, 'class_') and self.class_ is not None:
-            _dict['class'] = self.class_
-        if hasattr(self, 'arguments') and self.arguments is not None:
-            _dict['arguments'] = self.arguments
-        if hasattr(self, 'conf') and self.conf is not None:
-            _dict['conf'] = self.conf
-        if hasattr(self, 'env') and self.env is not None:
-            _dict['env'] = self.env
+        if hasattr(self, "application") and self.application is not None:
+            _dict["application"] = self.application
+        if hasattr(self, "runtime") and self.runtime is not None:
+            if isinstance(self.runtime, dict):
+                _dict["runtime"] = self.runtime
+            else:
+                _dict["runtime"] = self.runtime.to_dict()
+        if hasattr(self, "jars") and self.jars is not None:
+            _dict["jars"] = self.jars
+        if hasattr(self, "packages") and self.packages is not None:
+            _dict["packages"] = self.packages
+        if hasattr(self, "repositories") and self.repositories is not None:
+            _dict["repositories"] = self.repositories
+        if hasattr(self, "files") and self.files is not None:
+            _dict["files"] = self.files
+        if hasattr(self, "archives") and self.archives is not None:
+            _dict["archives"] = self.archives
+        if hasattr(self, "name") and self.name is not None:
+            _dict["name"] = self.name
+        if hasattr(self, "class_") and self.class_ is not None:
+            _dict["class"] = self.class_
+        if hasattr(self, "arguments") and self.arguments is not None:
+            _dict["arguments"] = self.arguments
+        if hasattr(self, "conf") and self.conf is not None:
+            _dict["conf"] = self.conf
+        if hasattr(self, "env") and self.env is not None:
+            _dict["env"] = self.env
         return _dict
 
     def _to_dict(self):
@@ -2085,17 +2087,18 @@ class ApplicationRequestApplicationDetails():
         """Return a `str` version of this ApplicationRequestApplicationDetails object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'ApplicationRequestApplicationDetails') -> bool:
+    def __eq__(self, other: "ApplicationRequestApplicationDetails") -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'ApplicationRequestApplicationDetails') -> bool:
+    def __ne__(self, other: "ApplicationRequestApplicationDetails") -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class ApplicationResponse():
+
+class ApplicationResponse:
     """
     Application response details.
 
@@ -2103,10 +2106,7 @@ class ApplicationResponse():
     :attr str state: (optional) State of the Spark application.
     """
 
-    def __init__(self,
-                 *,
-                 id: str = None,
-                 state: str = None) -> None:
+    def __init__(self, *, id: str = None, state: str = None) -> None:
         """
         Initialize a ApplicationResponse object.
 
@@ -2117,13 +2117,13 @@ class ApplicationResponse():
         self.state = state
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'ApplicationResponse':
+    def from_dict(cls, _dict: Dict) -> "ApplicationResponse":
         """Initialize a ApplicationResponse object from a json dictionary."""
         args = {}
-        if 'id' in _dict:
-            args['id'] = _dict.get('id')
-        if 'state' in _dict:
-            args['state'] = _dict.get('state')
+        if "id" in _dict:
+            args["id"] = _dict.get("id")
+        if "state" in _dict:
+            args["state"] = _dict.get("state")
         return cls(**args)
 
     @classmethod
@@ -2134,10 +2134,10 @@ class ApplicationResponse():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'id') and self.id is not None:
-            _dict['id'] = self.id
-        if hasattr(self, 'state') and self.state is not None:
-            _dict['state'] = self.state
+        if hasattr(self, "id") and self.id is not None:
+            _dict["id"] = self.id
+        if hasattr(self, "state") and self.state is not None:
+            _dict["state"] = self.state
         return _dict
 
     def _to_dict(self):
@@ -2148,13 +2148,13 @@ class ApplicationResponse():
         """Return a `str` version of this ApplicationResponse object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'ApplicationResponse') -> bool:
+    def __eq__(self, other: "ApplicationResponse") -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'ApplicationResponse') -> bool:
+    def __ne__(self, other: "ApplicationResponse") -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2162,16 +2162,17 @@ class ApplicationResponse():
         """
         State of the Spark application.
         """
-        FINISHED = 'finished'
-        RUNNING = 'running'
-        FAILED = 'failed'
-        ACCEPTED = 'accepted'
-        STOPPED = 'stopped'
-        AUTO_TERMINATED = 'auto_terminated'
-        OPS_TERMINATED = 'ops_terminated'
+
+        FINISHED = "finished"
+        RUNNING = "running"
+        FAILED = "failed"
+        ACCEPTED = "accepted"
+        STOPPED = "stopped"
+        AUTO_TERMINATED = "auto_terminated"
+        OPS_TERMINATED = "ops_terminated"
 
 
-class CurrentResourceConsumptionResponse():
+class CurrentResourceConsumptionResponse:
     """
     Current resource consumption of the instance.
 
@@ -2179,10 +2180,7 @@ class CurrentResourceConsumptionResponse():
     :attr str memory: (optional) Amount of memory used.
     """
 
-    def __init__(self,
-                 *,
-                 cores: str = None,
-                 memory: str = None) -> None:
+    def __init__(self, *, cores: str = None, memory: str = None) -> None:
         """
         Initialize a CurrentResourceConsumptionResponse object.
 
@@ -2193,13 +2191,13 @@ class CurrentResourceConsumptionResponse():
         self.memory = memory
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'CurrentResourceConsumptionResponse':
+    def from_dict(cls, _dict: Dict) -> "CurrentResourceConsumptionResponse":
         """Initialize a CurrentResourceConsumptionResponse object from a json dictionary."""
         args = {}
-        if 'cores' in _dict:
-            args['cores'] = _dict.get('cores')
-        if 'memory' in _dict:
-            args['memory'] = _dict.get('memory')
+        if "cores" in _dict:
+            args["cores"] = _dict.get("cores")
+        if "memory" in _dict:
+            args["memory"] = _dict.get("memory")
         return cls(**args)
 
     @classmethod
@@ -2210,10 +2208,10 @@ class CurrentResourceConsumptionResponse():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'cores') and self.cores is not None:
-            _dict['cores'] = self.cores
-        if hasattr(self, 'memory') and self.memory is not None:
-            _dict['memory'] = self.memory
+        if hasattr(self, "cores") and self.cores is not None:
+            _dict["cores"] = self.cores
+        if hasattr(self, "memory") and self.memory is not None:
+            _dict["memory"] = self.memory
         return _dict
 
     def _to_dict(self):
@@ -2224,17 +2222,18 @@ class CurrentResourceConsumptionResponse():
         """Return a `str` version of this CurrentResourceConsumptionResponse object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'CurrentResourceConsumptionResponse') -> bool:
+    def __eq__(self, other: "CurrentResourceConsumptionResponse") -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'CurrentResourceConsumptionResponse') -> bool:
+    def __ne__(self, other: "CurrentResourceConsumptionResponse") -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class Instance():
+
+class Instance:
     """
     Details of Analytics Engine instance.
 
@@ -2251,15 +2250,17 @@ class Instance():
           configuration for Spark workloads.
     """
 
-    def __init__(self,
-                 *,
-                 id: str = None,
-                 href: str = None,
-                 state: str = None,
-                 state_change_time: datetime = None,
-                 default_runtime: 'Runtime' = None,
-                 instance_home: 'InstanceHome' = None,
-                 default_config: 'InstanceDefaultConfig' = None) -> None:
+    def __init__(
+        self,
+        *,
+        id: str = None,
+        href: str = None,
+        state: str = None,
+        state_change_time: datetime = None,
+        default_runtime: "Runtime" = None,
+        instance_home: "InstanceHome" = None,
+        default_config: "InstanceDefaultConfig" = None
+    ) -> None:
         """
         Initialize a Instance object.
 
@@ -2284,23 +2285,23 @@ class Instance():
         self.default_config = default_config
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'Instance':
+    def from_dict(cls, _dict: Dict) -> "Instance":
         """Initialize a Instance object from a json dictionary."""
         args = {}
-        if 'id' in _dict:
-            args['id'] = _dict.get('id')
-        if 'href' in _dict:
-            args['href'] = _dict.get('href')
-        if 'state' in _dict:
-            args['state'] = _dict.get('state')
-        if 'state_change_time' in _dict:
-            args['state_change_time'] = string_to_datetime(_dict.get('state_change_time'))
-        if 'default_runtime' in _dict:
-            args['default_runtime'] = Runtime.from_dict(_dict.get('default_runtime'))
-        if 'instance_home' in _dict:
-            args['instance_home'] = InstanceHome.from_dict(_dict.get('instance_home'))
-        if 'default_config' in _dict:
-            args['default_config'] = InstanceDefaultConfig.from_dict(_dict.get('default_config'))
+        if "id" in _dict:
+            args["id"] = _dict.get("id")
+        if "href" in _dict:
+            args["href"] = _dict.get("href")
+        if "state" in _dict:
+            args["state"] = _dict.get("state")
+        if "state_change_time" in _dict:
+            args["state_change_time"] = string_to_datetime(_dict.get("state_change_time"))
+        if "default_runtime" in _dict:
+            args["default_runtime"] = Runtime.from_dict(_dict.get("default_runtime"))
+        if "instance_home" in _dict:
+            args["instance_home"] = InstanceHome.from_dict(_dict.get("instance_home"))
+        if "default_config" in _dict:
+            args["default_config"] = InstanceDefaultConfig.from_dict(_dict.get("default_config"))
         return cls(**args)
 
     @classmethod
@@ -2311,20 +2312,29 @@ class Instance():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'id') and self.id is not None:
-            _dict['id'] = self.id
-        if hasattr(self, 'href') and self.href is not None:
-            _dict['href'] = self.href
-        if hasattr(self, 'state') and self.state is not None:
-            _dict['state'] = self.state
-        if hasattr(self, 'state_change_time') and self.state_change_time is not None:
-            _dict['state_change_time'] = datetime_to_string(self.state_change_time)
-        if hasattr(self, 'default_runtime') and self.default_runtime is not None:
-            _dict['default_runtime'] = self.default_runtime.to_dict()
-        if hasattr(self, 'instance_home') and self.instance_home is not None:
-            _dict['instance_home'] = self.instance_home.to_dict()
-        if hasattr(self, 'default_config') and self.default_config is not None:
-            _dict['default_config'] = self.default_config.to_dict()
+        if hasattr(self, "id") and self.id is not None:
+            _dict["id"] = self.id
+        if hasattr(self, "href") and self.href is not None:
+            _dict["href"] = self.href
+        if hasattr(self, "state") and self.state is not None:
+            _dict["state"] = self.state
+        if hasattr(self, "state_change_time") and self.state_change_time is not None:
+            _dict["state_change_time"] = datetime_to_string(self.state_change_time)
+        if hasattr(self, "default_runtime") and self.default_runtime is not None:
+            if isinstance(self.default_runtime, dict):
+                _dict["default_runtime"] = self.default_runtime
+            else:
+                _dict["default_runtime"] = self.default_runtime.to_dict()
+        if hasattr(self, "instance_home") and self.instance_home is not None:
+            if isinstance(self.instance_home, dict):
+                _dict["instance_home"] = self.instance_home
+            else:
+                _dict["instance_home"] = self.instance_home.to_dict()
+        if hasattr(self, "default_config") and self.default_config is not None:
+            if isinstance(self.default_config, dict):
+                _dict["default_config"] = self.default_config
+            else:
+                _dict["default_config"] = self.default_config.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -2335,13 +2345,13 @@ class Instance():
         """Return a `str` version of this Instance object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'Instance') -> bool:
+    def __eq__(self, other: "Instance") -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'Instance') -> bool:
+    def __ne__(self, other: "Instance") -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2349,25 +2359,24 @@ class Instance():
         """
         State of the Analytics Engine instance.
         """
-        CREATION_ACCEPTED = 'creation_accepted'
-        INITIALIZED = 'initialized'
-        PREPARING = 'preparing'
-        ACTIVE = 'active'
-        DELETED = 'deleted'
-        DISABLED = 'disabled'
-        CREATION_FAILED = 'creation_failed'
+
+        CREATION_ACCEPTED = "creation_accepted"
+        INITIALIZED = "initialized"
+        PREPARING = "preparing"
+        ACTIVE = "active"
+        DELETED = "deleted"
+        DISABLED = "disabled"
+        CREATION_FAILED = "creation_failed"
 
 
-class InstanceDefaultConfig():
+class InstanceDefaultConfig:
     """
     Instance level default configuration for Spark workloads.
 
     :attr str key: (optional) Value of the Spark configuration key.
     """
 
-    def __init__(self,
-                 *,
-                 key: str = None) -> None:
+    def __init__(self, *, key: str = None) -> None:
         """
         Initialize a InstanceDefaultConfig object.
 
@@ -2376,11 +2385,11 @@ class InstanceDefaultConfig():
         self.key = key
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'InstanceDefaultConfig':
+    def from_dict(cls, _dict: Dict) -> "InstanceDefaultConfig":
         """Initialize a InstanceDefaultConfig object from a json dictionary."""
         args = {}
-        if 'key' in _dict:
-            args['key'] = _dict.get('key')
+        if "key" in _dict:
+            args["key"] = _dict.get("key")
         return cls(**args)
 
     @classmethod
@@ -2391,8 +2400,8 @@ class InstanceDefaultConfig():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'key') and self.key is not None:
-            _dict['key'] = self.key
+        if hasattr(self, "key") and self.key is not None:
+            _dict["key"] = self.key
         return _dict
 
     def _to_dict(self):
@@ -2403,17 +2412,18 @@ class InstanceDefaultConfig():
         """Return a `str` version of this InstanceDefaultConfig object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'InstanceDefaultConfig') -> bool:
+    def __eq__(self, other: "InstanceDefaultConfig") -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'InstanceDefaultConfig') -> bool:
+    def __ne__(self, other: "InstanceDefaultConfig") -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class InstanceGetStateResponse():
+
+class InstanceGetStateResponse:
     """
     State details of Analytics Engine instance.
 
@@ -2421,10 +2431,7 @@ class InstanceGetStateResponse():
     :attr str state: (optional) State of the Analytics Engine instance.
     """
 
-    def __init__(self,
-                 *,
-                 id: str = None,
-                 state: str = None) -> None:
+    def __init__(self, *, id: str = None, state: str = None) -> None:
         """
         Initialize a InstanceGetStateResponse object.
 
@@ -2435,13 +2442,13 @@ class InstanceGetStateResponse():
         self.state = state
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'InstanceGetStateResponse':
+    def from_dict(cls, _dict: Dict) -> "InstanceGetStateResponse":
         """Initialize a InstanceGetStateResponse object from a json dictionary."""
         args = {}
-        if 'id' in _dict:
-            args['id'] = _dict.get('id')
-        if 'state' in _dict:
-            args['state'] = _dict.get('state')
+        if "id" in _dict:
+            args["id"] = _dict.get("id")
+        if "state" in _dict:
+            args["state"] = _dict.get("state")
         return cls(**args)
 
     @classmethod
@@ -2452,10 +2459,10 @@ class InstanceGetStateResponse():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'id') and self.id is not None:
-            _dict['id'] = self.id
-        if hasattr(self, 'state') and self.state is not None:
-            _dict['state'] = self.state
+        if hasattr(self, "id") and self.id is not None:
+            _dict["id"] = self.id
+        if hasattr(self, "state") and self.state is not None:
+            _dict["state"] = self.state
         return _dict
 
     def _to_dict(self):
@@ -2466,13 +2473,13 @@ class InstanceGetStateResponse():
         """Return a `str` version of this InstanceGetStateResponse object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'InstanceGetStateResponse') -> bool:
+    def __eq__(self, other: "InstanceGetStateResponse") -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'InstanceGetStateResponse') -> bool:
+    def __ne__(self, other: "InstanceGetStateResponse") -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2480,16 +2487,17 @@ class InstanceGetStateResponse():
         """
         State of the Analytics Engine instance.
         """
-        CREATION_ACCEPTED = 'creation_accepted'
-        INITIALIZED = 'initialized'
-        PREPARING = 'preparing'
-        ACTIVE = 'active'
-        DELETED = 'deleted'
-        DISABLED = 'disabled'
-        CREATION_FAILED = 'creation_failed'
+
+        CREATION_ACCEPTED = "creation_accepted"
+        INITIALIZED = "initialized"
+        PREPARING = "preparing"
+        ACTIVE = "active"
+        DELETED = "deleted"
+        DISABLED = "disabled"
+        CREATION_FAILED = "creation_failed"
 
 
-class InstanceHome():
+class InstanceHome:
     """
     Object storage instance that acts as the home for custom libraries and Spark events.
 
@@ -2508,16 +2516,18 @@ class InstanceHome():
           for security reasons.
     """
 
-    def __init__(self,
-                 *,
-                 id: str = None,
-                 provider: str = None,
-                 type: str = None,
-                 region: str = None,
-                 endpoint: str = None,
-                 bucket: str = None,
-                 hmac_access_key: str = None,
-                 hmac_secret_key: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        id: str = None,
+        provider: str = None,
+        type: str = None,
+        region: str = None,
+        endpoint: str = None,
+        bucket: str = None,
+        hmac_access_key: str = None,
+        hmac_secret_key: str = None
+    ) -> None:
         """
         Initialize a InstanceHome object.
 
@@ -2546,25 +2556,25 @@ class InstanceHome():
         self.hmac_secret_key = hmac_secret_key
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'InstanceHome':
+    def from_dict(cls, _dict: Dict) -> "InstanceHome":
         """Initialize a InstanceHome object from a json dictionary."""
         args = {}
-        if 'id' in _dict:
-            args['id'] = _dict.get('id')
-        if 'provider' in _dict:
-            args['provider'] = _dict.get('provider')
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
-        if 'region' in _dict:
-            args['region'] = _dict.get('region')
-        if 'endpoint' in _dict:
-            args['endpoint'] = _dict.get('endpoint')
-        if 'bucket' in _dict:
-            args['bucket'] = _dict.get('bucket')
-        if 'hmac_access_key' in _dict:
-            args['hmac_access_key'] = _dict.get('hmac_access_key')
-        if 'hmac_secret_key' in _dict:
-            args['hmac_secret_key'] = _dict.get('hmac_secret_key')
+        if "id" in _dict:
+            args["id"] = _dict.get("id")
+        if "provider" in _dict:
+            args["provider"] = _dict.get("provider")
+        if "type" in _dict:
+            args["type"] = _dict.get("type")
+        if "region" in _dict:
+            args["region"] = _dict.get("region")
+        if "endpoint" in _dict:
+            args["endpoint"] = _dict.get("endpoint")
+        if "bucket" in _dict:
+            args["bucket"] = _dict.get("bucket")
+        if "hmac_access_key" in _dict:
+            args["hmac_access_key"] = _dict.get("hmac_access_key")
+        if "hmac_secret_key" in _dict:
+            args["hmac_secret_key"] = _dict.get("hmac_secret_key")
         return cls(**args)
 
     @classmethod
@@ -2575,22 +2585,22 @@ class InstanceHome():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'id') and self.id is not None:
-            _dict['id'] = self.id
-        if hasattr(self, 'provider') and self.provider is not None:
-            _dict['provider'] = self.provider
-        if hasattr(self, 'type') and self.type is not None:
-            _dict['type'] = self.type
-        if hasattr(self, 'region') and self.region is not None:
-            _dict['region'] = self.region
-        if hasattr(self, 'endpoint') and self.endpoint is not None:
-            _dict['endpoint'] = self.endpoint
-        if hasattr(self, 'bucket') and self.bucket is not None:
-            _dict['bucket'] = self.bucket
-        if hasattr(self, 'hmac_access_key') and self.hmac_access_key is not None:
-            _dict['hmac_access_key'] = self.hmac_access_key
-        if hasattr(self, 'hmac_secret_key') and self.hmac_secret_key is not None:
-            _dict['hmac_secret_key'] = self.hmac_secret_key
+        if hasattr(self, "id") and self.id is not None:
+            _dict["id"] = self.id
+        if hasattr(self, "provider") and self.provider is not None:
+            _dict["provider"] = self.provider
+        if hasattr(self, "type") and self.type is not None:
+            _dict["type"] = self.type
+        if hasattr(self, "region") and self.region is not None:
+            _dict["region"] = self.region
+        if hasattr(self, "endpoint") and self.endpoint is not None:
+            _dict["endpoint"] = self.endpoint
+        if hasattr(self, "bucket") and self.bucket is not None:
+            _dict["bucket"] = self.bucket
+        if hasattr(self, "hmac_access_key") and self.hmac_access_key is not None:
+            _dict["hmac_access_key"] = self.hmac_access_key
+        if hasattr(self, "hmac_secret_key") and self.hmac_secret_key is not None:
+            _dict["hmac_secret_key"] = self.hmac_secret_key
         return _dict
 
     def _to_dict(self):
@@ -2601,17 +2611,18 @@ class InstanceHome():
         """Return a `str` version of this InstanceHome object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'InstanceHome') -> bool:
+    def __eq__(self, other: "InstanceHome") -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'InstanceHome') -> bool:
+    def __ne__(self, other: "InstanceHome") -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class InstanceHomeResponse():
+
+class InstanceHomeResponse:
     """
     Response of Instance home API.
 
@@ -2627,15 +2638,17 @@ class InstanceHomeResponse():
     :attr str hmac_secret_key: (optional) Cloud Object Storage secret key.
     """
 
-    def __init__(self,
-                 *,
-                 instance_id: str = None,
-                 provider: str = None,
-                 type: str = None,
-                 region: str = None,
-                 endpoint: str = None,
-                 hmac_access_key: str = None,
-                 hmac_secret_key: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        instance_id: str = None,
+        provider: str = None,
+        type: str = None,
+        region: str = None,
+        endpoint: str = None,
+        hmac_access_key: str = None,
+        hmac_secret_key: str = None
+    ) -> None:
         """
         Initialize a InstanceHomeResponse object.
 
@@ -2660,23 +2673,23 @@ class InstanceHomeResponse():
         self.hmac_secret_key = hmac_secret_key
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'InstanceHomeResponse':
+    def from_dict(cls, _dict: Dict) -> "InstanceHomeResponse":
         """Initialize a InstanceHomeResponse object from a json dictionary."""
         args = {}
-        if 'instance_id' in _dict:
-            args['instance_id'] = _dict.get('instance_id')
-        if 'provider' in _dict:
-            args['provider'] = _dict.get('provider')
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
-        if 'region' in _dict:
-            args['region'] = _dict.get('region')
-        if 'endpoint' in _dict:
-            args['endpoint'] = _dict.get('endpoint')
-        if 'hmac_access_key' in _dict:
-            args['hmac_access_key'] = _dict.get('hmac_access_key')
-        if 'hmac_secret_key' in _dict:
-            args['hmac_secret_key'] = _dict.get('hmac_secret_key')
+        if "instance_id" in _dict:
+            args["instance_id"] = _dict.get("instance_id")
+        if "provider" in _dict:
+            args["provider"] = _dict.get("provider")
+        if "type" in _dict:
+            args["type"] = _dict.get("type")
+        if "region" in _dict:
+            args["region"] = _dict.get("region")
+        if "endpoint" in _dict:
+            args["endpoint"] = _dict.get("endpoint")
+        if "hmac_access_key" in _dict:
+            args["hmac_access_key"] = _dict.get("hmac_access_key")
+        if "hmac_secret_key" in _dict:
+            args["hmac_secret_key"] = _dict.get("hmac_secret_key")
         return cls(**args)
 
     @classmethod
@@ -2687,20 +2700,20 @@ class InstanceHomeResponse():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'instance_id') and self.instance_id is not None:
-            _dict['instance_id'] = self.instance_id
-        if hasattr(self, 'provider') and self.provider is not None:
-            _dict['provider'] = self.provider
-        if hasattr(self, 'type') and self.type is not None:
-            _dict['type'] = self.type
-        if hasattr(self, 'region') and self.region is not None:
-            _dict['region'] = self.region
-        if hasattr(self, 'endpoint') and self.endpoint is not None:
-            _dict['endpoint'] = self.endpoint
-        if hasattr(self, 'hmac_access_key') and self.hmac_access_key is not None:
-            _dict['hmac_access_key'] = self.hmac_access_key
-        if hasattr(self, 'hmac_secret_key') and self.hmac_secret_key is not None:
-            _dict['hmac_secret_key'] = self.hmac_secret_key
+        if hasattr(self, "instance_id") and self.instance_id is not None:
+            _dict["instance_id"] = self.instance_id
+        if hasattr(self, "provider") and self.provider is not None:
+            _dict["provider"] = self.provider
+        if hasattr(self, "type") and self.type is not None:
+            _dict["type"] = self.type
+        if hasattr(self, "region") and self.region is not None:
+            _dict["region"] = self.region
+        if hasattr(self, "endpoint") and self.endpoint is not None:
+            _dict["endpoint"] = self.endpoint
+        if hasattr(self, "hmac_access_key") and self.hmac_access_key is not None:
+            _dict["hmac_access_key"] = self.hmac_access_key
+        if hasattr(self, "hmac_secret_key") and self.hmac_secret_key is not None:
+            _dict["hmac_secret_key"] = self.hmac_secret_key
         return _dict
 
     def _to_dict(self):
@@ -2711,17 +2724,18 @@ class InstanceHomeResponse():
         """Return a `str` version of this InstanceHomeResponse object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'InstanceHomeResponse') -> bool:
+    def __eq__(self, other: "InstanceHomeResponse") -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'InstanceHomeResponse') -> bool:
+    def __ne__(self, other: "InstanceHomeResponse") -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class LogForwardingConfigResponse():
+
+class LogForwardingConfigResponse:
     """
     Log forwarding configuration details.
 
@@ -2735,12 +2749,14 @@ class LogForwardingConfigResponse():
           not.
     """
 
-    def __init__(self,
-                 *,
-                 sources: List[str] = None,
-                 tags: List[str] = None,
-                 log_server: 'LogForwardingConfigResponseLogServer' = None,
-                 enabled: bool = None) -> None:
+    def __init__(
+        self,
+        *,
+        sources: List[str] = None,
+        tags: List[str] = None,
+        log_server: "LogForwardingConfigResponseLogServer" = None,
+        enabled: bool = None
+    ) -> None:
         """
         Initialize a LogForwardingConfigResponse object.
 
@@ -2759,17 +2775,17 @@ class LogForwardingConfigResponse():
         self.enabled = enabled
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'LogForwardingConfigResponse':
+    def from_dict(cls, _dict: Dict) -> "LogForwardingConfigResponse":
         """Initialize a LogForwardingConfigResponse object from a json dictionary."""
         args = {}
-        if 'sources' in _dict:
-            args['sources'] = _dict.get('sources')
-        if 'tags' in _dict:
-            args['tags'] = _dict.get('tags')
-        if 'log_server' in _dict:
-            args['log_server'] = LogForwardingConfigResponseLogServer.from_dict(_dict.get('log_server'))
-        if 'enabled' in _dict:
-            args['enabled'] = _dict.get('enabled')
+        if "sources" in _dict:
+            args["sources"] = _dict.get("sources")
+        if "tags" in _dict:
+            args["tags"] = _dict.get("tags")
+        if "log_server" in _dict:
+            args["log_server"] = LogForwardingConfigResponseLogServer.from_dict(_dict.get("log_server"))
+        if "enabled" in _dict:
+            args["enabled"] = _dict.get("enabled")
         return cls(**args)
 
     @classmethod
@@ -2780,14 +2796,17 @@ class LogForwardingConfigResponse():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'sources') and self.sources is not None:
-            _dict['sources'] = self.sources
-        if hasattr(self, 'tags') and self.tags is not None:
-            _dict['tags'] = self.tags
-        if hasattr(self, 'log_server') and self.log_server is not None:
-            _dict['log_server'] = self.log_server.to_dict()
-        if hasattr(self, 'enabled') and self.enabled is not None:
-            _dict['enabled'] = self.enabled
+        if hasattr(self, "sources") and self.sources is not None:
+            _dict["sources"] = self.sources
+        if hasattr(self, "tags") and self.tags is not None:
+            _dict["tags"] = self.tags
+        if hasattr(self, "log_server") and self.log_server is not None:
+            if isinstance(self.log_server, dict):
+                _dict["log_server"] = self.log_server
+            else:
+                _dict["log_server"] = self.log_server.to_dict()
+        if hasattr(self, "enabled") and self.enabled is not None:
+            _dict["enabled"] = self.enabled
         return _dict
 
     def _to_dict(self):
@@ -2798,26 +2817,25 @@ class LogForwardingConfigResponse():
         """Return a `str` version of this LogForwardingConfigResponse object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'LogForwardingConfigResponse') -> bool:
+    def __eq__(self, other: "LogForwardingConfigResponse") -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'LogForwardingConfigResponse') -> bool:
+    def __ne__(self, other: "LogForwardingConfigResponse") -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class LogForwardingConfigResponseLogServer():
+
+class LogForwardingConfigResponseLogServer:
     """
     Log server properties.
 
     :attr str type: (optional) Type of the log server.
     """
 
-    def __init__(self,
-                 *,
-                 type: str = None) -> None:
+    def __init__(self, *, type: str = None) -> None:
         """
         Initialize a LogForwardingConfigResponseLogServer object.
 
@@ -2826,11 +2844,11 @@ class LogForwardingConfigResponseLogServer():
         self.type = type
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'LogForwardingConfigResponseLogServer':
+    def from_dict(cls, _dict: Dict) -> "LogForwardingConfigResponseLogServer":
         """Initialize a LogForwardingConfigResponseLogServer object from a json dictionary."""
         args = {}
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
+        if "type" in _dict:
+            args["type"] = _dict.get("type")
         return cls(**args)
 
     @classmethod
@@ -2841,8 +2859,8 @@ class LogForwardingConfigResponseLogServer():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'type') and self.type is not None:
-            _dict['type'] = self.type
+        if hasattr(self, "type") and self.type is not None:
+            _dict["type"] = self.type
         return _dict
 
     def _to_dict(self):
@@ -2853,17 +2871,18 @@ class LogForwardingConfigResponseLogServer():
         """Return a `str` version of this LogForwardingConfigResponseLogServer object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'LogForwardingConfigResponseLogServer') -> bool:
+    def __eq__(self, other: "LogForwardingConfigResponseLogServer") -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'LogForwardingConfigResponseLogServer') -> bool:
+    def __ne__(self, other: "LogForwardingConfigResponseLogServer") -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class LoggingConfigurationResponse():
+
+class LoggingConfigurationResponse:
     """
     (deprecated) Response of logging API.
 
@@ -2873,11 +2892,13 @@ class LoggingConfigurationResponse():
     :attr bool enable: (optional) enable.
     """
 
-    def __init__(self,
-                 *,
-                 components: List[str] = None,
-                 log_server: 'LoggingConfigurationResponseLogServer' = None,
-                 enable: bool = None) -> None:
+    def __init__(
+        self,
+        *,
+        components: List[str] = None,
+        log_server: "LoggingConfigurationResponseLogServer" = None,
+        enable: bool = None
+    ) -> None:
         """
         Initialize a LoggingConfigurationResponse object.
 
@@ -2891,15 +2912,15 @@ class LoggingConfigurationResponse():
         self.enable = enable
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'LoggingConfigurationResponse':
+    def from_dict(cls, _dict: Dict) -> "LoggingConfigurationResponse":
         """Initialize a LoggingConfigurationResponse object from a json dictionary."""
         args = {}
-        if 'components' in _dict:
-            args['components'] = _dict.get('components')
-        if 'log_server' in _dict:
-            args['log_server'] = LoggingConfigurationResponseLogServer.from_dict(_dict.get('log_server'))
-        if 'enable' in _dict:
-            args['enable'] = _dict.get('enable')
+        if "components" in _dict:
+            args["components"] = _dict.get("components")
+        if "log_server" in _dict:
+            args["log_server"] = LoggingConfigurationResponseLogServer.from_dict(_dict.get("log_server"))
+        if "enable" in _dict:
+            args["enable"] = _dict.get("enable")
         return cls(**args)
 
     @classmethod
@@ -2910,12 +2931,15 @@ class LoggingConfigurationResponse():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'components') and self.components is not None:
-            _dict['components'] = self.components
-        if hasattr(self, 'log_server') and self.log_server is not None:
-            _dict['log_server'] = self.log_server.to_dict()
-        if hasattr(self, 'enable') and self.enable is not None:
-            _dict['enable'] = self.enable
+        if hasattr(self, "components") and self.components is not None:
+            _dict["components"] = self.components
+        if hasattr(self, "log_server") and self.log_server is not None:
+            if isinstance(self.log_server, dict):
+                _dict["log_server"] = self.log_server
+            else:
+                _dict["log_server"] = self.log_server.to_dict()
+        if hasattr(self, "enable") and self.enable is not None:
+            _dict["enable"] = self.enable
         return _dict
 
     def _to_dict(self):
@@ -2926,26 +2950,25 @@ class LoggingConfigurationResponse():
         """Return a `str` version of this LoggingConfigurationResponse object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'LoggingConfigurationResponse') -> bool:
+    def __eq__(self, other: "LoggingConfigurationResponse") -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'LoggingConfigurationResponse') -> bool:
+    def __ne__(self, other: "LoggingConfigurationResponse") -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class LoggingConfigurationResponseLogServer():
+
+class LoggingConfigurationResponseLogServer:
     """
     log server properties.
 
     :attr str type: (optional) type of log server.
     """
 
-    def __init__(self,
-                 *,
-                 type: str = None) -> None:
+    def __init__(self, *, type: str = None) -> None:
         """
         Initialize a LoggingConfigurationResponseLogServer object.
 
@@ -2954,11 +2977,11 @@ class LoggingConfigurationResponseLogServer():
         self.type = type
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'LoggingConfigurationResponseLogServer':
+    def from_dict(cls, _dict: Dict) -> "LoggingConfigurationResponseLogServer":
         """Initialize a LoggingConfigurationResponseLogServer object from a json dictionary."""
         args = {}
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
+        if "type" in _dict:
+            args["type"] = _dict.get("type")
         return cls(**args)
 
     @classmethod
@@ -2969,8 +2992,8 @@ class LoggingConfigurationResponseLogServer():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'type') and self.type is not None:
-            _dict['type'] = self.type
+        if hasattr(self, "type") and self.type is not None:
+            _dict["type"] = self.type
         return _dict
 
     def _to_dict(self):
@@ -2981,17 +3004,18 @@ class LoggingConfigurationResponseLogServer():
         """Return a `str` version of this LoggingConfigurationResponseLogServer object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'LoggingConfigurationResponseLogServer') -> bool:
+    def __eq__(self, other: "LoggingConfigurationResponseLogServer") -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'LoggingConfigurationResponseLogServer') -> bool:
+    def __ne__(self, other: "LoggingConfigurationResponseLogServer") -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class ResourceConsumptionLimitsResponse():
+
+class ResourceConsumptionLimitsResponse:
     """
     Resource consumption limits for the instance.
 
@@ -3001,10 +3025,7 @@ class ResourceConsumptionLimitsResponse():
           instance.
     """
 
-    def __init__(self,
-                 *,
-                 max_cores: str = None,
-                 max_memory: str = None) -> None:
+    def __init__(self, *, max_cores: str = None, max_memory: str = None) -> None:
         """
         Initialize a ResourceConsumptionLimitsResponse object.
 
@@ -3017,13 +3038,13 @@ class ResourceConsumptionLimitsResponse():
         self.max_memory = max_memory
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'ResourceConsumptionLimitsResponse':
+    def from_dict(cls, _dict: Dict) -> "ResourceConsumptionLimitsResponse":
         """Initialize a ResourceConsumptionLimitsResponse object from a json dictionary."""
         args = {}
-        if 'max_cores' in _dict:
-            args['max_cores'] = _dict.get('max_cores')
-        if 'max_memory' in _dict:
-            args['max_memory'] = _dict.get('max_memory')
+        if "max_cores" in _dict:
+            args["max_cores"] = _dict.get("max_cores")
+        if "max_memory" in _dict:
+            args["max_memory"] = _dict.get("max_memory")
         return cls(**args)
 
     @classmethod
@@ -3034,10 +3055,10 @@ class ResourceConsumptionLimitsResponse():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'max_cores') and self.max_cores is not None:
-            _dict['max_cores'] = self.max_cores
-        if hasattr(self, 'max_memory') and self.max_memory is not None:
-            _dict['max_memory'] = self.max_memory
+        if hasattr(self, "max_cores") and self.max_cores is not None:
+            _dict["max_cores"] = self.max_cores
+        if hasattr(self, "max_memory") and self.max_memory is not None:
+            _dict["max_memory"] = self.max_memory
         return _dict
 
     def _to_dict(self):
@@ -3048,26 +3069,25 @@ class ResourceConsumptionLimitsResponse():
         """Return a `str` version of this ResourceConsumptionLimitsResponse object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'ResourceConsumptionLimitsResponse') -> bool:
+    def __eq__(self, other: "ResourceConsumptionLimitsResponse") -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'ResourceConsumptionLimitsResponse') -> bool:
+    def __ne__(self, other: "ResourceConsumptionLimitsResponse") -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class Runtime():
+
+class Runtime:
     """
     Runtime enviroment for applications and other workloads.
 
     :attr str spark_version: (optional) Spark version of the runtime environment.
     """
 
-    def __init__(self,
-                 *,
-                 spark_version: str = None) -> None:
+    def __init__(self, *, spark_version: str = None) -> None:
         """
         Initialize a Runtime object.
 
@@ -3077,11 +3097,11 @@ class Runtime():
         self.spark_version = spark_version
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'Runtime':
+    def from_dict(cls, _dict: Dict) -> "Runtime":
         """Initialize a Runtime object from a json dictionary."""
         args = {}
-        if 'spark_version' in _dict:
-            args['spark_version'] = _dict.get('spark_version')
+        if "spark_version" in _dict:
+            args["spark_version"] = _dict.get("spark_version")
         return cls(**args)
 
     @classmethod
@@ -3092,8 +3112,8 @@ class Runtime():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'spark_version') and self.spark_version is not None:
-            _dict['spark_version'] = self.spark_version
+        if hasattr(self, "spark_version") and self.spark_version is not None:
+            _dict["spark_version"] = self.spark_version
         return _dict
 
     def _to_dict(self):
@@ -3104,17 +3124,18 @@ class Runtime():
         """Return a `str` version of this Runtime object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'Runtime') -> bool:
+    def __eq__(self, other: "Runtime") -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'Runtime') -> bool:
+    def __ne__(self, other: "Runtime") -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class SparkHistoryServerResponse():
+
+class SparkHistoryServerResponse:
     """
     Status of the Spark history server.
 
@@ -3130,14 +3151,16 @@ class SparkHistoryServerResponse():
           server will be stopped automatically.
     """
 
-    def __init__(self,
-                 *,
-                 state: str = None,
-                 cores: str = None,
-                 memory: str = None,
-                 start_time: datetime = None,
-                 stop_time: datetime = None,
-                 auto_termination_time: datetime = None) -> None:
+    def __init__(
+        self,
+        *,
+        state: str = None,
+        cores: str = None,
+        memory: str = None,
+        start_time: datetime = None,
+        stop_time: datetime = None,
+        auto_termination_time: datetime = None
+    ) -> None:
         """
         Initialize a SparkHistoryServerResponse object.
 
@@ -3161,21 +3184,21 @@ class SparkHistoryServerResponse():
         self.auto_termination_time = auto_termination_time
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'SparkHistoryServerResponse':
+    def from_dict(cls, _dict: Dict) -> "SparkHistoryServerResponse":
         """Initialize a SparkHistoryServerResponse object from a json dictionary."""
         args = {}
-        if 'state' in _dict:
-            args['state'] = _dict.get('state')
-        if 'cores' in _dict:
-            args['cores'] = _dict.get('cores')
-        if 'memory' in _dict:
-            args['memory'] = _dict.get('memory')
-        if 'start_time' in _dict:
-            args['start_time'] = string_to_datetime(_dict.get('start_time'))
-        if 'stop_time' in _dict:
-            args['stop_time'] = string_to_datetime(_dict.get('stop_time'))
-        if 'auto_termination_time' in _dict:
-            args['auto_termination_time'] = string_to_datetime(_dict.get('auto_termination_time'))
+        if "state" in _dict:
+            args["state"] = _dict.get("state")
+        if "cores" in _dict:
+            args["cores"] = _dict.get("cores")
+        if "memory" in _dict:
+            args["memory"] = _dict.get("memory")
+        if "start_time" in _dict:
+            args["start_time"] = string_to_datetime(_dict.get("start_time"))
+        if "stop_time" in _dict:
+            args["stop_time"] = string_to_datetime(_dict.get("stop_time"))
+        if "auto_termination_time" in _dict:
+            args["auto_termination_time"] = string_to_datetime(_dict.get("auto_termination_time"))
         return cls(**args)
 
     @classmethod
@@ -3186,18 +3209,18 @@ class SparkHistoryServerResponse():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'state') and self.state is not None:
-            _dict['state'] = self.state
-        if hasattr(self, 'cores') and self.cores is not None:
-            _dict['cores'] = self.cores
-        if hasattr(self, 'memory') and self.memory is not None:
-            _dict['memory'] = self.memory
-        if hasattr(self, 'start_time') and self.start_time is not None:
-            _dict['start_time'] = datetime_to_string(self.start_time)
-        if hasattr(self, 'stop_time') and self.stop_time is not None:
-            _dict['stop_time'] = datetime_to_string(self.stop_time)
-        if hasattr(self, 'auto_termination_time') and self.auto_termination_time is not None:
-            _dict['auto_termination_time'] = datetime_to_string(self.auto_termination_time)
+        if hasattr(self, "state") and self.state is not None:
+            _dict["state"] = self.state
+        if hasattr(self, "cores") and self.cores is not None:
+            _dict["cores"] = self.cores
+        if hasattr(self, "memory") and self.memory is not None:
+            _dict["memory"] = self.memory
+        if hasattr(self, "start_time") and self.start_time is not None:
+            _dict["start_time"] = datetime_to_string(self.start_time)
+        if hasattr(self, "stop_time") and self.stop_time is not None:
+            _dict["stop_time"] = datetime_to_string(self.stop_time)
+        if hasattr(self, "auto_termination_time") and self.auto_termination_time is not None:
+            _dict["auto_termination_time"] = datetime_to_string(self.auto_termination_time)
         return _dict
 
     def _to_dict(self):
@@ -3208,13 +3231,13 @@ class SparkHistoryServerResponse():
         """Return a `str` version of this SparkHistoryServerResponse object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'SparkHistoryServerResponse') -> bool:
+    def __eq__(self, other: "SparkHistoryServerResponse") -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'SparkHistoryServerResponse') -> bool:
+    def __ne__(self, other: "SparkHistoryServerResponse") -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3222,6 +3245,6 @@ class SparkHistoryServerResponse():
         """
         State of the Spark history server.
         """
-        STARTED = 'started'
-        STOPPED = 'stopped'
 
+        STARTED = "started"
+        STOPPED = "stopped"

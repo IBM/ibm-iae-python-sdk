@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2022.
+# (C) Copyright IBM Corp. 2023.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ from iaesdk.ibm_analytics_engine_api_v3 import *
 # in a configuration file and then:
 # export IBM_CREDENTIALS_FILE=<name of configuration file>
 #
-config_file = 'ibm_analytics_engine_api_v3.env'
+config_file = "ibm_analytics_engine_api_v3.env"
 
 ibm_analytics_engine_api_service = None
 
@@ -46,7 +46,7 @@ config = None
 # Start of Examples for Service: IbmAnalyticsEngineApiV3
 ##############################################################################
 # region
-class TestIbmAnalyticsEngineApiV3Examples():
+class TestIbmAnalyticsEngineApiV3Examples:
     """
     Example Test Class for IbmAnalyticsEngineApiV3
     """
@@ -55,12 +55,11 @@ class TestIbmAnalyticsEngineApiV3Examples():
     def setup_class(cls):
         global ibm_analytics_engine_api_service
         if os.path.exists(config_file):
-            os.environ['IBM_CREDENTIALS_FILE'] = config_file
+            os.environ["IBM_CREDENTIALS_FILE"] = config_file
 
             # begin-common
 
-            ibm_analytics_engine_api_service = IbmAnalyticsEngineApiV3.new_instance(
-            )
+            ibm_analytics_engine_api_service = IbmAnalyticsEngineApiV3.new_instance()
 
             # end-common
             assert ibm_analytics_engine_api_service is not None
@@ -69,10 +68,11 @@ class TestIbmAnalyticsEngineApiV3Examples():
             global config
             config = read_external_sources(IbmAnalyticsEngineApiV3.DEFAULT_SERVICE_NAME)
 
-        print('Setup complete.')
+        print("Setup complete.")
 
     needscredentials = pytest.mark.skipif(
-        not os.path.exists(config_file), reason="External configuration not available, skipping..."
+        not os.path.exists(config_file),
+        reason="External configuration not available, skipping...",
     )
 
     @needscredentials
@@ -81,12 +81,13 @@ class TestIbmAnalyticsEngineApiV3Examples():
         get_instance request example
         """
         try:
-            print('\nget_instance() result:')
+            print("\nget_instance() result:")
             # begin-get_instance
 
-            instance = ibm_analytics_engine_api_service.get_instance(
-                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
-            ).get_result()
+            response = ibm_analytics_engine_api_service.get_instance(
+                instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
+            )
+            instance = response.get_result()
 
             print(json.dumps(instance, indent=2))
 
@@ -101,12 +102,13 @@ class TestIbmAnalyticsEngineApiV3Examples():
         get_instance_state request example
         """
         try:
-            print('\nget_instance_state() result:')
+            print("\nget_instance_state() result:")
             # begin-get_instance_state
 
-            instance_get_state_response = ibm_analytics_engine_api_service.get_instance_state(
-                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
-            ).get_result()
+            response = ibm_analytics_engine_api_service.get_instance_state(
+                instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
+            )
+            instance_get_state_response = response.get_result()
 
             print(json.dumps(instance_get_state_response, indent=2))
 
@@ -121,18 +123,42 @@ class TestIbmAnalyticsEngineApiV3Examples():
         set_instance_home request example
         """
         try:
-            print('\nset_instance_home() result:')
+            print("\nset_instance_home() result:")
             # begin-set_instance_home
 
-            instance_home_response = ibm_analytics_engine_api_service.set_instance_home(
-                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
-                new_hmac_access_key='b9****************************4b',
-                new_hmac_secret_key='fa********************************************8a'
-            ).get_result()
+            response = ibm_analytics_engine_api_service.set_instance_home(
+                instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
+                new_hmac_access_key="b9****************************4b",
+                new_hmac_secret_key="fa********************************************8a",
+            )
+            instance_home_response = response.get_result()
 
             print(json.dumps(instance_home_response, indent=2))
 
             # end-set_instance_home
+
+        except ApiException as e:
+            pytest.fail(str(e))
+
+    @needscredentials
+    def test_update_instance_home_credentials_example(self):
+        """
+        update_instance_home_credentials request example
+        """
+        try:
+            print("\nupdate_instance_home_credentials() result:")
+            # begin-update_instance_home_credentials
+
+            response = ibm_analytics_engine_api_service.update_instance_home_credentials(
+                instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
+                hmac_access_key="b9****************************4b",
+                hmac_secret_key="fa********************************************8a",
+            )
+            instance_home_response = response.get_result()
+
+            print(json.dumps(instance_home_response, indent=2))
+
+            # end-update_instance_home_credentials
 
         except ApiException as e:
             pytest.fail(str(e))
@@ -143,12 +169,13 @@ class TestIbmAnalyticsEngineApiV3Examples():
         get_instance_default_configs request example
         """
         try:
-            print('\nget_instance_default_configs() result:')
+            print("\nget_instance_default_configs() result:")
             # begin-get_instance_default_configs
 
-            instance_default_configs = ibm_analytics_engine_api_service.get_instance_default_configs(
-                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
-            ).get_result()
+            response = ibm_analytics_engine_api_service.get_instance_default_configs(
+                instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
+            )
+            instance_default_configs = response.get_result()
 
             print(json.dumps(instance_default_configs, indent=2))
 
@@ -163,16 +190,17 @@ class TestIbmAnalyticsEngineApiV3Examples():
         replace_instance_default_configs request example
         """
         try:
-            print('\nreplace_instance_default_configs() result:')
+            print("\nreplace_instance_default_configs() result:")
             # begin-replace_instance_default_configs
 
-            instance_default_configs = ibm_analytics_engine_api_service.replace_instance_default_configs(
-                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+            response = ibm_analytics_engine_api_service.replace_instance_default_configs(
+                instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
                 body={
                     "spark.driver.memory": "8G",
                     "spark.driver.cores": "2",
-                }
-            ).get_result()
+                },
+            )
+            instance_default_configs = response.get_result()
 
             print(json.dumps(instance_default_configs, indent=2))
 
@@ -187,16 +215,17 @@ class TestIbmAnalyticsEngineApiV3Examples():
         update_instance_default_configs request example
         """
         try:
-            print('\nupdate_instance_default_configs() result:')
+            print("\nupdate_instance_default_configs() result:")
             # begin-update_instance_default_configs
 
-            instance_default_configs = ibm_analytics_engine_api_service.update_instance_default_configs(
-                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+            response = ibm_analytics_engine_api_service.update_instance_default_configs(
+                instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
                 body={
                     "ae.spark.history-server.cores": "1",
                     "ae.spark.history-server.memory": "4G",
-                }
-            ).get_result()
+                },
+            )
+            instance_default_configs = response.get_result()
 
             print(json.dumps(instance_default_configs, indent=2))
 
@@ -211,12 +240,13 @@ class TestIbmAnalyticsEngineApiV3Examples():
         get_instance_default_runtime request example
         """
         try:
-            print('\nget_instance_default_runtime() result:')
+            print("\nget_instance_default_runtime() result:")
             # begin-get_instance_default_runtime
 
-            runtime = ibm_analytics_engine_api_service.get_instance_default_runtime(
-                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
-            ).get_result()
+            response = ibm_analytics_engine_api_service.get_instance_default_runtime(
+                instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
+            )
+            runtime = response.get_result()
 
             print(json.dumps(runtime, indent=2))
 
@@ -231,13 +261,14 @@ class TestIbmAnalyticsEngineApiV3Examples():
         replace_instance_default_runtime request example
         """
         try:
-            print('\nreplace_instance_default_runtime() result:')
+            print("\nreplace_instance_default_runtime() result:")
             # begin-replace_instance_default_runtime
 
-            runtime = ibm_analytics_engine_api_service.replace_instance_default_runtime(
-                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
-                spark_version='3.3'
-            ).get_result()
+            response = ibm_analytics_engine_api_service.replace_instance_default_runtime(
+                instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
+                spark_version="3.3",
+            )
+            runtime = response.get_result()
 
             print(json.dumps(runtime, indent=2))
 
@@ -252,20 +283,24 @@ class TestIbmAnalyticsEngineApiV3Examples():
         create_application request example
         """
         try:
-            print('\ncreate_application() result:')
+            print("\ncreate_application() result:")
             # begin-create_application
 
-            application_details = ApplicationRequestApplicationDetails(
-                application='/opt/ibm/spark/examples/src/main/python/wordcount.py',
-                arguments=['/opt/ibm/spark/examples/src/main/resources/people.txt'],
-                runtime={
-                    'spark_version': '3.3'
+            runtime_model = {
+                "spark_version": "3.3",
             }
+
+            application_request_application_details_model = {
+                "application": "/opt/ibm/spark/examples/src/main/python/wordcount.py",
+                "runtime": runtime_model,
+                "arguments": ["/opt/ibm/spark/examples/src/main/resources/people.txt"],
+            }
+
+            response = ibm_analytics_engine_api_service.create_application(
+                instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
+                application_details=application_request_application_details_model,
             )
-            application_response = ibm_analytics_engine_api_service.create_application(
-                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
-                application_details=application_details,
-            ).get_result()
+            application_response = response.get_result()
 
             print(json.dumps(application_response, indent=2))
 
@@ -280,12 +315,13 @@ class TestIbmAnalyticsEngineApiV3Examples():
         list_applications request example
         """
         try:
-            print('\nlist_applications() result:')
+            print("\nlist_applications() result:")
             # begin-list_applications
 
-            application_collection = ibm_analytics_engine_api_service.list_applications(
-                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
-            ).get_result()
+            response = ibm_analytics_engine_api_service.list_applications(
+                instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
+            )
+            application_collection = response.get_result()
 
             print(json.dumps(application_collection, indent=2))
 
@@ -300,13 +336,14 @@ class TestIbmAnalyticsEngineApiV3Examples():
         get_application request example
         """
         try:
-            print('\nget_application() result:')
+            print("\nget_application() result:")
             # begin-get_application
 
-            application_get_response = ibm_analytics_engine_api_service.get_application(
-                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
-                application_id='ff48cc19-0e7e-4627-aac6-0b4ad080397b'
-            ).get_result()
+            response = ibm_analytics_engine_api_service.get_application(
+                instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
+                application_id="ff48cc19-0e7e-4627-aac6-0b4ad080397b",
+            )
+            application_get_response = response.get_result()
 
             print(json.dumps(application_get_response, indent=2))
 
@@ -321,13 +358,14 @@ class TestIbmAnalyticsEngineApiV3Examples():
         get_application_state request example
         """
         try:
-            print('\nget_application_state() result:')
+            print("\nget_application_state() result:")
             # begin-get_application_state
 
-            application_get_state_response = ibm_analytics_engine_api_service.get_application_state(
-                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
-                application_id='ff48cc19-0e7e-4627-aac6-0b4ad080397b'
-            ).get_result()
+            response = ibm_analytics_engine_api_service.get_application_state(
+                instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
+                application_id="ff48cc19-0e7e-4627-aac6-0b4ad080397b",
+            )
+            application_get_state_response = response.get_result()
 
             print(json.dumps(application_get_state_response, indent=2))
 
@@ -342,12 +380,13 @@ class TestIbmAnalyticsEngineApiV3Examples():
         get_current_resource_consumption request example
         """
         try:
-            print('\nget_current_resource_consumption() result:')
+            print("\nget_current_resource_consumption() result:")
             # begin-get_current_resource_consumption
 
-            current_resource_consumption_response = ibm_analytics_engine_api_service.get_current_resource_consumption(
-                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
-            ).get_result()
+            response = ibm_analytics_engine_api_service.get_current_resource_consumption(
+                instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
+            )
+            current_resource_consumption_response = response.get_result()
 
             print(json.dumps(current_resource_consumption_response, indent=2))
 
@@ -362,12 +401,13 @@ class TestIbmAnalyticsEngineApiV3Examples():
         get_resource_consumption_limits request example
         """
         try:
-            print('\nget_resource_consumption_limits() result:')
+            print("\nget_resource_consumption_limits() result:")
             # begin-get_resource_consumption_limits
 
-            resource_consumption_limits_response = ibm_analytics_engine_api_service.get_resource_consumption_limits(
-                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
-            ).get_result()
+            response = ibm_analytics_engine_api_service.get_resource_consumption_limits(
+                instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
+            )
+            resource_consumption_limits_response = response.get_result()
 
             print(json.dumps(resource_consumption_limits_response, indent=2))
 
@@ -382,13 +422,14 @@ class TestIbmAnalyticsEngineApiV3Examples():
         replace_log_forwarding_config request example
         """
         try:
-            print('\nreplace_log_forwarding_config() result:')
+            print("\nreplace_log_forwarding_config() result:")
             # begin-replace_log_forwarding_config
 
-            log_forwarding_config_response = ibm_analytics_engine_api_service.replace_log_forwarding_config(
-                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+            response = ibm_analytics_engine_api_service.replace_log_forwarding_config(
+                instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
                 enabled=True,
-            ).get_result()
+            )
+            log_forwarding_config_response = response.get_result()
 
             print(json.dumps(log_forwarding_config_response, indent=2))
 
@@ -403,12 +444,13 @@ class TestIbmAnalyticsEngineApiV3Examples():
         get_log_forwarding_config request example
         """
         try:
-            print('\nget_log_forwarding_config() result:')
+            print("\nget_log_forwarding_config() result:")
             # begin-get_log_forwarding_config
 
-            log_forwarding_config_response = ibm_analytics_engine_api_service.get_log_forwarding_config(
-                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
-            ).get_result()
+            response = ibm_analytics_engine_api_service.get_log_forwarding_config(
+                instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
+            )
+            log_forwarding_config_response = response.get_result()
 
             print(json.dumps(log_forwarding_config_response, indent=2))
 
@@ -423,12 +465,13 @@ class TestIbmAnalyticsEngineApiV3Examples():
         configure_platform_logging request example
         """
         try:
-            print('\nconfigure_platform_logging() result:')
+            print("\nconfigure_platform_logging() result:")
             # begin-configure_platform_logging
 
-            logging_configuration_response = ibm_analytics_engine_api_service.configure_platform_logging(
-                instance_guid='e64c907a-e82f-46fd-addc-ccfafbd28b09',
-            ).get_result()
+            response = ibm_analytics_engine_api_service.configure_platform_logging(
+                instance_guid="e64c907a-e82f-46fd-addc-ccfafbd28b09",
+            )
+            logging_configuration_response = response.get_result()
 
             print(json.dumps(logging_configuration_response, indent=2))
 
@@ -443,12 +486,13 @@ class TestIbmAnalyticsEngineApiV3Examples():
         get_logging_configuration request example
         """
         try:
-            print('\nget_logging_configuration() result:')
+            print("\nget_logging_configuration() result:")
             # begin-get_logging_configuration
 
-            logging_configuration_response = ibm_analytics_engine_api_service.get_logging_configuration(
-                instance_guid='e64c907a-e82f-46fd-addc-ccfafbd28b09'
-            ).get_result()
+            response = ibm_analytics_engine_api_service.get_logging_configuration(
+                instance_guid="e64c907a-e82f-46fd-addc-ccfafbd28b09",
+            )
+            logging_configuration_response = response.get_result()
 
             print(json.dumps(logging_configuration_response, indent=2))
 
@@ -463,12 +507,13 @@ class TestIbmAnalyticsEngineApiV3Examples():
         start_spark_history_server request example
         """
         try:
-            print('\nstart_spark_history_server() result:')
+            print("\nstart_spark_history_server() result:")
             # begin-start_spark_history_server
 
-            spark_history_server_response = ibm_analytics_engine_api_service.start_spark_history_server(
-                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
-            ).get_result()
+            response = ibm_analytics_engine_api_service.start_spark_history_server(
+                instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
+            )
+            spark_history_server_response = response.get_result()
 
             print(json.dumps(spark_history_server_response, indent=2))
 
@@ -483,34 +528,17 @@ class TestIbmAnalyticsEngineApiV3Examples():
         get_spark_history_server request example
         """
         try:
-            print('\nget_spark_history_server() result:')
+            print("\nget_spark_history_server() result:")
             # begin-get_spark_history_server
 
-            spark_history_server_response = ibm_analytics_engine_api_service.get_spark_history_server(
-                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
-            ).get_result()
+            response = ibm_analytics_engine_api_service.get_spark_history_server(
+                instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
+            )
+            spark_history_server_response = response.get_result()
 
             print(json.dumps(spark_history_server_response, indent=2))
 
             # end-get_spark_history_server
-
-        except ApiException as e:
-            pytest.fail(str(e))
-
-    @needscredentials
-    def test_stop_spark_history_server_example(self):
-        """
-        stop_spark_history_server request example
-        """
-        try:
-            # begin-stop_spark_history_server
-
-            response = ibm_analytics_engine_api_service.stop_spark_history_server(
-                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09'
-            )
-
-            # end-stop_spark_history_server
-            print('\nstop_spark_history_server() response status code: ', response.get_status_code())
 
         except ApiException as e:
             pytest.fail(str(e))
@@ -524,15 +552,40 @@ class TestIbmAnalyticsEngineApiV3Examples():
             # begin-delete_application
 
             response = ibm_analytics_engine_api_service.delete_application(
-                instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
-                application_id='ff48cc19-0e7e-4627-aac6-0b4ad080397b'
+                instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
+                application_id="ff48cc19-0e7e-4627-aac6-0b4ad080397b",
             )
 
             # end-delete_application
-            print('\ndelete_application() response status code: ', response.get_status_code())
+            print(
+                "\ndelete_application() response status code: ",
+                response.get_status_code(),
+            )
 
         except ApiException as e:
             pytest.fail(str(e))
+
+    @needscredentials
+    def test_stop_spark_history_server_example(self):
+        """
+        stop_spark_history_server request example
+        """
+        try:
+            # begin-stop_spark_history_server
+
+            response = ibm_analytics_engine_api_service.stop_spark_history_server(
+                instance_id="e64c907a-e82f-46fd-addc-ccfafbd28b09",
+            )
+
+            # end-stop_spark_history_server
+            print(
+                "\nstop_spark_history_server() response status code: ",
+                response.get_status_code(),
+            )
+
+        except ApiException as e:
+            pytest.fail(str(e))
+
 
 # endregion
 ##############################################################################

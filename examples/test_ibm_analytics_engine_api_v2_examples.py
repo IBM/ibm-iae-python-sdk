@@ -35,7 +35,7 @@ from iaesdk.ibm_analytics_engine_api_v2 import *
 # in a configuration file and then:
 # export IBM_CREDENTIALS_FILE=<name of configuration file>
 #
-config_file = 'ibm_analytics_engine_api_v2.env'
+config_file = "ibm_analytics_engine_api_v2.env"
 
 ibm_analytics_engine_api_service = None
 
@@ -46,7 +46,7 @@ config = None
 # Start of Examples for Service: IbmAnalyticsEngineApiV2
 ##############################################################################
 # region
-class TestIbmAnalyticsEngineApiV2Examples():
+class TestIbmAnalyticsEngineApiV2Examples:
     """
     Example Test Class for IbmAnalyticsEngineApiV2
     """
@@ -55,12 +55,11 @@ class TestIbmAnalyticsEngineApiV2Examples():
     def setup_class(cls):
         global ibm_analytics_engine_api_service
         if os.path.exists(config_file):
-            os.environ['IBM_CREDENTIALS_FILE'] = config_file
+            os.environ["IBM_CREDENTIALS_FILE"] = config_file
 
             # begin-common
 
-            ibm_analytics_engine_api_service = IbmAnalyticsEngineApiV2.new_instance(
-            )
+            ibm_analytics_engine_api_service = IbmAnalyticsEngineApiV2.new_instance()
 
             # end-common
             assert ibm_analytics_engine_api_service is not None
@@ -69,10 +68,11 @@ class TestIbmAnalyticsEngineApiV2Examples():
             global config
             config = read_external_sources(IbmAnalyticsEngineApiV2.DEFAULT_SERVICE_NAME)
 
-        print('Setup complete.')
+        print("Setup complete.")
 
     needscredentials = pytest.mark.skipif(
-        not os.path.exists(config_file), reason="External configuration not available, skipping..."
+        not os.path.exists(config_file),
+        reason="External configuration not available, skipping...",
     )
 
     @needscredentials
@@ -86,7 +86,10 @@ class TestIbmAnalyticsEngineApiV2Examples():
             response = ibm_analytics_engine_api_service.get_all_analytics_engines()
 
             # end-getAllAnalyticsEngines
-            print('\nget_all_analytics_engines() response status code: ', response.get_status_code())
+            print(
+                "\nget_all_analytics_engines() response status code: ",
+                response.get_status_code(),
+            )
 
         except ApiException as e:
             pytest.fail(str(e))
@@ -97,11 +100,11 @@ class TestIbmAnalyticsEngineApiV2Examples():
         get_analytics_engine_by_id request example
         """
         try:
-            print('\nget_analytics_engine_by_id() result:')
+            print("\nget_analytics_engine_by_id() result:")
             # begin-getAnalyticsEngineById
 
             analytics_engine = ibm_analytics_engine_api_service.get_analytics_engine_by_id(
-                instance_guid='testString'
+                instance_guid="testString"
             ).get_result()
 
             print(json.dumps(analytics_engine, indent=2))
@@ -117,11 +120,11 @@ class TestIbmAnalyticsEngineApiV2Examples():
         get_analytics_engine_state_by_id request example
         """
         try:
-            print('\nget_analytics_engine_state_by_id() result:')
+            print("\nget_analytics_engine_state_by_id() result:")
             # begin-getAnalyticsEngineStateById
 
             analytics_engine_state = ibm_analytics_engine_api_service.get_analytics_engine_state_by_id(
-                instance_guid='testString'
+                instance_guid="testString"
             ).get_result()
 
             print(json.dumps(analytics_engine_state, indent=2))
@@ -137,18 +140,20 @@ class TestIbmAnalyticsEngineApiV2Examples():
         create_customization_request request example
         """
         try:
-            print('\ncreate_customization_request() result:')
+            print("\ncreate_customization_request() result:")
             # begin-createCustomizationRequest
 
             analytics_engine_custom_action_model = {
-                'name': 'testString',
+                "name": "testString",
             }
 
-            analytics_engine_create_customization_response = ibm_analytics_engine_api_service.create_customization_request(
-                instance_guid='testString',
-                target='all',
-                custom_actions=[analytics_engine_custom_action_model]
-            ).get_result()
+            analytics_engine_create_customization_response = (
+                ibm_analytics_engine_api_service.create_customization_request(
+                    instance_guid="testString",
+                    target="all",
+                    custom_actions=[analytics_engine_custom_action_model],
+                ).get_result()
+            )
 
             print(json.dumps(analytics_engine_create_customization_response, indent=2))
 
@@ -163,14 +168,19 @@ class TestIbmAnalyticsEngineApiV2Examples():
         get_all_customization_requests request example
         """
         try:
-            print('\nget_all_customization_requests() result:')
+            print("\nget_all_customization_requests() result:")
             # begin-getAllCustomizationRequests
 
-            list_analytics_engine_customization_request_collection_item = ibm_analytics_engine_api_service.get_all_customization_requests(
-                instance_guid='testString'
-            ).get_result()
+            list_analytics_engine_customization_request_collection_item = (
+                ibm_analytics_engine_api_service.get_all_customization_requests(instance_guid="testString").get_result()
+            )
 
-            print(json.dumps(list_analytics_engine_customization_request_collection_item, indent=2))
+            print(
+                json.dumps(
+                    list_analytics_engine_customization_request_collection_item,
+                    indent=2,
+                )
+            )
 
             # end-getAllCustomizationRequests
 
@@ -183,13 +193,14 @@ class TestIbmAnalyticsEngineApiV2Examples():
         get_customization_request_by_id request example
         """
         try:
-            print('\nget_customization_request_by_id() result:')
+            print("\nget_customization_request_by_id() result:")
             # begin-getCustomizationRequestById
 
-            analytics_engine_customization_run_details = ibm_analytics_engine_api_service.get_customization_request_by_id(
-                instance_guid='testString',
-                request_id='testString'
-            ).get_result()
+            analytics_engine_customization_run_details = (
+                ibm_analytics_engine_api_service.get_customization_request_by_id(
+                    instance_guid="testString", request_id="testString"
+                ).get_result()
+            )
 
             print(json.dumps(analytics_engine_customization_run_details, indent=2))
 
@@ -204,15 +215,13 @@ class TestIbmAnalyticsEngineApiV2Examples():
         resize_cluster request example
         """
         try:
-            print('\nresize_cluster() result:')
+            print("\nresize_cluster() result:")
             # begin-resizeCluster
 
-            resize_cluster_request_model = {
-            }
+            resize_cluster_request_model = {}
 
             analytics_engine_resize_cluster_response = ibm_analytics_engine_api_service.resize_cluster(
-                instance_guid='testString',
-                body=resize_cluster_request_model
+                instance_guid="testString", body=resize_cluster_request_model
             ).get_result()
 
             print(json.dumps(analytics_engine_resize_cluster_response, indent=2))
@@ -228,11 +237,11 @@ class TestIbmAnalyticsEngineApiV2Examples():
         reset_cluster_password request example
         """
         try:
-            print('\nreset_cluster_password() result:')
+            print("\nreset_cluster_password() result:")
             # begin-resetClusterPassword
 
             analytics_engine_reset_cluster_password_response = ibm_analytics_engine_api_service.reset_cluster_password(
-                instance_guid='testString'
+                instance_guid="testString"
             ).get_result()
 
             print(json.dumps(analytics_engine_reset_cluster_password_response, indent=2))
@@ -251,25 +260,28 @@ class TestIbmAnalyticsEngineApiV2Examples():
             # begin-configureLogging
 
             analytics_engine_logging_node_spec_model = {
-                'node_type': 'management',
-                'components': ['ambari-server'],
+                "node_type": "management",
+                "components": ["ambari-server"],
             }
 
             analytics_engine_logging_server_model = {
-                'type': 'logdna',
-                'credential': 'testString',
-                'api_host': 'testString',
-                'log_host': 'testString',
+                "type": "logdna",
+                "credential": "testString",
+                "api_host": "testString",
+                "log_host": "testString",
             }
 
             response = ibm_analytics_engine_api_service.configure_logging(
-                instance_guid='testString',
+                instance_guid="testString",
                 log_specs=[analytics_engine_logging_node_spec_model],
-                log_server=analytics_engine_logging_server_model
+                log_server=analytics_engine_logging_server_model,
             )
 
             # end-configureLogging
-            print('\nconfigure_logging() response status code: ', response.get_status_code())
+            print(
+                "\nconfigure_logging() response status code: ",
+                response.get_status_code(),
+            )
 
         except ApiException as e:
             pytest.fail(str(e))
@@ -280,11 +292,11 @@ class TestIbmAnalyticsEngineApiV2Examples():
         get_logging_config request example
         """
         try:
-            print('\nget_logging_config() result:')
+            print("\nget_logging_config() result:")
             # begin-getLoggingConfig
 
             analytics_engine_logging_config_details = ibm_analytics_engine_api_service.get_logging_config(
-                instance_guid='testString'
+                instance_guid="testString"
             ).get_result()
 
             print(json.dumps(analytics_engine_logging_config_details, indent=2))
@@ -300,13 +312,11 @@ class TestIbmAnalyticsEngineApiV2Examples():
         update_private_endpoint_whitelist request example
         """
         try:
-            print('\nupdate_private_endpoint_whitelist() result:')
+            print("\nupdate_private_endpoint_whitelist() result:")
             # begin-updatePrivateEndpointWhitelist
 
             analytics_engine_whitelist_response = ibm_analytics_engine_api_service.update_private_endpoint_whitelist(
-                instance_guid='testString',
-                ip_ranges=['testString'],
-                action='add'
+                instance_guid="testString", ip_ranges=["testString"], action="add"
             ).get_result()
 
             print(json.dumps(analytics_engine_whitelist_response, indent=2))
@@ -324,15 +334,17 @@ class TestIbmAnalyticsEngineApiV2Examples():
         try:
             # begin-deleteLoggingConfig
 
-            response = ibm_analytics_engine_api_service.delete_logging_config(
-                instance_guid='testString'
-            )
+            response = ibm_analytics_engine_api_service.delete_logging_config(instance_guid="testString")
 
             # end-deleteLoggingConfig
-            print('\ndelete_logging_config() response status code: ', response.get_status_code())
+            print(
+                "\ndelete_logging_config() response status code: ",
+                response.get_status_code(),
+            )
 
         except ApiException as e:
             pytest.fail(str(e))
+
 
 # endregion
 ##############################################################################
