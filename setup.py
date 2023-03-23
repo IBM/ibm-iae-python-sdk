@@ -19,9 +19,9 @@ import os
 import sys
 import pkg_resources
 
-__version__ = "3.0.0"
-PACKAGE_NAME = "iaesdk"
-PACKAGE_DESC = "Python client library for IBM Cloud Analytics Engine Services"
+__version__ = '3.0.0'
+PACKAGE_NAME = 'iaesdk'
+PACKAGE_DESC = 'Python client library for IBM Cloud Analytics Engine Services'
 
 with open("requirements.txt") as f:
     install_requires = [str(req) for req in pkg_resources.parse_requirements(f)]
