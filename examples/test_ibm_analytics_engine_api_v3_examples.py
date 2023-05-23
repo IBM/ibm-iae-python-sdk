@@ -265,6 +265,7 @@ class TestIbmAnalyticsEngineApiV3Examples:
 
             response = ibm_analytics_engine_api_service.replace_instance_default_runtime(
                 instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+                spark_version="3.3",
             )
             runtime = response.get_result()
 
@@ -431,6 +432,7 @@ class TestIbmAnalyticsEngineApiV3Examples:
 
             response = ibm_analytics_engine_api_service.replace_log_forwarding_config(
                 instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+                enabled=True,
             )
             log_forwarding_config_response = response.get_result()
 
