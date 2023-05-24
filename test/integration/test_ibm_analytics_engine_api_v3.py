@@ -299,7 +299,7 @@ class TestIbmAnalyticsEngineApiV3:
     @needscredentials
     def test_configure_platform_logging(self):
         response = self.ibm_analytics_engine_api_service.configure_platform_logging(
-            instance_guid='e64c907a-e82f-46fd-addc-ccfafbd28b09',
+            instance_guid=self.instance_id,
             enable=True,
         )
 
