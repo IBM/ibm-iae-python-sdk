@@ -1,3 +1,10 @@
+# [3.2.0](https://github.com/IBM/ibm-iae-python-sdk/compare/v3.1.0...v3.2.0) (2023-05-24)
+
+
+### Features
+
+* add support for application list pagination ([be68d67](https://github.com/IBM/ibm-iae-python-sdk/commit/be68d67574618d454d9e0bf53b54c42901c8966f))
+
 # [3.1.0](https://github.com/IBM/ibm-iae-python-sdk/compare/v3.0.0...v3.1.0) (2023-03-23)
 
 
