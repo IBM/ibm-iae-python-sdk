@@ -39,6 +39,7 @@ from .common import get_sdk_headers
 # Service
 ##############################################################################
 
+
 class IbmAnalyticsEngineApiV3(BaseService):
     """The IBM Analytics Engine API V3 service."""
 
@@ -51,17 +52,16 @@ class IbmAnalyticsEngineApiV3(BaseService):
     }
 
     @classmethod
-    def new_instance(cls,
-                     service_name: str = DEFAULT_SERVICE_NAME,
-                    ) -> 'IbmAnalyticsEngineApiV3':
+    def new_instance(
+        cls,
+        service_name: str = DEFAULT_SERVICE_NAME,
+    ) -> 'IbmAnalyticsEngineApiV3':
         """
         Return a new client for the IBM Analytics Engine API service using the
                specified parameters and external configuration.
         """
         authenticator = get_authenticator_from_environment(service_name)
-        service = cls(
-            authenticator
-            )
+        service = cls(authenticator)
         service.configure_service(service_name)
         return service
 
@@ -79,9 +79,10 @@ class IbmAnalyticsEngineApiV3(BaseService):
         """
         return cls.REGIONAL_ENDPOINTS.get(region, None)
 
-    def __init__(self,
-                 authenticator: Authenticator = None,
-                ) -> None:
+    def __init__(
+        self,
+        authenticator: Authenticator = None,
+    ) -> None:
         """
         Construct a new client for the IBM Analytics Engine API service.
 
@@ -89,20 +90,13 @@ class IbmAnalyticsEngineApiV3(BaseService):
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/main/README.md
                about initializing the authenticator of your choice.
         """
-        BaseService.__init__(self,
-                             service_url=self.DEFAULT_SERVICE_URL,
-                             authenticator=authenticator)
-
+        BaseService.__init__(self, service_url=self.DEFAULT_SERVICE_URL, authenticator=authenticator)
 
     #########################
     # Analytics Engines V3
     #########################
 
-
-    def get_instance(self,
-        instance_id: str,
-        **kwargs
-    ) -> DetailedResponse:
+    def get_instance(self, instance_id: str, **kwargs) -> DetailedResponse:
         """
         Find Analytics Engine by id.
 
@@ -118,9 +112,9 @@ class IbmAnalyticsEngineApiV3(BaseService):
         if not instance_id:
             raise ValueError('instance_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='get_instance')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME, service_version='V3', operation_id='get_instance'
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -132,18 +126,12 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v3/analytics_engines/{instance_id}'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def get_instance_state(self,
-        instance_id: str,
-        **kwargs
-    ) -> DetailedResponse:
+    def get_instance_state(self, instance_id: str, **kwargs) -> DetailedResponse:
         """
         Find Analytics Engine state by id.
 
@@ -159,9 +147,9 @@ class IbmAnalyticsEngineApiV3(BaseService):
         if not instance_id:
             raise ValueError('instance_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='get_instance_state')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME, service_version='V3', operation_id='get_instance_state'
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -173,15 +161,13 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v3/analytics_engines/{instance_id}/state'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def set_instance_home(self,
+    def set_instance_home(
+        self,
         instance_id: str,
         *,
         new_instance_id: str = None,
@@ -191,7 +177,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         new_endpoint: str = None,
         new_hmac_access_key: str = None,
         new_hmac_secret_key: str = None,
-        **kwargs
+        **kwargs,
     ) -> DetailedResponse:
         """
         Set instance home.
@@ -223,9 +209,9 @@ class IbmAnalyticsEngineApiV3(BaseService):
         if not instance_id:
             raise ValueError('instance_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='set_instance_home')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME, service_version='V3', operation_id='set_instance_home'
+        )
         headers.update(sdk_headers)
 
         data = {
@@ -250,20 +236,13 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v3/analytics_engines/{instance_id}/instance_home'.format(**path_param_dict)
-        request = self.prepare_request(method='PUT',
-                                       url=url,
-                                       headers=headers,
-                                       data=data)
+        request = self.prepare_request(method='PUT', url=url, headers=headers, data=data)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def update_instance_home_credentials(self,
-        instance_id: str,
-        hmac_access_key: str,
-        hmac_secret_key: str,
-        **kwargs
+    def update_instance_home_credentials(
+        self, instance_id: str, hmac_access_key: str, hmac_secret_key: str, **kwargs
     ) -> DetailedResponse:
         """
         Update instance home credentials.
@@ -290,9 +269,11 @@ class IbmAnalyticsEngineApiV3(BaseService):
         if hmac_secret_key is None:
             raise ValueError('hmac_secret_key must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='update_instance_home_credentials')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V3',
+            operation_id='update_instance_home_credentials',
+        )
         headers.update(sdk_headers)
 
         data = {
@@ -312,19 +293,12 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v3/analytics_engines/{instance_id}/instance_home'.format(**path_param_dict)
-        request = self.prepare_request(method='PATCH',
-                                       url=url,
-                                       headers=headers,
-                                       data=data)
+        request = self.prepare_request(method='PATCH', url=url, headers=headers, data=data)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def get_instance_default_configs(self,
-        instance_id: str,
-        **kwargs
-    ) -> DetailedResponse:
+    def get_instance_default_configs(self, instance_id: str, **kwargs) -> DetailedResponse:
         """
         Get instance default Spark configurations.
 
@@ -340,9 +314,9 @@ class IbmAnalyticsEngineApiV3(BaseService):
         if not instance_id:
             raise ValueError('instance_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='get_instance_default_configs')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME, service_version='V3', operation_id='get_instance_default_configs'
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -354,19 +328,12 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v3/analytics_engines/{instance_id}/default_configs'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def replace_instance_default_configs(self,
-        instance_id: str,
-        body: dict,
-        **kwargs
-    ) -> DetailedResponse:
+    def replace_instance_default_configs(self, instance_id: str, body: dict, **kwargs) -> DetailedResponse:
         """
         Replace instance default Spark configurations.
 
@@ -386,9 +353,11 @@ class IbmAnalyticsEngineApiV3(BaseService):
         if body is None:
             raise ValueError('body must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='replace_instance_default_configs')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V3',
+            operation_id='replace_instance_default_configs',
+        )
         headers.update(sdk_headers)
 
         data = json.dumps(body)
@@ -403,20 +372,12 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v3/analytics_engines/{instance_id}/default_configs'.format(**path_param_dict)
-        request = self.prepare_request(method='PUT',
-                                       url=url,
-                                       headers=headers,
-                                       data=data)
+        request = self.prepare_request(method='PUT', url=url, headers=headers, data=data)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def update_instance_default_configs(self,
-        instance_id: str,
-        body: dict,
-        **kwargs
-    ) -> DetailedResponse:
+    def update_instance_default_configs(self, instance_id: str, body: dict, **kwargs) -> DetailedResponse:
         """
         Update instance default Spark configurations.
 
@@ -437,9 +398,9 @@ class IbmAnalyticsEngineApiV3(BaseService):
         if body is None:
             raise ValueError('body must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='update_instance_default_configs')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME, service_version='V3', operation_id='update_instance_default_configs'
+        )
         headers.update(sdk_headers)
 
         data = json.dumps(body)
@@ -454,19 +415,12 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v3/analytics_engines/{instance_id}/default_configs'.format(**path_param_dict)
-        request = self.prepare_request(method='PATCH',
-                                       url=url,
-                                       headers=headers,
-                                       data=data)
+        request = self.prepare_request(method='PATCH', url=url, headers=headers, data=data)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def get_instance_default_runtime(self,
-        instance_id: str,
-        **kwargs
-    ) -> DetailedResponse:
+    def get_instance_default_runtime(self, instance_id: str, **kwargs) -> DetailedResponse:
         """
         Get instance default runtime.
 
@@ -482,9 +436,9 @@ class IbmAnalyticsEngineApiV3(BaseService):
         if not instance_id:
             raise ValueError('instance_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='get_instance_default_runtime')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME, service_version='V3', operation_id='get_instance_default_runtime'
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -496,19 +450,13 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v3/analytics_engines/{instance_id}/default_runtime'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def replace_instance_default_runtime(self,
-        instance_id: str,
-        *,
-        spark_version: str = None,
-        **kwargs
+    def replace_instance_default_runtime(
+        self, instance_id: str, *, spark_version: str = None, **kwargs
     ) -> DetailedResponse:
         """
         Replace instance default runtime.
@@ -527,9 +475,11 @@ class IbmAnalyticsEngineApiV3(BaseService):
         if not instance_id:
             raise ValueError('instance_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='replace_instance_default_runtime')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V3',
+            operation_id='replace_instance_default_runtime',
+        )
         headers.update(sdk_headers)
 
         data = {
@@ -548,20 +498,13 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v3/analytics_engines/{instance_id}/default_runtime'.format(**path_param_dict)
-        request = self.prepare_request(method='PUT',
-                                       url=url,
-                                       headers=headers,
-                                       data=data)
+        request = self.prepare_request(method='PUT', url=url, headers=headers, data=data)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def create_application(self,
-        instance_id: str,
-        *,
-        application_details: 'ApplicationRequestApplicationDetails' = None,
-        **kwargs
+    def create_application(
+        self, instance_id: str, *, application_details: 'ApplicationRequestApplicationDetails' = None, **kwargs
     ) -> DetailedResponse:
         """
         Deploy a Spark application.
@@ -582,9 +525,9 @@ class IbmAnalyticsEngineApiV3(BaseService):
         if application_details is not None:
             application_details = convert_model(application_details)
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='create_application')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME, service_version='V3', operation_id='create_application'
+        )
         headers.update(sdk_headers)
 
         data = {
@@ -603,16 +546,13 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v3/analytics_engines/{instance_id}/spark_applications'.format(**path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       data=data)
+        request = self.prepare_request(method='POST', url=url, headers=headers, data=data)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def list_applications(self,
+    def list_applications(
+        self,
         instance_id: str,
         *,
         state: List[str] = None,
@@ -621,7 +561,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         end_time_interval: str = None,
         limit: int = None,
         start: str = None,
-        **kwargs
+        **kwargs,
     ) -> DetailedResponse:
         """
         List all Spark applications.
@@ -666,9 +606,9 @@ class IbmAnalyticsEngineApiV3(BaseService):
         if not instance_id:
             raise ValueError('instance_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='list_applications')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME, service_version='V3', operation_id='list_applications'
+        )
         headers.update(sdk_headers)
 
         params = {
@@ -689,20 +629,12 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v3/analytics_engines/{instance_id}/spark_applications'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
+        request = self.prepare_request(method='GET', url=url, headers=headers, params=params)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def get_application(self,
-        instance_id: str,
-        application_id: str,
-        **kwargs
-    ) -> DetailedResponse:
+    def get_application(self, instance_id: str, application_id: str, **kwargs) -> DetailedResponse:
         """
         Retrieve the details of a given Spark application.
 
@@ -722,9 +654,9 @@ class IbmAnalyticsEngineApiV3(BaseService):
         if not application_id:
             raise ValueError('application_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='get_application')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME, service_version='V3', operation_id='get_application'
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -736,19 +668,12 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_values = self.encode_path_vars(instance_id, application_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v3/analytics_engines/{instance_id}/spark_applications/{application_id}'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def delete_application(self,
-        instance_id: str,
-        application_id: str,
-        **kwargs
-    ) -> DetailedResponse:
+    def delete_application(self, instance_id: str, application_id: str, **kwargs) -> DetailedResponse:
         """
         Stop application.
 
@@ -770,9 +695,9 @@ class IbmAnalyticsEngineApiV3(BaseService):
         if not application_id:
             raise ValueError('application_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='delete_application')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME, service_version='V3', operation_id='delete_application'
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -783,19 +708,12 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_values = self.encode_path_vars(instance_id, application_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v3/analytics_engines/{instance_id}/spark_applications/{application_id}'.format(**path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers)
+        request = self.prepare_request(method='DELETE', url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def get_application_state(self,
-        instance_id: str,
-        application_id: str,
-        **kwargs
-    ) -> DetailedResponse:
+    def get_application_state(self, instance_id: str, application_id: str, **kwargs) -> DetailedResponse:
         """
         Get the status of the application.
 
@@ -815,9 +733,9 @@ class IbmAnalyticsEngineApiV3(BaseService):
         if not application_id:
             raise ValueError('application_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='get_application_state')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME, service_version='V3', operation_id='get_application_state'
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -829,18 +747,12 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_values = self.encode_path_vars(instance_id, application_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v3/analytics_engines/{instance_id}/spark_applications/{application_id}/state'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def get_current_resource_consumption(self,
-        instance_id: str,
-        **kwargs
-    ) -> DetailedResponse:
+    def get_current_resource_consumption(self, instance_id: str, **kwargs) -> DetailedResponse:
         """
         Get current resource consumption.
 
@@ -861,9 +773,11 @@ class IbmAnalyticsEngineApiV3(BaseService):
         if not instance_id:
             raise ValueError('instance_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='get_current_resource_consumption')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V3',
+            operation_id='get_current_resource_consumption',
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -875,18 +789,12 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v3/analytics_engines/{instance_id}/current_resource_consumption'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def get_resource_consumption_limits(self,
-        instance_id: str,
-        **kwargs
-    ) -> DetailedResponse:
+    def get_resource_consumption_limits(self, instance_id: str, **kwargs) -> DetailedResponse:
         """
         Get resource consumption limits.
 
@@ -902,9 +810,9 @@ class IbmAnalyticsEngineApiV3(BaseService):
         if not instance_id:
             raise ValueError('instance_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='get_resource_consumption_limits')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME, service_version='V3', operation_id='get_resource_consumption_limits'
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -916,21 +824,13 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v3/analytics_engines/{instance_id}/resource_consumption_limits'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def replace_log_forwarding_config(self,
-        instance_id: str,
-        *,
-        enabled: bool = None,
-        sources: List[str] = None,
-        tags: List[str] = None,
-        **kwargs
+    def replace_log_forwarding_config(
+        self, instance_id: str, *, enabled: bool = None, sources: List[str] = None, tags: List[str] = None, **kwargs
     ) -> DetailedResponse:
         """
         Replace log forwarding configuration.
@@ -953,9 +853,9 @@ class IbmAnalyticsEngineApiV3(BaseService):
         if not instance_id:
             raise ValueError('instance_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='replace_log_forwarding_config')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME, service_version='V3', operation_id='replace_log_forwarding_config'
+        )
         headers.update(sdk_headers)
 
         data = {
@@ -976,19 +876,12 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v3/analytics_engines/{instance_id}/log_forwarding_config'.format(**path_param_dict)
-        request = self.prepare_request(method='PUT',
-                                       url=url,
-                                       headers=headers,
-                                       data=data)
+        request = self.prepare_request(method='PUT', url=url, headers=headers, data=data)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def get_log_forwarding_config(self,
-        instance_id: str,
-        **kwargs
-    ) -> DetailedResponse:
+    def get_log_forwarding_config(self, instance_id: str, **kwargs) -> DetailedResponse:
         """
         Get log forwarding configuration.
 
@@ -1003,9 +896,9 @@ class IbmAnalyticsEngineApiV3(BaseService):
         if not instance_id:
             raise ValueError('instance_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='get_log_forwarding_config')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME, service_version='V3', operation_id='get_log_forwarding_config'
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -1017,20 +910,12 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v3/analytics_engines/{instance_id}/log_forwarding_config'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def configure_platform_logging(self,
-        instance_guid: str,
-        *,
-        enable: bool = None,
-        **kwargs
-    ) -> DetailedResponse:
+    def configure_platform_logging(self, instance_guid: str, *, enable: bool = None, **kwargs) -> DetailedResponse:
         """
         Enable or disable log forwarding.
 
@@ -1053,9 +938,9 @@ class IbmAnalyticsEngineApiV3(BaseService):
         if not instance_guid:
             raise ValueError('instance_guid must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='configure_platform_logging')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME, service_version='V3', operation_id='configure_platform_logging'
+        )
         headers.update(sdk_headers)
 
         data = {
@@ -1074,19 +959,12 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_values = self.encode_path_vars(instance_guid)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v3/analytics_engines/{instance_guid}/logging'.format(**path_param_dict)
-        request = self.prepare_request(method='PUT',
-                                       url=url,
-                                       headers=headers,
-                                       data=data)
+        request = self.prepare_request(method='PUT', url=url, headers=headers, data=data)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def get_logging_configuration(self,
-        instance_guid: str,
-        **kwargs
-    ) -> DetailedResponse:
+    def get_logging_configuration(self, instance_guid: str, **kwargs) -> DetailedResponse:
         """
         Retrieve the logging configuration for a given instance id.
 
@@ -1107,9 +985,9 @@ class IbmAnalyticsEngineApiV3(BaseService):
         if not instance_guid:
             raise ValueError('instance_guid must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='get_logging_configuration')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME, service_version='V3', operation_id='get_logging_configuration'
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -1121,18 +999,12 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_values = self.encode_path_vars(instance_guid)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v3/analytics_engines/{instance_guid}/logging'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def start_spark_history_server(self,
-        instance_id: str,
-        **kwargs
-    ) -> DetailedResponse:
+    def start_spark_history_server(self, instance_id: str, **kwargs) -> DetailedResponse:
         """
         Start Spark history server.
 
@@ -1148,9 +1020,9 @@ class IbmAnalyticsEngineApiV3(BaseService):
         if not instance_id:
             raise ValueError('instance_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='start_spark_history_server')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME, service_version='V3', operation_id='start_spark_history_server'
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -1162,18 +1034,12 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v3/analytics_engines/{instance_id}/spark_history_server'.format(**path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers)
+        request = self.prepare_request(method='POST', url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def get_spark_history_server(self,
-        instance_id: str,
-        **kwargs
-    ) -> DetailedResponse:
+    def get_spark_history_server(self, instance_id: str, **kwargs) -> DetailedResponse:
         """
         Get Spark history server details.
 
@@ -1190,9 +1056,9 @@ class IbmAnalyticsEngineApiV3(BaseService):
         if not instance_id:
             raise ValueError('instance_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='get_spark_history_server')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME, service_version='V3', operation_id='get_spark_history_server'
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -1204,18 +1070,12 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v3/analytics_engines/{instance_id}/spark_history_server'.format(**path_param_dict)
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
 
-
-    def stop_spark_history_server(self,
-        instance_id: str,
-        **kwargs
-    ) -> DetailedResponse:
+    def stop_spark_history_server(self, instance_id: str, **kwargs) -> DetailedResponse:
         """
         Stop Spark history server.
 
@@ -1231,9 +1091,9 @@ class IbmAnalyticsEngineApiV3(BaseService):
         if not instance_id:
             raise ValueError('instance_id must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V3',
-                                      operation_id='stop_spark_history_server')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME, service_version='V3', operation_id='stop_spark_history_server'
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
@@ -1244,9 +1104,7 @@ class IbmAnalyticsEngineApiV3(BaseService):
         path_param_values = self.encode_path_vars(instance_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/v3/analytics_engines/{instance_id}/spark_history_server'.format(**path_param_dict)
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers)
+        request = self.prepare_request(method='DELETE', url=url, headers=headers)
 
         response = self.send(request, **kwargs)
         return response
@@ -1261,6 +1119,7 @@ class ListApplicationsEnums:
         """
         List of Spark application states that will be used to filter the response.
         """
+
         FINISHED = 'finished'
         RUNNING = 'running'
         FAILED = 'failed'
@@ -1275,7 +1134,7 @@ class ListApplicationsEnums:
 ##############################################################################
 
 
-class Application():
+class Application:
     """
     Details of a Spark application.
 
@@ -1301,20 +1160,22 @@ class Application():
           be automatically stopped by the service.
     """
 
-    def __init__(self,
-                 *,
-                 id: str = None,
-                 href: str = None,
-                 runtime: 'Runtime' = None,
-                 spark_application_id: str = None,
-                 spark_application_name: str = None,
-                 state: str = None,
-                 spark_ui: str = None,
-                 submission_time: datetime = None,
-                 start_time: datetime = None,
-                 end_time: datetime = None,
-                 finish_time: datetime = None,
-                 auto_termination_time: datetime = None) -> None:
+    def __init__(
+        self,
+        *,
+        id: str = None,
+        href: str = None,
+        runtime: 'Runtime' = None,
+        spark_application_id: str = None,
+        spark_application_name: str = None,
+        state: str = None,
+        spark_ui: str = None,
+        submission_time: datetime = None,
+        start_time: datetime = None,
+        end_time: datetime = None,
+        finish_time: datetime = None,
+        auto_termination_time: datetime = None,
+    ) -> None:
         """
         Initialize a Application object.
 
@@ -1443,6 +1304,7 @@ class Application():
         """
         State of the Spark application.
         """
+
         FINISHED = 'finished'
         RUNNING = 'running'
         FAILED = 'failed'
@@ -1452,7 +1314,7 @@ class Application():
         OPS_TERMINATED = 'ops_terminated'
 
 
-class ApplicationCollection():
+class ApplicationCollection:
     """
     A paginated collection of applications.
 
@@ -1465,13 +1327,15 @@ class ApplicationCollection():
     :attr int limit: The maximum number of results in this page of the collection.
     """
 
-    def __init__(self,
-                 applications: List['Application'],
-                 limit: int,
-                 *,
-                 first: 'PageLink' = None,
-                 next: 'PageLink' = None,
-                 previous: 'PageLink' = None) -> None:
+    def __init__(
+        self,
+        applications: List['Application'],
+        limit: int,
+        *,
+        first: 'PageLink' = None,
+        next: 'PageLink' = None,
+        previous: 'PageLink' = None,
+    ) -> None:
         """
         Initialize a ApplicationCollection object.
 
@@ -1564,7 +1428,8 @@ class ApplicationCollection():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class ApplicationDetails():
+
+class ApplicationDetails:
     """
     Application details.
 
@@ -1591,20 +1456,22 @@ class ApplicationDetails():
           for a list of the supported variables.
     """
 
-    def __init__(self,
-                 *,
-                 application: str = None,
-                 runtime: 'Runtime' = None,
-                 jars: str = None,
-                 packages: str = None,
-                 repositories: str = None,
-                 files: str = None,
-                 archives: str = None,
-                 name: str = None,
-                 class_: str = None,
-                 arguments: List[str] = None,
-                 conf: dict = None,
-                 env: dict = None) -> None:
+    def __init__(
+        self,
+        *,
+        application: str = None,
+        runtime: 'Runtime' = None,
+        jars: str = None,
+        packages: str = None,
+        repositories: str = None,
+        files: str = None,
+        archives: str = None,
+        name: str = None,
+        class_: str = None,
+        arguments: List[str] = None,
+        conf: dict = None,
+        env: dict = None,
+    ) -> None:
         """
         Initialize a ApplicationDetails object.
 
@@ -1729,7 +1596,8 @@ class ApplicationDetails():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class ApplicationGetResponse():
+
+class ApplicationGetResponse:
     """
     Response of the Application Get API.
 
@@ -1755,20 +1623,22 @@ class ApplicationGetResponse():
           be automatically stopped by the service.
     """
 
-    def __init__(self,
-                 *,
-                 application_details: 'ApplicationDetails' = None,
-                 id: str = None,
-                 spark_application_id: str = None,
-                 spark_application_name: str = None,
-                 state: str = None,
-                 spark_ui: str = None,
-                 state_details: List['ApplicationGetResponseStateDetailsItem'] = None,
-                 submission_time: datetime = None,
-                 start_time: datetime = None,
-                 end_time: datetime = None,
-                 finish_time: datetime = None,
-                 auto_termination_time: datetime = None) -> None:
+    def __init__(
+        self,
+        *,
+        application_details: 'ApplicationDetails' = None,
+        id: str = None,
+        spark_application_id: str = None,
+        spark_application_name: str = None,
+        state: str = None,
+        spark_ui: str = None,
+        state_details: List['ApplicationGetResponseStateDetailsItem'] = None,
+        submission_time: datetime = None,
+        start_time: datetime = None,
+        end_time: datetime = None,
+        finish_time: datetime = None,
+        auto_termination_time: datetime = None,
+    ) -> None:
         """
         Initialize a ApplicationGetResponse object.
 
@@ -1826,7 +1696,9 @@ class ApplicationGetResponse():
         if 'spark_ui' in _dict:
             args['spark_ui'] = _dict.get('spark_ui')
         if 'state_details' in _dict:
-            args['state_details'] = [ApplicationGetResponseStateDetailsItem.from_dict(v) for v in _dict.get('state_details')]
+            args['state_details'] = [
+                ApplicationGetResponseStateDetailsItem.from_dict(v) for v in _dict.get('state_details')
+            ]
         if 'submission_time' in _dict:
             args['submission_time'] = string_to_datetime(_dict.get('submission_time'))
         if 'start_time' in _dict:
@@ -1904,6 +1776,7 @@ class ApplicationGetResponse():
         """
         State of the Spark application.
         """
+
         FINISHED = 'finished'
         RUNNING = 'running'
         FAILED = 'failed'
@@ -1913,7 +1786,7 @@ class ApplicationGetResponse():
         OPS_TERMINATED = 'ops_terminated'
 
 
-class ApplicationGetResponseStateDetailsItem():
+class ApplicationGetResponseStateDetailsItem:
     """
     Additional information message on the current state of the application.
 
@@ -1923,11 +1796,7 @@ class ApplicationGetResponseStateDetailsItem():
           information on the current application state.
     """
 
-    def __init__(self,
-                 *,
-                 type: str = None,
-                 code: str = None,
-                 message: str = None) -> None:
+    def __init__(self, *, type: str = None, code: str = None, message: str = None) -> None:
         """
         Initialize a ApplicationGetResponseStateDetailsItem object.
 
@@ -1990,12 +1859,13 @@ class ApplicationGetResponseStateDetailsItem():
         """
         Type of the message.
         """
+
         USER_ERROR = 'user_error'
         SERVER_ERROR = 'server_error'
         INFO = 'info'
 
 
-class ApplicationGetStateResponse():
+class ApplicationGetStateResponse:
     """
     State of a given application.
 
@@ -2010,14 +1880,16 @@ class ApplicationGetStateResponse():
           be automatically stopped by the service.
     """
 
-    def __init__(self,
-                 *,
-                 id: str = None,
-                 state: str = None,
-                 start_time: datetime = None,
-                 end_time: datetime = None,
-                 finish_time: datetime = None,
-                 auto_termination_time: datetime = None) -> None:
+    def __init__(
+        self,
+        *,
+        id: str = None,
+        state: str = None,
+        start_time: datetime = None,
+        end_time: datetime = None,
+        finish_time: datetime = None,
+        auto_termination_time: datetime = None,
+    ) -> None:
         """
         Initialize a ApplicationGetStateResponse object.
 
@@ -2101,6 +1973,7 @@ class ApplicationGetStateResponse():
         """
         State of the Spark application.
         """
+
         FINISHED = 'finished'
         RUNNING = 'running'
         FAILED = 'failed'
@@ -2110,7 +1983,7 @@ class ApplicationGetStateResponse():
         OPS_TERMINATED = 'ops_terminated'
 
 
-class ApplicationRequestApplicationDetails():
+class ApplicationRequestApplicationDetails:
     """
     Application details.
 
@@ -2137,20 +2010,22 @@ class ApplicationRequestApplicationDetails():
           for a list of the supported variables.
     """
 
-    def __init__(self,
-                 *,
-                 application: str = None,
-                 runtime: 'Runtime' = None,
-                 jars: str = None,
-                 packages: str = None,
-                 repositories: str = None,
-                 files: str = None,
-                 archives: str = None,
-                 name: str = None,
-                 class_: str = None,
-                 arguments: List[str] = None,
-                 conf: dict = None,
-                 env: dict = None) -> None:
+    def __init__(
+        self,
+        *,
+        application: str = None,
+        runtime: 'Runtime' = None,
+        jars: str = None,
+        packages: str = None,
+        repositories: str = None,
+        files: str = None,
+        archives: str = None,
+        name: str = None,
+        class_: str = None,
+        arguments: List[str] = None,
+        conf: dict = None,
+        env: dict = None,
+    ) -> None:
         """
         Initialize a ApplicationRequestApplicationDetails object.
 
@@ -2275,7 +2150,8 @@ class ApplicationRequestApplicationDetails():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class ApplicationResponse():
+
+class ApplicationResponse:
     """
     Application response details.
 
@@ -2283,10 +2159,7 @@ class ApplicationResponse():
     :attr str state: (optional) State of the Spark application.
     """
 
-    def __init__(self,
-                 *,
-                 id: str = None,
-                 state: str = None) -> None:
+    def __init__(self, *, id: str = None, state: str = None) -> None:
         """
         Initialize a ApplicationResponse object.
 
@@ -2342,6 +2215,7 @@ class ApplicationResponse():
         """
         State of the Spark application.
         """
+
         FINISHED = 'finished'
         RUNNING = 'running'
         FAILED = 'failed'
@@ -2351,7 +2225,7 @@ class ApplicationResponse():
         OPS_TERMINATED = 'ops_terminated'
 
 
-class CurrentResourceConsumptionResponse():
+class CurrentResourceConsumptionResponse:
     """
     Current resource consumption of the instance.
 
@@ -2359,10 +2233,7 @@ class CurrentResourceConsumptionResponse():
     :attr str memory: (optional) Amount of memory used.
     """
 
-    def __init__(self,
-                 *,
-                 cores: str = None,
-                 memory: str = None) -> None:
+    def __init__(self, *, cores: str = None, memory: str = None) -> None:
         """
         Initialize a CurrentResourceConsumptionResponse object.
 
@@ -2414,7 +2285,8 @@ class CurrentResourceConsumptionResponse():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class Instance():
+
+class Instance:
     """
     Details of Analytics Engine instance.
 
@@ -2431,15 +2303,17 @@ class Instance():
           configuration for Spark workloads.
     """
 
-    def __init__(self,
-                 *,
-                 id: str = None,
-                 href: str = None,
-                 state: str = None,
-                 state_change_time: datetime = None,
-                 default_runtime: 'Runtime' = None,
-                 instance_home: 'InstanceHome' = None,
-                 default_config: 'InstanceDefaultConfig' = None) -> None:
+    def __init__(
+        self,
+        *,
+        id: str = None,
+        href: str = None,
+        state: str = None,
+        state_change_time: datetime = None,
+        default_runtime: 'Runtime' = None,
+        instance_home: 'InstanceHome' = None,
+        default_config: 'InstanceDefaultConfig' = None,
+    ) -> None:
         """
         Initialize a Instance object.
 
@@ -2538,6 +2412,7 @@ class Instance():
         """
         State of the Analytics Engine instance.
         """
+
         CREATION_ACCEPTED = 'creation_accepted'
         INITIALIZED = 'initialized'
         PREPARING = 'preparing'
@@ -2547,16 +2422,14 @@ class Instance():
         CREATION_FAILED = 'creation_failed'
 
 
-class InstanceDefaultConfig():
+class InstanceDefaultConfig:
     """
     Instance level default configuration for Spark workloads.
 
     :attr str key: (optional) Value of the Spark configuration key.
     """
 
-    def __init__(self,
-                 *,
-                 key: str = None) -> None:
+    def __init__(self, *, key: str = None) -> None:
         """
         Initialize a InstanceDefaultConfig object.
 
@@ -2602,7 +2475,8 @@ class InstanceDefaultConfig():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class InstanceGetStateResponse():
+
+class InstanceGetStateResponse:
     """
     State details of Analytics Engine instance.
 
@@ -2610,10 +2484,7 @@ class InstanceGetStateResponse():
     :attr str state: (optional) State of the Analytics Engine instance.
     """
 
-    def __init__(self,
-                 *,
-                 id: str = None,
-                 state: str = None) -> None:
+    def __init__(self, *, id: str = None, state: str = None) -> None:
         """
         Initialize a InstanceGetStateResponse object.
 
@@ -2669,6 +2540,7 @@ class InstanceGetStateResponse():
         """
         State of the Analytics Engine instance.
         """
+
         CREATION_ACCEPTED = 'creation_accepted'
         INITIALIZED = 'initialized'
         PREPARING = 'preparing'
@@ -2678,7 +2550,7 @@ class InstanceGetStateResponse():
         CREATION_FAILED = 'creation_failed'
 
 
-class InstanceHome():
+class InstanceHome:
     """
     Object storage instance that acts as the home for custom libraries and Spark events.
 
@@ -2697,16 +2569,18 @@ class InstanceHome():
           for security reasons.
     """
 
-    def __init__(self,
-                 *,
-                 id: str = None,
-                 provider: str = None,
-                 type: str = None,
-                 region: str = None,
-                 endpoint: str = None,
-                 bucket: str = None,
-                 hmac_access_key: str = None,
-                 hmac_secret_key: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        id: str = None,
+        provider: str = None,
+        type: str = None,
+        region: str = None,
+        endpoint: str = None,
+        bucket: str = None,
+        hmac_access_key: str = None,
+        hmac_secret_key: str = None,
+    ) -> None:
         """
         Initialize a InstanceHome object.
 
@@ -2800,7 +2674,8 @@ class InstanceHome():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class InstanceHomeResponse():
+
+class InstanceHomeResponse:
     """
     Response of Instance home API.
 
@@ -2816,15 +2691,17 @@ class InstanceHomeResponse():
     :attr str hmac_secret_key: (optional) Cloud Object Storage secret key.
     """
 
-    def __init__(self,
-                 *,
-                 instance_id: str = None,
-                 provider: str = None,
-                 type: str = None,
-                 region: str = None,
-                 endpoint: str = None,
-                 hmac_access_key: str = None,
-                 hmac_secret_key: str = None) -> None:
+    def __init__(
+        self,
+        *,
+        instance_id: str = None,
+        provider: str = None,
+        type: str = None,
+        region: str = None,
+        endpoint: str = None,
+        hmac_access_key: str = None,
+        hmac_secret_key: str = None,
+    ) -> None:
         """
         Initialize a InstanceHomeResponse object.
 
@@ -2910,7 +2787,8 @@ class InstanceHomeResponse():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class LogForwardingConfigResponse():
+
+class LogForwardingConfigResponse:
     """
     Log forwarding configuration details.
 
@@ -2924,12 +2802,14 @@ class LogForwardingConfigResponse():
           not.
     """
 
-    def __init__(self,
-                 *,
-                 sources: List[str] = None,
-                 tags: List[str] = None,
-                 log_server: 'LogForwardingConfigResponseLogServer' = None,
-                 enabled: bool = None) -> None:
+    def __init__(
+        self,
+        *,
+        sources: List[str] = None,
+        tags: List[str] = None,
+        log_server: 'LogForwardingConfigResponseLogServer' = None,
+        enabled: bool = None,
+    ) -> None:
         """
         Initialize a LogForwardingConfigResponse object.
 
@@ -3000,16 +2880,15 @@ class LogForwardingConfigResponse():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class LogForwardingConfigResponseLogServer():
+
+class LogForwardingConfigResponseLogServer:
     """
     Log server properties.
 
     :attr str type: (optional) Type of the log server.
     """
 
-    def __init__(self,
-                 *,
-                 type: str = None) -> None:
+    def __init__(self, *, type: str = None) -> None:
         """
         Initialize a LogForwardingConfigResponseLogServer object.
 
@@ -3055,7 +2934,8 @@ class LogForwardingConfigResponseLogServer():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class LoggingConfigurationResponse():
+
+class LoggingConfigurationResponse:
     """
     (deprecated) Response of logging API.
 
@@ -3065,11 +2945,13 @@ class LoggingConfigurationResponse():
     :attr bool enable: (optional) enable.
     """
 
-    def __init__(self,
-                 *,
-                 components: List[str] = None,
-                 log_server: 'LoggingConfigurationResponseLogServer' = None,
-                 enable: bool = None) -> None:
+    def __init__(
+        self,
+        *,
+        components: List[str] = None,
+        log_server: 'LoggingConfigurationResponseLogServer' = None,
+        enable: bool = None,
+    ) -> None:
         """
         Initialize a LoggingConfigurationResponse object.
 
@@ -3131,16 +3013,15 @@ class LoggingConfigurationResponse():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class LoggingConfigurationResponseLogServer():
+
+class LoggingConfigurationResponseLogServer:
     """
     log server properties.
 
     :attr str type: (optional) type of log server.
     """
 
-    def __init__(self,
-                 *,
-                 type: str = None) -> None:
+    def __init__(self, *, type: str = None) -> None:
         """
         Initialize a LoggingConfigurationResponseLogServer object.
 
@@ -3186,7 +3067,8 @@ class LoggingConfigurationResponseLogServer():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class PageLink():
+
+class PageLink:
     """
     A reference to a page in a paginated collection.
 
@@ -3195,10 +3077,7 @@ class PageLink():
           when it is provided the url of the collection.
     """
 
-    def __init__(self,
-                 href: str,
-                 *,
-                 start: str = None) -> None:
+    def __init__(self, href: str, *, start: str = None) -> None:
         """
         Initialize a PageLink object.
 
@@ -3253,7 +3132,8 @@ class PageLink():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class ResourceConsumptionLimitsResponse():
+
+class ResourceConsumptionLimitsResponse:
     """
     Resource consumption limits for the instance.
 
@@ -3263,10 +3143,7 @@ class ResourceConsumptionLimitsResponse():
           instance.
     """
 
-    def __init__(self,
-                 *,
-                 max_cores: str = None,
-                 max_memory: str = None) -> None:
+    def __init__(self, *, max_cores: str = None, max_memory: str = None) -> None:
         """
         Initialize a ResourceConsumptionLimitsResponse object.
 
@@ -3320,16 +3197,15 @@ class ResourceConsumptionLimitsResponse():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class Runtime():
+
+class Runtime:
     """
     Runtime enviroment for applications and other workloads.
 
     :attr str spark_version: (optional) Spark version of the runtime environment.
     """
 
-    def __init__(self,
-                 *,
-                 spark_version: str = None) -> None:
+    def __init__(self, *, spark_version: str = None) -> None:
         """
         Initialize a Runtime object.
 
@@ -3376,7 +3252,8 @@ class Runtime():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class SparkHistoryServerResponse():
+
+class SparkHistoryServerResponse:
     """
     Status of the Spark history server.
 
@@ -3392,14 +3269,16 @@ class SparkHistoryServerResponse():
           server will be stopped automatically.
     """
 
-    def __init__(self,
-                 *,
-                 state: str = None,
-                 cores: str = None,
-                 memory: str = None,
-                 start_time: datetime = None,
-                 stop_time: datetime = None,
-                 auto_termination_time: datetime = None) -> None:
+    def __init__(
+        self,
+        *,
+        state: str = None,
+        cores: str = None,
+        memory: str = None,
+        start_time: datetime = None,
+        stop_time: datetime = None,
+        auto_termination_time: datetime = None,
+    ) -> None:
         """
         Initialize a SparkHistoryServerResponse object.
 
@@ -3484,6 +3363,7 @@ class SparkHistoryServerResponse():
         """
         State of the Spark history server.
         """
+
         STARTED = 'started'
         STOPPED = 'stopped'
 
@@ -3492,20 +3372,22 @@ class SparkHistoryServerResponse():
 # Pagers
 ##############################################################################
 
-class ApplicationsPager():
+
+class ApplicationsPager:
     """
     ApplicationsPager can be used to simplify the use of the "list_applications" method.
     """
 
-    def __init__(self,
-                 *,
-                 client: IbmAnalyticsEngineApiV3,
-                 instance_id: str,
-                 state: List[str] = None,
-                 start_time_interval: str = None,
-                 submission_time_interval: str = None,
-                 end_time_interval: str = None,
-                 limit: int = None,
+    def __init__(
+        self,
+        *,
+        client: IbmAnalyticsEngineApiV3,
+        instance_id: str,
+        state: List[str] = None,
+        start_time_interval: str = None,
+        submission_time_interval: str = None,
+        end_time_interval: str = None,
+        limit: int = None,
     ) -> None:
         """
         Initialize a ApplicationsPager object.
@@ -3539,7 +3421,7 @@ class ApplicationsPager():
         """
         self._has_next = True
         self._client = client
-        self._page_context = { 'next': None }
+        self._page_context = {'next': None}
         self._instance_id = instance_id
         self._state = state
         self._start_time_interval = start_time_interval

@@ -46,7 +46,7 @@ config = None
 # Start of Examples for Service: IbmAnalyticsEngineApiV3
 ##############################################################################
 # region
-class TestIbmAnalyticsEngineApiV3Examples():
+class TestIbmAnalyticsEngineApiV3Examples:
     """
     Example Test Class for IbmAnalyticsEngineApiV3
     """
@@ -59,8 +59,7 @@ class TestIbmAnalyticsEngineApiV3Examples():
 
             # begin-common
 
-            ibm_analytics_engine_api_service = IbmAnalyticsEngineApiV3.new_instance(
-            )
+            ibm_analytics_engine_api_service = IbmAnalyticsEngineApiV3.new_instance()
 
             # end-common
             assert ibm_analytics_engine_api_service is not None
@@ -585,6 +584,7 @@ class TestIbmAnalyticsEngineApiV3Examples():
 
         except ApiException as e:
             pytest.fail(str(e))
+
 
 # endregion
 ##############################################################################
