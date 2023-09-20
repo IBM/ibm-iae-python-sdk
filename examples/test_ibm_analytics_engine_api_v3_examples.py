@@ -46,7 +46,7 @@ config = None
 # Start of Examples for Service: IbmAnalyticsEngineApiV3
 ##############################################################################
 # region
-class TestIbmAnalyticsEngineApiV3Examples:
+class TestIbmAnalyticsEngineApiV3Examples():
     """
     Example Test Class for IbmAnalyticsEngineApiV3
     """
@@ -59,7 +59,8 @@ class TestIbmAnalyticsEngineApiV3Examples:
 
             # begin-common
 
-            ibm_analytics_engine_api_service = IbmAnalyticsEngineApiV3.new_instance()
+            ibm_analytics_engine_api_service = IbmAnalyticsEngineApiV3.new_instance(
+            )
 
             # end-common
             assert ibm_analytics_engine_api_service is not None
@@ -265,7 +266,7 @@ class TestIbmAnalyticsEngineApiV3Examples:
 
             response = ibm_analytics_engine_api_service.replace_instance_default_runtime(
                 instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
-                spark_version="3.3",
+                spark_version='3.4',
             )
             runtime = response.get_result()
 
@@ -286,7 +287,7 @@ class TestIbmAnalyticsEngineApiV3Examples:
             # begin-create_application
 
             runtime_model = {
-                'spark_version': '3.3',
+                'spark_version': '3.4',
             }
 
             application_request_application_details_model = {
@@ -584,7 +585,6 @@ class TestIbmAnalyticsEngineApiV3Examples:
 
         except ApiException as e:
             pytest.fail(str(e))
-
 
 # endregion
 ##############################################################################

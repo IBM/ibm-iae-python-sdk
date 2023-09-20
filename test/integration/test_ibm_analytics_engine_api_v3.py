@@ -26,8 +26,7 @@ from iaesdk.ibm_analytics_engine_api_v3 import *
 config_file = 'ibm_analytics_engine_api_v3.env'
 application_id = ''
 
-
-class TestIbmAnalyticsEngineApiV3:
+class TestIbmAnalyticsEngineApiV3():
     """
     Integration Test Class for IbmAnalyticsEngineApiV3
     """
@@ -37,10 +36,12 @@ class TestIbmAnalyticsEngineApiV3:
         if os.path.exists(config_file):
             os.environ['IBM_CREDENTIALS_FILE'] = config_file
 
-            cls.ibm_analytics_engine_api_service = IbmAnalyticsEngineApiV3.new_instance()
+            cls.ibm_analytics_engine_api_service = IbmAnalyticsEngineApiV3.new_instance(
+            )
             assert cls.ibm_analytics_engine_api_service is not None
 
-            cls.config = read_external_sources(IbmAnalyticsEngineApiV3.DEFAULT_SERVICE_NAME)
+            cls.config = read_external_sources(
+                IbmAnalyticsEngineApiV3.DEFAULT_SERVICE_NAME)
             assert cls.config is not None
 
             cls.instance_id = cls.config['INSTANCE_GUID']
@@ -60,6 +61,7 @@ class TestIbmAnalyticsEngineApiV3:
 
     @needscredentials
     def test_get_instance(self):
+
         response = self.ibm_analytics_engine_api_service.get_instance(
             instance_id=self.instance_id,
         )
@@ -70,6 +72,7 @@ class TestIbmAnalyticsEngineApiV3:
 
     @needscredentials
     def test_get_instance_state(self):
+
         response = self.ibm_analytics_engine_api_service.get_instance_state(
             instance_id=self.instance_id,
         )
@@ -80,6 +83,7 @@ class TestIbmAnalyticsEngineApiV3:
 
     @needscredentials
     def test_set_instance_home(self):
+
         response = self.ibm_analytics_engine_api_service.set_instance_home(
             instance_id=self.instance_id_without_instance_home,
             new_instance_id='testString',
@@ -97,6 +101,7 @@ class TestIbmAnalyticsEngineApiV3:
 
     @needscredentials
     def test_update_instance_home_credentials(self):
+
         response = self.ibm_analytics_engine_api_service.update_instance_home_credentials(
             instance_id=self.instance_id,
             hmac_access_key=self.alternate_hmac_access_key,
@@ -109,6 +114,7 @@ class TestIbmAnalyticsEngineApiV3:
 
     @needscredentials
     def test_get_instance_default_configs(self):
+
         response = self.ibm_analytics_engine_api_service.get_instance_default_configs(
             instance_id=self.instance_id,
         )
@@ -119,6 +125,7 @@ class TestIbmAnalyticsEngineApiV3:
 
     @needscredentials
     def test_replace_instance_default_configs(self):
+
         response = self.ibm_analytics_engine_api_service.replace_instance_default_configs(
             instance_id=self.instance_id,
             body={
@@ -133,6 +140,7 @@ class TestIbmAnalyticsEngineApiV3:
 
     @needscredentials
     def test_update_instance_default_configs(self):
+
         response = self.ibm_analytics_engine_api_service.update_instance_default_configs(
             instance_id=self.instance_id,
             body={
@@ -147,6 +155,7 @@ class TestIbmAnalyticsEngineApiV3:
 
     @needscredentials
     def test_get_instance_default_runtime(self):
+
         response = self.ibm_analytics_engine_api_service.get_instance_default_runtime(
             instance_id=self.instance_id,
         )
@@ -157,9 +166,10 @@ class TestIbmAnalyticsEngineApiV3:
 
     @needscredentials
     def test_replace_instance_default_runtime(self):
+
         response = self.ibm_analytics_engine_api_service.replace_instance_default_runtime(
             instance_id=self.instance_id,
-            spark_version='3.3',
+            spark_version='3.4',
         )
 
         assert response.get_status_code() == 200
@@ -168,6 +178,7 @@ class TestIbmAnalyticsEngineApiV3:
 
     @needscredentials
     def test_create_application(self):
+
         # Construct a dict representation of a Runtime model
         runtime_model = {
             'spark_version': '3.3',
@@ -194,6 +205,7 @@ class TestIbmAnalyticsEngineApiV3:
 
     @needscredentials
     def test_list_applications(self):
+
         response = self.ibm_analytics_engine_api_service.list_applications(
             instance_id=self.instance_id, state=['accepted', 'running', 'finished', 'failed', 'stopped'], limit=1
         )
@@ -233,6 +245,7 @@ class TestIbmAnalyticsEngineApiV3:
 
     @needscredentials
     def test_get_application(self):
+
         response = self.ibm_analytics_engine_api_service.get_application(
             instance_id=self.instance_id,
             application_id=application_id,
@@ -244,6 +257,7 @@ class TestIbmAnalyticsEngineApiV3:
 
     @needscredentials
     def test_get_application_state(self):
+
         response = self.ibm_analytics_engine_api_service.get_application_state(
             instance_id=self.instance_id,
             application_id=application_id,
@@ -255,6 +269,7 @@ class TestIbmAnalyticsEngineApiV3:
 
     @needscredentials
     def test_get_current_resource_consumption(self):
+
         response = self.ibm_analytics_engine_api_service.get_current_resource_consumption(
             instance_id=self.instance_id,
         )
@@ -265,6 +280,7 @@ class TestIbmAnalyticsEngineApiV3:
 
     @needscredentials
     def test_get_resource_consumption_limits(self):
+
         response = self.ibm_analytics_engine_api_service.get_resource_consumption_limits(
             instance_id=self.instance_id,
         )
@@ -275,11 +291,12 @@ class TestIbmAnalyticsEngineApiV3:
 
     @needscredentials
     def test_replace_log_forwarding_config(self):
+
         response = self.ibm_analytics_engine_api_service.replace_log_forwarding_config(
             instance_id=self.instance_id,
             enabled=True,
-            sources=["spark-driver", "spark-executor"],
-            tags=["<tag_1>", "<tag_2>", "<tag_n>"],
+            sources=['spark-driver', 'spark-executor'],
+            tags=['<tag_1>', '<tag_2>', '<tag_n'],
         )
 
         assert response.get_status_code() == 200
@@ -288,6 +305,7 @@ class TestIbmAnalyticsEngineApiV3:
 
     @needscredentials
     def test_get_log_forwarding_config(self):
+
         response = self.ibm_analytics_engine_api_service.get_log_forwarding_config(
             instance_id=self.instance_id,
         )
@@ -298,6 +316,7 @@ class TestIbmAnalyticsEngineApiV3:
 
     @needscredentials
     def test_configure_platform_logging(self):
+
         response = self.ibm_analytics_engine_api_service.configure_platform_logging(
             instance_guid=self.instance_id,
             enable=True,
@@ -309,6 +328,7 @@ class TestIbmAnalyticsEngineApiV3:
 
     @needscredentials
     def test_get_logging_configuration(self):
+
         response = self.ibm_analytics_engine_api_service.get_logging_configuration(
             instance_guid=self.instance_id,
         )
@@ -319,6 +339,7 @@ class TestIbmAnalyticsEngineApiV3:
 
     @needscredentials
     def test_start_spark_history_server(self):
+
         response = self.ibm_analytics_engine_api_service.start_spark_history_server(
             instance_id=self.instance_id,
         )
@@ -329,6 +350,7 @@ class TestIbmAnalyticsEngineApiV3:
 
     @needscredentials
     def test_get_spark_history_server(self):
+
         response = self.ibm_analytics_engine_api_service.get_spark_history_server(
             instance_id=self.instance_id,
         )
@@ -339,6 +361,7 @@ class TestIbmAnalyticsEngineApiV3:
 
     @needscredentials
     def test_delete_application(self):
+
         response = self.ibm_analytics_engine_api_service.delete_application(
             instance_id=self.instance_id,
             application_id=application_id,
@@ -348,6 +371,7 @@ class TestIbmAnalyticsEngineApiV3:
 
     @needscredentials
     def test_stop_spark_history_server(self):
+
         response = self.ibm_analytics_engine_api_service.stop_spark_history_server(
             instance_id=self.instance_id,
         )
