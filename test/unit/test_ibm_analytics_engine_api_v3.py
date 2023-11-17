@@ -118,7 +118,7 @@ class TestGetInstance:
         """
         # Set up mock
         url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09')
-        mock_response = '{"id": "id", "href": "href", "state": "creation_accepted", "state_change_time": "2021-01-30T08:30:00.000Z", "default_runtime": {"spark_version": "3.1"}, "instance_home": {"id": "id", "provider": "provider", "type": "type", "region": "region", "endpoint": "endpoint", "bucket": "bucket", "hmac_access_key": "hmac_access_key", "hmac_secret_key": "hmac_secret_key"}, "default_config": {"key": "key"}}'
+        mock_response = '{"id": "id", "href": "href", "state": "creation_accepted", "state_change_time": "2021-01-30T08:30:00.000Z", "default_runtime": {"spark_version": "spark_version"}, "instance_home": {"id": "id", "provider": "provider", "type": "type", "region": "region", "endpoint": "endpoint", "bucket": "bucket", "hmac_access_key": "hmac_access_key", "hmac_secret_key": "hmac_secret_key"}, "default_config": {"key": "key"}}'
         responses.add(responses.GET, url, body=mock_response, content_type='application/json', status=200)
 
         # Set up parameter values
@@ -147,7 +147,7 @@ class TestGetInstance:
         """
         # Set up mock
         url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09')
-        mock_response = '{"id": "id", "href": "href", "state": "creation_accepted", "state_change_time": "2021-01-30T08:30:00.000Z", "default_runtime": {"spark_version": "3.1"}, "instance_home": {"id": "id", "provider": "provider", "type": "type", "region": "region", "endpoint": "endpoint", "bucket": "bucket", "hmac_access_key": "hmac_access_key", "hmac_secret_key": "hmac_secret_key"}, "default_config": {"key": "key"}}'
+        mock_response = '{"id": "id", "href": "href", "state": "creation_accepted", "state_change_time": "2021-01-30T08:30:00.000Z", "default_runtime": {"spark_version": "spark_version"}, "instance_home": {"id": "id", "provider": "provider", "type": "type", "region": "region", "endpoint": "endpoint", "bucket": "bucket", "hmac_access_key": "hmac_access_key", "hmac_secret_key": "hmac_secret_key"}, "default_config": {"key": "key"}}'
         responses.add(responses.GET, url, body=mock_response, content_type='application/json', status=200)
 
         # Set up parameter values
@@ -635,7 +635,7 @@ class TestGetInstanceDefaultRuntime:
         """
         # Set up mock
         url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_runtime')
-        mock_response = '{"spark_version": "3.1"}'
+        mock_response = '{"spark_version": "spark_version"}'
         responses.add(responses.GET, url, body=mock_response, content_type='application/json', status=200)
 
         # Set up parameter values
@@ -664,7 +664,7 @@ class TestGetInstanceDefaultRuntime:
         """
         # Set up mock
         url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_runtime')
-        mock_response = '{"spark_version": "3.1"}'
+        mock_response = '{"spark_version": "spark_version"}'
         responses.add(responses.GET, url, body=mock_response, content_type='application/json', status=200)
 
         # Set up parameter values
@@ -701,12 +701,12 @@ class TestReplaceInstanceDefaultRuntime:
         """
         # Set up mock
         url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_runtime')
-        mock_response = '{"spark_version": "3.1"}'
+        mock_response = '{"spark_version": "spark_version"}'
         responses.add(responses.PUT, url, body=mock_response, content_type='application/json', status=200)
 
         # Set up parameter values
         instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
-        spark_version = '3.1'
+        spark_version = '3.4'
 
         # Invoke method
         response = _service.replace_instance_default_runtime(instance_id, spark_version=spark_version, headers={})
@@ -716,7 +716,7 @@ class TestReplaceInstanceDefaultRuntime:
         assert response.status_code == 200
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body['spark_version'] == '3.1'
+        assert req_body['spark_version'] == '3.4'
 
     def test_replace_instance_default_runtime_all_params_with_retries(self):
         # Enable retries and run test_replace_instance_default_runtime_all_params.
@@ -734,12 +734,12 @@ class TestReplaceInstanceDefaultRuntime:
         """
         # Set up mock
         url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/default_runtime')
-        mock_response = '{"spark_version": "3.1"}'
+        mock_response = '{"spark_version": "spark_version"}'
         responses.add(responses.PUT, url, body=mock_response, content_type='application/json', status=200)
 
         # Set up parameter values
         instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
-        spark_version = '3.1'
+        spark_version = '3.4'
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
@@ -777,7 +777,7 @@ class TestCreateApplication:
 
         # Construct a dict representation of a Runtime model
         runtime_model = {}
-        runtime_model['spark_version'] = '3.3'
+        runtime_model['spark_version'] = '3.4'
 
         # Construct a dict representation of a ApplicationRequestApplicationDetails model
         application_request_application_details_model = {}
@@ -833,7 +833,7 @@ class TestCreateApplication:
 
         # Construct a dict representation of a Runtime model
         runtime_model = {}
-        runtime_model['spark_version'] = '3.3'
+        runtime_model['spark_version'] = '3.4'
 
         # Construct a dict representation of a ApplicationRequestApplicationDetails model
         application_request_application_details_model = {}
@@ -889,17 +889,29 @@ class TestListApplications:
         """
         # Set up mock
         url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications')
-        mock_response = '{"applications": [{"id": "id", "href": "href", "runtime": {"spark_version": "3.1"}, "spark_application_id": "spark_application_id", "spark_application_name": "spark_application_name", "state": "finished", "spark_ui": "spark_ui", "submission_time": "2021-01-30T08:30:00.000Z", "start_time": "2021-01-30T08:30:00.000Z", "end_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z", "auto_termination_time": "2021-01-30T08:30:00.000Z"}], "first": {"href": "href", "start": "start"}, "next": {"href": "href", "start": "start"}, "previous": {"href": "href", "start": "start"}, "limit": 1}'
+        mock_response = '{"applications": [{"id": "id", "href": "href", "runtime": {"spark_version": "spark_version"}, "spark_application_id": "spark_application_id", "spark_application_name": "spark_application_name", "state": "finished", "spark_ui": "spark_ui", "submission_time": "2021-01-30T08:30:00.000Z", "start_time": "2021-01-30T08:30:00.000Z", "end_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z", "auto_termination_time": "2021-01-30T08:30:00.000Z"}], "first": {"href": "href", "start": "start"}, "next": {"href": "href", "start": "start"}, "previous": {"href": "href", "start": "start"}, "limit": 1}'
         responses.add(responses.GET, url, body=mock_response, content_type='application/json', status=200)
 
         # Set up parameter values
         instance_id = 'e64c907a-e82f-46fd-addc-ccfafbd28b09'
         state = ['finished']
+        start_time_interval = 'testString'
+        submission_time_interval = 'testString'
+        end_time_interval = 'testString'
         limit = 1
         start = 'testString'
 
         # Invoke method
-        response = _service.list_applications(instance_id, state=state, limit=limit, start=start, headers={})
+        response = _service.list_applications(
+            instance_id,
+            state=state,
+            start_time_interval=start_time_interval,
+            submission_time_interval=submission_time_interval,
+            end_time_interval=end_time_interval,
+            limit=limit,
+            start=start,
+            headers={},
+        )
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -908,6 +920,9 @@ class TestListApplications:
         query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'state={}'.format(','.join(state)) in query_string
+        assert 'start_time_interval={}'.format(start_time_interval) in query_string
+        assert 'submission_time_interval={}'.format(submission_time_interval) in query_string
+        assert 'end_time_interval={}'.format(end_time_interval) in query_string
         assert 'limit={}'.format(limit) in query_string
         assert 'start={}'.format(start) in query_string
 
@@ -927,7 +942,7 @@ class TestListApplications:
         """
         # Set up mock
         url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications')
-        mock_response = '{"applications": [{"id": "id", "href": "href", "runtime": {"spark_version": "3.1"}, "spark_application_id": "spark_application_id", "spark_application_name": "spark_application_name", "state": "finished", "spark_ui": "spark_ui", "submission_time": "2021-01-30T08:30:00.000Z", "start_time": "2021-01-30T08:30:00.000Z", "end_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z", "auto_termination_time": "2021-01-30T08:30:00.000Z"}], "first": {"href": "href", "start": "start"}, "next": {"href": "href", "start": "start"}, "previous": {"href": "href", "start": "start"}, "limit": 1}'
+        mock_response = '{"applications": [{"id": "id", "href": "href", "runtime": {"spark_version": "spark_version"}, "spark_application_id": "spark_application_id", "spark_application_name": "spark_application_name", "state": "finished", "spark_ui": "spark_ui", "submission_time": "2021-01-30T08:30:00.000Z", "start_time": "2021-01-30T08:30:00.000Z", "end_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z", "auto_termination_time": "2021-01-30T08:30:00.000Z"}], "first": {"href": "href", "start": "start"}, "next": {"href": "href", "start": "start"}, "previous": {"href": "href", "start": "start"}, "limit": 1}'
         responses.add(responses.GET, url, body=mock_response, content_type='application/json', status=200)
 
         # Set up parameter values
@@ -956,7 +971,7 @@ class TestListApplications:
         """
         # Set up mock
         url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications')
-        mock_response = '{"applications": [{"id": "id", "href": "href", "runtime": {"spark_version": "3.1"}, "spark_application_id": "spark_application_id", "spark_application_name": "spark_application_name", "state": "finished", "spark_ui": "spark_ui", "submission_time": "2021-01-30T08:30:00.000Z", "start_time": "2021-01-30T08:30:00.000Z", "end_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z", "auto_termination_time": "2021-01-30T08:30:00.000Z"}], "first": {"href": "href", "start": "start"}, "next": {"href": "href", "start": "start"}, "previous": {"href": "href", "start": "start"}, "limit": 1}'
+        mock_response = '{"applications": [{"id": "id", "href": "href", "runtime": {"spark_version": "spark_version"}, "spark_application_id": "spark_application_id", "spark_application_name": "spark_application_name", "state": "finished", "spark_ui": "spark_ui", "submission_time": "2021-01-30T08:30:00.000Z", "start_time": "2021-01-30T08:30:00.000Z", "end_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z", "auto_termination_time": "2021-01-30T08:30:00.000Z"}], "first": {"href": "href", "start": "start"}, "next": {"href": "href", "start": "start"}, "previous": {"href": "href", "start": "start"}, "limit": 1}'
         responses.add(responses.GET, url, body=mock_response, content_type='application/json', status=200)
 
         # Set up parameter values
@@ -987,8 +1002,8 @@ class TestListApplications:
         """
         # Set up a two-page mock response
         url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications')
-        mock_response1 = '{"next":{"start":"1"},"total_count":2,"limit":1,"applications":[{"id":"id","href":"href","runtime":{"spark_version":"3.1"},"spark_application_id":"spark_application_id","spark_application_name":"spark_application_name","state":"finished","spark_ui":"spark_ui","submission_time":"2021-01-30T08:30:00.000Z","start_time":"2021-01-30T08:30:00.000Z","end_time":"2021-01-30T08:30:00.000Z","finish_time":"2021-01-30T08:30:00.000Z","auto_termination_time":"2021-01-30T08:30:00.000Z"}]}'
-        mock_response2 = '{"total_count":2,"limit":1,"applications":[{"id":"id","href":"href","runtime":{"spark_version":"3.1"},"spark_application_id":"spark_application_id","spark_application_name":"spark_application_name","state":"finished","spark_ui":"spark_ui","submission_time":"2021-01-30T08:30:00.000Z","start_time":"2021-01-30T08:30:00.000Z","end_time":"2021-01-30T08:30:00.000Z","finish_time":"2021-01-30T08:30:00.000Z","auto_termination_time":"2021-01-30T08:30:00.000Z"}]}'
+        mock_response1 = '{"next":{"start":"1"},"total_count":2,"limit":1,"applications":[{"id":"id","href":"href","runtime":{"spark_version":"spark_version"},"spark_application_id":"spark_application_id","spark_application_name":"spark_application_name","state":"finished","spark_ui":"spark_ui","submission_time":"2021-01-30T08:30:00.000Z","start_time":"2021-01-30T08:30:00.000Z","end_time":"2021-01-30T08:30:00.000Z","finish_time":"2021-01-30T08:30:00.000Z","auto_termination_time":"2021-01-30T08:30:00.000Z"}]}'
+        mock_response2 = '{"total_count":2,"limit":1,"applications":[{"id":"id","href":"href","runtime":{"spark_version":"spark_version"},"spark_application_id":"spark_application_id","spark_application_name":"spark_application_name","state":"finished","spark_ui":"spark_ui","submission_time":"2021-01-30T08:30:00.000Z","start_time":"2021-01-30T08:30:00.000Z","end_time":"2021-01-30T08:30:00.000Z","finish_time":"2021-01-30T08:30:00.000Z","auto_termination_time":"2021-01-30T08:30:00.000Z"}]}'
         responses.add(responses.GET, url, body=mock_response1, content_type='application/json', status=200)
         responses.add(responses.GET, url, body=mock_response2, content_type='application/json', status=200)
 
@@ -998,6 +1013,9 @@ class TestListApplications:
             client=_service,
             instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
             state=['finished'],
+            start_time_interval='testString',
+            submission_time_interval='testString',
+            end_time_interval='testString',
             limit=10,
         )
         while pager.has_next():
@@ -1013,8 +1031,8 @@ class TestListApplications:
         """
         # Set up a two-page mock response
         url = preprocess_url('/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications')
-        mock_response1 = '{"next":{"start":"1"},"total_count":2,"limit":1,"applications":[{"id":"id","href":"href","runtime":{"spark_version":"3.1"},"spark_application_id":"spark_application_id","spark_application_name":"spark_application_name","state":"finished","spark_ui":"spark_ui","submission_time":"2021-01-30T08:30:00.000Z","start_time":"2021-01-30T08:30:00.000Z","end_time":"2021-01-30T08:30:00.000Z","finish_time":"2021-01-30T08:30:00.000Z","auto_termination_time":"2021-01-30T08:30:00.000Z"}]}'
-        mock_response2 = '{"total_count":2,"limit":1,"applications":[{"id":"id","href":"href","runtime":{"spark_version":"3.1"},"spark_application_id":"spark_application_id","spark_application_name":"spark_application_name","state":"finished","spark_ui":"spark_ui","submission_time":"2021-01-30T08:30:00.000Z","start_time":"2021-01-30T08:30:00.000Z","end_time":"2021-01-30T08:30:00.000Z","finish_time":"2021-01-30T08:30:00.000Z","auto_termination_time":"2021-01-30T08:30:00.000Z"}]}'
+        mock_response1 = '{"next":{"start":"1"},"total_count":2,"limit":1,"applications":[{"id":"id","href":"href","runtime":{"spark_version":"spark_version"},"spark_application_id":"spark_application_id","spark_application_name":"spark_application_name","state":"finished","spark_ui":"spark_ui","submission_time":"2021-01-30T08:30:00.000Z","start_time":"2021-01-30T08:30:00.000Z","end_time":"2021-01-30T08:30:00.000Z","finish_time":"2021-01-30T08:30:00.000Z","auto_termination_time":"2021-01-30T08:30:00.000Z"}]}'
+        mock_response2 = '{"total_count":2,"limit":1,"applications":[{"id":"id","href":"href","runtime":{"spark_version":"spark_version"},"spark_application_id":"spark_application_id","spark_application_name":"spark_application_name","state":"finished","spark_ui":"spark_ui","submission_time":"2021-01-30T08:30:00.000Z","start_time":"2021-01-30T08:30:00.000Z","end_time":"2021-01-30T08:30:00.000Z","finish_time":"2021-01-30T08:30:00.000Z","auto_termination_time":"2021-01-30T08:30:00.000Z"}]}'
         responses.add(responses.GET, url, body=mock_response1, content_type='application/json', status=200)
         responses.add(responses.GET, url, body=mock_response2, content_type='application/json', status=200)
 
@@ -1023,6 +1041,9 @@ class TestListApplications:
             client=_service,
             instance_id='e64c907a-e82f-46fd-addc-ccfafbd28b09',
             state=['finished'],
+            start_time_interval='testString',
+            submission_time_interval='testString',
+            end_time_interval='testString',
             limit=10,
         )
         all_results = pager.get_all()
@@ -1044,7 +1065,7 @@ class TestGetApplication:
         url = preprocess_url(
             '/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications/ff48cc19-0e7e-4627-aac6-0b4ad080397b'
         )
-        mock_response = '{"application_details": {"application": "cos://bucket_name.my_cos/my_spark_app.py", "runtime": {"spark_version": "3.1"}, "jars": "cos://cloud-object-storage/jars/tests.jar", "packages": "packages", "repositories": "repositories", "files": "files", "archives": "archives", "name": "spark-app", "class": "com.company.path.ClassName", "arguments": ["[arg1, arg2, arg3]"], "conf": {"anyKey": "anyValue"}, "env": {"anyKey": "anyValue"}}, "id": "2b83d31c-397b-48ad-ad76-b83347c982db", "spark_application_id": "spark_application_id", "spark_application_name": "spark_application_name", "state": "finished", "spark_ui": "spark_ui", "state_details": [{"type": "server_error", "code": "server_error", "message": "message"}], "submission_time": "2021-01-30T08:30:00.000Z", "start_time": "2021-01-30T08:30:00.000Z", "end_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z", "auto_termination_time": "2021-01-30T08:30:00.000Z"}'
+        mock_response = '{"application_details": {"application": "cos://bucket_name.my_cos/my_spark_app.py", "runtime": {"spark_version": "spark_version"}, "jars": "cos://cloud-object-storage/jars/tests.jar", "packages": "packages", "repositories": "repositories", "files": "files", "archives": "archives", "name": "spark-app", "class": "com.company.path.ClassName", "arguments": ["arguments"], "conf": {"anyKey": "anyValue"}, "env": {"anyKey": "anyValue"}}, "id": "2b83d31c-397b-48ad-ad76-b83347c982db", "spark_application_id": "spark_application_id", "spark_application_name": "spark_application_name", "state": "finished", "spark_ui": "spark_ui", "state_details": [{"type": "server_error", "code": "server_error", "message": "message"}], "submission_time": "2021-01-30T08:30:00.000Z", "start_time": "2021-01-30T08:30:00.000Z", "end_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z", "auto_termination_time": "2021-01-30T08:30:00.000Z"}'
         responses.add(responses.GET, url, body=mock_response, content_type='application/json', status=200)
 
         # Set up parameter values
@@ -1076,7 +1097,7 @@ class TestGetApplication:
         url = preprocess_url(
             '/v3/analytics_engines/e64c907a-e82f-46fd-addc-ccfafbd28b09/spark_applications/ff48cc19-0e7e-4627-aac6-0b4ad080397b'
         )
-        mock_response = '{"application_details": {"application": "cos://bucket_name.my_cos/my_spark_app.py", "runtime": {"spark_version": "3.1"}, "jars": "cos://cloud-object-storage/jars/tests.jar", "packages": "packages", "repositories": "repositories", "files": "files", "archives": "archives", "name": "spark-app", "class": "com.company.path.ClassName", "arguments": ["[arg1, arg2, arg3]"], "conf": {"anyKey": "anyValue"}, "env": {"anyKey": "anyValue"}}, "id": "2b83d31c-397b-48ad-ad76-b83347c982db", "spark_application_id": "spark_application_id", "spark_application_name": "spark_application_name", "state": "finished", "spark_ui": "spark_ui", "state_details": [{"type": "server_error", "code": "server_error", "message": "message"}], "submission_time": "2021-01-30T08:30:00.000Z", "start_time": "2021-01-30T08:30:00.000Z", "end_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z", "auto_termination_time": "2021-01-30T08:30:00.000Z"}'
+        mock_response = '{"application_details": {"application": "cos://bucket_name.my_cos/my_spark_app.py", "runtime": {"spark_version": "spark_version"}, "jars": "cos://cloud-object-storage/jars/tests.jar", "packages": "packages", "repositories": "repositories", "files": "files", "archives": "archives", "name": "spark-app", "class": "com.company.path.ClassName", "arguments": ["arguments"], "conf": {"anyKey": "anyValue"}, "env": {"anyKey": "anyValue"}}, "id": "2b83d31c-397b-48ad-ad76-b83347c982db", "spark_application_id": "spark_application_id", "spark_application_name": "spark_application_name", "state": "finished", "spark_ui": "spark_ui", "state_details": [{"type": "server_error", "code": "server_error", "message": "message"}], "submission_time": "2021-01-30T08:30:00.000Z", "start_time": "2021-01-30T08:30:00.000Z", "end_time": "2021-01-30T08:30:00.000Z", "finish_time": "2021-01-30T08:30:00.000Z", "auto_termination_time": "2021-01-30T08:30:00.000Z"}'
         responses.add(responses.GET, url, body=mock_response, content_type='application/json', status=200)
 
         # Set up parameter values
@@ -1888,7 +1909,7 @@ class TestModel_Application:
         # Construct dict forms of any model objects needed in order to build this model.
 
         runtime_model = {}  # Runtime
-        runtime_model['spark_version'] = '3.1'
+        runtime_model['spark_version'] = 'testString'
 
         # Construct a json representation of a Application model
         application_model_json = {}
@@ -1934,7 +1955,7 @@ class TestModel_ApplicationCollection:
         # Construct dict forms of any model objects needed in order to build this model.
 
         runtime_model = {}  # Runtime
-        runtime_model['spark_version'] = '3.1'
+        runtime_model['spark_version'] = 'testString'
 
         application_model = {}  # Application
         application_model['id'] = 'testString'
@@ -1991,7 +2012,7 @@ class TestModel_ApplicationDetails:
         # Construct dict forms of any model objects needed in order to build this model.
 
         runtime_model = {}  # Runtime
-        runtime_model['spark_version'] = '3.1'
+        runtime_model['spark_version'] = 'testString'
 
         # Construct a json representation of a ApplicationDetails model
         application_details_model_json = {}
@@ -2004,7 +2025,7 @@ class TestModel_ApplicationDetails:
         application_details_model_json['archives'] = 'testString'
         application_details_model_json['name'] = 'spark-app'
         application_details_model_json['class'] = 'com.company.path.ClassName'
-        application_details_model_json['arguments'] = ['[arg1, arg2, arg3]']
+        application_details_model_json['arguments'] = ['arg1', 'arg2', 'arg3']
         application_details_model_json['conf'] = {'foo': 'bar'}
         application_details_model_json['env'] = {'foo': 'bar'}
 
@@ -2037,7 +2058,7 @@ class TestModel_ApplicationGetResponse:
         # Construct dict forms of any model objects needed in order to build this model.
 
         runtime_model = {}  # Runtime
-        runtime_model['spark_version'] = '3.1'
+        runtime_model['spark_version'] = 'testString'
 
         application_details_model = {}  # ApplicationDetails
         application_details_model['application'] = 'cos://bucket_name.my_cos/my_spark_app.py'
@@ -2049,7 +2070,7 @@ class TestModel_ApplicationGetResponse:
         application_details_model['archives'] = 'testString'
         application_details_model['name'] = 'spark-app'
         application_details_model['class'] = 'com.company.path.ClassName'
-        application_details_model['arguments'] = ['[arg1, arg2, arg3]']
+        application_details_model['arguments'] = ['arg1', 'arg2', 'arg3']
         application_details_model['conf'] = {'foo': 'bar'}
         application_details_model['env'] = {'foo': 'bar'}
 
@@ -2186,7 +2207,7 @@ class TestModel_ApplicationRequestApplicationDetails:
         # Construct dict forms of any model objects needed in order to build this model.
 
         runtime_model = {}  # Runtime
-        runtime_model['spark_version'] = '3.1'
+        runtime_model['spark_version'] = 'testString'
 
         # Construct a json representation of a ApplicationRequestApplicationDetails model
         application_request_application_details_model_json = {}
@@ -2199,7 +2220,7 @@ class TestModel_ApplicationRequestApplicationDetails:
         application_request_application_details_model_json['archives'] = 'testString'
         application_request_application_details_model_json['name'] = 'spark-app'
         application_request_application_details_model_json['class'] = 'com.company.path.ClassName'
-        application_request_application_details_model_json['arguments'] = ['[arg1, arg2, arg3]']
+        application_request_application_details_model_json['arguments'] = ['arg1', 'arg2', 'arg3']
         application_request_application_details_model_json['conf'] = {'foo': 'bar'}
         application_request_application_details_model_json['env'] = {'foo': 'bar'}
 
@@ -2306,7 +2327,7 @@ class TestModel_Instance:
         # Construct dict forms of any model objects needed in order to build this model.
 
         runtime_model = {}  # Runtime
-        runtime_model['spark_version'] = '3.1'
+        runtime_model['spark_version'] = 'testString'
 
         instance_home_model = {}  # InstanceHome
         instance_home_model['id'] = 'testString'
@@ -2732,7 +2753,7 @@ class TestModel_Runtime:
 
         # Construct a json representation of a Runtime model
         runtime_model_json = {}
-        runtime_model_json['spark_version'] = '3.1'
+        runtime_model_json['spark_version'] = 'testString'
 
         # Construct a model instance of Runtime by calling from_dict on the json representation
         runtime_model = Runtime.from_dict(runtime_model_json)

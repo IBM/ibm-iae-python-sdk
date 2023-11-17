@@ -552,7 +552,16 @@ class IbmAnalyticsEngineApiV3(BaseService):
         return response
 
     def list_applications(
-        self, instance_id: str, *, state: List[str] = None, limit: int = None, start: str = None, **kwargs
+        self,
+        instance_id: str,
+        *,
+        state: List[str] = None,
+        start_time_interval: str = None,
+        submission_time_interval: str = None,
+        end_time_interval: str = None,
+        limit: int = None,
+        start: str = None,
+        **kwargs,
     ) -> DetailedResponse:
         """
         List all Spark applications.
@@ -564,6 +573,27 @@ class IbmAnalyticsEngineApiV3(BaseService):
                associated with the Spark application(s).
         :param List[str] state: (optional) List of Spark application states that
                will be used to filter the response.
+        :param str start_time_interval: (optional) Time interval to use for
+               filtering applications by their start time. Interval is specified in the
+               format `<lower timestamp limit>,<upper timestamp limit>`. Each timestamp
+               value must be ISO 8601 compliant. You may also use keywords `BEGINNING` as
+               a placeholder value for lower timestamp limit and `CURRENT` as a
+               placeholder value for upper timestamp limit. Note: The lower timestamp
+               limit is inclusive, whereas the upper timestamp limit is exclusive.
+        :param str submission_time_interval: (optional) Time interval to use for
+               filtering applications by their submission time. Interval is specified in
+               the format `<lower timestamp limit>,<upper timestamp limit>`. Each
+               timestamp value must be ISO 8601 compliant. You may also use keywords
+               `BEGINNING` as a placeholder value for lower timestamp limit and `CURRENT`
+               as a placeholder value for upper timestamp limit. Note: The lower timestamp
+               limit is inclusive, whereas the upper timestamp limit is exclusive.
+        :param str end_time_interval: (optional) Time interval to use for filtering
+               applications by their end time. Interval is specified in the format `<lower
+               timestamp limit>,<upper timestamp limit>`. Each timestamp value must be ISO
+               8601 compliant. You may also use keywords `BEGINNING` as a placeholder
+               value for lower timestamp limit and `CURRENT` as a placeholder value for
+               upper timestamp limit. Note: The lower timestamp limit is inclusive,
+               whereas the upper timestamp limit is exclusive.
         :param int limit: (optional) Number of application entries to be included
                in the response.
         :param str start: (optional) Token used to fetch the next or the previous
@@ -583,6 +613,9 @@ class IbmAnalyticsEngineApiV3(BaseService):
 
         params = {
             'state': convert_list(state),
+            'start_time_interval': start_time_interval,
+            'submission_time_interval': submission_time_interval,
+            'end_time_interval': end_time_interval,
             'limit': limit,
             'start': start,
         }
@@ -3351,6 +3384,9 @@ class ApplicationsPager:
         client: IbmAnalyticsEngineApiV3,
         instance_id: str,
         state: List[str] = None,
+        start_time_interval: str = None,
+        submission_time_interval: str = None,
+        end_time_interval: str = None,
         limit: int = None,
     ) -> None:
         """
@@ -3359,6 +3395,27 @@ class ApplicationsPager:
                associated with the Spark application(s).
         :param List[str] state: (optional) List of Spark application states that
                will be used to filter the response.
+        :param str start_time_interval: (optional) Time interval to use for
+               filtering applications by their start time. Interval is specified in the
+               format `<lower timestamp limit>,<upper timestamp limit>`. Each timestamp
+               value must be ISO 8601 compliant. You may also use keywords `BEGINNING` as
+               a placeholder value for lower timestamp limit and `CURRENT` as a
+               placeholder value for upper timestamp limit. Note: The lower timestamp
+               limit is inclusive, whereas the upper timestamp limit is exclusive.
+        :param str submission_time_interval: (optional) Time interval to use for
+               filtering applications by their submission time. Interval is specified in
+               the format `<lower timestamp limit>,<upper timestamp limit>`. Each
+               timestamp value must be ISO 8601 compliant. You may also use keywords
+               `BEGINNING` as a placeholder value for lower timestamp limit and `CURRENT`
+               as a placeholder value for upper timestamp limit. Note: The lower timestamp
+               limit is inclusive, whereas the upper timestamp limit is exclusive.
+        :param str end_time_interval: (optional) Time interval to use for filtering
+               applications by their end time. Interval is specified in the format `<lower
+               timestamp limit>,<upper timestamp limit>`. Each timestamp value must be ISO
+               8601 compliant. You may also use keywords `BEGINNING` as a placeholder
+               value for lower timestamp limit and `CURRENT` as a placeholder value for
+               upper timestamp limit. Note: The lower timestamp limit is inclusive,
+               whereas the upper timestamp limit is exclusive.
         :param int limit: (optional) Number of application entries to be included
                in the response.
         """
@@ -3367,6 +3424,9 @@ class ApplicationsPager:
         self._page_context = {'next': None}
         self._instance_id = instance_id
         self._state = state
+        self._start_time_interval = start_time_interval
+        self._submission_time_interval = submission_time_interval
+        self._end_time_interval = end_time_interval
         self._limit = limit
 
     def has_next(self) -> bool:
@@ -3387,6 +3447,9 @@ class ApplicationsPager:
         result = self._client.list_applications(
             instance_id=self._instance_id,
             state=self._state,
+            start_time_interval=self._start_time_interval,
+            submission_time_interval=self._submission_time_interval,
+            end_time_interval=self._end_time_interval,
             limit=self._limit,
             start=self._page_context.get('next'),
         ).get_result()

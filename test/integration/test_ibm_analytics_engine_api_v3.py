@@ -159,7 +159,7 @@ class TestIbmAnalyticsEngineApiV3:
     def test_replace_instance_default_runtime(self):
         response = self.ibm_analytics_engine_api_service.replace_instance_default_runtime(
             instance_id=self.instance_id,
-            spark_version='3.3',
+            spark_version='3.4',
         )
 
         assert response.get_status_code() == 200
@@ -278,8 +278,8 @@ class TestIbmAnalyticsEngineApiV3:
         response = self.ibm_analytics_engine_api_service.replace_log_forwarding_config(
             instance_id=self.instance_id,
             enabled=True,
-            sources=["spark-driver", "spark-executor"],
-            tags=["<tag_1>", "<tag_2>", "<tag_n>"],
+            sources=['spark-driver', 'spark-executor'],
+            tags=['<tag_1>', '<tag_2>', '<tag_n'],
         )
 
         assert response.get_status_code() == 200
