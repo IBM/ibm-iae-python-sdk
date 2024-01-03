@@ -58,8 +58,8 @@ def preprocess_url(operation_path: str):
     # Otherwise, return a regular expression that matches one or more trailing /.
     if re.fullmatch(".*/+", request_url) is None:
         return request_url
-    else:
-        return re.compile(request_url.rstrip("/") + "/+")
+
+    return re.compile(request_url.rstrip("/") + "/+")
 
 
 ##############################################################################
