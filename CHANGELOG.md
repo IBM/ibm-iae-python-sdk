@@ -1,3 +1,16 @@
+# [3.3.0](https://github.com/IBM/ibm-iae-python-sdk/compare/v3.2.0...v3.3.0) (2024-01-04)
+
+
+### Bug Fixes
+
+* bump up min supported python version to 3.8 ([7ed431a](https://github.com/IBM/ibm-iae-python-sdk/commit/7ed431aa1471780c66774b6ac4e3ee021fedd5bc))
+* fix lint issues ([378b7a6](https://github.com/IBM/ibm-iae-python-sdk/commit/378b7a6ad9b03e4ebbcacf7ce5c9d827b341c8cd))
+
+
+### Features
+
+* add support for time based application list filters ([b3ebb9d](https://github.com/IBM/ibm-iae-python-sdk/commit/b3ebb9d32a97e5d74ae17a7a912e61c4e01ceca2))
+
 # [3.2.0](https://github.com/IBM/ibm-iae-python-sdk/compare/v3.1.0...v3.2.0) (2023-05-24)
 
 
