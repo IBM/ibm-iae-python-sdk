@@ -1,6 +1,6 @@
 [![Build Status](https://api.travis-ci.com/IBM/ibm-iae-python-sdk.svg?branch=master)](https://app.travis-ci.com/IBM/ibm-iae-python-sdk)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
-# IBM Cloud Analytics Engine Python SDK Version 3.2.0
+# IBM Cloud Analytics Engine Python SDK Version 3.3.0
 
 Python client library to interact with various [iaesdk Service APIs](https://cloud.ibm.com/apidocs/ibm-analytics-engine).
 
