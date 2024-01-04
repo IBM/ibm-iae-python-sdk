@@ -40,20 +40,14 @@ IBM Analytics Engine v3 is for the Standard Serverless for Apache Spark plan
 
 * An [IBM Cloud][ibm-cloud-onboarding] account.
 * An IAM API key to allow the SDK to access your account. Create one [here](https://cloud.ibm.com/iam/apikeys).
-* Python 3.7 or above.
+* Python 3.8 or above.
 
 ## Installation
 
-To install, use `pip` or `easy_install`:
+To install, use `pip`:
 
 ```bash
-pip install --upgrade "iaesdk>=3.2.0"
-```
-
-or
-
-```bash
-easy_install --upgrade "iaesdk>=3.2.0"
+python -m pip install --upgrade iaesdk
 ```
 
 ## Using the SDK
